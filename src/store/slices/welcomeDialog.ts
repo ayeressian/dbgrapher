@@ -4,8 +4,8 @@ const slice = createSlice({
   initialState: true,
   name: 'welcomeDialog',
   reducers: {
-    close: () => false,
-    open: () => true,
+    close: (): boolean => false,
+    open: (): boolean => true,
   },
 });
 

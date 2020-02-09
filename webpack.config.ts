@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const CopyPlugin = require('copy-webpack-plugin');
-const path = require('path');
+import CopyPlugin from 'copy-webpack-plugin';
+import path from 'path';
 
 module.exports = {
   entry: './src/index.ts',

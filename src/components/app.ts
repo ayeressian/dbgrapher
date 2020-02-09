@@ -1,10 +1,10 @@
-
 import './side-panel';
-import { LitElement, html, customElement, css } from 'lit-element';
+import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
-class App extends LitElement {
-  static get styles() {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export default class extends LitElement {
+  static get styles(): CSSResult {
     return css`
       * {
         font-family: Arial, Helvetica, sans-serif;
@@ -37,7 +37,7 @@ class App extends LitElement {
     `;
   }
 
-  render(){
+  render(): TemplateResult {
     return html`
       <div class="main_container">
         <dbg-side-panel></dbg-side-panel>

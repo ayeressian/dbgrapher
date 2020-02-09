@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --mode development --watch --config=./webpack.config.ts --host 0.0.0.0",
     "watch": "webpack --watch",
     "build": "webpack"
   },
@@ -12,12 +12,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.2.3",
     "@webcomponents/webcomponentsjs": "^2.4.1",
     "db-viewer-component": "^3.8.0",
-    "lit-element": "^2.2.1"
+    "lit-element": "^2.2.1",
+    "redux": "^4.0.5",
+    "ts-node": "^8.6.2"
   },
   "devDependencies": {
+    "@types/copy-webpack-plugin": "^5.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
     "copy-webpack-plugin": "^5.1.1",
+    "eslint": "^6.8.0",
     "ts-loader": "^6.2.1",
     "typescript": "^3.7.5",
     "url-loader": "^3.0.0",

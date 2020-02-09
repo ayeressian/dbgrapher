@@ -1,6 +1,4 @@
 
-import types from '../../../node_modules/db-viewer-component/dist/index';
-
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type IPointNullable = IPoint | null;
@@ -9,7 +7,7 @@ const slice = createSlice({
   initialState: null as IPointNullable,
   name: 'createCord',
   reducers: {
-    setCord: (_, action: PayloadAction<IPointNullable>) => action.payload,
+    setCord: (_, action: PayloadAction<IPointNullable>): IPointNullable => action.payload,
   },
 });
 

@@ -5,9 +5,9 @@ const slice = createSlice({
   initialState: IDbViewerMode.None,
   name: 'dbViewerMode',
   reducers: {
-    createMode: () => IDbViewerMode.Create,
-    none: () => IDbViewerMode.None,
-    relationMode: () => IDbViewerMode.Relation,
+    createMode: (): IDbViewerMode => IDbViewerMode.Create,
+    none: (): IDbViewerMode => IDbViewerMode.None,
+    relationMode: (): IDbViewerMode => IDbViewerMode.Relation,
   },
 });
 

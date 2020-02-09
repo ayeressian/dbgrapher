@@ -4,8 +4,8 @@ const slice = createSlice({
   initialState: false,
   name: 'tableDialog',
   reducers: {
-    close: () => false,
-    open: () => true,
+    close: (): boolean => false,
+    open: (): boolean => true,
   },
 });
 

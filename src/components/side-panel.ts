@@ -3,7 +3,6 @@ import createIconImg from '../../asset/icon_create_table_48x48.png';
 import relationIconImg from '../../asset/icon_create_relation_48x48.png';
 
 @customElement('dbg-side-panel')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default class extends LitElement {
   static get styles(): CSSResult {
     return css`

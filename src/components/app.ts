@@ -2,7 +2,6 @@ import './side-panel';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default class extends LitElement {
   static get styles(): CSSResult {
     return css`

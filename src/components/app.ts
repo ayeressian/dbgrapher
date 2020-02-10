@@ -1,4 +1,6 @@
 import './side-panel';
+import './dialog';
+import './welcome-dialog';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
@@ -40,6 +42,7 @@ export default class extends LitElement {
     return html`
       <div class="main_container">
         <dbg-side-panel></dbg-side-panel>
+        <dbg-welcome-dialog></dbg-welcome-dialog>
       </div>
     `;
   }

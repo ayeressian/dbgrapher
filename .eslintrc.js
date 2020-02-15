@@ -19,4 +19,7 @@ module.exports = {
   parserOptions: {
     "project": "./tsconfig.json"
   },
+  rules: {
+    "no-non-null-assertion": false
+  }
 };

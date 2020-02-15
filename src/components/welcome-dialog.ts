@@ -1,9 +1,17 @@
-import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
+import ConnectLitElement from './connect-lit-element';
 import store from '../store/store';
-// import { actions as welcomeDialogActions } from '../store/slices/welcomeDialog';
+import { watch } from 'lit-redux-watch';
+import { actions as welcomeDialogActions } from '../store/slices/welcomeDialog';
+import { actions as schemaAction } from '../store/slices/schema';
+import { actions as fileOpenAction } from '../store/slices/fileOpenDialog';
+import { actions as fileSqlOpenAction } from '../store/slices/fileSqlOpenDialog';
 
 @customElement('dbg-welcome-dialog')
-export default class extends LitElement{
+export default class extends ConnectLitElement {
+  @watch('dialog.welcomeDialog')
+  private open = true;
+
   constructor() {
     super();
   }
@@ -17,26 +25,28 @@ export default class extends LitElement{
     `;
   }
 
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    store.subscribe(() => {
-      const open = store.getState().dialog.welcomeDialog;
-      if (!open) {
-        open
-      }
-    });
-  }
-
   render(): TemplateResult {
-    return html`
+    return this.open? html`
       <dbg-dialog show>
         <div>
-          <h4 class="operation" id="new-file">New File</h4>
-          <h4 class="operation" id="open-file">Open File</h4>
-          <h4 class="operation" id="import-sql-file">Import SQL File</h4>
+          <h4 class="operation" id="new-file" @click="${this.newFile}">New File</h4>
+          <h4 class="operation" id="open-file" @click="${this.openFile}">Open File</h4>
+          <h4 class="operation" id="import-sql-file" @click="${this.importSqlFile}">Import SQL File</h4>
         </div>
       </dbg-dialog>
-    `;
+    `: html``;
+  }
+
+  private newFile = (): void => {
+    store.dispatch(schemaAction.setSchema({ tables: [] }));
+    store.dispatch(welcomeDialogActions.close());
+  }
+
+  private openFile = (): void => {
+    store.dispatch(fileOpenAction.open());
+  }
+
+  private importSqlFile = (): void => {
+    store.dispatch(fileSqlOpenAction.open());
   }
 }

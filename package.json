@@ -14,8 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@reduxjs/toolkit": "^1.2.3",
+    "ajv": "^6.11.0",
     "db-viewer-component": "^3.8.0",
     "lit-element": "^2.2.1",
+    "lit-redux-watch": "^0.3.7",
     "redux": "^4.0.5"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ const slice = createSlice({
   initialState: null as ISchema | null,
   name: 'schema',
   reducers: {
-    setSchema: (_, action: PayloadAction<ISchema>): ISchema => action.payload,
+    setSchema: (_, action: PayloadAction<ISchema | null>): ISchema | null => action.payload,
   },
 });
 

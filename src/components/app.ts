@@ -1,6 +1,8 @@
 import './side-panel';
 import './dialog';
 import './welcome-dialog';
+import './db-viewer-wrapper';
+import './file-inputs';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
@@ -43,6 +45,8 @@ export default class extends LitElement {
       <div class="main_container">
         <dbg-side-panel></dbg-side-panel>
         <dbg-welcome-dialog></dbg-welcome-dialog>
+        <dbg-db-viewer></dbg-db-viewer>
+        <dbg-file-inputs></dbg-file-inputs>
       </div>
     `;
   }

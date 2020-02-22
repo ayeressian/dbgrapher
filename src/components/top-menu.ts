@@ -1,9 +1,8 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import TopMenuConfig from '../store/slices/top-menu-config-interface';
 import { Item } from '../store/slices/top-menu-config-interface';
-import store from '../store/store';
 
 @customElement('dbg-top-menu')
 export default class extends LitElement {
@@ -76,7 +75,8 @@ export default class extends LitElement {
     `;
   }
 
-  private menuConfig: TopMenuConfig = store.getState().topMenuConfig;
+  @property( { type : Object } ) config?: TopMenuConfig;
+
   private dropdownItems?: Item[];
   private dropdownStyle = {};
 
@@ -101,34 +101,48 @@ export default class extends LitElement {
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback();
     this.removeEventListener('click', this.onComponentClick);
     document.removeEventListener('click', this.onDocumentClick);
+    super.disconnectedCallback();
   }
 
   render(): TemplateResult {
     return html`
       <ul class="menu-bar">
         ${
-          this.menuConfig.items.map(menuItem => html`<li @click="${(event: Event) => this.onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event) => this.onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+        }
+        ${
+          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event) => this.onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
         }
       </ul>
       <div class="${classMap({dropdown: true, show: this.dropdownItems != null})}" style="${styleMap(this.dropdownStyle)}">
         <ul>
           ${
-            (this.dropdownItems ?? []).map(dropdownItem => html`<li @click="${this.onDropdownItemClick}">${dropdownItem.title}</li>`)
+            (this.dropdownItems ?? []).map(dropdownItem => html`<li @click="${() => this.onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>
     `;
   }
 
-  private onDropdownItemClick = () => {
+  private itemSelected(item: Item) {
+    const event = new CustomEvent('item-selected', {
+      detail: {
+        id: item.id
+      }
+    });
+    this.dispatchEvent(event);
+  }
+
+  private onDropdownItemClick = (item: Item) => {
+    this.itemSelected(item);
     this.dropdownItems = undefined;
     this.requestUpdate();
   }
 
   private onMenuItemClick = (event: Event, item: Item) => {
+    this.itemSelected(item);
     const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
 
     if (item.items != null) {

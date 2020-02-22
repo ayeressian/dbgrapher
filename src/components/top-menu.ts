@@ -107,7 +107,6 @@ export default class extends LitElement {
   }
 
   render(): TemplateResult {
-    console.log('render');
     return html`
       <ul class="menu-bar">
         ${

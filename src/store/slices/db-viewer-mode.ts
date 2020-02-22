@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IDbViewerMode } from './IDbViewerMode';
+import { IDbViewerMode } from './db-viewer-mode-interface';
 
 const slice = createSlice({
   initialState: IDbViewerMode.None,

@@ -3,6 +3,7 @@ import './dialog';
 import './welcome-dialog';
 import './db-viewer-wrapper';
 import './file-inputs';
+import './top-menu';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
@@ -33,7 +34,7 @@ export default class extends LitElement {
         grid-row: 2;
       }
       
-      dbg-menu-bar {
+      dbg-top-menu {
         grid-column: 1 / 3;
         grid-row: 1;
       }
@@ -43,6 +44,7 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="main_container">
+        <dbg-top-menu></dbg-top-menu>
         <dbg-side-panel></dbg-side-panel>
         <dbg-welcome-dialog></dbg-welcome-dialog>
         <dbg-db-viewer></dbg-db-viewer>

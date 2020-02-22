@@ -2,7 +2,7 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as schemaAction } from '../store/slices/schema';
 import store from '../store/store';
 import { validateJson } from '../validateSchema';
-import { actions as welcomeDialogActions } from '../store/slices/welcomeDialog';
+import { actions as welcomeDialogActions } from '../store/slices/welcome-dialog';
 
 const INVALID_JSON_MSG = 'Selected file does not contain valid JSON.';
 const INVALID_FILE_FORMAT = 'Selected file does not have correct Db designer file format';

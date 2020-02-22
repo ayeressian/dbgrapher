@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
-import { reducer as createCords } from './slices/createCords';
-import { reducer as tableDialog } from './slices/createDialog';
-import { reducer as dbViewerMode } from './slices/dbViewerMode';
-import { reducer as fileOpenDialog } from './slices/fileOpenDialog';
-import { reducer as fileSqlOpenDialog } from './slices/fileSqlOpenDialog';
+import { reducer as createCords } from './slices/create-cords';
+import { reducer as tableDialog } from './slices/create-dialog';
+import { reducer as dbViewerMode } from './slices/db-viewer-mode';
+import { reducer as fileOpenDialog } from './slices/file-open-dialog';
+import { reducer as fileSqlOpenDialog } from './slices/file-sql-open-dialog';
 import { reducer as schema } from './slices/schema';
-import { reducer as welcomeDialog } from './slices/welcomeDialog';
+import { reducer as welcomeDialog } from './slices/welcome-dialog';
+import { reducer as topMenuConfig } from './slices/top-menu-config';
 
 const rootReducer = combineReducers({
   createCords,
   dbViewerMode,
+  topMenuConfig,
   dialog: combineReducers({
     fileDialog: combineReducers({
       fileOpenDialog,

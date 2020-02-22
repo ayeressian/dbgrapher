@@ -2,10 +2,10 @@ import { html, customElement, css, CSSResult, TemplateResult } from 'lit-element
 import ConnectLitElement from './connect-lit-element';
 import store from '../store/store';
 import { watch } from 'lit-redux-watch';
-import { actions as welcomeDialogActions } from '../store/slices/welcomeDialog';
+import { actions as welcomeDialogActions } from '../store/slices/welcome-dialog';
 import { actions as schemaAction } from '../store/slices/schema';
-import { actions as fileOpenAction } from '../store/slices/fileOpenDialog';
-import { actions as fileSqlOpenAction } from '../store/slices/fileSqlOpenDialog';
+import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
+import { actions as fileSqlOpenAction } from '../store/slices/file-sql-open-dialog';
 
 @customElement('dbg-welcome-dialog')
 export default class extends ConnectLitElement {

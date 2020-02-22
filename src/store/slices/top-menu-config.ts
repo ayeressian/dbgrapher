@@ -43,10 +43,6 @@ const config = {
   rightItems: [{
       id: 'gitHub',
       title: 'GitHub'
-    },
-    {
-      id: 'downloadApp',
-      title: 'Download'
     }
   ]
 };

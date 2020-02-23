@@ -12,10 +12,6 @@ export default class extends ConnectLitElement {
   @watch('dialog.welcomeDialog')
   private open = true;
 
-  constructor() {
-    super();
-  }
-
   static get styles(): CSSResult {
     return css`
       .operation {

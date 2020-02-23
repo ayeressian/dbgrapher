@@ -7,6 +7,7 @@ import { reducer as fileSqlOpenDialog } from './slices/file-sql-open-dialog';
 import { reducer as schema } from './slices/schema';
 import { reducer as welcomeDialog } from './slices/welcome-dialog';
 import { reducer as topMenuConfig } from './slices/top-menu-config';
+import { reducer as loadSchema } from './slices/load-schema';
 
 const rootReducer = combineReducers({
   createCords,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
     tableDialog,
     welcomeDialog,
   }),
+  loadSchema,
   schema,
 });
 

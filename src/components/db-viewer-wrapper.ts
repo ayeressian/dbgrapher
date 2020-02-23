@@ -1,5 +1,6 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
-import { actions as schemaAction } from '../store/slices/schema';
+import { actions as setSchemaAction } from '../store/slices/load-schema';
+import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
 
 @customElement('dbg-db-viewer')
@@ -18,8 +19,15 @@ export default class DbWrapper extends LitElement {
     `;
   }
 
+  private onTableDblClick = (event: CustomEvent) => {
+    store.dispatch(tableDialogAction.open());
+    console.log('dblclick', event.detail);
+    event.detail.table;
+  };
+
   firstUpdated() {
     this.dbViewer = this.shadowRoot!.querySelector<IDbViewer>('db-viewer')!;
+    this.dbViewer.addEventListener('tableDblClick', this.onTableDblClick);
     this.resolveLoaded!();
   }
 
@@ -27,10 +35,10 @@ export default class DbWrapper extends LitElement {
     super.connectedCallback();
     store.subscribe(() => {
       const state = store.getState();
-      if (state.schema != null) {
+      if (state.loadSchema) {
         this.loaded.then(() => {
           this.dbViewer!.schema = state.schema as ISchema;
-          store.dispatch(schemaAction.setSchema(null));
+          store.dispatch(setSchemaAction.loaded());
         });
       }
     });

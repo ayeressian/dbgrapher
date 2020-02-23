@@ -127,7 +127,7 @@ export default class extends LitElement {
   }
 
   private itemSelected(item: Item) {
-    const event = new CustomEvent('item-selected', {
+    const event = new CustomEvent<{id: string}>('item-selected', {
       detail: {
         id: item.id
       }

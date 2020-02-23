@@ -1,8 +1,10 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
 import { actions as schemaAction } from '../store/slices/schema';
+import { actions as setSchemaAction } from '../store/slices/load-schema';
 import store from '../store/store';
 import { validateJson } from '../validateSchema';
 import { actions as welcomeDialogActions } from '../store/slices/welcome-dialog';
+import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
 
 const INVALID_JSON_MSG = 'Selected file does not contain valid JSON.';
 const INVALID_FILE_FORMAT = 'Selected file does not have correct Db designer file format';
@@ -66,6 +68,7 @@ export default class extends LitElement {
     const reader = new FileReader();
     reader.readAsText((<HTMLInputElement>event.target).files![0]);
     reader.onload = (readerEvent) => {
+      store.dispatch(fileOpenAction.close());
       let schema;
       try {
         schema = JSON.parse(readerEvent.target!.result as string);
@@ -79,6 +82,7 @@ export default class extends LitElement {
         return;
       }
       store.dispatch(schemaAction.setSchema(schema));
+      store.dispatch(setSchemaAction.load());
       store.dispatch(welcomeDialogActions.close());
     };
   };

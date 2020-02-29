@@ -5,6 +5,7 @@ import './db-viewer-wrapper';
 import './file-inputs';
 import './top-menu';
 import './top-menu-wrapper';
+import './table-dialog';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')
@@ -50,6 +51,7 @@ export default class extends LitElement {
         <dbg-welcome-dialog></dbg-welcome-dialog>
         <dbg-db-viewer></dbg-db-viewer>
         <dbg-file-inputs></dbg-file-inputs>
+        <dbg-table-dialog></dbg-table-dialog>
       </div>
     `;
   }

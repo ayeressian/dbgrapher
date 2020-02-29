@@ -2,6 +2,7 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
+import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -40,6 +41,14 @@ export default class DbWrapper extends LitElement {
           this.dbViewer!.schema = state.schema as ISchema;
           store.dispatch(setSchemaAction.loaded());
         });
+      }
+
+      if (state.dbViewerMode === IDbViewerMode.Create) {
+        //TODO  
+      }
+
+      if (state.dbViewerMode === IDbViewerMode.Relation) {
+        //TODO
       }
     });
   }

@@ -1,4 +1,6 @@
 import { LitElement, html, customElement, css, unsafeCSS, CSSResult, TemplateResult } from 'lit-element';
+import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
+import store from '../store/store';
 import createIconImg from '../../asset/icon_create_table_48x48.png';
 import relationIconImg from '../../asset/icon_create_relation_48x48.png';
 
@@ -40,9 +42,17 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar">
-        <li class="action create_table" title="Create Table"></li>
-        <li class="action create_relation" title="Create Relation"></li>
+        <li class="action create_table" title="Create Table" @click="${this.create}"></li>
+        <li class="action create_relation" title="Create Relation" @click="${this.relation}"></li>
       </ul>
     `;
+  }
+
+  private create = () => {
+    store.dispatch(dbViewerModeAction.createMode());
+  }
+
+  private relation = () => {
+    store.dispatch(dbViewerModeAction.relationMode());
   }
 }

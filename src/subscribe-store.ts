@@ -22,7 +22,7 @@ export const watch = <StateType>(
         const newValue = selector(store.getState());
         if (!isEqual!(oldValue, newValue)) {
           ((target[propertyKey] as unknown) as StateType) = newValue;
-          requestUpdate && target.requestUpdate();
+          requestUpdate && target.requestUpdate(propertyKey, oldValue);
           onUpdate && onUpdate(newValue);
           oldValue = newValue;
         }

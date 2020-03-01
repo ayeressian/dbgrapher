@@ -12,10 +12,11 @@ import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog"
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as fileOpenAction } from "../store/slices/file-open-dialog";
 import { actions as fileSqlOpenAction } from "../store/slices/file-sql-open-dialog";
+import { AppState } from '../store/reducer';
 
 @customElement("dbg-welcome-dialog")
 export default class extends ConnectLitElement {
-  @watch("dialog.welcomeDialog")
+  @watch((state: AppState) => state.dialog.welcomeDialog)
   private open = true;
 
   static get styles(): CSSResult {

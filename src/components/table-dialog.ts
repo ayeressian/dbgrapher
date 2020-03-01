@@ -23,19 +23,21 @@ export default class extends LitElement {
     `;
   }
 
+  private onOpen() {
+    this.schema = JSON.parse(JSON.stringify(store.getState().schema!));
+    this.currentTable = {
+      name: '',
+      columns: []
+    };
+    this.schema?.tables.unshift(this.currentTable);
+  }
+
   connectedCallback() {
     super.connectedCallback();
     subscribe(state => state.dialog.tableDialog, open => {
       this.open = open;
       if (open) {
-        this.schema = JSON.parse(JSON.stringify(store.getState().schema!));
-
-        this.currentTable = {
-          name: '',
-          columns: []
-        };
-
-        this.schema?.tables.unshift(this.currentTable);
+        this.onOpen();  
       }
       this.requestUpdate();
     });

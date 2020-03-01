@@ -5,6 +5,7 @@ import store from '../store/store';
 import { validateJson } from '../validateSchema';
 import { actions as welcomeDialogActions } from '../store/slices/welcome-dialog';
 import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
+import { subscribe } from '../subscribe-store';
 
 const INVALID_JSON_MSG = 'Selected file does not contain valid JSON.';
 const INVALID_FILE_FORMAT = 'Selected file does not have correct Db designer file format';
@@ -32,15 +33,15 @@ export default class extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    store.subscribe(() => {
-      const state = store.getState();
-      if (state.dialog.fileDialog.fileOpenDialog) {
+    subscribe(state => state.dialog.fileDialog.fileOpenDialog, open => {
+      if (open) {
         this.loaded.then(() => {
           this.dbgFileInput!.click();
         });
       }
-
-      if (state.dialog.fileDialog.fileSqlOpenDialog) {
+    });
+    subscribe(state => state.dialog.fileDialog.fileSqlOpenDialog, open => {
+      if (open) {
         this.loaded.then(() => {
           this.sqlFileInput!.click();
         });

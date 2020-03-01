@@ -3,6 +3,7 @@ import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
+import { subscribe } from '../subscribe-store';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -34,20 +35,20 @@ export default class DbWrapper extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    store.subscribe(() => {
-      const state = store.getState();
-      if (state.loadSchema) {
+    subscribe(state => state.loadSchema, (loadSchema, state) => {
+      if (loadSchema) {
         this.loaded.then(() => {
           this.dbViewer!.schema = state.schema as ISchema;
           store.dispatch(setSchemaAction.loaded());
         });
       }
+    });
 
-      if (state.dbViewerMode === IDbViewerMode.Create) {
+    subscribe(state => state.dbViewerMode, dbViewerMode => {
+      if (dbViewerMode === IDbViewerMode.Create) {
         //TODO  
       }
-
-      if (state.dbViewerMode === IDbViewerMode.Relation) {
+      if (dbViewerMode === IDbViewerMode.Relation) {
         //TODO
       }
     });

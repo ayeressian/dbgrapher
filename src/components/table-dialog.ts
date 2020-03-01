@@ -1,6 +1,7 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
+import { subscribe } from '../subscribe-store';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -24,11 +25,9 @@ export default class extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    store.subscribe(() => {
-      this.open = store.getState().dialog.tableDialog;
-
-      //TODO listen to changes only
-      if (this.open) {
+    subscribe(state => state.dialog.tableDialog, open => {
+      this.open = open;
+      if (open) {
         this.schema = JSON.parse(JSON.stringify(store.getState().schema!));
 
         this.currentTable = {

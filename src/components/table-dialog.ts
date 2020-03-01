@@ -53,6 +53,7 @@ export default class extends LitElement {
             <input name='name' type='text' @change="${this.onChangeTableName}" />
           </label>
         </div>
+        <dbg-table-dialog-columns schema="${JSON.stringify(this.schema)}" tableIndex="${(this.schema?.tables.length ?? 1) - 1}"></dbg-table-dialog-columns>
         <div class="errors" />
         <div class="menu">
           <button @click="${this.cancel}">Cancel</button>

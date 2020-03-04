@@ -5,45 +5,58 @@ export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
-  private renderColumn = (column: IColumnNoneFkSchema): TemplateResult => {
+  private onColumnChange = (type: keyof IColumnNoneFkSchema, index: number, column: IColumnNoneFkSchema) => {
+    const event = new CustomEvent('dbg-column-change', {
+      detail: {
+        type,
+        value: column[type],
+        index,
+      }
+    });
+    this.dispatchEvent(event);
+  }
+
+  private renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
+    const onColumnChange = (type: keyof IColumnNoneFkSchema) => () => this.onColumnChange(type, index, column);
+
     return html`
       <tr>
         <td>
           <input
             name="${column.name}"
-            onChange={onColChangeLocal('name', index)}
-            value={column.name}
+            @change="${onColumnChange('name')}"
+            value="${column.name}"
           />
         </td>
         <td>
           <input
             name="${column.type}"
-            onChange={onColChangeLocal('type', index)}
-            value={(column as IColumnNoneFkSchema).type}
+            @change="${onColumnChange('type')}"
+            value="${column.type}"
           />
         </td>
         <td>
           <input
             name="${column.pk}"
             type='checkbox'
-            onChange={onColChangeLocal('pk', index)}
-            checked={column.pk}
+            @change="${onColumnChange('pk')}"
+            value="${column.pk}"
           />
         </td>
         <td>
           <input
             name="${column.uq}"
             type='checkbox'
-            onChange={onColChangeLocal('uq', index)}
-            checked={column.uq}
+            @change="${onColumnChange('uq')}"
+            value="${column.pk}"
           />
         </td>
         <td>
           <input
             name="${column.nn}
             type='checkbox'
-            onChange={onColChangeLocal('nn', index)}
-            checked={column.nn}
+            @change="${onColumnChange('nn')}"
+            value="${column.nn}"
           />
         </td>
       </tr>
@@ -52,9 +65,13 @@ export default class extends LitElement {
 
   private renderColumns = (): TemplateResult => {
     const currentTable = this.schema?.tables[this.tabIndex];
-    const noneFkColumns = (currentTable?.columns ?? []).filter((column): column is IColumnNoneFkSchema => !(column as IColumnFkSchema).fk);
-    
-    return html`${noneFkColumns.map(column => this.renderColumn(column))}`;
+    const result: TemplateResult[] = [];
+    currentTable?.columns.forEach((column, index) => {
+      if (!(column as IColumnFkSchema).fk) {
+        result.push(this.renderColumn(column as IColumnNoneFkSchema, index));
+      }
+    });
+    return html`${result}`;
   }
   
   render(): TemplateResult {
@@ -81,6 +98,7 @@ export default class extends LitElement {
   }
 
   private addColumn = () => {
-
+    const event = new CustomEvent('dbg-add-column');
+    this.dispatchEvent(event);
   }
 }

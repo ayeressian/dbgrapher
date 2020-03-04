@@ -32,6 +32,17 @@ export default class extends LitElement {
     this.schema?.tables.unshift(this.currentTable);
   }
 
+  private addColumn = () => {
+    this.currentTable?.columns.push({
+      name: '',
+      type: '',
+    });
+  };
+
+  private columnChange = () => {
+    // this.currentTable.columns[event.detail.index as number][event.detail.type as string] = event.detail.value;
+  };
+
   connectedCallback() {
     super.connectedCallback();
     subscribe(state => state.dialog.tableDialog, open => {
@@ -53,7 +64,12 @@ export default class extends LitElement {
             <input name='name' type='text' @change="${this.onChangeTableName}" />
           </label>
         </div>
-        <dbg-table-dialog-columns schema="${JSON.stringify(this.schema)}" tableIndex="${(this.schema?.tables.length ?? 1) - 1}"></dbg-table-dialog-columns>
+        <dbg-table-dialog-columns
+          schema="${JSON.stringify(this.schema)}"
+          tableIndex="${(this.schema?.tables.length ?? 1) - 1}"
+          @dbg-add-column="${this.addColumn}"
+          @dbg-column-change="${this.columnChange}">
+        </dbg-table-dialog-columns>
         <div class="errors" />
         <div class="menu">
           <button @click="${this.cancel}">Cancel</button>

@@ -23,7 +23,6 @@ export default class DbWrapper extends LitElement {
 
   private onTableDblClick = (event: CustomEvent) => {
     store.dispatch(tableDialogAction.open());
-    console.log('dblclick', event.detail);
     event.detail.table;
   };
 

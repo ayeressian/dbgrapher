@@ -2,6 +2,7 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
 import { subscribe } from '../subscribe-store';
+import { ColumnChangeEventDetail } from './table-dialog-columns';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -37,10 +38,12 @@ export default class extends LitElement {
       name: '',
       type: '',
     });
+    this.requestUpdate();
   };
 
-  private columnChange = () => {
-    // this.currentTable.columns[event.detail.index as number][event.detail.type as string] = event.detail.value;
+  private columnChange = (event: CustomEvent<ColumnChangeEventDetail>) => {
+    ((this.currentTable?.columns[event.detail.index] as IColumnNoneFkSchema)[event.detail.type] as typeof event.detail.value) = event.detail.value!;
+    this.requestUpdate();
   };
 
   connectedCallback() {
@@ -66,10 +69,16 @@ export default class extends LitElement {
         </div>
         <dbg-table-dialog-columns
           schema="${JSON.stringify(this.schema)}"
-          tableIndex="${(this.schema?.tables.length ?? 1) - 1}"
+          tableIndex="${0}"
           @dbg-add-column="${this.addColumn}"
           @dbg-column-change="${this.columnChange}">
         </dbg-table-dialog-columns>
+        <dbg-table-dialog-fk-columns
+          schema="${JSON.stringify(this.schema)}"
+          tableIndex="${0}"
+          @dbg-add-fk-column="${this.addColumn}"
+          @dbg-fk-column-change="${this.columnChange}">
+        </dbg-table-dialog-fk-columns>
         <div class="errors" />
         <div class="menu">
           <button @click="${this.cancel}">Cancel</button>

@@ -1,24 +1,27 @@
 import { customElement, LitElement, TemplateResult, html, property } from 'lit-element';
 
+export interface ColumnChangeEventDetail<T extends keyof IColumnNoneFkSchema = keyof IColumnNoneFkSchema> {
+  type: T;
+  value: IColumnNoneFkSchema[T];
+  index: number;
+}
 @customElement('dbg-table-dialog-columns')
 export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
   private onColumnChange = (type: keyof IColumnNoneFkSchema, index: number, column: IColumnNoneFkSchema) => {
-    const event = new CustomEvent('dbg-column-change', {
-      detail: {
-        type,
-        value: column[type],
-        index,
-      }
-    });
+    const detail: ColumnChangeEventDetail = {
+      type,
+      value: column[type],
+      index,
+    };
+    const event = new CustomEvent('dbg-fk-column-change', { detail });
     this.dispatchEvent(event);
   }
 
   private renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
     const onColumnChange = (type: keyof IColumnNoneFkSchema) => () => this.onColumnChange(type, index, column);
-
     return html`
       <tr>
         <td>
@@ -53,7 +56,7 @@ export default class extends LitElement {
         </td>
         <td>
           <input
-            name="${column.nn}
+            name="${column.nn}"
             type='checkbox'
             @change="${onColumnChange('nn')}"
             value="${column.nn}"
@@ -64,7 +67,7 @@ export default class extends LitElement {
   }
 
   private renderColumns = (): TemplateResult => {
-    const currentTable = this.schema?.tables[this.tabIndex];
+    const currentTable = this.schema?.tables[this.tableIndex!];
     const result: TemplateResult[] = [];
     currentTable?.columns.forEach((column, index) => {
       if (!(column as IColumnFkSchema).fk) {
@@ -98,7 +101,7 @@ export default class extends LitElement {
   }
 
   private addColumn = () => {
-    const event = new CustomEvent('dbg-add-column');
+    const event = new CustomEvent('dbg-add-fk-column');
     this.dispatchEvent(event);
   }
 }

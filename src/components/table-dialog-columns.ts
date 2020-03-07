@@ -1,8 +1,7 @@
 import { customElement, LitElement, TemplateResult, html, property } from 'lit-element';
 
-export interface ColumnChangeEventDetail<T extends keyof IColumnNoneFkSchema = keyof IColumnNoneFkSchema> {
-  type: T;
-  value: IColumnNoneFkSchema[T];
+export interface ColumnChangeEventDetail {
+  column: IColumnNoneFkSchema;
   index: number;
 }
 @customElement('dbg-table-dialog-columns')
@@ -10,56 +9,56 @@ export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
-  private onColumnChange = (type: keyof IColumnNoneFkSchema, index: number, column: IColumnNoneFkSchema) => {
+  private onColumnChange = (index: number, column: IColumnNoneFkSchema) => {
     const detail: ColumnChangeEventDetail = {
-      type,
-      value: column[type],
+      column,
       index,
     };
-    const event = new CustomEvent('dbg-fk-column-change', { detail });
+    debugger;
+    const event = new CustomEvent('dbg-column-change', { detail });
     this.dispatchEvent(event);
   }
 
   private renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof IColumnNoneFkSchema) => () => this.onColumnChange(type, index, column);
+    const onColumnChange = () => () => this.onColumnChange(index, column);
     return html`
       <tr>
         <td>
           <input
             name="${column.name}"
-            @change="${onColumnChange('name')}"
-            value="${column.name}"
+            @input="${onColumnChange()}"
+            .value="${column.name}"
           />
         </td>
         <td>
           <input
             name="${column.type}"
-            @change="${onColumnChange('type')}"
-            value="${column.type}"
+            @input="${onColumnChange()}"
+            .value="${column.type}"
           />
         </td>
         <td>
           <input
             name="${column.pk}"
             type='checkbox'
-            @change="${onColumnChange('pk')}"
-            value="${column.pk}"
+            @change="${onColumnChange()}"
+            .value="${column.pk}"
           />
         </td>
         <td>
           <input
             name="${column.uq}"
             type='checkbox'
-            @change="${onColumnChange('uq')}"
-            value="${column.pk}"
+            @change="${onColumnChange()}"
+            .value="${column.pk}"
           />
         </td>
         <td>
           <input
             name="${column.nn}"
             type='checkbox'
-            @change="${onColumnChange('nn')}"
-            value="${column.nn}"
+            @change="${onColumnChange()}"
+            .value="${column.nn}"
           />
         </td>
       </tr>
@@ -101,7 +100,7 @@ export default class extends LitElement {
   }
 
   private addColumn = () => {
-    const event = new CustomEvent('dbg-add-fk-column');
+    const event = new CustomEvent('dbg-add-column');
     this.dispatchEvent(event);
   }
 }

@@ -3,6 +3,7 @@ import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import store from '../store/store';
 import { subscribe } from '../subscribe-store';
 import { ColumnChangeEventDetail } from './table-dialog-columns';
+import { FkColumnChangeEventDetail } from './table-dialog-fk-columns';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -41,8 +42,25 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
+  private addFkColumn = () => {
+    this.currentTable?.columns.push({
+      name: '',
+      fk: {
+        table: '',
+        column: '',
+      },
+    });
+    this.requestUpdate();
+  };
+
+  private fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>) => {
+    (this.currentTable!.columns[event.detail.index] as IColumnFkSchema) = event.detail.column;
+    this.requestUpdate();
+  };
+
   private columnChange = (event: CustomEvent<ColumnChangeEventDetail>) => {
-    ((this.currentTable?.columns[event.detail.index] as IColumnNoneFkSchema)[event.detail.type] as typeof event.detail.value) = event.detail.value!;
+    (this.currentTable!.columns[event.detail.index] as IColumnNoneFkSchema) = event.detail.column;
+    debugger;
     this.requestUpdate();
   };
 
@@ -76,8 +94,8 @@ export default class extends LitElement {
         <dbg-table-dialog-fk-columns
           schema="${JSON.stringify(this.schema)}"
           tableIndex="${0}"
-          @dbg-add-fk-column="${this.addColumn}"
-          @dbg-fk-column-change="${this.columnChange}">
+          @dbg-add-fk-column="${this.addFkColumn}"
+          @dbg-fk-column-change="${this.fkColumnChange}">
         </dbg-table-dialog-fk-columns>
         <div class="errors" />
         <div class="menu">

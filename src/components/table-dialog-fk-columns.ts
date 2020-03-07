@@ -1,45 +1,33 @@
 import { customElement, LitElement, TemplateResult, html, property } from 'lit-element';
 
 export interface FkColumnChangeEventDetail {
-  type: ColChangeEventTypes;
-  value: IColumnNoneFkSchema[keyof IColumnNoneFkSchema];
+  column: IColumnFkSchema;
   index: number;
 }
 
-type ColChangeEventTypes  = keyof Omit<IColumnFkSchema, 'fk'> | 'fkTable' | 'fkColumn';
 @customElement('dbg-table-dialog-fk-columns')
 export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
-  private onColumnChange = (type: ColChangeEventTypes, index: number, column: IColumnFkSchema) => {
-    let detail: FkColumnChangeEventDetail;
-    if (['fkTable', 'fkColumn'].includes(type)) {
-      detail = {
-        type,
-        value: column.fk![type === 'fkTable' ? 'table': 'column'],
-        index,
-      };
-    } else {
-      detail = {
-        type,
-        value: column[type as keyof Omit<IColumnFkSchema, 'fk'>],
-        index,
-      };
-    }
+  private onColumnChange = (index: number, column: IColumnFkSchema) => {
+    const detail: FkColumnChangeEventDetail = {
+      column,
+      index,
+    };
     const event = new CustomEvent('dbg-fk-column-change', { detail });
     this.dispatchEvent(event);
   }
 
   private renderColumn = (column: IColumnFkSchema, index: number): TemplateResult => {
     
-    const onColumnChange = (type: ColChangeEventTypes) => () => this.onColumnChange(type, index, column);
+    const onColumnChange = () => () => this.onColumnChange(index, column);
     return html`
       <tr>
         <td>
           <input
             name="${column.name}"
-            @change="${onColumnChange('name')}"
+            @input="${onColumnChange()}"
             value="${column.name}"
           />
         </td>
@@ -47,7 +35,7 @@ export default class extends LitElement {
           <input
             name="${column.pk}"
             type='checkbox'
-            @change="${onColumnChange('pk')}"
+            @change="${onColumnChange()}"
             value="${column.pk}"
           />
         </td>
@@ -55,7 +43,7 @@ export default class extends LitElement {
           <input
             name="${column.uq}"
             type='checkbox'
-            @change="${onColumnChange('uq')}"
+            @change="${onColumnChange()}"
             value="${column.uq}"
           />
         </td>
@@ -63,7 +51,7 @@ export default class extends LitElement {
           <input
             name="${column.nn}"
             type='checkbox'
-            @change="${onColumnChange('nn')}"
+            @change="${onColumnChange()}"
             value="${column.nn}"
           />
         </td>
@@ -71,7 +59,7 @@ export default class extends LitElement {
           <select
             name="${column.fk?.table}"
             value="${column.fk?.table}"
-            @change="${onColumnChange('fkTable')}"
+            @change="${onColumnChange()}"
           >
             "${this.schema?.tables.map(({ name }) => {
               return html`<option value=${name}>

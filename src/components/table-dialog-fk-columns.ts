@@ -20,66 +20,76 @@ export default class extends LitElement {
   }
 
   private renderColumn = (column: IColumnFkSchema, index: number): TemplateResult => {
-    
-    const onColumnChange = () => () => this.onColumnChange(index, column);
+    const onColumnChange = (type: keyof Omit<IColumnFkSchema, 'fk'>) => (event: InputEvent) => {
+      const element = event.target as HTMLInputElement;
+      switch(type){
+        case 'nn':
+        case 'uq':
+        case 'pk':
+          column[type] = element.checked;
+          break;
+        default:
+          column[type] = element.value;
+          break;
+      }
+      
+      this.onColumnChange(index, column);
+    };
+    const onFkTableSelect = (event: InputEvent) => {
+      const element = (event.target as HTMLSelectElement);
+      column.fk!.table = element.options[element.selectedIndex].value;
+      this.onColumnChange(index, column);
+      this.requestUpdate();
+    };
+    const onFkColumnSelect = (event: InputEvent) => {
+      const element = (event.target as HTMLSelectElement);
+      column.fk!.column = element.options[element.selectedIndex].value;
+      this.onColumnChange(index, column);
+    };
     return html`
       <tr>
         <td>
           <input
-            name="${column.name}"
-            @input="${onColumnChange()}"
-            value="${column.name}"
+            @input="${onColumnChange('name')}"
+            .value="${column.name}"
           />
         </td>
         <td>
           <input
-            name="${column.pk}"
             type='checkbox'
-            @change="${onColumnChange()}"
-            value="${column.pk}"
+            @change="${onColumnChange('pk')}"
+            .value="${column.pk}"
           />
         </td>
         <td>
           <input
-            name="${column.uq}"
             type='checkbox'
-            @change="${onColumnChange()}"
-            value="${column.uq}"
+            @change="${onColumnChange('uq')}"
+            .value="${column.uq}"
           />
         </td>
         <td>
           <input
-            name="${column.nn}"
             type='checkbox'
-            @change="${onColumnChange()}"
-            value="${column.nn}"
+            @change="${onColumnChange('nn')}"
+            .value="${column.nn}"
           />
         </td>
         <td>
           <select
-            name="${column.fk?.table}"
-            value="${column.fk?.table}"
-            @change="${onColumnChange()}"
+            @change="${onFkTableSelect}"
+            .value="${column.fk?.table}"
           >
-            "${this.schema?.tables.map(({ name }) => {
-              return html`<option value=${name}>
-                ${name}
-              </option>`
-            })}"
+            ${this.schema?.tables.map(({ name }) => html`<option value=${name}>${name}</option>`)}
           </select>
         </td>
         <td>
-          <!--<select
-            name="${column.fk?.column}"
-            onChange={onColChangeLocal('fkColumn', index)}
-            value="${column.fk?.column}"
+          <select
+            @change="${onFkColumnSelect}"
+            .value="${column.fk?.column}"
           >
-            {getRefColumns(index).map(({ name }, refColumnIndex) => (
-              <option key={refColumnIndex} value={name}>
-                {name}
-              </option>
-            ))}
-          </select>-->
+            ${this.getTableFromName(column.fk!.table)?.columns.map(({name}) => html`<option value="${name}">${name}</option>`)}
+          </select>
         </td>
       </tr>
     `;
@@ -123,4 +133,9 @@ export default class extends LitElement {
     const event = new CustomEvent('dbg-add-fk-column');
     this.dispatchEvent(event);
   }
+
+  private getTableFromName = (tableName: string) => {
+    console.log('tablename', tableName);
+    return this.schema?.tables.find(table => table.name === tableName);
+  };
 }

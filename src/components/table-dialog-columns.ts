@@ -14,50 +14,58 @@ export default class extends LitElement {
       column,
       index,
     };
-    debugger;
     const event = new CustomEvent('dbg-column-change', { detail });
     this.dispatchEvent(event);
   }
 
   private renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
-    const onColumnChange = () => () => this.onColumnChange(index, column);
+    const onColumnChange = (type: keyof IColumnNoneFkSchema) => (event: InputEvent) => {
+      const element = event.target as HTMLInputElement;
+      switch(type){
+        case 'nn':
+        case 'uq':
+        case 'pk':
+          column[type] = element.checked;
+          break;
+        default:
+          column[type] = element.value;
+          break;
+      }
+      
+      this.onColumnChange(index, column);
+    };
     return html`
       <tr>
         <td>
           <input
-            name="${column.name}"
-            @input="${onColumnChange()}"
+            @input="${onColumnChange('name')}"
             .value="${column.name}"
           />
         </td>
         <td>
           <input
-            name="${column.type}"
-            @input="${onColumnChange()}"
+            @input="${onColumnChange('type')}"
             .value="${column.type}"
           />
         </td>
         <td>
           <input
-            name="${column.pk}"
             type='checkbox'
-            @change="${onColumnChange()}"
+            @change="${onColumnChange('pk')}"
             .value="${column.pk}"
           />
         </td>
         <td>
           <input
-            name="${column.uq}"
             type='checkbox'
-            @change="${onColumnChange()}"
-            .value="${column.pk}"
+            @change="${onColumnChange('uq')}"
+            .value="${column.uq}"
           />
         </td>
         <td>
           <input
-            name="${column.nn}"
             type='checkbox'
-            @change="${onColumnChange()}"
+            @change="${onColumnChange('nn')}"
             .value="${column.nn}"
           />
         </td>

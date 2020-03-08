@@ -60,7 +60,6 @@ export default class extends LitElement {
 
   private columnChange = (event: CustomEvent<ColumnChangeEventDetail>) => {
     (this.currentTable!.columns[event.detail.index] as IColumnNoneFkSchema) = event.detail.column;
-    debugger;
     this.requestUpdate();
   };
 
@@ -82,7 +81,7 @@ export default class extends LitElement {
         <div>
           <label>
             Name:
-            <input name='name' type='text' @change="${this.onChangeTableName}" />
+            <input name='name' type='text' @input="${this.onChangeTableName}" />
           </label>
         </div>
         <dbg-table-dialog-columns
@@ -108,6 +107,7 @@ export default class extends LitElement {
 
   private onChangeTableName = (event: Event) => {
     this.currentTable!.name = (event.target! as HTMLInputElement).value;
+    this.requestUpdate();
   }
 
   private cancel = () => {

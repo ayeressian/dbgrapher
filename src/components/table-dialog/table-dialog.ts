@@ -4,6 +4,8 @@ import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
 import { ColumnChangeEventDetail } from './columns';
 import { FkColumnChangeEventDetail } from './fk-columns';
+import TableDialogColumns from './columns';
+import TableDialogFkColumns from './fk-columns';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -11,6 +13,10 @@ export default class extends LitElement {
   private schema?: ISchema;
   private currentTable?: ITableSchema;
   private open = false;
+
+  private tableDialogColumns?: TableDialogColumns;
+  private tableDialogFkColumns?: TableDialogFkColumns;
+  private form?: HTMLFormElement;
 
   static get styles(): CSSResult {
     return css`
@@ -32,6 +38,12 @@ export default class extends LitElement {
       columns: []
     };
     this.schema?.tables.unshift(this.currentTable);
+  }
+
+  firstUpdated() {
+    this.form = this.shadowRoot!.querySelector('form')!;
+    this.tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>('dbg-table-dialog-columns')!;
+    this.tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>('dbg-table-dialog-fk-columns')!;
   }
 
   private addColumn = () => {
@@ -74,35 +86,42 @@ export default class extends LitElement {
     });
   }
 
+  private validate() {
+    return this.form!.checkValidity() &&
+      this.tableDialogColumns!.validate() &&
+      this.tableDialogFkColumns!.validate();
+  }
+
   render(): TemplateResult {
-    return this.open? html`
-      <dbg-dialog show>
-        <h3>Create Table</h3>
-        <div>
-          <label>
-            Name:
-            <input name='name' type='text' @input="${this.onChangeTableName}" />
-          </label>
-        </div>
-        <dbg-table-dialog-columns
-          schema="${JSON.stringify(this.schema)}"
-          tableIndex="${0}"
-          @dbg-add-column="${this.addColumn}"
-          @dbg-column-change="${this.columnChange}">
-        </dbg-table-dialog-columns>
-        <dbg-table-dialog-fk-columns
-          schema="${JSON.stringify(this.schema)}"
-          tableIndex="${0}"
-          @dbg-add-fk-column="${this.addFkColumn}"
-          @dbg-fk-column-change="${this.fkColumnChange}">
-        </dbg-table-dialog-fk-columns>
-        <div class="errors" />
-        <div class="menu">
-          <button @click="${this.cancel}">Cancel</button>
-          <button @click="${this.save}">Create</button>
-        </div>
-      </dbg-dialog>
-    `: html``;
+    return html`
+      <dbg-dialog ?show=${this.open}>
+        <form>
+          <h3>Create Table</h3>
+          <div>
+            <label>
+              Name:
+              <input name='name' type='text' @input="${this.onChangeTableName}" required/>
+            </label>
+          </div>
+          <dbg-table-dialog-columns
+            schema="${JSON.stringify(this.schema)}"
+            tableIndex="${0}"
+            @dbg-add-column="${this.addColumn}"
+            @dbg-column-change="${this.columnChange}">
+          </dbg-table-dialog-columns>
+          <dbg-table-dialog-fk-columns
+            schema="${JSON.stringify(this.schema)}"
+            tableIndex="${0}"
+            @dbg-add-fk-column="${this.addFkColumn}"
+            @dbg-fk-column-change="${this.fkColumnChange}">
+          </dbg-table-dialog-fk-columns>
+          <div class="errors" />
+          <div class="menu">
+            <button @click="${this.cancel}">Cancel</button>
+            <button @click="${this.save}">Create</button>
+          </div>
+        </form>
+      </dbg-dialog>`;
   }
 
   private onChangeTableName = (event: Event) => {
@@ -114,7 +133,10 @@ export default class extends LitElement {
     store.dispatch(tableDialogAction.close());
   }
 
-  private save = () => {
-    store.dispatch(tableDialogAction.close());
+  private save = (event: Event) => {
+    event.preventDefault();
+    if (this.validate()) {
+      store.dispatch(tableDialogAction.close());
+    }
   }
 }

@@ -119,7 +119,7 @@ export default class extends LitElement {
   }
 
   validate() {
-    return this.form!.checkValidity();
+    return this.form!.reportValidity();
   }
   
   render(): TemplateResult {

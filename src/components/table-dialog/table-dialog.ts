@@ -87,7 +87,7 @@ export default class extends LitElement {
   }
 
   private validate() {
-    return this.form!.checkValidity() &&
+    return this.form!.reportValidity() &&
       this.tableDialogColumns!.validate() &&
       this.tableDialogFkColumns!.validate();
   }

@@ -11,6 +11,8 @@ export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
+  private form?: HTMLFormElement;
+
   static get styles(): CSSResult {
     return commonTableStyles;
   }
@@ -57,6 +59,7 @@ export default class extends LitElement {
           <input
             @input="${onColumnChange('name')}"
             .value="${column.name}"
+            required
           />
         </td>
         <td>
@@ -110,33 +113,44 @@ export default class extends LitElement {
     });
     return html`${result}`;
   }
+
+  firstUpdated() {
+    this.form = this.shadowRoot!.querySelector('form')!;
+  }
+
+  validate() {
+    return this.form!.checkValidity();
+  }
   
   render(): TemplateResult {
     return html`
       <div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Foreign Key Columns</th>
-            </tr>
-            <tr>
-              <th>Name</th>
-              <th>PK</th>
-              <th>UQ</th>
-              <th>NN</th>
-              <th>Foreign Table</th>
-              <th>Foreign Column</th>
-            </tr>
-          </thead>
-          <tbody>${this.renderColumns()}</tbody>
-        </table>
-        <button @click="${this.addColumn}">Add relation</button>
+        <form>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Foreign Key Columns</th>
+              </tr>
+              <tr>
+                <th>Name</th>
+                <th>PK</th>
+                <th>UQ</th>
+                <th>NN</th>
+                <th>Foreign Table</th>
+                <th>Foreign Column</th>
+              </tr>
+            </thead>
+            <tbody>${this.renderColumns()}</tbody>
+          </table>
+          <button @click="${this.addColumn}">Add relation</button>
+        </form>
       </div>`;
   }
 
-  private addColumn = () => {
-    const event = new CustomEvent('dbg-add-fk-column');
-    this.dispatchEvent(event);
+  private addColumn = (event: Event) => {
+    event.preventDefault();
+    const newEvent = new CustomEvent('dbg-add-fk-column');
+    this.dispatchEvent(newEvent);
   }
 
   private getFkColumns = (tableName: string) => {

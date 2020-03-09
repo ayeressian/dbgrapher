@@ -1,9 +1,9 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
-import { actions as tableDialogAction } from '../store/slices/create-dialog';
-import store from '../store/store';
-import { subscribe } from '../subscribe-store';
-import { ColumnChangeEventDetail } from './table-dialog-columns';
-import { FkColumnChangeEventDetail } from './table-dialog-fk-columns';
+import { actions as tableDialogAction } from '../../store/slices/create-dialog';
+import store from '../../store/store';
+import { subscribe } from '../../subscribe-store';
+import { ColumnChangeEventDetail } from './columns';
+import { FkColumnChangeEventDetail } from './fk-columns';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -15,11 +15,11 @@ export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
       .error {
-        color: '#cc0000';
+        color: #cc0000;
       }
       .menu {
-        display: 'flex';
-        justify-content: 'center';
+        display: flex;
+        justify-content: center;
         padding-left: 0;
       }
     `;

@@ -1,4 +1,5 @@
-import { customElement, LitElement, TemplateResult, html, property } from 'lit-element';
+import { customElement, LitElement, TemplateResult, html, property, CSSResult } from 'lit-element';
+import commonTableStyles from './common-table-styles';
 
 export interface FkColumnChangeEventDetail {
   column: IColumnFkSchema;
@@ -9,6 +10,10 @@ export interface FkColumnChangeEventDetail {
 export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
+
+  static get styles(): CSSResult {
+    return commonTableStyles;
+  }
 
   private onColumnChange = (index: number, column: IColumnFkSchema) => {
     const detail: FkColumnChangeEventDetail = {

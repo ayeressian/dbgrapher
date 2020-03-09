@@ -88,7 +88,7 @@ export default class extends LitElement {
             @change="${onFkColumnSelect}"
             .value="${column.fk?.column}"
           >
-            ${this.getTableFromName(column.fk!.table)?.columns.map(({name}) => html`<option value="${name}">${name}</option>`)}
+            ${this.getFkColumns(column.fk!.table).map(({name}) => html`<option value="${name}">${name}</option>`)}
           </select>
         </td>
       </tr>
@@ -134,8 +134,8 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  private getTableFromName = (tableName: string) => {
-    console.log('tablename', tableName);
-    return this.schema?.tables.find(table => table.name === tableName);
+  private getFkColumns = (tableName: string) => {
+    const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
+    return table?.columns.filter(({pk, uq, nn}) => pk || (nn && uq)) || [];
   };
 }

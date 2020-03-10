@@ -6,6 +6,12 @@ export interface FkColumnChangeEventDetail {
   index: number;
 }
 
+export interface FkColumnRemoveDetail {
+  index: number;
+}
+
+export type FkColumnRemoveEvent = CustomEvent<FkColumnRemoveDetail>;
+
 @customElement('dbg-table-dialog-fk-columns')
 export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
@@ -99,6 +105,9 @@ export default class extends LitElement {
             ${this.#getFkColumns(column.fk!.table).map(({name}) => html`<option value="${name}">${name}</option>`)}
           </select>
         </td>
+        <td>
+          <button @click="${(event: Event) => this.#removeFkColumn(event, index)}">Remove</button>
+        </td>
       </tr>
     `;
   }
@@ -161,5 +170,15 @@ export default class extends LitElement {
   #getFkColumns = (tableName: string) => {
     const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
     return table?.columns.filter(({pk, uq, nn}) => pk || (nn && uq)) || [];
+  };
+
+  #removeFkColumn = (event: Event, index: number) => {
+    event.preventDefault();
+
+    const detail: FkColumnRemoveDetail = {
+      index,
+    };
+    const newEvent = new CustomEvent('dbg-remove-fk-column', { detail });
+    this.dispatchEvent(newEvent);
   };
 }

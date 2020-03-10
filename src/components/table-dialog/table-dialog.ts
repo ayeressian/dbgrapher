@@ -2,8 +2,8 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as tableDialogAction } from '../../store/slices/create-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
-import { ColumnChangeEventDetail } from './columns';
-import { FkColumnChangeEventDetail } from './fk-columns';
+import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
+import { FkColumnChangeEventDetail, FkColumnRemoveEvent } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
 
@@ -51,6 +51,16 @@ export default class extends LitElement {
       name: '',
       type: '',
     });
+    this.requestUpdate();
+  };
+
+  #removeColumn = (event: ColumnRemoveEvent) => {
+    this.#currentTable?.columns.splice(event.detail.index, 1);
+    this.requestUpdate();
+  };
+
+  #removeFkColumn = (event: FkColumnRemoveEvent) => {
+    this.#currentTable?.columns.splice(event.detail.index, 1);
     this.requestUpdate();
   };
 
@@ -107,13 +117,15 @@ export default class extends LitElement {
             schema="${JSON.stringify(this.#schema)}"
             tableIndex="${0}"
             @dbg-add-column="${this.#addColumn}"
-            @dbg-column-change="${this.#columnChange}">
+            @dbg-column-change="${this.#columnChange}"
+            @dbg-remove-column="${this.#removeColumn}">
           </dbg-table-dialog-columns>
           <dbg-table-dialog-fk-columns
             schema="${JSON.stringify(this.#schema)}"
             tableIndex="${0}"
             @dbg-add-fk-column="${this.#addFkColumn}"
-            @dbg-fk-column-change="${this.#fkColumnChange}">
+            @dbg-fk-column-change="${this.#fkColumnChange}"
+            @dbg-remove-fk-column="${this.#removeFkColumn}">
           </dbg-table-dialog-fk-columns>
           <div class="errors" />
           <div class="menu">

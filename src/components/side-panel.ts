@@ -42,17 +42,17 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar">
-        <li class="action create_table" title="Create Table" @click="${this.create}"></li>
-        <li class="action create_relation" title="Create Relation" @click="${this.relation}"></li>
+        <li class="action create_table" title="Create Table" @click="${this.#create}"></li>
+        <li class="action create_relation" title="Create Relation" @click="${this.#relation}"></li>
       </ul>
     `;
   }
 
-  private create = () => {
+  #create = () => {
     store.dispatch(dbViewerModeAction.createMode());
   }
 
-  private relation = () => {
+  #relation = () => {
     store.dispatch(dbViewerModeAction.relationMode());
   }
 }

@@ -11,13 +11,13 @@ export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
-  private form?: HTMLFormElement;
+  #form?: HTMLFormElement;
 
   static get styles(): CSSResult {
     return commonTableStyles;
   }
 
-  private onColumnChange = (index: number, column: IColumnFkSchema) => {
+  #onColumnChange = (index: number, column: IColumnFkSchema) => {
     const detail: FkColumnChangeEventDetail = {
       column,
       index,
@@ -26,7 +26,7 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  private renderColumn = (column: IColumnFkSchema, index: number): TemplateResult => {
+  #renderColumn = (column: IColumnFkSchema, index: number): TemplateResult => {
     const onColumnChange = (type: keyof Omit<IColumnFkSchema, 'fk'>) => (event: InputEvent) => {
       const element = event.target as HTMLInputElement;
       switch(type){
@@ -40,18 +40,18 @@ export default class extends LitElement {
           break;
       }
       
-      this.onColumnChange(index, column);
+      this.#onColumnChange(index, column);
     };
     const onFkTableSelect = (event: InputEvent) => {
       const element = (event.target as HTMLSelectElement);
       column.fk!.table = element.options[element.selectedIndex].value;
-      this.onColumnChange(index, column);
+      this.#onColumnChange(index, column);
       this.requestUpdate();
     };
     const onFkColumnSelect = (event: InputEvent) => {
       const element = (event.target as HTMLSelectElement);
       column.fk!.column = element.options[element.selectedIndex].value;
-      this.onColumnChange(index, column);
+      this.#onColumnChange(index, column);
     };
     return html`
       <tr>
@@ -96,30 +96,30 @@ export default class extends LitElement {
             @change="${onFkColumnSelect}"
             .value="${column.fk?.column}"
           >
-            ${this.getFkColumns(column.fk!.table).map(({name}) => html`<option value="${name}">${name}</option>`)}
+            ${this.#getFkColumns(column.fk!.table).map(({name}) => html`<option value="${name}">${name}</option>`)}
           </select>
         </td>
       </tr>
     `;
   }
 
-  private renderColumns = (): TemplateResult => {
+  #renderColumns = (): TemplateResult => {
     const currentTable = this.schema?.tables[this.tableIndex!];
     const result: TemplateResult[] = [];
     currentTable?.columns.forEach((column, index) => {
       if ((column as IColumnFkSchema).fk) {
-        result.push(this.renderColumn(column, index));
+        result.push(this.#renderColumn(column, index));
       }
     });
     return html`${result}`;
   }
 
   firstUpdated() {
-    this.form = this.shadowRoot!.querySelector('form')!;
+    this.#form = this.shadowRoot!.querySelector('form')!;
   }
 
   validate() {
-    return this.form!.reportValidity();
+    return this.#form!.reportValidity();
   }
   
   render(): TemplateResult {
@@ -140,20 +140,20 @@ export default class extends LitElement {
                 <th>Foreign Column</th>
               </tr>
             </thead>
-            <tbody>${this.renderColumns()}</tbody>
+            <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button @click="${this.addColumn}">Add relation</button>
+          <button @click="${this.#addColumn}">Add relation</button>
         </form>
       </div>`;
   }
 
-  private addColumn = (event: Event) => {
+  #addColumn = (event: Event) => {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-fk-column');
     this.dispatchEvent(newEvent);
   }
 
-  private getFkColumns = (tableName: string) => {
+  #getFkColumns = (tableName: string) => {
     const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
     return table?.columns.filter(({pk, uq, nn}) => pk || (nn && uq)) || [];
   };

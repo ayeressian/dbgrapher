@@ -33,16 +33,16 @@ export default class extends ConnectLitElement {
       ? html`
           <dbg-dialog show>
             <div>
-              <h4 class="operation" id="new-file" @click="${this.newFile}">
+              <h4 class="operation" id="new-file" @click="${this.#newFile}">
                 New File
               </h4>
-              <h4 class="operation" id="open-file" @click="${this.openFile}">
+              <h4 class="operation" id="open-file" @click="${this.#openFile}">
                 Open File
               </h4>
               <h4
                 class="operation"
                 id="import-sql-file"
-                @click="${this.importSqlFile}"
+                @click="${this.#importSqlFile}"
               >
                 Import SQL File
               </h4>
@@ -52,16 +52,16 @@ export default class extends ConnectLitElement {
       : html``;
   }
 
-  private newFile = (): void => {
+  #newFile = (): void => {
     store.dispatch(schemaAction.setSchema({ tables: [] }));
     store.dispatch(welcomeDialogActions.close());
   };
 
-  private openFile = (): void => {
+  #openFile = (): void => {
     store.dispatch(fileOpenAction.open());
   };
 
-  private importSqlFile = (): void => {
+  #importSqlFile = (): void => {
     store.dispatch(fileSqlOpenAction.open());
   };
 }

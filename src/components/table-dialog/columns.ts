@@ -10,13 +10,13 @@ export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
   @property( { type : Number } ) tableIndex?: number;
 
-  private form?: HTMLFormElement;
+  #form?: HTMLFormElement;
   
   static get styles(): CSSResult {
     return commonTableStyles;
   }
 
-  private onColumnChange = (index: number, column: IColumnNoneFkSchema) => {
+  #onColumnChange = (index: number, column: IColumnNoneFkSchema) => {
     const detail: ColumnChangeEventDetail = {
       column,
       index,
@@ -25,7 +25,7 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  private renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
+  #renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
     const onColumnChange = (type: keyof IColumnNoneFkSchema) => (event: InputEvent) => {
       const element = event.target as HTMLInputElement;
       switch(type){
@@ -39,7 +39,7 @@ export default class extends LitElement {
           break;
       }
       
-      this.onColumnChange(index, column);
+      this.#onColumnChange(index, column);
     };
     return html`
       <tr>
@@ -82,23 +82,23 @@ export default class extends LitElement {
     `;
   }
 
-  private renderColumns = (): TemplateResult => {
+  #renderColumns = (): TemplateResult => {
     const currentTable = this.schema?.tables[this.tableIndex!];
     const result: TemplateResult[] = [];
     currentTable?.columns.forEach((column, index) => {
       if (!(column as IColumnFkSchema).fk) {
-        result.push(this.renderColumn(column as IColumnNoneFkSchema, index));
+        result.push(this.#renderColumn(column as IColumnNoneFkSchema, index));
       }
     });
     return html`${result}`;
   }
 
   firstUpdated() {
-    this.form = this.shadowRoot!.querySelector('form')!;
+    this.#form = this.shadowRoot!.querySelector('form')!;
   }
 
   validate() {
-    return this.form!.reportValidity();
+    return this.#form!.reportValidity();
   }
   
   render(): TemplateResult {
@@ -119,14 +119,14 @@ export default class extends LitElement {
                 <th/>
               </tr>
             </thead>
-            <tbody>${this.renderColumns()}</tbody>
+            <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button @click="${this.addColumn}">Add column</button>
+          <button @click="${this.#addColumn}">Add column</button>
         </form>
       </div>`;
   }
 
-  private addColumn = (event: Event) => {
+  #addColumn = (event: Event) => {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-column');
     this.dispatchEvent(newEvent);

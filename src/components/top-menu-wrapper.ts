@@ -6,10 +6,10 @@ import store from '../store/store';
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
   render(): TemplateResult {
-    return html`<dbg-top-menu config="${JSON.stringify(store.getState().topMenuConfig)}" @item-selected="${this.itemSelected}"></dbg-top-menu>`;
+    return html`<dbg-top-menu config="${JSON.stringify(store.getState().topMenuConfig)}" @item-selected="${this.#itemSelected}"></dbg-top-menu>`;
   }
 
-  private itemSelected(event: CustomEvent) {
+  #itemSelected = (event: CustomEvent) => {
     switch(event.detail.id) {
       case 'new':
         store.dispatch(schemaAction.setSchema({ tables: [] }));

@@ -77,32 +77,32 @@ export default class extends LitElement {
 
   @property( { type : Object } ) config?: TopMenuConfig;
 
-  private dropdownItems?: Item[];
-  private dropdownStyle = {};
+  #dropdownItems?: Item[];
+  #dropdownStyle = {};
 
-  private onDocumentClick = (event: MouseEvent) => {
+  #onDocumentClick = (event: MouseEvent) => {
     if (event.composed && event.composedPath().indexOf(this) === -1) {
-      this.dropdownItems = undefined;
+      this.#dropdownItems = undefined;
       this.requestUpdate();
     }
   };
 
-  private onComponentClick = (event: MouseEvent) => {
+  #onComponentClick = (event: MouseEvent) => {
     if ((event.composedPath()[0] as HTMLElement).nodeName != 'LI') {
-      this.dropdownItems = undefined;
+      this.#dropdownItems = undefined;
       this.requestUpdate();
     }
   };
 
   connectedCallback() {
     super.connectedCallback();
-    this.addEventListener('click', this.onComponentClick);
-    document.addEventListener('click', this.onDocumentClick);
+    this.addEventListener('click', this.#onComponentClick);
+    document.addEventListener('click', this.#onDocumentClick);
   }
 
   disconnectedCallback() {
-    this.removeEventListener('click', this.onComponentClick);
-    document.removeEventListener('click', this.onDocumentClick);
+    this.removeEventListener('click', this.#onComponentClick);
+    document.removeEventListener('click', this.#onDocumentClick);
     super.disconnectedCallback();
   }
 
@@ -110,23 +110,23 @@ export default class extends LitElement {
     return html`
       <ul class="menu-bar">
         ${
-          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event) => this.onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event) => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
         }
         ${
-          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event) => this.onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event) => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
         }
       </ul>
-      <div class="${classMap({dropdown: true, show: this.dropdownItems != null})}" style="${styleMap(this.dropdownStyle)}">
+      <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">
         <ul>
           ${
-            (this.dropdownItems ?? []).map(dropdownItem => html`<li @click="${() => this.onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
+            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${() => this.#onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>
     `;
   }
 
-  private itemSelected(item: Item) {
+  #itemSelected = (item: Item) => {
     const event = new CustomEvent<{id: string}>('item-selected', {
       detail: {
         id: item.id
@@ -135,24 +135,24 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  private onDropdownItemClick = (item: Item) => {
-    this.itemSelected(item);
-    this.dropdownItems = undefined;
+  #onDropdownItemClick = (item: Item) => {
+    this.#itemSelected(item);
+    this.#dropdownItems = undefined;
     this.requestUpdate();
   }
 
-  private onMenuItemClick = (event: Event, item: Item) => {
-    this.itemSelected(item);
+  #onMenuItemClick = (event: Event, item: Item) => {
+    this.#itemSelected(item);
     const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
 
     if (item.items != null) {
-      this.dropdownStyle = {
+      this.#dropdownStyle = {
         top: viewportOffset.bottom + 'px',
         left: viewportOffset.left + 'px'
       };
-      this.dropdownItems = item.items;
+      this.#dropdownItems = item.items;
     } else {
-      this.dropdownItems = undefined;
+      this.#dropdownItems = undefined;
     }
     this.requestUpdate();
   }

@@ -7,9 +7,9 @@ import { subscribe } from '../subscribe-store';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
-  private resolveLoaded?: Function;
-  private loaded: Promise<null> = new Promise((resolve) => this.resolveLoaded = resolve);
-  private dbViewer?: IDbViewer;
+  #resolveLoaded?: Function;
+  #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
+  #dbViewer?: IDbViewer;
 
   static get styles(): CSSResult {
     return css`
@@ -21,23 +21,23 @@ export default class DbWrapper extends LitElement {
     `;
   }
 
-  private onTableDblClick = (event: CustomEvent) => {
+  #onTableDblClick = (event: CustomEvent) => {
     store.dispatch(tableDialogAction.open());
     event.detail.table;
   };
 
   firstUpdated() {
-    this.dbViewer = this.shadowRoot!.querySelector<IDbViewer>('db-viewer')!;
-    this.dbViewer.addEventListener('tableDblClick', this.onTableDblClick);
-    this.resolveLoaded!();
+    this.#dbViewer = this.shadowRoot!.querySelector<IDbViewer>('db-viewer')!;
+    this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
+    this.#resolveLoaded!();
   }
 
   connectedCallback() {
     super.connectedCallback();
     subscribe(state => state.loadSchema, (loadSchema, state) => {
       if (loadSchema) {
-        this.loaded.then(() => {
-          this.dbViewer!.schema = state.schema as ISchema;
+        this.#loaded.then(() => {
+          this.#dbViewer!.schema = state.schema as ISchema;
           store.dispatch(setSchemaAction.loaded());
         });
       }

@@ -12,15 +12,15 @@ const INVALID_FILE_FORMAT = 'Selected file does not have correct Db designer fil
 
 @customElement('dbg-file-inputs')
 export default class extends LitElement {
-  private resolveLoaded?: Function;
-  private loaded: Promise<null> = new Promise((resolve) => this.resolveLoaded = resolve);
-  private sqlFileInput?: HTMLInputElement;
-  private dbgFileInput?: HTMLInputElement;
+  #resolveLoaded?: Function;
+  #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
+  #sqlFileInput?: HTMLInputElement;
+  #dbgFileInput?: HTMLInputElement;
 
   firstUpdated() {
-    this.dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#dbgFileInput')!;
-    this.sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#sqlFileInput')!;
-    this.resolveLoaded!();
+    this.#dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#dbgFileInput')!;
+    this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#sqlFileInput')!;
+    this.#resolveLoaded!();
   }
   
   static get styles(): CSSResult {
@@ -35,15 +35,15 @@ export default class extends LitElement {
     super.connectedCallback();
     subscribe(state => state.dialog.fileDialog.fileOpenDialog, open => {
       if (open) {
-        this.loaded.then(() => {
-          this.dbgFileInput!.click();
+        this.#loaded.then(() => {
+          this.#dbgFileInput!.click();
         });
       }
     });
     subscribe(state => state.dialog.fileDialog.fileSqlOpenDialog, open => {
       if (open) {
-        this.loaded.then(() => {
-          this.sqlFileInput!.click();
+        this.#loaded.then(() => {
+          this.#sqlFileInput!.click();
         });
       }
     });
@@ -55,17 +55,17 @@ export default class extends LitElement {
         id='dbgFileInput'
         type='file'
         accept='application/json'
-        @change=${this.fileOpenChange}
+        @change=${this.#fileOpenChange}
       />
       <input
         id='sqlFileInput'
         type='file'
-        @change=${this.importSqlFileChange}
+        @change=${this.#importSqlFileChange}
       />
     `;
   }
 
-  private fileOpenChange = (event: Event) => {
+  #fileOpenChange = (event: Event) => {
     const reader = new FileReader();
     reader.readAsText((<HTMLInputElement>event.target).files![0]);
     reader.onload = (readerEvent) => {
@@ -87,5 +87,5 @@ export default class extends LitElement {
       store.dispatch(welcomeDialogActions.close());
     };
   };
-  private importSqlFileChange = () => {};
+  #importSqlFileChange = () => {};
 }

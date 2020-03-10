@@ -5,6 +5,13 @@ export interface ColumnChangeEventDetail {
   column: IColumnNoneFkSchema;
   index: number;
 }
+
+export interface ColumnRemoveDetail {
+  index: number;
+}
+
+export type ColumnRemoveEvent = CustomEvent<ColumnRemoveDetail>;
+
 @customElement('dbg-table-dialog-columns')
 export default class extends LitElement {
   @property( { type : Object } ) schema?: ISchema;
@@ -78,6 +85,9 @@ export default class extends LitElement {
             .value="${column.nn}"
           />
         </td>
+        <td>
+          <button @click="${(event: Event) => this.#removeColumn(event, index)}">Remove</button>
+        </td>
       </tr>
     `;
   }
@@ -136,4 +146,14 @@ export default class extends LitElement {
     await this.updateComplete;
     this.#form?.reset();
   }
+
+  #removeColumn = (event: Event, index: number) => {
+    event.preventDefault();
+
+    const detail: ColumnRemoveDetail = {
+      index,
+    };
+    const newEvent = new CustomEvent('dbg-remove-column', { detail });
+    this.dispatchEvent(newEvent);
+  };
 }

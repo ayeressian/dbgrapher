@@ -17,6 +17,7 @@ export default class extends LitElement {
         height: 100%;
         width: 100%;
         background-color: rgba(0,0,0,0.4);
+        display: flex;
         
         /* this is what centers your element in the fixed wrapper*/
         flex-flow: column nowrap;
@@ -30,9 +31,12 @@ export default class extends LitElement {
 
       .dialog-content {
         background-color: rgba(255, 255, 255, 1);
-        margin: auto;
         padding: 20px;
         border: 1px solid #888;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
       }
     `;
   }

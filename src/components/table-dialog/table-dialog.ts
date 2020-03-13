@@ -1,4 +1,4 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS } from 'lit-element';
 import { actions as tableDialogAction } from '../../store/slices/create-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
@@ -6,7 +6,8 @@ import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
 import { FkColumnChangeEventDetail, FkColumnRemoveEvent } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
-
+import styles from 'bulma/sass/elements/button.sass';
+console.log(styles);
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
 
@@ -20,6 +21,7 @@ export default class extends LitElement {
 
   static get styles(): CSSResult {
     return css`
+      ${unsafeCSS(styles)}
       .error {
         color: #cc0000;
       }
@@ -129,7 +131,7 @@ export default class extends LitElement {
           </dbg-table-dialog-fk-columns>
           <div class="errors" />
           <div class="menu">
-            <button @click="${this.#cancel}">Cancel</button>
+            <button class="button" @click="${this.#cancel}">Cancel</button>
             <button @click="${this.#save}">Create</button>
           </div>
         </form>

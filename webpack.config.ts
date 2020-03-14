@@ -4,8 +4,6 @@ import path from 'path';
 module.exports = {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
-  mode: 'development',
-  watch: true,
   devServer: {
     contentBase: 'dist',
     port: 9999

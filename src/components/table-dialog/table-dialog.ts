@@ -24,6 +24,12 @@ export default class extends LitElement {
     return css`
       ${unsafeCSS(buttonCss)}
       ${unsafeCSS(formsCss)}
+      .container {
+        width: 770px;
+      }
+      .title {
+        text-align: center;
+      }
       .error {
         color: #cc0000;
       }
@@ -31,6 +37,9 @@ export default class extends LitElement {
         display: flex;
         justify-content: center;
         padding-left: 0;
+      }
+      .menu button {
+        margin-left: 10px;
       }
     `;
   }
@@ -109,35 +118,34 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <dbg-dialog ?show=${this.#open}>
-        <link rel="stylesheet" type="text/css" media="all" href="css/styles.min.css">
-        <form class="pure-form pure-form-stacked">
-          <h3>Create Table</h3>
-          <div>
+        <div class="container">
+          <h3 class="title">Create Table</h3>
+          <form class="pure-form pure-form-stacked">
             <label>
-              Name:
+              Name
               <input name='name' type='text' @input="${this.#onChangeTableName}" required/>
             </label>
-          </div>
-          <dbg-table-dialog-columns
-            schema="${JSON.stringify(this.#schema)}"
-            tableIndex="${0}"
-            @dbg-add-column="${this.#addColumn}"
-            @dbg-column-change="${this.#columnChange}"
-            @dbg-remove-column="${this.#removeColumn}">
-          </dbg-table-dialog-columns>
-          <dbg-table-dialog-fk-columns
-            schema="${JSON.stringify(this.#schema)}"
-            tableIndex="${0}"
-            @dbg-add-fk-column="${this.#addFkColumn}"
-            @dbg-fk-column-change="${this.#fkColumnChange}"
-            @dbg-remove-fk-column="${this.#removeFkColumn}">
-          </dbg-table-dialog-fk-columns>
-          <div class="errors"></div>
-          <div class="menu">
-            <button class="pure-button" @click="${this.#cancel}">Cancel</button>
-            <button class="pure-button" @click="${this.#save}">Create</button>
-          </div>
-        </form>
+            <dbg-table-dialog-columns
+              schema="${JSON.stringify(this.#schema)}"
+              tableIndex="${0}"
+              @dbg-add-column="${this.#addColumn}"
+              @dbg-column-change="${this.#columnChange}"
+              @dbg-remove-column="${this.#removeColumn}">
+            </dbg-table-dialog-columns>
+            <dbg-table-dialog-fk-columns
+              schema="${JSON.stringify(this.#schema)}"
+              tableIndex="${0}"
+              @dbg-add-fk-column="${this.#addFkColumn}"
+              @dbg-fk-column-change="${this.#fkColumnChange}"
+              @dbg-remove-fk-column="${this.#removeFkColumn}">
+            </dbg-table-dialog-fk-columns>
+            <div class="errors"></div>
+            <div class="menu">
+              <button class="pure-button" @click="${this.#cancel}">Cancel</button>
+              <button class="pure-button" @click="${this.#save}">Create</button>
+            </div>
+          </form>
+        </div>
       </dbg-dialog>`;
   }
 

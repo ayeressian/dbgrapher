@@ -8,26 +8,20 @@ export default css`
   ${unsafeCSS(buttonCss)}
   ${unsafeCSS(tableCss)}
 
-  table.hide {
-    display: none;
+  .add-column {
+    margin-top: 10px;
   }
 
-  table {
-    margin-top: 20px;
-    border: none;
-    border-collapse: collapse;
+  td.no-column {
+    text-align: center;
+    color: #AAA;
   }
-  th {
-    text-align: left;
+
+  .container {
+    margin-top: 30px;
   }
-  table td:first-child, table th:first-child {
-    border-left: none;
-  }
-  table td, table th {
-    border-left: 1px solid #AAA;
-    padding: 3px 5px 3px 5px;
-  }
-  table tr:hover {
-    background-color: #DDD;
+
+  .title {
+    margin-bottom: 10px;
   }
 }`;

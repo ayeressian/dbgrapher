@@ -1,6 +1,5 @@
-import { customElement, LitElement, TemplateResult, html, property, CSSResult } from 'lit-element';
+import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
-import { classMap } from 'lit-html/directives/class-map';
 
 export interface ColumnChangeEventDetail {
   column: IColumnNoneFkSchema;
@@ -21,7 +20,13 @@ export default class extends LitElement {
   #form?: HTMLFormElement;
   
   static get styles(): CSSResult {
-    return commonTableStyles;
+    return css`
+      table {
+        width: 660px;
+      }
+      ${commonTableStyles}
+        
+    `;
   }
 
   #onColumnChange = (index: number, column: IColumnNoneFkSchema) => {
@@ -93,15 +98,21 @@ export default class extends LitElement {
     `;
   }
 
-  #renderColumns = (): TemplateResult => {
-    const result = this.#getCurrentTableColumns().map(({column, index}) => this.#renderColumn(column as IColumnNoneFkSchema, index));
-    return html`${result}`;
-  }
-
   #getCurrentTableColumns = () => {
     const currentTable = this.schema?.tables[this.tableIndex!];
     return currentTable?.columns.map((column, index) => ({column, index})).filter(item => !(item.column as IColumnFkSchema).fk) ?? [];
   };
+
+  #renderColumns = (): TemplateResult => {
+    const currentTableColumns = this.#getCurrentTableColumns();
+    let result;
+    if (currentTableColumns.length > 0) {
+      result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as IColumnNoneFkSchema, index))}`;
+    } else {
+      result = html`<tr><td class="no-column" colspan="6">No columns to show</td></tr>`
+    }
+    return html`${result}`;
+  }
 
   firstUpdated() {
     this.#form = this.shadowRoot!.querySelector('form')!;
@@ -113,10 +124,12 @@ export default class extends LitElement {
   
   render(): TemplateResult {
     return html`
-      <div>
+      <div class="container">
         <form class="pure-form">
-          <h4>Columns</h4>
-          <table class="pure-table pure-table-horizontal ${classMap({ hide: this.#getCurrentTableColumns().length === 0})}">
+          <div class="title">
+            Columns
+          </div>
+          <table class="pure-table pure-table-horizontal">
             <thead>
               <tr>
                 <th>Name</th>
@@ -129,7 +142,7 @@ export default class extends LitElement {
             </thead>
             <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button class="pure-button" @click="${this.#addColumn}">Add column</button>
+          <button class="pure-button add-column" @click="${this.#addColumn}">Add column</button>
         </form>
       </div>`;
   }

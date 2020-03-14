@@ -1,6 +1,5 @@
-import { customElement, LitElement, TemplateResult, html, property, CSSResult } from 'lit-element';
+import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
-import { classMap } from 'lit-html/directives/class-map';
 
 export interface FkColumnChangeEventDetail {
   column: IColumnFkSchema;
@@ -21,7 +20,12 @@ export default class extends LitElement {
   #form?: HTMLFormElement;
 
   static get styles(): CSSResult {
-    return commonTableStyles;
+    return css`
+      table {
+        width: 770px;
+      }
+      ${commonTableStyles}
+    `;
   }
 
   #onColumnChange = (index: number, column: IColumnFkSchema) => {
@@ -119,8 +123,14 @@ export default class extends LitElement {
   };
 
   #renderColumns = (): TemplateResult => {
-    const result = this.#getCurrentTableFkColumns().map(({column, index}) => this.#renderColumn(column, index));
-    return html`${result}`;
+    const currentTableColumns = this.#getCurrentTableFkColumns();
+    let result;
+    if (currentTableColumns.length > 0) {
+      result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column, index))}`;
+    } else {
+      result = html`<tr><td class="no-column" colspan="7">No fk columns to show</td></tr>`
+    }
+    return result;
   }
 
   firstUpdated() {
@@ -133,10 +143,12 @@ export default class extends LitElement {
   
   render(): TemplateResult {
     return html`
-      <div>
+      <div class="container">
         <form class="pure-form">
-          <h4>Foreign Key Columns</h4>
-          <table class="pure-table pure-table-horizontal ${classMap({ hide: this.#getCurrentTableFkColumns().length === 0})}">
+          <div class="title">
+            Foreign Key Columns
+          </div>
+          <table class="pure-table pure-table-horizontal">
             <thead>
               <tr>
                 <th>Name</th>
@@ -150,7 +162,7 @@ export default class extends LitElement {
             </thead>
             <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button class="pure-button" @click="${this.#addColumn}">Add relation</button>
+          <button class="pure-button add-column" @click="${this.#addColumn}">Add relation</button>
         </form>
       </div>`;
   }

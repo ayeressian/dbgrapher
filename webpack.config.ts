@@ -1,20 +1,20 @@
-import CopyPlugin from 'copy-webpack-plugin';
-import path from 'path';
+import CopyPlugin from "copy-webpack-plugin";
+import path from "path";
 
 module.exports = {
-  entry: './src/index.ts',
-  devtool: 'inline-source-map',
-  mode: 'development',
+  entry: "./src/index.ts",
+  devtool: "inline-source-map",
+  mode: "development",
   watch: true,
   devServer: {
-    contentBase: 'dist',
+    contentBase: "dist",
     port: 9999
   },
   plugins: [
     new CopyPlugin([
       {
-        from: 'src/index.html',
-      },
+        from: "src/index.html"
+      }
     ])
   ],
   module: {
@@ -23,38 +23,35 @@ module.exports = {
         test: /\.(png|jpg|gif)$/i,
         use: [
           {
-            loader: 'url-loader',
+            loader: "url-loader",
             options: {
-              limit: 8192,
-            },
-          },
-        ],
+              limit: 8192
+            }
+          }
+        ]
       },
       {
         test: /(?<!\.d)\.ts?$/,
-        loader: 'ts-loader',
+        loader: "ts-loader"
       },
       {
         test: /\.d\.ts$/,
-        loader: 'ignore-loader'
+        loader: "ignore-loader"
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-        ],
-      },
+          { loader: "css-loader", options: { sourceMap: true } },
+          { loader: "sass-loader", options: { sourceMap: true } },
+        ]
+      }
     ]
   },
   resolve: {
-    extensions: [ '.ts', '.js' ],
+    extensions: [".ts", ".js"]
   },
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-  },
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist")
+  }
 };

@@ -6,7 +6,8 @@ import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
 import { FkColumnChangeEventDetail, FkColumnRemoveEvent } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
-import bulma from 'bulma/bulma.sass';
+import buttonCss from 'purecss/build/buttons-min.css';
+import formsCss from 'purecss/build/forms-min.css';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -21,7 +22,8 @@ export default class extends LitElement {
 
   static get styles(): CSSResult {
     return css`
-      ${unsafeCSS(bulma)}
+      ${unsafeCSS(buttonCss)}
+      ${unsafeCSS(formsCss)}
       .error {
         color: #cc0000;
       }
@@ -107,7 +109,8 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <dbg-dialog ?show=${this.#open}>
-        <form>
+        <link rel="stylesheet" type="text/css" media="all" href="css/styles.min.css">
+        <form class="pure-form pure-form-stacked">
           <h3>Create Table</h3>
           <div>
             <label>
@@ -129,10 +132,10 @@ export default class extends LitElement {
             @dbg-fk-column-change="${this.#fkColumnChange}"
             @dbg-remove-fk-column="${this.#removeFkColumn}">
           </dbg-table-dialog-fk-columns>
-          <div class="errors" />
+          <div class="errors"></div>
           <div class="menu">
-            <button class="button" @click="${this.#cancel}">Cancel</button>
-            <button class="button" @click="${this.#save}">Create</button>
+            <button class="pure-button" @click="${this.#cancel}">Cancel</button>
+            <button class="pure-button" @click="${this.#save}">Create</button>
           </div>
         </form>
       </dbg-dialog>`;

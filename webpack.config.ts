@@ -37,12 +37,9 @@ module.exports = {
         loader: "ignore-loader"
       },
       {
-        test: /\.s[ac]ss$/i,
-        use: [
-          { loader: "css-loader", options: { sourceMap: true } },
-          { loader: "sass-loader", options: { sourceMap: true } },
-        ]
-      }
+        test: /\.css$/,
+        loader: "css-loader"
+      },
     ]
   },
   resolve: {

@@ -1,6 +1,17 @@
-import { css } from 'lit-element';
+import { css, unsafeCSS } from 'lit-element';
+import formsCss from 'purecss/build/forms-min.css';
+import buttonCss from 'purecss/build/buttons-min.css';
+import tableCss from 'purecss/build/tables-min.css';
 
 export default css`
+  ${unsafeCSS(formsCss)}
+  ${unsafeCSS(buttonCss)}
+  ${unsafeCSS(tableCss)}
+
+  table.hide {
+    display: none;
+  }
+
   table {
     margin-top: 20px;
     border: none;

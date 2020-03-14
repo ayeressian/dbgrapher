@@ -1,5 +1,6 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult } from 'lit-element';
-import commonTableStyles from './common-table-styles';
+import commonTableStyles from './common-columns-styles';
+import { classMap } from 'lit-html/directives/class-map';
 
 export interface FkColumnChangeEventDetail {
   column: IColumnFkSchema;
@@ -106,20 +107,19 @@ export default class extends LitElement {
           </select>
         </td>
         <td>
-          <button @click="${(event: Event) => this.#removeFkColumn(event, index)}">Remove</button>
+          <button class="pure-button" @click="${(event: Event) => this.#removeFkColumn(event, index)}">Remove</button>
         </td>
       </tr>
     `;
   }
 
-  #renderColumns = (): TemplateResult => {
+  #getCurrentTableFkColumns = () => {
     const currentTable = this.schema?.tables[this.tableIndex!];
-    const result: TemplateResult[] = [];
-    currentTable?.columns.forEach((column, index) => {
-      if ((column as IColumnFkSchema).fk) {
-        result.push(this.#renderColumn(column, index));
-      }
-    });
+    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as IColumnFkSchema).fk) ?? [];
+  };
+
+  #renderColumns = (): TemplateResult => {
+    const result = this.#getCurrentTableFkColumns().map(({column, index}) => this.#renderColumn(column, index));
     return html`${result}`;
   }
 
@@ -134,12 +134,10 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <div>
-        <form>
-          <table class="table">
+        <form class="pure-form">
+          <h4>Foreign Key Columns</h4>
+          <table class="pure-table pure-table-horizontal ${classMap({ hide: this.#getCurrentTableFkColumns().length === 0})}">
             <thead>
-              <tr>
-                <th>Foreign Key Columns</th>
-              </tr>
               <tr>
                 <th>Name</th>
                 <th>PK</th>
@@ -147,11 +145,12 @@ export default class extends LitElement {
                 <th>NN</th>
                 <th>Foreign Table</th>
                 <th>Foreign Column</th>
+                <th/>
               </tr>
             </thead>
             <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button @click="${this.#addColumn}">Add relation</button>
+          <button class="pure-button" @click="${this.#addColumn}">Add relation</button>
         </form>
       </div>`;
   }

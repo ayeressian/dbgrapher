@@ -5,9 +5,11 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --watch --config=./webpack.config.ts --host 0.0.0.0",
-    "watch": "webpack --watch",
-    "build": "webpack",
-    "lint": "npx eslint . --ext .js,.ts"
+    "build-prod": "webpack --mode=production",
+    "build-dev": "webpack --mode=development",
+    "build-dev-watch": "webpack --mode=development --watch",
+    "lint": "npx eslint . --ext .js,.ts",
+    "webpack-analyse": "webpack --mode=production --profile --json > ./stats.json && webpack-bundle-analyzer ./stats.json && rm ./stats.json"
   },
   "keywords": [],
   "author": "",
@@ -36,6 +38,7 @@
     "typescript": "^3.8.3",
     "url-loader": "^3.0.0",
     "webpack": "^4.42.0",
+    "webpack-bundle-analyzer": "^3.6.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
   }

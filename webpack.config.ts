@@ -2,10 +2,8 @@ import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 
 module.exports = {
-  entry: "./src/index.ts",
-  devtool: "inline-source-map",
-  mode: "development",
-  watch: true,
+  entry: './src/index.ts',
+  devtool: 'inline-source-map',
   devServer: {
     contentBase: "dist",
     port: 9999

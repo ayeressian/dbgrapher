@@ -6,8 +6,8 @@ import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
 import { FkColumnChangeEventDetail, FkColumnRemoveEvent } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
-import styles from 'bulma/sass/elements/button.sass';
-console.log(styles);
+import bulma from 'bulma/bulma.sass';
+
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
 
@@ -21,7 +21,7 @@ export default class extends LitElement {
 
   static get styles(): CSSResult {
     return css`
-      ${unsafeCSS(styles)}
+      ${unsafeCSS(bulma)}
       .error {
         color: #cc0000;
       }
@@ -132,7 +132,7 @@ export default class extends LitElement {
           <div class="errors" />
           <div class="menu">
             <button class="button" @click="${this.#cancel}">Cancel</button>
-            <button @click="${this.#save}">Create</button>
+            <button class="button" @click="${this.#save}">Create</button>
           </div>
         </form>
       </dbg-dialog>`;

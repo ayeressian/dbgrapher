@@ -1,11 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const slice = createSlice({
-  initialState: false,
+  initialState: {
+    open: false,
+    tableName: undefined as undefined | string,
+  },
   name: 'tableDialog',
   reducers: {
-    close: (): boolean => false,
-    open: (): boolean => true,
+    close: () => ({tableName: undefined, open: false}),
+    openCreate: () => ({tableName: undefined, open: true}),
+    openEdit: (_, {payload: tableName}: PayloadAction<string | undefined>) => ({tableName, open: true}),
   },
 });
 

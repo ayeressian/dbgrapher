@@ -21,9 +21,8 @@ export default class DbWrapper extends LitElement {
     `;
   }
 
-  #onTableDblClick = (event: CustomEvent) => {
-    store.dispatch(tableDialogAction.open());
-    event.detail.table;
+  #onTableDblClick = (event: CustomEvent<{name: string}>) => {
+    store.dispatch(tableDialogAction.openEdit(event.detail.name));
   };
 
   firstUpdated() {

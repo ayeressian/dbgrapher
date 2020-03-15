@@ -44,12 +44,16 @@ export default class extends LitElement {
     `;
   }
 
-  #onOpen = () => {
+  #onOpen = (tableName?: string) => {
     this.#schema = JSON.parse(JSON.stringify(store.getState().schema!));
-    this.#currentTable = {
-      name: '',
-      columns: []
-    };
+    if (tableName) {
+      this.#currentTable = this.#schema!.tables.find(({name}) => name === tableName)!;
+    } else {
+      this.#currentTable = {
+        name: '',
+        columns: []
+      };
+    }
     this.#schema?.tables.unshift(this.#currentTable);
   };
 
@@ -100,10 +104,10 @@ export default class extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    subscribe(state => state.dialog.tableDialog, open => {
+    subscribe(state => state.dialog.tableDialog, ({open, tableName}) => {
       this.#open = open;
       if (open) {
-        this.#onOpen();  
+        this.#onOpen(tableName);
       }
       this.requestUpdate();
     });
@@ -123,7 +127,7 @@ export default class extends LitElement {
           <form class="pure-form pure-form-stacked">
             <label>
               Name
-              <input name='name' type='text' @input="${this.#onChangeTableName}" required/>
+              <input name='name' type='text' @input="${this.#onChangeTableName}" .value="${this.#currentTable?.name}" required/>
             </label>
             <dbg-table-dialog-columns
               schema="${JSON.stringify(this.#schema)}"

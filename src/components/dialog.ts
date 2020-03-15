@@ -25,7 +25,7 @@ export default class extends LitElement {
         align-items: center; /* aligns on horizontal for column */
       }
 
-      .hide {
+      .dialog.hide {
         display: none;
       }
 

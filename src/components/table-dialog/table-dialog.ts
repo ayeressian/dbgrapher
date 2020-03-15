@@ -15,6 +15,7 @@ export default class extends LitElement {
   #schema?: ISchema;
   #currentTable?: ITableSchema;
   #open = false;
+  #isEdit = false;
 
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
@@ -47,8 +48,10 @@ export default class extends LitElement {
   #onOpen = (tableName?: string) => {
     this.#schema = JSON.parse(JSON.stringify(store.getState().schema!));
     if (tableName) {
+      this.#isEdit = true;
       this.#currentTable = this.#schema!.tables.find(({name}) => name === tableName)!;
     } else {
+      this.#isEdit = false;
       this.#currentTable = {
         name: '',
         columns: []
@@ -123,7 +126,7 @@ export default class extends LitElement {
     return html`
       <dbg-dialog ?show=${this.#open}>
         <div class="container">
-          <h3 class="title">Create Table</h3>
+          <h3 class="title">${this.#isEdit ? 'Edit Table': 'Create Table'}</h3>
           <form class="pure-form pure-form-stacked">
             <label>
               Name
@@ -145,8 +148,8 @@ export default class extends LitElement {
             </dbg-table-dialog-fk-columns>
             <div class="errors"></div>
             <div class="menu">
+              <button class="pure-button" @click="${this.#save}">Save</button>
               <button class="pure-button" @click="${this.#cancel}">Cancel</button>
-              <button class="pure-button" @click="${this.#save}">Create</button>
             </div>
           </form>
         </div>

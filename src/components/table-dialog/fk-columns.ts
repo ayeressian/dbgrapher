@@ -76,21 +76,21 @@ export default class extends LitElement {
           <input
             type='checkbox'
             @change="${onColumnChange('pk')}"
-            .value="${column.pk}"
+            .checked="${column.pk}"
           />
         </td>
         <td>
           <input
             type='checkbox'
             @change="${onColumnChange('uq')}"
-            .value="${column.uq}"
+            .checked="${column.uq}"
           />
         </td>
         <td>
           <input
             type='checkbox'
             @change="${onColumnChange('nn')}"
-            .value="${column.nn}"
+            .checked="${column.nn}"
           />
         </td>
         <td>
@@ -151,7 +151,7 @@ export default class extends LitElement {
             </thead>
             <tbody>${this.#renderColumns()}</tbody>
           </table>
-          <button class="pure-button add-column" @click="${this.#addColumn}">Add relation</button>
+          <button class="pure-button add-column" @click="${this.#addColumn}">Add foreign key</button>
         </form>
       </div>`;
   }

@@ -74,21 +74,21 @@ export default class extends LitElement {
           <input
             type='checkbox'
             @change="${onColumnChange('pk')}"
-            .value="${column.pk}"
+            .checked="${column.pk}"
           />
         </td>
         <td>
           <input
             type='checkbox'
             @change="${onColumnChange('uq')}"
-            .value="${column.uq}"
+            .checked="${column.uq}"
           />
         </td>
         <td>
           <input
             type='checkbox'
             @change="${onColumnChange('nn')}"
-            .value="${column.nn}"
+            .checked="${column.nn}"
           />
         </td>
         <td>

@@ -8,6 +8,7 @@ import './top-menu-wrapper';
 import './table-dialog/table-dialog';
 import './table-dialog/columns';
 import './table-dialog/fk-columns';
+import './select';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
 
 @customElement('dbg-app')

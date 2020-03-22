@@ -1,5 +1,6 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
+import { OnSelectEvent } from '../select';
 
 export interface FkColumnChangeEventDetail {
   column: IColumnFkSchema;
@@ -53,15 +54,13 @@ export default class extends LitElement {
       
       this.#onColumnChange(index, column);
     };
-    const onFkTableSelect = (event: InputEvent) => {
-      const element = (event.target as HTMLSelectElement);
-      column.fk!.table = element.options[element.selectedIndex].value;
+    const onFkTableSelect = (event: OnSelectEvent) => {
+      column.fk!.table = event.detail.value;
       this.#onColumnChange(index, column);
       this.requestUpdate();
     };
-    const onFkColumnSelect = (event: InputEvent) => {
-      const element = (event.target as HTMLSelectElement);
-      column.fk!.column = element.options[element.selectedIndex].value;
+    const onFkColumnSelect = (event: OnSelectEvent) => {
+      column.fk!.column = event.detail.value;
       this.#onColumnChange(index, column);
     };
     return html`
@@ -95,20 +94,10 @@ export default class extends LitElement {
           />
         </td>
         <td>
-          <select
-            @change="${onFkTableSelect}"
-            .value="${column.fk?.table}"
-          >
-            ${this.schema?.tables.map(({ name }) => html`<option value=${name}>${name}</option>`)}
-          </select>
+          <dbg-select value="${column.fk?.table}" options="${JSON.stringify(this.schema?.tables.map(({name}) => name))}" @dbg-on-select="${onFkTableSelect}"></dbg-select>
         </td>
         <td>
-          <select
-            @change="${onFkColumnSelect}"
-            .value="${column.fk?.column}"
-          >
-            ${this.#getFkColumns(column.fk!.table).map(({name}) => html`<option value="${name}">${name}</option>`)}
-          </select>
+          <dbg-select value="${column.fk?.column}" options="${JSON.stringify(this.#getFkColumns(column.fk!.table).map(({name}) => name))}" @dbg-on-select="${onFkColumnSelect}"></dbg-select>
         </td>
         <td>
           <button class="pure-button" @click="${(event: Event) => this.#removeFkColumn(event, index)}">Remove</button>

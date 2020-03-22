@@ -14,6 +14,7 @@ export default class extends LitElement {
 
   #schema?: ISchema;
   #currentTable?: ITableSchema;
+  #currentTableIndex?: number;
   #open = false;
   #isEdit = false;
 
@@ -49,15 +50,17 @@ export default class extends LitElement {
     this.#schema = JSON.parse(JSON.stringify(store.getState().schema!));
     if (tableName) {
       this.#isEdit = true;
-      this.#currentTable = this.#schema!.tables.find(({name}) => name === tableName)!;
+      this.#currentTableIndex = this.#schema!.tables.findIndex(({name}) => name === tableName)!;
+      this.#currentTable = this.#schema!.tables[this.#currentTableIndex];
     } else {
       this.#isEdit = false;
       this.#currentTable = {
         name: '',
         columns: []
       };
+      this.#schema?.tables.unshift(this.#currentTable);
+      this.#currentTableIndex = 0; 
     }
-    this.#schema?.tables.unshift(this.#currentTable);
   };
 
   firstUpdated() {
@@ -134,14 +137,14 @@ export default class extends LitElement {
             </label>
             <dbg-table-dialog-columns
               schema="${JSON.stringify(this.#schema)}"
-              tableIndex="${0}"
+              tableIndex="${this.#currentTableIndex}"
               @dbg-add-column="${this.#addColumn}"
               @dbg-column-change="${this.#columnChange}"
               @dbg-remove-column="${this.#removeColumn}">
             </dbg-table-dialog-columns>
             <dbg-table-dialog-fk-columns
               schema="${JSON.stringify(this.#schema)}"
-              tableIndex="${0}"
+              tableIndex="${this.#currentTableIndex}"
               @dbg-add-fk-column="${this.#addFkColumn}"
               @dbg-fk-column-change="${this.#fkColumnChange}"
               @dbg-remove-fk-column="${this.#removeFkColumn}">

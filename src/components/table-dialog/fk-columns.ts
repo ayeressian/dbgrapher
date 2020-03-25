@@ -107,7 +107,7 @@ export default class extends LitElement {
   }
 
   #getCurrentTableFkColumns = () => {
-    const currentTable = this.schema?.tables[this.tableIndex!];
+    const currentTable = this.schema?.tables?.[this.tableIndex!];
     return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as IColumnFkSchema).fk) ?? [];
   };
 

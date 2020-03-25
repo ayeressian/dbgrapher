@@ -19,6 +19,9 @@ export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
       ${unsafeCSS(formsCss)}
+      form {
+        margin-bottom: 0px;
+      }
     }`
   }
 
@@ -51,14 +54,16 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <select @change="${this.#onChange}">
-        ${this.options?.map((option: Option) => {
-          if ((option as ComplexItem).value) {
-            return html`<option value="${(option as ComplexItem).value}">${(option as ComplexItem).text}</option>`
-          }
-          return html`<option value="${option}">${option}</option>`
-        })}
-      </select>
+      <form class="pure-form">
+        <select @change="${this.#onChange}">
+          ${this.options?.map((option: Option) => {
+            if ((option as ComplexItem).value) {
+              return html`<option value="${(option as ComplexItem).value}">${(option as ComplexItem).text}</option>`
+            }
+            return html`<option value="${option}">${option}</option>`
+          })}
+        </select>
+      </form>
     `;
   }
 }

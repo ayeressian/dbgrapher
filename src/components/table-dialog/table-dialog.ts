@@ -164,7 +164,8 @@ export default class extends LitElement {
     this.requestUpdate();
   }
 
-  #cancel = () => {
+  #cancel = (event: Event) => {
+    event.preventDefault();
     store.dispatch(tableDialogAction.close());
   }
 

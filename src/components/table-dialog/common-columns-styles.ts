@@ -24,4 +24,22 @@ export default css`
   .title {
     margin-bottom: 10px;
   }
+
+  .table-container {
+    max-height: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    display: inline-block;
+  }
+
+  .table-container table th {
+    background-color: #E0E0E0;
+    position: sticky;
+    top: 0;
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
+  }
+
+  .table-container table {
+    border-collapse: collapse;
+  }
 }`;

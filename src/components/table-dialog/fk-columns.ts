@@ -137,20 +137,22 @@ export default class extends LitElement {
           <div class="title">
             Foreign Key Columns
           </div>
-          <table class="pure-table pure-table-horizontal">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>PK</th>
-                <th>UQ</th>
-                <th>NN</th>
-                <th>Foreign Table</th>
-                <th>Foreign Column</th>
-                <th/>
-              </tr>
-            </thead>
-            <tbody>${this.#renderColumns()}</tbody>
-          </table>
+          <div class="table-container">
+            <table class="pure-table pure-table-horizontal">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>PK</th>
+                  <th>UQ</th>
+                  <th>NN</th>
+                  <th>Foreign Table</th>
+                  <th>Foreign Column</th>
+                  <th/>
+                </tr>
+              </thead>
+              <tbody>${this.#renderColumns()}</tbody>
+            </table>
+          </div>
           <button class="pure-button add-column" @click="${this.#addColumn}">Add foreign key</button>
         </form>
       </div>`;

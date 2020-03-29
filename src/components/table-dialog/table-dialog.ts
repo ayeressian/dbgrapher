@@ -8,6 +8,8 @@ import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
 import buttonCss from 'purecss/build/buttons-min.css';
 import formsCss from 'purecss/build/forms-min.css';
+import { actions as schemaActions} from '../../store/slices/schema';
+import { actions as loadSchemaActions} from '../../store/slices/load-schema';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -172,6 +174,8 @@ export default class extends LitElement {
   #save = (event: Event) => {
     event.preventDefault();
     if (this.#validate()) {
+      store.dispatch(schemaActions.setSchema(this.#schema!));
+      store.dispatch(loadSchemaActions.load());
       store.dispatch(tableDialogAction.close());
     }
   }

@@ -27,9 +27,14 @@ export default class DbWrapper extends LitElement {
     store.dispatch(tableDialogAction.openEdit(event.detail.name));
   };
 
+  #onTableMoveEnd = () => {
+    store.dispatch(schemaAction.set(this.#dbViewer!.schema));
+  };
+
   firstUpdated() {
     this.#dbViewer = this.shadowRoot!.querySelector<IDbViewer>('db-viewer')!;
     this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
+    this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd);
     this.#resolveLoaded!();
   }
 

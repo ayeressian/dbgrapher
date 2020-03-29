@@ -153,11 +153,6 @@ export default class extends LitElement {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-column');
     this.dispatchEvent(newEvent);
-
-    //TODO find better way to solve firefox red boarder issue
-    await this.updateComplete;
-    await this.updateComplete;
-    this.#form?.reset();
   }
 
   #removeColumn = (event: Event, index: number) => {

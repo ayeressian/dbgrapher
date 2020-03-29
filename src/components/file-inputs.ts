@@ -82,7 +82,7 @@ export default class extends LitElement {
         alert(INVALID_FILE_FORMAT);
         return;
       }
-      store.dispatch(schemaAction.setSchema(schema));
+      store.dispatch(schemaAction.set(schema));
       store.dispatch(setSchemaAction.load());
       store.dispatch(welcomeDialogActions.close());
     };

@@ -107,7 +107,7 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
-    store.dispatch(schemaAction.setSchema({ tables: [] }));
+    store.dispatch(schemaAction.set({ tables: [] }));
     store.dispatch(welcomeDialogActions.close());
   };
 

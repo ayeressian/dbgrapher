@@ -12,7 +12,7 @@ export default class extends LitElement {
   #itemSelected = (event: CustomEvent) => {
     switch(event.detail.id) {
       case 'new':
-        store.dispatch(schemaAction.setSchema({ tables: [] }));
+        store.dispatch(schemaAction.set({ tables: [] }));
         break;
       case 'open':
         store.dispatch(fileOpenAction.open());

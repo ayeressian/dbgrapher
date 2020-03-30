@@ -3,6 +3,9 @@ import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
 import store from '../store/store';
 import createIconImg from '../../asset/icon_create_table_48x48.png';
 import relationIconImg from '../../asset/icon_create_relation_48x48.png';
+import { classMap } from 'lit-html/directives/class-map';
+import { subscribe } from '../subscribe-store';
+import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 
 @customElement('dbg-side-panel')
 export default class extends LitElement {
@@ -39,20 +42,53 @@ export default class extends LitElement {
     `;
   }
 
+  #createActive = false;
+  #relationActive = false;
+
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar">
-        <li class="action create_table" title="Create Table" @click="${this.#create}"></li>
-        <li class="action create_relation" title="Create Relation" @click="${this.#relation}"></li>
+        <li class="action create_table ${classMap({active: this.#createActive})} title="Create Table" @click="${this.#create}"></li>
+        <li class="action create_relation ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relation}"></li>
       </ul>
     `;
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+
+    subscribe(state => state.dbViewerMode, (dbViewerMode) => {
+      switch(dbViewerMode) {
+        case IDbViewerMode.Create:
+          this.#createActive = true;
+          this.#relationActive = false;
+          break;
+        case IDbViewerMode.Relation:
+          this.#createActive = false;
+          this.#relationActive = true;
+          break;
+        default:
+          this.#createActive = false;
+          this.#relationActive = false;
+          break;
+      }
+      this.requestUpdate();
+    });
+  }
+
   #create = () => {
-    store.dispatch(dbViewerModeAction.createMode());
+    if (store.getState().dbViewerMode === IDbViewerMode.Create) {
+      store.dispatch(dbViewerModeAction.none());
+    } else {
+      store.dispatch(dbViewerModeAction.createMode());
+    }
   }
 
   #relation = () => {
-    store.dispatch(dbViewerModeAction.relationMode());
+    if (store.getState().dbViewerMode === IDbViewerMode.Relation) {
+      store.dispatch(dbViewerModeAction.none());
+    } else {
+      store.dispatch(dbViewerModeAction.relationMode());
+    }
   }
 }

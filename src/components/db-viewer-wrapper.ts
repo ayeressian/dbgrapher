@@ -27,6 +27,10 @@ export default class DbWrapper extends LitElement {
     store.dispatch(tableDialogAction.openEdit(event.detail.name));
   };
 
+  #viewportClickEventListener = (event: CustomEvent<{x: number; y: number;}>) => {
+    store.dispatch(tableDialogAction.openCreate(event.detail));
+  };
+
   #onTableMoveEnd = () => {
     store.dispatch(schemaAction.set(this.#dbViewer!.schema));
   };
@@ -63,11 +67,16 @@ export default class DbWrapper extends LitElement {
     });
 
     subscribe(state => state.dbViewerMode, dbViewerMode => {
-      if (dbViewerMode === IDbViewerMode.Create) {
-        //TODO  
-      }
-      if (dbViewerMode === IDbViewerMode.Relation) {
-        //TODO
+      switch(dbViewerMode) {
+        case IDbViewerMode.Create:
+          this.#dbViewer!.addEventListener('viewportClick', this.#viewportClickEventListener);
+          break;
+        case IDbViewerMode.Relation:
+          this.#dbViewer!.removeEventListener('viewportClick', this.#viewportClickEventListener);
+          break;
+        default:
+          this.#dbViewer!.removeEventListener('viewportClick', this.#viewportClickEventListener);
+          break;
       }
     });
   }

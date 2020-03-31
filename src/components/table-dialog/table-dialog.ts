@@ -11,6 +11,7 @@ import formsCss from 'purecss/build/forms-min.css';
 import { actions as schemaActions} from '../../store/slices/schema';
 import { actions as loadSchemaActions} from '../../store/slices/load-schema';
 import { deepCopy } from '../../util';
+import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -49,7 +50,7 @@ export default class extends LitElement {
     `;
   }
 
-  #onOpen = (tableName?: string) => {
+  #onOpen = (tableName?: string, cords?: {x: number; y: number;}) => {
     this.#schema = deepCopy(store.getState().schema.present!);
     if (tableName) {
       this.#isEdit = true;
@@ -59,7 +60,8 @@ export default class extends LitElement {
       this.#isEdit = false;
       this.#currentTable = {
         name: '',
-        columns: []
+        columns: [],
+        pos: cords,
       };
       this.#schema?.tables.unshift(this.#currentTable);
       this.#currentTableIndex = 0; 
@@ -113,10 +115,10 @@ export default class extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    subscribe(state => state.dialog.tableDialog, ({open, tableName}) => {
+    subscribe(state => state.dialog.tableDialog, ({open, tableName}, state) => {
       this.#open = open;
       if (open) {
-        this.#onOpen(tableName);
+        this.#onOpen(tableName, state.dialog.tableDialog.cords);
       }
       this.requestUpdate();
     });
@@ -170,11 +172,13 @@ export default class extends LitElement {
   #cancel = (event: Event) => {
     event.preventDefault();
     store.dispatch(tableDialogAction.close());
+    store.dispatch(dbViewerModeAction.none());
   }
 
   #save = (event: Event) => {
     event.preventDefault();
     if (this.#validate()) {
+      store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.load());
       store.dispatch(tableDialogAction.close());

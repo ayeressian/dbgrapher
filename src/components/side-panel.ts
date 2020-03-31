@@ -48,7 +48,7 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar">
-        <li class="action create_table ${classMap({active: this.#createActive})} title="Create Table" @click="${this.#create}"></li>
+        <li class="action create_table ${classMap({active: this.#createActive})}" title="Create Table" @click="${this.#create}"></li>
         <li class="action create_relation ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relation}"></li>
       </ul>
     `;

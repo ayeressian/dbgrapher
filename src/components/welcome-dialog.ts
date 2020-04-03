@@ -79,14 +79,14 @@ export default class extends ConnectLitElement {
                 <div class="new-file operation-icon">
                 </div>
                 <h4 class="operation" id="new-file">
-                  New File
+                  New Schema
                 </h4>
               </div>
               <div class="operation-container" @click="${this.#openFile}">
                 <div class="folder-open operation-icon">
                 </div>
                 <h4 class="operation" id="open-file">
-                  Open File
+                  Open Schema
                 </h4>
               </div>
 

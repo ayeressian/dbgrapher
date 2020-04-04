@@ -1,6 +1,6 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
-import Schema, { ColumnNoneFkSchema, ColumnFkSchema } from 'db-viewer-component';
+import { ColumnNoneFkSchema, ColumnFkSchema, Schema } from 'db-viewer-component';
 
 export interface ColumnChangeEventDetail {
   column: ColumnNoneFkSchema;

@@ -2,7 +2,7 @@ import { customElement, LitElement, TemplateResult, html, property, CSSResult, c
 import commonTableStyles from './common-columns-styles';
 import { OnSelectEvent } from '../select';
 import { ColumnFkSchema } from 'db-viewer-component';
-import Schema from 'db-viewer-component';
+import {Schema} from 'db-viewer-component';
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;

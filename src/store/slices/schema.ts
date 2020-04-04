@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deepCopy } from '../../util';
-import Schema from 'db-viewer-component';
+import { Schema } from 'db-viewer-component';
 
 type Data = {
   past: Schema[],

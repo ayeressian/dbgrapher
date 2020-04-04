@@ -12,12 +12,13 @@ import { actions as schemaActions} from '../../store/slices/schema';
 import { actions as loadSchemaActions} from '../../store/slices/load-schema';
 import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
+import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
 
   #schema?: Schema;
-  #currentTable?: ITableSchema;
+  #currentTable?: TableSchema;
   #currentTableIndex?: number;
   #open = false;
   #isEdit = false;
@@ -109,7 +110,7 @@ export default class extends LitElement {
   };
 
   #columnChange = (event: CustomEvent<ColumnChangeEventDetail>) => {
-    (this.#currentTable!.columns[event.detail.index] as IColumnNoneFkSchema) = event.detail.column;
+    (this.#currentTable!.columns[event.detail.index] as ColumnNoneFkSchema) = event.detail.column;
     this.requestUpdate();
   };
 

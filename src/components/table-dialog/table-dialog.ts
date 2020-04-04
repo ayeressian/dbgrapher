@@ -16,7 +16,7 @@ import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
 
-  #schema?: ISchema;
+  #schema?: Schema;
   #currentTable?: ITableSchema;
   #currentTableIndex?: number;
   #open = false;
@@ -104,7 +104,7 @@ export default class extends LitElement {
   };
 
   #fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>) => {
-    (this.#currentTable!.columns[event.detail.index] as IColumnFkSchema) = event.detail.column;
+    (this.#currentTable!.columns[event.detail.index] as ColumnFkSchema) = event.detail.column;
     this.requestUpdate();
   };
 

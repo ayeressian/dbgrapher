@@ -1,7 +1,8 @@
 
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import Point from 'db-viewer-component';
 
-type IPointNullable = IPoint | null;
+type IPointNullable = Point | null;
 
 const slice = createSlice({
   initialState: null as IPointNullable,

@@ -1,9 +1,11 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
 import { OnSelectEvent } from '../select';
+import { ColumnFkSchema } from 'db-viewer-component';
+import Schema from 'db-viewer-component';
 
 export interface FkColumnChangeEventDetail {
-  column: IColumnFkSchema;
+  column: ColumnFkSchema;
   index: number;
 }
 
@@ -15,7 +17,7 @@ export type FkColumnRemoveEvent = CustomEvent<FkColumnRemoveDetail>;
 
 @customElement('dbg-table-dialog-fk-columns')
 export default class extends LitElement {
-  @property( { type : Object } ) schema?: ISchema;
+  @property( { type : Object } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
   #form?: HTMLFormElement;
@@ -29,7 +31,7 @@ export default class extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: IColumnFkSchema) => {
+  #onColumnChange = (index: number, column: ColumnFkSchema) => {
     const detail: FkColumnChangeEventDetail = {
       column,
       index,
@@ -38,8 +40,8 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  #renderColumn = (column: IColumnFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof Omit<IColumnFkSchema, 'fk'>) => (event: InputEvent) => {
+  #renderColumn = (column: ColumnFkSchema, index: number): TemplateResult => {
+    const onColumnChange = (type: keyof Omit<ColumnFkSchema, 'fk'>) => (event: InputEvent) => {
       const element = event.target as HTMLInputElement;
       switch(type){
         case 'nn':
@@ -108,7 +110,7 @@ export default class extends LitElement {
 
   #getCurrentTableFkColumns = () => {
     const currentTable = this.schema?.tables?.[this.tableIndex!];
-    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as IColumnFkSchema).fk) ?? [];
+    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as ColumnFkSchema).fk) ?? [];
   };
 
   #renderColumns = (): TemplateResult => {

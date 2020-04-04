@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { deepCopy } from '../../util';
+import Schema from 'db-viewer-component';
 
 type Data = {
-  past: ISchema[],
-  present?: ISchema,
-  future: ISchema[]
+  past: Schema[],
+  present?: Schema,
+  future: Schema[]
 };
 
 const slice = createSlice({
@@ -14,7 +15,7 @@ const slice = createSlice({
   } as Data,
   name: 'schema',
   reducers: {
-    set: (state, action: PayloadAction<ISchema | null>): Data => {
+    set: (state, action: PayloadAction<Schema | null>): Data => {
       const {past, present} = deepCopy(state);
       if (present) past.push(present);
       return {

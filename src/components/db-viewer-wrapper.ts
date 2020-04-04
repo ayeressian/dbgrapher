@@ -2,16 +2,18 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
+import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
 import store from '../store/store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 import { subscribe } from '../subscribe-store';
 import { isMac } from '../util';
+import DbViewer, {test} from 'db-viewer-component';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
   #resolveLoaded?: Function;
   #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
-  #dbViewer?: IDbViewer;
+  #dbViewer?: DbViewer;
   #relationFirstTableName?: string; 
 
   static get styles(): CSSResult {
@@ -33,16 +35,29 @@ export default class DbWrapper extends LitElement {
   };
 
   #relationFirstClickListener = (event: CustomEvent<{name: string}>) => {
+    this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
     this.#dbViewer!.addEventListener('tableClick', this.#relationSecondClickListener);
     this.#relationFirstTableName = event.detail.name;
   };
 
   #relationSecondClickListener = (event: CustomEvent<{name: string}>) => {
     const secondTableName = event.detail.name;
-    const tables = this.#dbViewer!.schema.tables;
+    const schema = this.#dbViewer!.schema;
+    const tables = schema!.tables;
     const firstTable = tables.find(table => table.name === this.#relationFirstTableName);
     const secondTable = tables.find(table => table.name === secondTableName);
-    console.log(firstTable, secondTable);
+    const firstTablePks = firstTable!.columns.filter(column => column.pk);
+    firstTablePks.forEach(column => secondTable!.columns.push({
+      name: `fk_${firstTable!.name}_${column.name}`,
+      fk: {
+        table: firstTable!.name,
+        column: column.name
+      }
+    }));
+    console.log(JSON.stringify(schema));
+    store.dispatch(schemaAction.set(schema));
+    store.dispatch(setSchemaAction.load());
+    store.dispatch(dbViewerModeAction.none());
   };
 
   #onTableMoveEnd = () => {
@@ -50,7 +65,7 @@ export default class DbWrapper extends LitElement {
   };
 
   firstUpdated() {
-    this.#dbViewer = this.shadowRoot!.querySelector<IDbViewer>('db-viewer')!;
+    this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>('db-viewer')!;
     this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
     this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd);
     this.#resolveLoaded!();
@@ -74,7 +89,7 @@ export default class DbWrapper extends LitElement {
     subscribe(state => state.loadSchema, (loadSchema, state) => {
       if (loadSchema) {
         this.#loaded.then(() => {
-          this.#dbViewer!.schema = state.schema.present as ISchema;
+          this.#dbViewer!.schema = state.schema.present as test.Schema;
           store.dispatch(setSchemaAction.loaded());
         });
       }

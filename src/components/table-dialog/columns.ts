@@ -1,8 +1,9 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
+import Schema, { ColumnNoneFkSchema, ColumnFkSchema } from 'db-viewer-component';
 
 export interface ColumnChangeEventDetail {
-  column: IColumnNoneFkSchema;
+  column: ColumnNoneFkSchema;
   index: number;
 }
 
@@ -14,7 +15,7 @@ export type ColumnRemoveEvent = CustomEvent<ColumnRemoveDetail>;
 
 @customElement('dbg-table-dialog-columns')
 export default class extends LitElement {
-  @property( { type : Object } ) schema?: ISchema;
+  @property( { type : Object } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
   #form?: HTMLFormElement;
@@ -29,7 +30,7 @@ export default class extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: IColumnNoneFkSchema) => {
+  #onColumnChange = (index: number, column: ColumnNoneFkSchema) => {
     const detail: ColumnChangeEventDetail = {
       column,
       index,
@@ -38,8 +39,8 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  #renderColumn = (column: IColumnNoneFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof IColumnNoneFkSchema) => (event: InputEvent) => {
+  #renderColumn = (column: ColumnNoneFkSchema, index: number): TemplateResult => {
+    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (event: InputEvent) => {
       const element = event.target as HTMLInputElement;
       switch(type){
         case 'nn':
@@ -100,14 +101,14 @@ export default class extends LitElement {
 
   #getCurrentTableColumns = () => {
     const currentTable = this.schema?.tables?.[this.tableIndex!];
-    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => !(item.column as IColumnFkSchema).fk) ?? [];
+    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => !(item.column as ColumnFkSchema).fk) ?? [];
   };
 
   #renderColumns = (): TemplateResult => {
     const currentTableColumns = this.#getCurrentTableColumns();
     let result;
     if (currentTableColumns.length > 0) {
-      result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as IColumnNoneFkSchema, index))}`;
+      result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as ColumnNoneFkSchema, index))}`;
     } else {
       result = html`<tr><td class="no-column" colspan="6">No columns to show</td></tr>`
     }

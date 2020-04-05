@@ -35,8 +35,8 @@ export default class DbWrapper extends LitElement {
   };
 
   #relationFirstClickListener = (event: TableClickEvent) => {
-    this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener as EventListener);
-    this.#dbViewer!.addEventListener('tableClick', this.#relationSecondClickListener as EventListener);
+    this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
+    this.#dbViewer!.addEventListener('tableClick', this.#relationSecondClickListener);
     this.#relationFirstTableName = event.detail.name;
   };
 
@@ -57,6 +57,8 @@ export default class DbWrapper extends LitElement {
     store.dispatch(schemaAction.set(schema!));
     store.dispatch(setSchemaAction.load());
     store.dispatch(dbViewerModeAction.none());
+
+    this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
   };
 
   #onTableMoveEnd = () => {
@@ -65,8 +67,8 @@ export default class DbWrapper extends LitElement {
 
   firstUpdated() {
     this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>('db-viewer')!;
-    this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick as EventListener);
-    this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd as EventListener);
+    this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
+    this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd);
     this.#resolveLoaded!();
   }
 
@@ -97,14 +99,14 @@ export default class DbWrapper extends LitElement {
     subscribe(state => state.dbViewerMode, dbViewerMode => {
       switch(dbViewerMode) {
         case IDbViewerMode.Create:
-          this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener as EventListener);
+          this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
           break;
         case IDbViewerMode.Relation:
-          this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener as EventListener);
-          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener as EventListener);
+          this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           break;
         default:
-          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener as EventListener);
+          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           break;
       }
     });

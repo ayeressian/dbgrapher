@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {Point} from 'db-viewer-component';
+import { Point } from 'db-viewer-component';
 
 type TableDialogData = {
   open: boolean;

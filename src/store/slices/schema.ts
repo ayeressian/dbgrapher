@@ -3,9 +3,9 @@ import { deepCopy } from '../../util';
 import { Schema } from 'db-viewer-component';
 
 type Data = {
-  past: Schema[],
-  present?: Schema,
-  future: Schema[]
+  past: Schema[];
+  present?: Schema;
+  future: Schema[];
 };
 
 const slice = createSlice({
@@ -25,9 +25,11 @@ const slice = createSlice({
       };
     },
     undo: (state): Data => {
-      let {past, present, future} = deepCopy(state);
+      const newState = deepCopy(state);
+      const {past, future} = newState;
+      let { present } = newState;
       if (past.length > 0) {
-        future.push(present);
+        future.push(present!);
         present = past.pop();
       }
       return {
@@ -37,9 +39,11 @@ const slice = createSlice({
       };
     },
     redo: (state): Data => {
-      let {past, present, future} = deepCopy(state);
+      const newState = deepCopy(state);
+      const {past, future} = newState;
+      let { present } = newState;
       if (future.length > 0) {
-        past.push(present);
+        past.push(present!);
         present = future.pop();
       }
       return {

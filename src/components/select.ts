@@ -22,19 +22,19 @@ export default class extends LitElement {
       form {
         margin-bottom: 0px;
       }
-    }`
+    }`;
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>('select')!;
     this.#resolveLoaded!();
   }
 
-  #updateValue = () => {
+  #updateValue = (): void => {
     this.#selectElement!.value = this.value || '';
   };
 
-  #onChange = (event: InputEvent) => {
+  #onChange = (event: InputEvent): void => {
     const detail: OnSelectEventDetail = {
       value: (event.target as HTMLSelectElement).value,
       selectedIndex: (event.target as HTMLSelectElement).selectedIndex
@@ -43,7 +43,7 @@ export default class extends LitElement {
     this.dispatchEvent(newEvent);
   };
 
-  attributeChangedCallback(name: string, old: string|null, value: string|null) {
+  attributeChangedCallback(name: string, old: string|null, value: string|null): void {
     if (name === 'options') {
       Promise.all([this.requestUpdate(), this.#loaded]).then(this.#updateValue);
     } else {
@@ -58,9 +58,9 @@ export default class extends LitElement {
         <select @change="${this.#onChange}">
           ${this.options?.map((option: Option) => {
             if ((option as ComplexItem).value) {
-              return html`<option value="${(option as ComplexItem).value}">${(option as ComplexItem).text}</option>`
+              return html`<option value="${(option as ComplexItem).value}">${(option as ComplexItem).text}</option>`;
             }
-            return html`<option value="${option}">${option}</option>`
+            return html`<option value="${option}">${option}</option>`;
           })}
         </select>
       </form>

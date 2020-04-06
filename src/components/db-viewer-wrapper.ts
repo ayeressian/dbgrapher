@@ -7,7 +7,7 @@ import store from '../store/store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 import { subscribe } from '../subscribe-store';
 import { isMac } from '../util';
-import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent } from 'db-viewer-component';
+import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema } from 'db-viewer-component';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -26,56 +26,69 @@ export default class DbWrapper extends LitElement {
     `;
   }
 
-  #onTableDblClick = (event: TableDblClickEvent) => {
+  #onTableDblClick = (event: TableDblClickEvent): void => {
     store.dispatch(tableDialogAction.openEdit(event.detail.name));
   };
 
-  #tableCreateListener = (event: ViewportClickEvent) => {
+  #tableCreateListener = (event: ViewportClickEvent): void => {
     store.dispatch(tableDialogAction.openCreate(event.detail));
   };
 
-  #relationFirstClickListener = (event: TableClickEvent) => {
+  #relationFirstClickListener = (event: TableClickEvent): void => {
     this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
     this.#dbViewer!.addEventListener('tableClick', this.#relationSecondClickListener);
     this.#relationFirstTableName = event.detail.name;
   };
 
-  #relationSecondClickListener = (event: TableClickEvent): void => {
-    const secondTableName = event.detail.name;
+  #createRelation = (secondTableName: string): Schema => {
     const schema = this.#dbViewer!.schema;
     const tables = schema!.tables;
     const firstTable = tables.find(table => table.name === this.#relationFirstTableName);
     const secondTable = tables.find(table => table.name === secondTableName);
     const firstTablePks = firstTable!.columns.filter(column => column.pk);
-    firstTablePks.forEach(column => secondTable!.columns.push({
-      name: `fk_${firstTable!.name}_${column.name}`,
-      fk: {
-        table: firstTable!.name,
-        column: column.name
+    firstTablePks.forEach(column => {
+      const originalRelationName = `fk_${firstTable!.name}_${column.name}`;
+      let relationName = originalRelationName;
+      let index = 0;
+      while (secondTable?.columns.find(column => column.name === relationName) != null) {
+        ++index;
+        relationName = `${originalRelationName}_${index}`;
       }
-    }));
-    store.dispatch(schemaAction.set(schema!));
+      secondTable!.columns.push({
+        name: relationName,
+        fk: {
+          table: firstTable!.name,
+          column: column.name
+        }
+      });
+    });
+    return schema!;
+  };
+
+  #relationSecondClickListener = (event: TableClickEvent): void => {
+    const secondTableName = event.detail.name;
+    const schema = this.#createRelation(secondTableName);
+    store.dispatch(schemaAction.set(schema));
     store.dispatch(setSchemaAction.load());
     store.dispatch(dbViewerModeAction.none());
-
     this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
   };
 
-  #onTableMoveEnd = () => {
+  #onTableMoveEnd = (): void => {
     store.dispatch(schemaAction.set(this.#dbViewer!.schema!));
   };
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>('db-viewer')!;
     this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
     this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd);
     this.#resolveLoaded!();
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
 
-    document.onkeydown = (event: KeyboardEvent) => {
+    document.onkeydown = (event: KeyboardEvent): void => {
       if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
         store.dispatch(schemaAction.undo());
         store.dispatch(setSchemaAction.load());

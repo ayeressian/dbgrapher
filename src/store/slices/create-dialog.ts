@@ -1,19 +1,21 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {Point} from 'db-viewer-component';
+
+type TableDialogData = {
+  open: boolean;
+  tableName?: undefined;
+  cords?: Point;
+};
 
 const slice = createSlice({
   initialState: {
-    open: false,
-    tableName: undefined as undefined | string,
-    cords: undefined as {
-      x: number;
-      y: number;
-    } | undefined,
-  },
+    open: false
+  } as TableDialogData,
   name: 'tableDialog',
   reducers: {
-    close: () => ({tableName: undefined, open: false, cords: undefined}),
-    openCreate: (_, {payload: cords}) => ({tableName: undefined, open: true, cords}),
-    openEdit: (_, {payload: tableName}) => ({tableName, open: true, cords: undefined}),
+    close: (): TableDialogData => ({tableName: undefined, open: false, cords: undefined}),
+    openCreate: (_, {payload: cords}): TableDialogData => ({tableName: undefined, open: true, cords}),
+    openEdit: (_, {payload: tableName}): TableDialogData => ({tableName, open: true, cords: undefined}),
   },
 });
 

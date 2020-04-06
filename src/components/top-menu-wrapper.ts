@@ -9,7 +9,7 @@ export default class extends LitElement {
     return html`<dbg-top-menu config="${JSON.stringify(store.getState().topMenuConfig)}" @item-selected="${this.#itemSelected}"></dbg-top-menu>`;
   }
 
-  #itemSelected = (event: CustomEvent) => {
+  #itemSelected = (event: CustomEvent): void => {
     switch(event.detail.id) {
       case 'new':
         store.dispatch(schemaAction.set({ tables: [] }));

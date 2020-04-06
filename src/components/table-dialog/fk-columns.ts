@@ -1,7 +1,7 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
 import { OnSelectEvent } from '../select';
-import { ColumnFkSchema } from 'db-viewer-component';
+import { ColumnFkSchema, ColumnSchema } from 'db-viewer-component';
 import {Schema} from 'db-viewer-component';
 
 export interface FkColumnChangeEventDetail {
@@ -31,7 +31,7 @@ export default class extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: ColumnFkSchema) => {
+  #onColumnChange = (index: number, column: ColumnFkSchema): void => {
     const detail: FkColumnChangeEventDetail = {
       column,
       index,
@@ -41,7 +41,7 @@ export default class extends LitElement {
   }
 
   #renderColumn = (column: ColumnFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof Omit<ColumnFkSchema, 'fk'>) => (event: InputEvent) => {
+    const onColumnChange = (type: keyof Omit<ColumnFkSchema, 'fk'>) => (event: InputEvent): void => {
       const element = event.target as HTMLInputElement;
       switch(type){
         case 'nn':
@@ -56,12 +56,12 @@ export default class extends LitElement {
       
       this.#onColumnChange(index, column);
     };
-    const onFkTableSelect = (event: OnSelectEvent) => {
+    const onFkTableSelect = (event: OnSelectEvent): void => {
       column.fk!.table = event.detail.value;
       this.#onColumnChange(index, column);
       this.requestUpdate();
     };
-    const onFkColumnSelect = (event: OnSelectEvent) => {
+    const onFkColumnSelect = (event: OnSelectEvent): void => {
       column.fk!.column = event.detail.value;
       this.#onColumnChange(index, column);
     };
@@ -102,13 +102,13 @@ export default class extends LitElement {
           <dbg-select value="${column.fk?.column}" options="${JSON.stringify(this.#getFkColumns(column.fk!.table).map(({name}) => name))}" @dbg-on-select="${onFkColumnSelect}"></dbg-select>
         </td>
         <td>
-          <button class="pure-button" @click="${(event: Event) => this.#removeFkColumn(event, index)}">Remove</button>
+          <button class="pure-button" @click="${(event: Event): void => this.#removeFkColumn(event, index)}">Remove</button>
         </td>
       </tr>
     `;
   }
 
-  #getCurrentTableFkColumns = () => {
+  #getCurrentTableFkColumns = (): { column: ColumnSchema; index: number }[] => {
     const currentTable = this.schema?.tables?.[this.tableIndex!];
     return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as ColumnFkSchema).fk) ?? [];
   };
@@ -119,16 +119,16 @@ export default class extends LitElement {
     if (currentTableColumns.length > 0) {
       result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column, index))}`;
     } else {
-      result = html`<tr><td class="no-column" colspan="7">No fk columns to show</td></tr>`
+      result = html`<tr><td class="no-column" colspan="7">No fk columns to show</td></tr>`;
     }
     return result;
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#form = this.shadowRoot!.querySelector('form')!;
   }
 
-  validate() {
+  validate(): boolean {
     return this.#form!.reportValidity();
   }
   
@@ -160,18 +160,18 @@ export default class extends LitElement {
       </div>`;
   }
 
-  #addColumn = async (event: Event) => {
+  #addColumn = (event: Event): void => {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-fk-column');
     this.dispatchEvent(newEvent);
   }
 
-  #getFkColumns = (tableName: string) => {
+  #getFkColumns = (tableName: string): ColumnFkSchema[] => {
     const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
     return table?.columns.filter(({pk, uq, nn}) => pk || (nn && uq)) || [];
   };
 
-  #removeFkColumn = (event: Event, index: number) => {
+  #removeFkColumn = (event: Event, index: number): void => {
     event.preventDefault();
 
     const detail: FkColumnRemoveDetail = {

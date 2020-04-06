@@ -13,6 +13,7 @@ import { actions as loadSchemaActions} from '../../store/slices/load-schema';
 import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
+import { Point } from 'db-viewer-component';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -51,12 +52,12 @@ export default class extends LitElement {
     `;
   }
 
-  #onOpen = (tableName?: string, cords?: {x: number; y: number;}) => {
+  #onOpen = (tableName?: string, cords?: Point): void => {
     this.#schema = deepCopy(store.getState().schema.present!);
     if (tableName) {
       this.#isEdit = true;
-      this.#currentTableIndex = this.#schema!.tables.findIndex(({name}) => name === tableName)!;
-      this.#currentTable = this.#schema!.tables[this.#currentTableIndex];
+      this.#currentTableIndex = this.#schema.tables.findIndex(({name}) => name === tableName)!;
+      this.#currentTable = this.#schema.tables[this.#currentTableIndex];
     } else {
       this.#isEdit = false;
       this.#currentTable = {
@@ -69,13 +70,13 @@ export default class extends LitElement {
     }
   };
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#form = this.shadowRoot!.querySelector('form')!;
     this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>('dbg-table-dialog-columns')!;
     this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>('dbg-table-dialog-fk-columns')!;
   }
 
-  #addColumn = () => {
+  #addColumn = (): void => {
     this.#currentTable?.columns.push({
       name: '',
       type: '',
@@ -83,17 +84,17 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
-  #removeColumn = (event: ColumnRemoveEvent) => {
+  #removeColumn = (event: ColumnRemoveEvent): void => {
     this.#currentTable?.columns.splice(event.detail.index, 1);
     this.requestUpdate();
   };
 
-  #removeFkColumn = (event: FkColumnRemoveEvent) => {
+  #removeFkColumn = (event: FkColumnRemoveEvent): void => {
     this.#currentTable?.columns.splice(event.detail.index, 1);
     this.requestUpdate();
   };
 
-  #addFkColumn = () => {
+  #addFkColumn = (): void => {
     this.#currentTable?.columns.push({
       name: '',
       fk: {
@@ -104,17 +105,17 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
-  #fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>) => {
+  #fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>): void => {
     (this.#currentTable!.columns[event.detail.index] as ColumnFkSchema) = event.detail.column;
     this.requestUpdate();
   };
 
-  #columnChange = (event: CustomEvent<ColumnChangeEventDetail>) => {
+  #columnChange = (event: CustomEvent<ColumnChangeEventDetail>): void => {
     (this.#currentTable!.columns[event.detail.index] as ColumnNoneFkSchema) = event.detail.column;
     this.requestUpdate();
   };
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     subscribe(state => state.dialog.tableDialog, ({open, tableName}, state) => {
       this.#open = open;
@@ -125,7 +126,7 @@ export default class extends LitElement {
     });
   }
 
-  #validate = () => {
+  #validate = (): boolean => {
     return this.#form!.reportValidity() &&
       this.#tableDialogColumns!.validate() &&
       this.#tableDialogFkColumns!.validate();
@@ -165,18 +166,18 @@ export default class extends LitElement {
       </dbg-dialog>`;
   }
 
-  #onChangeTableName = (event: Event) => {
+  #onChangeTableName = (event: Event): void => {
     this.#currentTable!.name = (event.target! as HTMLInputElement).value;
     this.requestUpdate();
   }
 
-  #cancel = (event: Event) => {
+  #cancel = (event: Event): void => {
     event.preventDefault();
     store.dispatch(tableDialogAction.close());
     store.dispatch(dbViewerModeAction.none());
   }
 
-  #save = (event: Event) => {
+  #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());

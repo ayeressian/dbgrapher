@@ -17,7 +17,7 @@ export default class extends LitElement {
   #sqlFileInput?: HTMLInputElement;
   #dbgFileInput?: HTMLInputElement;
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#dbgFileInput')!;
     this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#sqlFileInput')!;
     this.#resolveLoaded!();
@@ -31,7 +31,7 @@ export default class extends LitElement {
     `;
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     subscribe(state => state.dialog.fileDialog.fileOpenDialog, open => {
       if (open) {
@@ -65,10 +65,10 @@ export default class extends LitElement {
     `;
   }
 
-  #fileOpenChange = (event: Event) => {
+  #fileOpenChange = (event: Event): void => {
     const reader = new FileReader();
-    reader.readAsText((<HTMLInputElement>event.target).files![0]);
-    reader.onload = (readerEvent) => {
+    reader.readAsText((event.target as HTMLInputElement).files![0]);
+    reader.onload = (readerEvent): void => {
       store.dispatch(fileOpenAction.close());
       let schema;
       try {
@@ -87,5 +87,7 @@ export default class extends LitElement {
       store.dispatch(welcomeDialogActions.close());
     };
   };
-  #importSqlFileChange = () => {};
+  #importSqlFileChange = (): void => {
+    // TODO
+  };
 }

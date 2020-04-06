@@ -12,4 +12,5 @@ export interface RightItem {
 export default interface TopMenuConfig {
   items: Item[];
   rightItems: RightItem[];
+// eslint-disable-next-line semi
 }

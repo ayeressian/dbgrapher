@@ -1,3 +1,3 @@
-export const deepCopy = (data: unknown) => JSON.parse(JSON.stringify(data));
+export const deepCopy = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 
-export const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+export const isMac = navigator.platform.toUpperCase().includes('MAC');

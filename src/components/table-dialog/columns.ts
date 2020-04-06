@@ -1,6 +1,6 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
-import { ColumnNoneFkSchema, ColumnFkSchema, Schema } from 'db-viewer-component';
+import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
 
 export interface ColumnChangeEventDetail {
   column: ColumnNoneFkSchema;
@@ -30,7 +30,7 @@ export default class extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: ColumnNoneFkSchema) => {
+  #onColumnChange = (index: number, column: ColumnNoneFkSchema): void => {
     const detail: ColumnChangeEventDetail = {
       column,
       index,
@@ -40,7 +40,7 @@ export default class extends LitElement {
   }
 
   #renderColumn = (column: ColumnNoneFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (event: InputEvent) => {
+    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (event: InputEvent): void => {
       const element = event.target as HTMLInputElement;
       switch(type){
         case 'nn':
@@ -93,13 +93,13 @@ export default class extends LitElement {
           />
         </td>
         <td>
-          <button class="pure-button" @click="${(event: Event) => this.#removeColumn(event, index)}">Remove</button>
+          <button class="pure-button" @click="${(event: Event): void => this.#removeColumn(event, index)}">Remove</button>
         </td>
       </tr>
     `;
   }
 
-  #getCurrentTableColumns = () => {
+  #getCurrentTableColumns = (): { column: ColumnSchema; index: number }[] => {
     const currentTable = this.schema?.tables?.[this.tableIndex!];
     return currentTable?.columns.map((column, index) => ({column, index})).filter(item => !(item.column as ColumnFkSchema).fk) ?? [];
   };
@@ -110,16 +110,16 @@ export default class extends LitElement {
     if (currentTableColumns.length > 0) {
       result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as ColumnNoneFkSchema, index))}`;
     } else {
-      result = html`<tr><td class="no-column" colspan="6">No columns to show</td></tr>`
+      result = html`<tr><td class="no-column" colspan="6">No columns to show</td></tr>`;
     }
     return html`${result}`;
   }
 
-  firstUpdated() {
+  firstUpdated(): void {
     this.#form = this.shadowRoot!.querySelector('form')!;
   }
 
-  validate() {
+  validate(): boolean {
     return this.#form!.reportValidity();
   }
   
@@ -150,13 +150,13 @@ export default class extends LitElement {
       </div>`;
   }
 
-  #addColumn = async (event: Event) => {
+  #addColumn = (event: Event): void => {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-column');
     this.dispatchEvent(newEvent);
   }
 
-  #removeColumn = (event: Event, index: number) => {
+  #removeColumn = (event: Event, index: number): void => {
     event.preventDefault();
 
     const detail: ColumnRemoveDetail = {

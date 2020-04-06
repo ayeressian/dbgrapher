@@ -14,9 +14,9 @@ import { actions as schemaAction } from "../store/slices/schema";
 import { actions as fileOpenAction } from "../store/slices/file-open-dialog";
 import { actions as fileSqlOpenAction } from "../store/slices/file-sql-open-dialog";
 import { AppState } from '../store/reducer';
-import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg'
-import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg'
-import fileImportSvg from '@fortawesome/fontawesome-free/svgs/solid/file-import.svg'
+import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg';
+import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
+import fileImportSvg from '@fortawesome/fontawesome-free/svgs/solid/file-import.svg';
 
 @customElement("dbg-welcome-dialog")
 export default class extends ConnectLitElement {

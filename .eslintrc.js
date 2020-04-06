@@ -20,6 +20,7 @@ module.exports = {
     "project": "./tsconfig.json"
   },
   rules: {
-    "no-non-null-assertion": false
+    "@typescript-eslint/no-non-null-assertion": 0,
+    "semi": 2
   }
 };

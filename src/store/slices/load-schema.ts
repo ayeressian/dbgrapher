@@ -4,8 +4,8 @@ const slice = createSlice({
   initialState: false,
   name: 'setSchema',
   reducers: {
-    load: () => true,
-    loaded: () => false, 
+    load: (): boolean => true,
+    loaded: (): boolean => false, 
   },
 });
 

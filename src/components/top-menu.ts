@@ -80,27 +80,27 @@ export default class extends LitElement {
   #dropdownItems?: Item[];
   #dropdownStyle = {};
 
-  #onDocumentClick = (event: MouseEvent) => {
-    if (event.composed && event.composedPath().indexOf(this) === -1) {
+  #onDocumentClick = (event: MouseEvent): void => {
+    if (event.composed && !event.composedPath().includes(this)) {
       this.#dropdownItems = undefined;
       this.requestUpdate();
     }
   };
 
-  #onComponentClick = (event: MouseEvent) => {
+  #onComponentClick = (event: MouseEvent): void => {
     if ((event.composedPath()[0] as HTMLElement).nodeName != 'LI') {
       this.#dropdownItems = undefined;
       this.requestUpdate();
     }
   };
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
     this.addEventListener('click', this.#onComponentClick);
     document.addEventListener('click', this.#onDocumentClick);
   }
 
-  disconnectedCallback() {
+  disconnectedCallback(): void {
     this.removeEventListener('click', this.#onComponentClick);
     document.removeEventListener('click', this.#onDocumentClick);
     super.disconnectedCallback();
@@ -110,23 +110,23 @@ export default class extends LitElement {
     return html`
       <ul class="menu-bar">
         ${
-          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event) => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
         }
         ${
-          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event) => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
+          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
         }
       </ul>
       <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">
         <ul>
           ${
-            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${() => this.#onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
+            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>
     `;
   }
 
-  #itemSelected = (item: Item) => {
+  #itemSelected = (item: Item): void => {
     const event = new CustomEvent<{id: string}>('item-selected', {
       detail: {
         id: item.id
@@ -135,13 +135,13 @@ export default class extends LitElement {
     this.dispatchEvent(event);
   }
 
-  #onDropdownItemClick = (item: Item) => {
+  #onDropdownItemClick = (item: Item): void => {
     this.#itemSelected(item);
     this.#dropdownItems = undefined;
     this.requestUpdate();
   }
 
-  #onMenuItemClick = (event: Event, item: Item) => {
+  #onMenuItemClick = (event: Event, item: Item): void => {
     this.#itemSelected(item);
     const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
 
@@ -156,4 +156,4 @@ export default class extends LitElement {
     }
     this.requestUpdate();
   }
-};
+}

@@ -54,7 +54,7 @@ export default class extends LitElement {
     `;
   }
 
-  connectedCallback() {
+  connectedCallback(): void {
     super.connectedCallback();
 
     subscribe(state => state.dbViewerMode, (dbViewerMode) => {
@@ -76,7 +76,7 @@ export default class extends LitElement {
     });
   }
 
-  #create = () => {
+  #create = (): void => {
     if (store.getState().dbViewerMode === IDbViewerMode.Create) {
       store.dispatch(dbViewerModeAction.none());
     } else {
@@ -84,7 +84,7 @@ export default class extends LitElement {
     }
   }
 
-  #relation = () => {
+  #relation = (): void => {
     if (store.getState().dbViewerMode === IDbViewerMode.Relation) {
       store.dispatch(dbViewerModeAction.none());
     } else {

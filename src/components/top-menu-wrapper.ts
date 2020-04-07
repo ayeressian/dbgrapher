@@ -40,13 +40,13 @@ export default class extends LitElement {
         break;
       case 'reportIssue':
         {
-          const win = window.open('https://github.com/ayeressian/db-grapher-lit/issues', '_blank');
+          const win = window.open('https://github.com/ayeressian/dbgrapher/issues', '_blank');
           win!.focus();
         }
         break;
       case 'gitHub':
         {
-          const win = window.open('https://github.com/ayeressian/db-grapher-lit', '_blank');
+          const win = window.open('https://github.com/ayeressian/dbgrapher', '_blank');
           win!.focus();
         }
         break;

@@ -14,19 +14,14 @@ const config = {
           title: 'Open Schema'
         },
         {
+          id: 'exportSql',
+          title: 'Export SQL'
+        },
+        {
           id: 'downloadSchema',
           title: 'Download'
         }
       ]
-    }, {
-      title: 'import/export',
-      items: [{
-        id: 'exportSql',
-        title: 'Export SQL'
-      }, {
-        id: 'importSql',
-        title: 'Import SQL'
-      }]
     },
     {
       id: 'help',

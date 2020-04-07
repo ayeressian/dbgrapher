@@ -10,9 +10,7 @@ import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
 import { watch } from "lit-redux-watch";
 import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
-import { actions as schemaAction } from "../store/slices/schema";
 import { actions as fileOpenAction } from "../store/slices/file-open-dialog";
-import { actions as fileSqlOpenAction } from "../store/slices/file-sql-open-dialog";
 import { AppState } from '../store/reducer';
 import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg';
 import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
@@ -90,7 +88,7 @@ export default class extends ConnectLitElement {
                 </h4>
               </div>
 
-              <div class="operation-container" @click="${this.#importSqlFile}">
+              <!--<div class="operation-container" @click="this.#importSqlFile">
                 <div class="file-import operation-icon">
                 </div>
                 <h4
@@ -99,7 +97,7 @@ export default class extends ConnectLitElement {
                 >
                   Import SQL File
                 </h4>
-              </div>
+              </div>-->
             </div>
           </dbg-dialog>
         `
@@ -107,7 +105,6 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
-    store.dispatch(schemaAction.set({ tables: [] }));
     store.dispatch(welcomeDialogActions.close());
   };
 
@@ -115,7 +112,7 @@ export default class extends ConnectLitElement {
     store.dispatch(fileOpenAction.open());
   };
 
-  #importSqlFile = (): void => {
+  /*#importSqlFile = (): void => {
     store.dispatch(fileSqlOpenAction.open());
-  };
+  };*/
 }

@@ -23,6 +23,7 @@ export default class extends LitElement {
   #currentTableIndex?: number;
   #open = false;
   #isEdit = false;
+  #errors: string[] = [];
 
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
@@ -38,8 +39,9 @@ export default class extends LitElement {
       .title {
         text-align: center;
       }
-      .error {
+      .errors {
         color: #cc0000;
+        margin-bottom: 10px;
       }
       .menu {
         display: flex;
@@ -127,9 +129,30 @@ export default class extends LitElement {
   }
 
   #validate = (): boolean => {
+    this.#errors = [];
+    const currentTable = this.#schema?.tables[this.#currentTableIndex!]!;
+    const currentTableColumns = currentTable.columns;
+    if (!this.#schema!.tables.find((table, index) => table.name === currentTable.name && index !== this.#currentTableIndex)) {
+      this.#schema!.tables.forEach((table, index) => {
+        if (index !== this.#currentTableIndex) {
+          table.columns.filter((column) => {
+            if ((column as ColumnFkSchema)?.fk?.table === currentTable.name
+              && !currentTableColumns.find(currentTableColumn => currentTableColumn.name === (column as ColumnFkSchema)?.fk?.column)) {
+                this.#errors.push(`Table ${table.name} has FK constraint to this table on column ${(column as ColumnFkSchema)?.fk?.column} that no longer exists.`);
+            }
+          });
+        }
+      });
+    }
+
+    if (this.#errors.length) {
+      this.requestUpdate();
+    }
+
     return this.#form!.reportValidity() &&
       this.#tableDialogColumns!.validate() &&
-      this.#tableDialogFkColumns!.validate();
+      this.#tableDialogFkColumns!.validate() &&
+      this.#errors.length === 0;
   }
 
   render(): TemplateResult {
@@ -156,7 +179,9 @@ export default class extends LitElement {
               @dbg-fk-column-change="${this.#fkColumnChange}"
               @dbg-remove-fk-column="${this.#removeFkColumn}">
             </dbg-table-dialog-fk-columns>
-            <div class="errors"></div>
+            <div class="errors">
+              ${this.#errors.map(error => html`<div>${error}</div>`)}
+            </div>
             <div class="menu">
               <button class="pure-button" @click="${this.#save}">Save</button>
               <button class="pure-button" @click="${this.#cancel}">Cancel</button>
@@ -167,7 +192,13 @@ export default class extends LitElement {
   }
 
   #onChangeTableName = (event: Event): void => {
-    this.#currentTable!.name = (event.target! as HTMLInputElement).value;
+    const element = (event.target! as HTMLInputElement);
+    this.#currentTable!.name = element.value;
+    if (this.#schema!.tables.find((table, index) => table.name === this.#currentTable!.name && index !== this.#currentTableIndex)) {
+      element.setCustomValidity(`There is already a table with the name "${this.#currentTable!.name}".`);
+    } else {
+      element.setCustomValidity('');
+    }
     this.requestUpdate();
   }
 

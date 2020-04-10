@@ -3,6 +3,7 @@ import commonTableStyles from './common-columns-styles';
 import { OnSelectEvent } from '../select';
 import { ColumnFkSchema, ColumnSchema } from 'db-viewer-component';
 import {Schema} from 'db-viewer-component';
+import columnNameValidation from './column-name-validation';
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -49,7 +50,8 @@ export default class extends LitElement {
         case 'pk':
           column[type] = element.checked;
           break;
-        default:
+        case 'name':
+          columnNameValidation(this.schema!, this.tableIndex!, element, index);
           column[type] = element.value;
           break;
       }

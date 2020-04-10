@@ -1,6 +1,7 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
 import commonTableStyles from './common-columns-styles';
 import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
+import columnNameValidation from './column-name-validation';
 
 export interface ColumnChangeEventDetail {
   column: ColumnNoneFkSchema;
@@ -47,6 +48,10 @@ export default class extends LitElement {
         case 'uq':
         case 'pk':
           column[type] = element.checked;
+          break;
+        case 'name':
+          columnNameValidation(this.schema!, this.tableIndex!, element, index);
+          column[type] = element.value;
           break;
         default:
           column[type] = element.value;

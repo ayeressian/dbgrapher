@@ -86,8 +86,32 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
+  #getFkTables = (index: number, targetTable: TableSchema): {table: TableSchema; columnIndex: number}[]  => {
+    const targetTableColumns = targetTable.columns;
+    
+    const fkTables: {table: TableSchema; columnIndex: number}[] = [];
+    this.#schema!.tables.forEach((table) => {
+      table.columns.filter((column, columnIndex) => {
+        if ((column as ColumnFkSchema)?.fk?.table === targetTable.name
+          && targetTableColumns[index].name === (column as ColumnFkSchema)?.fk!.column) {
+          fkTables.push({table, columnIndex});
+        }
+      });
+    });
+    return fkTables;
+  };
+
   #removeColumn = (event: ColumnRemoveEvent): void => {
-    this.#currentTable?.columns.splice(event.detail.index, 1);
+    const index = event.detail.index;
+    const fkTables = this.#getFkTables(index, this.#currentTable!);
+    if (fkTables.length > 0 && window.confirm(`Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n ${fkTables.map(item => `${item.table.name}.${item.table.columns[item.columnIndex].name}`)}`)) {
+      while (fkTables.length > 0) {
+        const item = fkTables.shift()!;
+        fkTables.push(...this.#getFkTables(item.columnIndex, item.table));
+        item.table.columns.splice(item.columnIndex, 1);
+      }
+    }
+    this.#currentTable?.columns.splice(index, 1);
     this.requestUpdate();
   };
 
@@ -211,6 +235,7 @@ export default class extends LitElement {
   #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
+      console.log(this.#schema);
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.load());

@@ -15,6 +15,8 @@ import { AppState } from '../store/reducer';
 import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg';
 import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
 import fileImportSvg from '@fortawesome/fontawesome-free/svgs/solid/file-import.svg';
+import { actions as schemaAction } from '../store/slices/schema';
+import { actions as setSchemaAction } from '../store/slices/load-schema';
 
 @customElement("dbg-welcome-dialog")
 export default class extends ConnectLitElement {
@@ -105,6 +107,8 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
+    store.dispatch(schemaAction.set({ tables: [] }));
+    store.dispatch(setSchemaAction.load());
     store.dispatch(welcomeDialogActions.close());
   };
 

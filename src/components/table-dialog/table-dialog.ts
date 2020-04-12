@@ -141,8 +141,14 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
+  #onEscape = (event: KeyboardEvent): void => {
+    if(event.key === "Escape") this.#cancel(event);
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
+    window.addEventListener('keydown', this.#onEscape);
+
     subscribe(state => state.dialog.tableDialog, ({open, tableName}, state) => {
       this.#open = open;
       if (open) {

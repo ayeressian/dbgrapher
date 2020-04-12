@@ -34,13 +34,14 @@ export default class extends LitElement {
     this.#selectElement!.value = this.value || '';
   };
 
-  #onChange = (event: InputEvent): void => {
-    const detail: OnSelectEventDetail = {
-      value: (event.target as HTMLSelectElement).value,
-      selectedIndex: (event.target as HTMLSelectElement).selectedIndex
-    };
-    const newEvent = new CustomEvent('dbg-on-select', { detail });
+  #dispatch = (value: string, index: number): void => {
+    const newEvent = new CustomEvent('dbg-on-select', { detail: {value, index} });
     this.dispatchEvent(newEvent);
+  };
+
+  #onChange = (event: InputEvent, ): void => {
+    const element = event.target as HTMLSelectElement;
+    this.#dispatch(element.value, element.selectedIndex);
   };
 
   attributeChangedCallback(name: string, old: string|null, value: string|null): void {
@@ -52,7 +53,21 @@ export default class extends LitElement {
     super.attributeChangedCallback(name, old, value);
   }
 
+  #getOptionIndex = (value?: string): number => {
+    return (this.options ?? []).findIndex(option => {
+      if (typeof option === 'object') {
+        return option.value === value;
+      }
+      return value === option;
+    });
+  };
+
   render(): TemplateResult {
+    if (this.#getOptionIndex(this.value) === -1 && (this.options?.length ?? 0) > 0) {
+      const option = this.options![0];
+      this.value = typeof option === 'object'? option.value : option;
+      this.#dispatch(this.value, 0);
+    }
     return html`
       <form class="pure-form">
         <select @change="${this.#onChange}">

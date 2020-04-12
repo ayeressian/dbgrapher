@@ -60,6 +60,7 @@ export default class extends LitElement {
     };
     const onFkTableSelect = (event: OnSelectEvent): void => {
       column.fk!.table = event.detail.value;
+      column.fk!.column = this.#getFkColumns(column.fk!.table)[0]?.name ?? '';
       this.#onColumnChange(index, column);
       this.requestUpdate();
     };

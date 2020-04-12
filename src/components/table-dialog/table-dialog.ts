@@ -3,7 +3,7 @@ import { actions as tableDialogAction } from '../../store/slices/create-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
 import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
-import { FkColumnChangeEventDetail, FkColumnRemoveEvent } from './fk-columns';
+import { FkColumnChangeEventDetail } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
 import buttonCss from 'purecss/build/buttons-min.css';
@@ -23,7 +23,6 @@ export default class extends LitElement {
   #currentTableIndex?: number;
   #open = false;
   #isEdit = false;
-  #errors: string[] = [];
 
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
@@ -115,11 +114,6 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
-  #removeFkColumn = (event: FkColumnRemoveEvent): void => {
-    this.#currentTable?.columns.splice(event.detail.index, 1);
-    this.requestUpdate();
-  };
-
   #addFkColumn = (): void => {
     this.#currentTable?.columns.push({
       name: '',
@@ -159,30 +153,9 @@ export default class extends LitElement {
   }
 
   #validate = (): boolean => {
-    this.#errors = [];
-    const currentTable = this.#schema?.tables[this.#currentTableIndex!]!;
-    const currentTableColumns = currentTable.columns;
-    if (!this.#schema!.tables.find((table, index) => table.name === currentTable.name && index !== this.#currentTableIndex)) {
-      this.#schema!.tables.forEach((table, index) => {
-        if (index !== this.#currentTableIndex) {
-          table.columns.filter((column) => {
-            if ((column as ColumnFkSchema)?.fk?.table === currentTable.name
-              && !currentTableColumns.find(currentTableColumn => currentTableColumn.name === (column as ColumnFkSchema)?.fk?.column)) {
-                this.#errors.push(`Table ${table.name} has FK constraint to this table on column ${(column as ColumnFkSchema)?.fk?.column} that no longer exists.`);
-            }
-          });
-        }
-      });
-    }
-
-    if (this.#errors.length) {
-      this.requestUpdate();
-    }
-
     return this.#form!.reportValidity() &&
       this.#tableDialogColumns!.validate() &&
-      this.#tableDialogFkColumns!.validate() &&
-      this.#errors.length === 0;
+      this.#tableDialogFkColumns!.validate();
   }
 
   render(): TemplateResult {
@@ -207,11 +180,8 @@ export default class extends LitElement {
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-fk-column="${this.#addFkColumn}"
               @dbg-fk-column-change="${this.#fkColumnChange}"
-              @dbg-remove-fk-column="${this.#removeFkColumn}">
+              @dbg-remove-fk-column="${this.#removeColumn}">
             </dbg-table-dialog-fk-columns>
-            <div class="errors">
-              ${this.#errors.map(error => html`<div>${error}</div>`)}
-            </div>
             <div class="menu">
               <button class="pure-button" @click="${this.#save}">Save</button>
               <button class="pure-button" @click="${this.#cancel}">Cancel</button>
@@ -241,7 +211,6 @@ export default class extends LitElement {
   #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
-      console.log(this.#schema);
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.load());

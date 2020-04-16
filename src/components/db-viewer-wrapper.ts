@@ -8,6 +8,7 @@ import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 import { subscribe } from '../subscribe-store';
 import { isMac } from '../util';
 import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema } from 'db-viewer-component';
+import { ColumnFkSchema } from 'db-viewer-component';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -45,7 +46,7 @@ export default class DbWrapper extends LitElement {
     const tables = schema!.tables;
     const firstTable = tables.find(table => table.name === this.#relationFirstTableName);
     const secondTable = tables.find(table => table.name === secondTableName);
-    const firstTablePks = firstTable!.columns.filter(column => column.pk);
+    const firstTablePks = firstTable!.columns.filter(column => column.pk && (column as ColumnFkSchema).fk == null);
     firstTablePks.forEach(column => {
       const originalRelationName = `fk_${firstTable!.name}_${column.name}`;
       let relationName = originalRelationName;

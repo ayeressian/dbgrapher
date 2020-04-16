@@ -171,7 +171,11 @@ export default class extends LitElement {
 
   #getFkColumns = (tableName: string): ColumnFkSchema[] => {
     const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
-    return table?.columns.filter(({pk, uq, nn}) => pk || (nn && uq)) || [];
+    return table?.columns.filter(column => {
+      const {pk, uq, nn} = column;
+      const {fk} = (column as ColumnFkSchema);
+      return (pk || (nn && uq)) && fk == null;
+    }) || [];
   };
 
   #removeFkColumn = (event: Event, index: number): void => {

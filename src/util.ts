@@ -2,6 +2,8 @@ export const deepCopy = <T>(data: T): T => JSON.parse(JSON.stringify(data));
 
 export const isMac = navigator.platform.toUpperCase().includes('MAC');
 
+export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 // https://stackoverflow.com/a/30832210
 export const download = (data: string, filename: string, type: string): void => {
   const file = new Blob([data], {type});

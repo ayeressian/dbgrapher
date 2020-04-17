@@ -1,7 +1,8 @@
 import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
+import webpack from "webpack";
 
-module.exports = {
+export default {
   entry: './src/index.ts',
   devtool: 'inline-source-map',
   devServer: {
@@ -49,4 +50,4 @@ module.exports = {
     filename: "bundle.js",
     path: path.resolve(__dirname, "dist")
   }
-};
+} as webpack.Configuration;

@@ -6,24 +6,21 @@ describe('side-panel', function() {
 
   // inject the HTML fixture for the tests
   beforeEach(function() {
-    const fixture = '<dbg-side-panel></dbg-side-panel>';
+    const sidePanel = document.createElement('dbg-side-panel');
 
-    document.body.insertAdjacentHTML(
+    document.body.insertAdjacentElement(
       'afterbegin', 
-      fixture);
-    
-    sidePanel = (document.querySelector("dbg-side-panel") as SidePanel)!;
+      sidePanel);
   });
 
-  // remove the html fixture from the DOM
   afterEach(function() {
-    document.body.removeChild(document.getElementById('fixture')!);
+    sidePanel.outerHTML = '';
   });
 
   it('should have 2 actions', async () => {
     await sidePanel.updateComplete;
     const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
-    expect(actions.length).to.eq(2);
+    expect(actions).to.have.lengthOf(2);
   });
 
 });

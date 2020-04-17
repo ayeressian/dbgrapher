@@ -6,21 +6,9 @@ webpackConfig.entry = '';
 export default function(config: any): void {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai', 'karma-typescript'],
+    frameworks: ['mocha', 'chai'],
 
-    karmaTypescriptConfig: {
-      compilerOptions: {
-          emitDecoratorMetadata: true,
-          experimentalDecorators: true,
-          module: "commonjs",
-          esModuleInterop: true,
-          sourceMap: true,
-          target: "ES2019"
-      },
-      exclude: ["node_modules"]
-    },
-
-    reporters: ['progress', 'karma-typescript'],
+    reporters: ['progress'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -34,13 +22,9 @@ export default function(config: any): void {
     ],
 
     preprocessors: {
-      './test/**/*.ts': 'karma-typescript'
+      './test/**/*.ts': ['webpack']
     },
 
     webpack: webpackConfig,
-
-    webpackMiddleware: {
-      noInfo: true
-    }
   });
 }

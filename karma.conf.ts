@@ -8,7 +8,7 @@ export default function(config: any): void {
     basePath: '',
     frameworks: ['mocha', 'chai'],
 
-    reporters: ['progress'],
+    reporters: ['mocha'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -18,7 +18,7 @@ export default function(config: any): void {
 
     files: [
       './dist/bundle.js',
-      './test/**/*.ts'
+      './test/**/*.test.ts'
     ],
 
     preprocessors: {

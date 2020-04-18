@@ -1,26 +1,29 @@
 import SidePanel from '../src/components/side-panel';
 import { expect } from 'chai';
+import { initComponentTest, removeElement } from './helper';
 
 describe('side-panel', function() {
   let sidePanel: SidePanel;
 
-  // inject the HTML fixture for the tests
-  beforeEach(function() {
-    const sidePanel = document.createElement('dbg-side-panel');
-
-    document.body.insertAdjacentElement(
-      'afterbegin', 
-      sidePanel);
+  beforeEach(async () => {
+    sidePanel = await initComponentTest('dbg-side-panel') as SidePanel;
   });
 
   afterEach(function() {
-    sidePanel.outerHTML = '';
+    removeElement(sidePanel);
   });
 
-  it('should have 2 actions', async () => {
-    await sidePanel.updateComplete;
-    const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
-    expect(actions).to.have.lengthOf(2);
-  });
+  describe('actions', () => {
+    it('should have 2 actions', () => {
+      const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
+      expect(actions).to.have.lengthOf(2);
+    });
 
+    it('should become active when clicked', async () => {
+      const action = sidePanel.shadowRoot!.querySelector("ul > li.action") as HTMLElement;
+      action.click();
+      await sidePanel.updateComplete;
+      expect(action).to.have.class('active');
+    });
+  });
 });

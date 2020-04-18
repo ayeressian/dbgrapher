@@ -2,3 +2,5 @@ node_modules
 .cache
 dist
 stats.json
+coverage
+.cache

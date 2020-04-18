@@ -3,4 +3,3 @@ node_modules
 dist
 stats.json
 coverage
-.cache

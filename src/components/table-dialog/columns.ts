@@ -2,6 +2,7 @@ import { customElement, LitElement, TemplateResult, html, property, CSSResult, c
 import commonTableStyles from './common-columns-styles';
 import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
 import columnNameValidation from './column-name-validation';
+import { deepEqual } from '../../util';
 
 export interface ColumnChangeEventDetail {
   column: ColumnNoneFkSchema;
@@ -16,7 +17,10 @@ export type ColumnRemoveEvent = CustomEvent<ColumnRemoveDetail>;
 
 @customElement('dbg-table-dialog-columns')
 export default class extends LitElement {
-  @property( { type : Object } ) schema?: Schema;
+  @property( {
+    type: Object,
+    hasChanged: (newVal: Schema, oldVal: Schema): boolean => deepEqual(newVal, oldVal)
+  } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
   #form?: HTMLFormElement;

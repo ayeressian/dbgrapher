@@ -4,6 +4,7 @@ import { OnSelectEvent } from '../select';
 import { ColumnFkSchema, ColumnSchema } from 'db-viewer-component';
 import {Schema} from 'db-viewer-component';
 import columnNameValidation from './column-name-validation';
+import { deepEqual } from '../../util';
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -18,7 +19,10 @@ export type FkColumnRemoveEvent = CustomEvent<FkColumnRemoveDetail>;
 
 @customElement('dbg-table-dialog-fk-columns')
 export default class extends LitElement {
-  @property( { type : Object } ) schema?: Schema;
+  @property( {
+    type: Object,
+    hasChanged: (newVal: Schema, oldVal: Schema): boolean => deepEqual(newVal, oldVal)
+  } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
   #form?: HTMLFormElement;

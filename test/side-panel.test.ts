@@ -25,5 +25,15 @@ describe('side-panel', function() {
       await sidePanel.updateComplete;
       expect(action).to.have.class('active');
     });
+
+    it('should deactivate when clicked twice', async () => {
+      debugger;
+      const action = sidePanel.shadowRoot!.querySelector("ul > li.action") as HTMLElement;
+      action.click();
+      await sidePanel.updateComplete;
+      action.click();
+      await sidePanel.updateComplete;
+      expect(action).to.not.have.class('active');
+    });
   });
 });

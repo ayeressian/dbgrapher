@@ -169,14 +169,14 @@ export default class extends LitElement {
               <input name='name' type='text' @input="${this.#onChangeTableName}" .value="${this.#currentTable?.name}" required/>
             </label>
             <dbg-table-dialog-columns
-              schema="${JSON.stringify(this.#schema ?? {})}"
+              .schema="${this.#schema ?? {}}"
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-column="${this.#addColumn}"
               @dbg-column-change="${this.#columnChange}"
               @dbg-remove-column="${this.#removeColumn}">
             </dbg-table-dialog-columns>
             <dbg-table-dialog-fk-columns
-              schema="${JSON.stringify(this.#schema ?? {})}"
+              .schema="${this.#schema ?? {}}"
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-fk-column="${this.#addFkColumn}"
               @dbg-fk-column-change="${this.#fkColumnChange}"

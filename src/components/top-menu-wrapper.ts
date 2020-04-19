@@ -10,7 +10,7 @@ import schemaToSqlSchema from '../schema-to-sql-schema';
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
   render(): TemplateResult {
-    return html`<dbg-top-menu config="${JSON.stringify(store.getState().topMenuConfig)}" @item-selected="${this.#itemSelected}"></dbg-top-menu>`;
+    return html`<dbg-top-menu .config="${store.getState().topMenuConfig}" @item-selected="${this.#itemSelected}"></dbg-top-menu>`;
   }
 
   #getCurrentSchema = (): Schema => {

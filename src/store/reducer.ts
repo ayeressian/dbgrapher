@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers, Action } from 'redux';
 import { reducer as createCords } from './slices/create-cords';
 import { reducer as tableDialog } from './slices/create-dialog';
 import { reducer as dbViewerMode } from './slices/db-viewer-mode';
@@ -8,8 +8,9 @@ import { reducer as schema } from './slices/schema';
 import { reducer as welcomeDialog } from './slices/welcome-dialog';
 import { reducer as topMenuConfig } from './slices/top-menu-config';
 import { reducer as loadSchema } from './slices/load-schema';
+import { createAction } from '@reduxjs/toolkit';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   createCords,
   dbViewerMode,
   topMenuConfig,
@@ -25,5 +26,14 @@ const rootReducer = combineReducers({
   schema,
 });
 
-export type AppState = ReturnType<typeof rootReducer>;
+export type AppState = ReturnType<typeof appReducer>;
+export const resetAction = createAction('RESET');
+
+// TODO: change unknown with proper type
+const rootReducer = (state: unknown, action: Action): AppState => {
+  if (action.type === 'RESET') state = undefined;
+
+  return appReducer(state as AppState, action);
+};
+
 export default rootReducer;

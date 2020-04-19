@@ -1,6 +1,7 @@
 import SidePanel from '../src/components/side-panel';
 import { expect } from 'chai';
 import { initComponentTest, removeElement } from './helper';
+import store from '../src/store/store';
 
 describe('side-panel', function() {
   let sidePanel: SidePanel;
@@ -27,8 +28,10 @@ describe('side-panel', function() {
     });
 
     it('should deactivate when clicked twice', async () => {
-      debugger;
+      await sidePanel.updateComplete;
       const action = sidePanel.shadowRoot!.querySelector("ul > li.action") as HTMLElement;
+      debugger;
+      console.log(store);
       action.click();
       await sidePanel.updateComplete;
       action.click();

@@ -48,6 +48,8 @@ const slice = createSlice({
   reducers: {},
 });
 
+export const menuConfig = config;
+
 export default slice;
 
 export const reducer = slice.reducer;

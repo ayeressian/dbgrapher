@@ -58,7 +58,6 @@ export default class extends LitElement {
     super.connectedCallback();
 
     subscribe(state => state.dbViewerMode, (dbViewerMode) => {
-      debugger;
       switch(dbViewerMode) {
         case IDbViewerMode.Create:
           this.#createActive = true;
@@ -78,12 +77,9 @@ export default class extends LitElement {
   }
 
   #create = (): void => {
-    debugger;
-    console.log(store);
     if (store.getState().dbViewerMode === IDbViewerMode.Create) {
       store.dispatch(dbViewerModeAction.none());
     } else {
-      debugger;
       store.dispatch(dbViewerModeAction.createMode());
     }
   }

@@ -1,8 +1,9 @@
+import '../src/components/top-menu';
 import TopMenu from '../src/components/top-menu';
 import { expect } from 'chai';
 import { initComponentTest, removeElement } from './helper';
 
-describe('side-panel', function() {
+describe('top-menu', function() {
   let topMenu: TopMenu;
 
   const config = {
@@ -74,6 +75,4 @@ describe('side-panel', function() {
       expect(subItems).to.have.lengthOf(config.items[0].items.length);
     });
   });
-
-  
 });

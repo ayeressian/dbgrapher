@@ -1,7 +1,4 @@
-import webpackConfig from './webpack.config';
-
-webpackConfig.mode = "development";
-webpackConfig.entry = '';
+import webpackConfig from './webpack.test.config';
 
 export default function(config: any): void {
   config.set({
@@ -17,12 +14,11 @@ export default function(config: any): void {
     autoWatchBatchDelay: 300,
 
     files: [
-      './dist/bundle.js',
-      './test/**/*.test.ts'
+      './test/index.ts'
     ],
 
     preprocessors: {
-      './test/**/*.ts': ['webpack']
+      './test/index.ts': ['webpack']
     },
 
     webpack: webpackConfig,

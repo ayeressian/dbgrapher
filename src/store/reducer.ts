@@ -8,7 +8,6 @@ import { reducer as schema } from './slices/schema';
 import { reducer as welcomeDialog } from './slices/welcome-dialog';
 import { reducer as topMenuConfig } from './slices/top-menu-config';
 import { reducer as loadSchema } from './slices/load-schema';
-import { createAction } from '@reduxjs/toolkit';
 
 const appReducer = combineReducers({
   createCords,
@@ -27,7 +26,6 @@ const appReducer = combineReducers({
 });
 
 export type AppState = ReturnType<typeof appReducer>;
-export const resetAction = createAction('RESET');
 
 // TODO: change unknown with proper type
 const rootReducer = (state: unknown, action: Action): AppState => {

@@ -2,7 +2,6 @@ import { LitElement } from 'lit-element';
 import chaiDom from 'chai-dom';
 import chai from 'chai';
 import store from '../src/store/store';
-import { resetAction } from '../src/store/reducer';
 
 export const createElement = async (elementType: string): Promise<LitElement> => {
   const element = document.createElement(elementType) as LitElement;
@@ -23,6 +22,5 @@ export const initComponentTest = (elementType: string): Promise<LitElement> => {
 };
 
 export const removeElement = (element: Element): void => {
-  store.dispatch(resetAction);
   element.outerHTML = '';
 };

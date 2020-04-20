@@ -1,3 +1,4 @@
+import '../src/components/dialog';
 import Dialog from '../src/components/dialog';
 import { initComponentTest, removeElement } from './helper';
 import { expect } from 'chai';

@@ -11,7 +11,7 @@ const slice = createSlice({
     setCord: (_, action: PayloadAction<IPointNullable>): IPointNullable => action.payload,
   },
 });
-console.log(slice);
+
 export default slice;
 
 export const reducer = slice.reducer;

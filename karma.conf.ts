@@ -4,7 +4,7 @@ import webpackConfig from './webpack.test.config';
 export default function(config: any): void {
   config.set({
     basePath: '',
-    frameworks: ['mocha', 'chai'],
+    frameworks: ['mocha'],
 
     reporters: ['mocha'],
     port: 9876,
@@ -15,11 +15,11 @@ export default function(config: any): void {
     autoWatchBatchDelay: 300,
 
     files: [
-      './test/index.ts'
+      './test/*.test.ts'
     ],
 
     preprocessors: {
-      './test/index.ts': ['webpack']
+      './test/*.test.ts': ['webpack']
     },
 
     webpack: webpackConfig,

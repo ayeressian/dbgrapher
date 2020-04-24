@@ -4,7 +4,7 @@ import config from './webpack.config';
 const testConfig: Configuration = {
   ...config,
   mode: 'development',
-  entry: './test/index.ts',
+  entry: '',
 };
 
 export default testConfig;

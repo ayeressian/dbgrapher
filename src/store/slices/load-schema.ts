@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
-  initialState: false,
+  initialState: true,
   name: 'setSchema',
   reducers: {
     load: (): boolean => true,

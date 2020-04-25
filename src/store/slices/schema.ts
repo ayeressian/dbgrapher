@@ -11,7 +11,8 @@ type Data = {
 const slice = createSlice({
   initialState: {
     past: [],
-    future: []
+    future: [],
+    present: {tables: []}
   } as Data,
   name: 'schema',
   reducers: {

@@ -1,7 +1,6 @@
 import '../src/components/dialog';
 import Dialog from '../src/components/dialog';
 import { initComponentTest, removeElement } from './helper';
-import { expect } from 'chai';
 
 describe('dialog', function() {
   let dialog: Dialog;
@@ -15,12 +14,12 @@ describe('dialog', function() {
   });
 
   it ('should not be visible', () => {
-    expect(dialog.shadowRoot!.querySelector('div')).to.have.class('hide');
+    expect(dialog.shadowRoot!.querySelector('div')).toHaveClass('hide');
   });
 
   it ('should be visible when show attribute exist', async () => {
     dialog.setAttribute('show', '');
     await dialog.updateComplete;
-    expect(dialog.shadowRoot!.querySelector('div')).to.not.have.class('hide');
+    expect(dialog.shadowRoot!.querySelector('div')).not.toHaveClass('hide');
   });
 });

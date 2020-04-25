@@ -88,8 +88,20 @@ export default class DbWrapper extends LitElement {
     this.#resolveLoaded!();
   }
 
+  #loadSchema = (): void => {
+    const state = store.getState();
+    if (state.loadSchema) {
+      this.#loaded.then(() => {
+        this.#dbViewer!.schema = state.schema.present;
+        store.dispatch(setSchemaAction.loaded());
+      });
+    }
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
+
+    this.#loadSchema();
 
     document.onkeydown = (event: KeyboardEvent): void => {
       if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
@@ -103,14 +115,7 @@ export default class DbWrapper extends LitElement {
       }
     };
 
-    subscribe(state => state.loadSchema, (loadSchema, state) => {
-      if (loadSchema) {
-        this.#loaded.then(() => {
-          this.#dbViewer!.schema = state.schema.present;
-          store.dispatch(setSchemaAction.loaded());
-        });
-      }
-    });
+    subscribe(state => state.loadSchema, this.#loadSchema);
 
     subscribe(state => state.dbViewerMode, dbViewerMode => {
       switch(dbViewerMode) {

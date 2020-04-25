@@ -1,7 +1,6 @@
 import '../src/components/welcome-dialog';
 import WelcomeDialog from '../src/components/welcome-dialog';
 import { initComponentTest, removeElement } from './helper';
-import { expect } from 'chai';
 
 describe('welcome-dialog', function() {
   let welcomeDialog: WelcomeDialog;
@@ -15,6 +14,6 @@ describe('welcome-dialog', function() {
   });
 
   it ('should have 2 actions', () => {
-    expect(welcomeDialog.shadowRoot!.querySelectorAll('.operation-container')).to.have.lengthOf(2);
+    expect(welcomeDialog.shadowRoot!.querySelectorAll('.operation-container').length).toEqual(2);
   });
 });

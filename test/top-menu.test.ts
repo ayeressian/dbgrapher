@@ -1,6 +1,5 @@
 import '../src/components/top-menu';
 import TopMenu from '../src/components/top-menu';
-import { expect } from 'chai';
 import { initComponentTest, removeElement } from './helper';
 
 describe('top-menu', function() {
@@ -52,12 +51,12 @@ describe('top-menu', function() {
 
   it ('should render correct number of top left items', () => {
     const topLeftItems = topMenu.shadowRoot!.querySelectorAll('ul > li:not(.right-menu-item)')!;
-    expect(topLeftItems).to.have.lengthOf(config.items.length);
+    expect(topLeftItems.length).toEqual(config.items.length);
   });
 
   it ('should render correct number of top right items', () => {
     const topRightItems = topMenu.shadowRoot!.querySelectorAll('ul > li.right-menu-item')!;
-    expect(topRightItems).to.have.lengthOf(config.rightItems.length);
+    expect(topRightItems.length).toEqual(config.rightItems.length);
   });
 
   describe('when clicked on top item', () => {
@@ -67,12 +66,12 @@ describe('top-menu', function() {
     });
     it ('should open dropdown view', () => {
       const dropDown = topMenu.shadowRoot!.querySelector('.dropdown');
-      expect(dropDown).to.have.class('show');
+      expect(dropDown).toHaveClass('show');
     });
 
     it ('should have correct number of subItems', () => {
       const subItems = topMenu.shadowRoot!.querySelectorAll('.dropdown li');
-      expect(subItems).to.have.lengthOf(config.items[0].items.length);
+      expect(subItems.length).toEqual(config.items[0].items.length);
     });
   });
 });

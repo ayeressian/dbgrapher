@@ -166,7 +166,7 @@ export default class extends LitElement {
           <form class="pure-form pure-form-stacked">
             <label>
               Name
-              <input name='name' type='text' @input="${this.#onChangeTableName}" .value="${this.#currentTable?.name}" required/>
+              <input name='name' data-testid="table-name" type='text' @input="${this.#onChangeTableName}" .value="${this.#currentTable?.name}" required/>
             </label>
             <dbg-table-dialog-columns
               .schema="${this.#schema ?? {}}"
@@ -183,8 +183,8 @@ export default class extends LitElement {
               @dbg-remove-fk-column="${this.#removeColumn}">
             </dbg-table-dialog-fk-columns>
             <div class="menu">
-              <button class="pure-button" @click="${this.#save}">Save</button>
-              <button class="pure-button" @click="${this.#cancel}">Cancel</button>
+              <button class="pure-button" @click="${this.#save}" data-testid="save-btn">Save</button>
+              <button class="pure-button" @click="${this.#cancel}" data-testid="cancel-btn">Cancel</button>
             </div>
           </form>
         </div>
@@ -208,7 +208,7 @@ export default class extends LitElement {
     store.dispatch(dbViewerModeAction.none());
   }
 
-  #save = (event: Event): void => {
+  #save = (event: Event): void => {    
     event.preventDefault();
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());

@@ -4,9 +4,9 @@ import webpackConfig from './webpack.test.config';
 export default function(config: any): void {
   config.set({
     basePath: '',
-    frameworks: ['mocha'],
+    frameworks: ['jasmine'],
 
-    reporters: ['mocha'],
+    reporters: ['summary'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -20,6 +20,10 @@ export default function(config: any): void {
 
     preprocessors: {
       './test/*.test.ts': ['webpack']
+    },
+
+    summaryReporter: {
+      show: 'all'
     },
 
     webpack: webpackConfig,

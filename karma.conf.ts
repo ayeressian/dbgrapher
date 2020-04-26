@@ -3,7 +3,6 @@ import webpackConfig from './webpack.test.config';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function(config: any): void {
   config.set({
-    basePath: '',
     frameworks: ['jasmine'],
 
     reporters: ['summary'],
@@ -15,11 +14,11 @@ export default function(config: any): void {
     autoWatchBatchDelay: 300,
 
     files: [
-      './test/*.test.ts'
+      './test/**/*.test.ts'
     ],
 
     preprocessors: {
-      './test/*.test.ts': ['webpack']
+      './test/**/*.test.ts': ['webpack']
     },
 
     summaryReporter: {

@@ -1,4 +1,3 @@
-import '../src/components/top-menu';
 import TopMenu from '../src/components/top-menu';
 import { initComponentTest, removeElement } from './helper';
 

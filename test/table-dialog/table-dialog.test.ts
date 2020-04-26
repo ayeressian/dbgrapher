@@ -1,10 +1,7 @@
-import '../src/components/table-dialog/columns';
-import '../src/components/table-dialog/fk-columns';
-import '../src/components/table-dialog/table-dialog';
-import TableDialog from '../src/components/table-dialog/table-dialog';
-import { initComponentTest, removeElement } from './helper';
-import store from '../src/store/store';
-import { actions as tableDialogAction } from '../src/store/slices/create-dialog';
+import TableDialog from '../../src/components/table-dialog/table-dialog';
+import { initComponentTest, removeElement, getTagName } from '../helper';
+import store from '../../src/store/store';
+import { actions as tableDialogAction } from '../../src/store/slices/create-dialog';
 
 describe('table-dialog', function() {
   let tableDialog: TableDialog;
@@ -21,12 +18,11 @@ describe('table-dialog', function() {
   });
 
   it('should render properly', function() {
-    const getTagName = (queryString: string): string | undefined => shadowRoot!.querySelector(queryString)?.tagName;
-    expect(getTagName('dbg-table-dialog-columns')).not.toBeNull;
-    expect(getTagName('dbg-table-dialog-fk-columns')).not.toBeNull;
-    expect(getTagName('[data-testid="table-name"]')).toEqual('INPUT');
-    expect(getTagName('[data-testid="save-btn"]')).toEqual('BUTTON');
-    expect(getTagName('[data-testid="cancel-btn"]')).toEqual('BUTTON');
+    expect(getTagName('dbg-table-dialog-columns', shadowRoot)).not.toBeNull();
+    expect(getTagName('dbg-table-dialog-fk-columns', shadowRoot)).not.toBeNull();
+    expect(getTagName('[data-testid="table-name"]', shadowRoot)).toEqual('INPUT');
+    expect(getTagName('[data-testid="save-btn"]', shadowRoot)).toEqual('BUTTON');
+    expect(getTagName('[data-testid="cancel-btn"]', shadowRoot)).toEqual('BUTTON');
   });
 
   describe('when table name is not set',  function() {

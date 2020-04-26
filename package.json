@@ -41,6 +41,7 @@
     "karma-summary-reporter": "^1.8.0",
     "karma-webpack": "^4.0.2",
     "node-sass": "^4.13.1",
+    "raw-loader": "^4.0.1",
     "sass-loader": "^8.0.2",
     "sass-resources-loader": "^2.0.1",
     "style-loader": "^1.1.3",

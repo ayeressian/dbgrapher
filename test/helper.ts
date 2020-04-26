@@ -17,3 +17,5 @@ export const initComponentTest = (elementType: string): Promise<LitElement> => {
 export const removeElement = (element: Element): void => {
   element.outerHTML = '';
 };
+
+export const getTagName = (queryString: string, shadowRoot: ShadowRoot): string | undefined => shadowRoot.querySelector(queryString)?.tagName;

@@ -5,7 +5,7 @@ export default function(config: any): void {
   config.set({
     frameworks: ['jasmine'],
 
-    reporters: ['summary'],
+    reporters: ['progress', 'summary'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -14,11 +14,11 @@ export default function(config: any): void {
     autoWatchBatchDelay: 300,
 
     files: [
-      './test/**/*.test.ts'
+      './test/index.ts',
     ],
 
     preprocessors: {
-      './test/**/*.test.ts': ['webpack']
+      './test/index.ts': ['webpack'],
     },
 
     summaryReporter: {

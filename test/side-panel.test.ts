@@ -1,4 +1,3 @@
-import '../src/components/side-panel';
 import SidePanel from '../src/components/side-panel';
 import { initComponentTest, removeElement } from './helper';
 
@@ -32,7 +31,7 @@ describe('side-panel', function() {
       await sidePanel.updateComplete;
       action.click();
       await sidePanel.updateComplete;
-      expect(action).not.toHaveClass('active');
+      expect(action.classList).not.toContain('active'); 
     });
   });
 });

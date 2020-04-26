@@ -7,4 +7,9 @@ const testConfig: Configuration = {
   entry: '',
 };
 
+testConfig.module?.rules.push({
+  test: /\.html$/,
+  loader: "raw-loader"
+});
+
 export default testConfig;

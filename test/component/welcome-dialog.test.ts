@@ -1,4 +1,4 @@
-import WelcomeDialog from '../src/components/welcome-dialog';
+import WelcomeDialog from '../../src/components/welcome-dialog';
 import { initComponentTest, removeElement } from './helper';
 
 describe('welcome-dialog', function() {

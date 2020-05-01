@@ -1,5 +1,5 @@
 import { LitElement } from 'lit-element';
-import store from '../src/store/store';
+import store from '../../src/store/store';
 
 export const createElement = async (elementType: string): Promise<LitElement> => {
   const element = document.createElement(elementType) as LitElement;

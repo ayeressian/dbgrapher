@@ -1,4 +1,4 @@
-import Columns from '../../src/components/table-dialog/columns';
+import Columns from '../../../src/components/table-dialog/columns';
 import { initComponentTest, removeElement } from '../helper';
 import snapshot from './column.snap.html';
 

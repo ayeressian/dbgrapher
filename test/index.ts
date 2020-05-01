@@ -1,8 +1,8 @@
 import '../src/components/import-components';
 
-import './dialog.test';
-import './side-panel.test';
-import './welcome-dialog.test';
-import './top-menu.test';
-import './table-dialog/table-dialog.test';
-import './table-dialog/column.test';
+import './component/dialog.test';
+import './component/side-panel.test';
+import './component/welcome-dialog.test';
+import './component/top-menu.test';
+import './component/table-dialog/table-dialog.test';
+import './component/table-dialog/column.test';

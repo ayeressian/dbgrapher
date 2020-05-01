@@ -1,4 +1,4 @@
-import SidePanel from '../src/components/side-panel';
+import SidePanel from '../../src/components/side-panel';
 import { initComponentTest, removeElement } from './helper';
 
 describe('side-panel', function() {

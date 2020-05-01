@@ -4,7 +4,7 @@ import { Schema } from 'db-viewer-component';
 
 type Data = {
   past: Schema[];
-  present?: Schema;
+  present: Schema;
   future: Schema[];
 };
 
@@ -16,12 +16,19 @@ const slice = createSlice({
   } as Data,
   name: 'schema',
   reducers: {
-    set: (state, action: PayloadAction<Schema | null>): Data => {
+    initiate: (_, action: PayloadAction<Schema | undefined>): Data => {
+      return {
+        past: [],
+        future: [],
+        present: action.payload ?? {tables: []}
+      };
+    },
+    set: (state, action: PayloadAction<Schema>): Data => {
       const {past, present} = deepCopy(state);
       if (present) past.push(present);
       return {
         past,
-        present: action.payload ?? undefined,
+        present: action.payload,
         future: []
       };
     },
@@ -30,8 +37,8 @@ const slice = createSlice({
       const {past, future} = newState;
       let { present } = newState;
       if (past.length > 0) {
-        future.push(present!);
-        present = past.pop();
+        future.push(present);
+        present = past.pop()!;
       }
       return {
         past,
@@ -44,8 +51,8 @@ const slice = createSlice({
       const {past, future} = newState;
       let { present } = newState;
       if (future.length > 0) {
-        past.push(present!);
-        present = future.pop();
+        past.push(present);
+        present = future.pop()!;
       }
       return {
         past,

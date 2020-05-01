@@ -7,7 +7,7 @@ export default (schema: Schema): string => {
     table.columns.forEach((column, index) => {
       if ((column as ColumnFkSchema).fk) {
         const table = schema.tables.find((table) => table.name === (column as ColumnFkSchema)!.fk!.table)!;
-        const type = table.columns.find(tableColumn => tableColumn.name === (column as ColumnFkSchema).fk?.column);
+        const type = (table.columns.find(tableColumn => tableColumn.name === (column as ColumnFkSchema).fk?.column) as ColumnNoneFkSchema).type;
         columnSql += '  ' + column.name + ' ' + type;
       } else {
         columnSql += '  ' + column.name + ' ' + (column as ColumnNoneFkSchema).type;

@@ -12,21 +12,61 @@ const appId = "742329402198";
 // Scope to use to access user's Drive items.
 const scope = ['https://www.googleapis.com/auth/drive.file'];
 
-let pickerApiLoaded = false;
-let oauthToken: string;
+let authorizePromiseResolve: (accessToken: string) => void;
+let authorizePromiseReject: (reason: string) => void;
+const authorizePromise = new Promise<string>((resolve, reject) => {
+  authorizePromiseResolve = resolve;
+  authorizePromiseReject = reject;
+});
+
+function handleAuthResult(authResult: GoogleApiOAuth2TokenObject): void {
+  if (authResult.error) {
+    authorizePromiseReject(authResult.error);
+  } else {
+    authorizePromiseResolve(authResult.access_token);
+  }
+}
 
 // A simple callback implementation.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function pickerCallback(data: any): void {
   if (data.action == google.picker.Action.PICKED) {
-    const fileId = data.docs[0].id;
-    alert('The user selected: ' + fileId);
+    const file = data.docs[0];
+    console.log(`https://www.googleapis.com/drive/v3/files/${file.id}`);
+    fetch(`https://www.googleapis.com/drive/v3/files/${file.id}`, {
+      mode: 'no-cors',
+      headers: {
+        'Authorization': 'Bearer ' + gapi.auth.getToken().access_token,
+        'Access-Control-Allow-Origin': '*'
+      },
+    }).then(data => {
+      console.log(data);
+      debugger;
+    });
   }
 }
 
+const authLoad = new Promise((resolve) => {
+  gapi.load('auth', {'callback': resolve});  
+});
+
+const pickerLoad = new Promise((resolve) => {
+  gapi.load('picker', {'callback': resolve});
+});
+
 // Create and render a Picker object for searching images.
-function createPicker(): void {
-  if (pickerApiLoaded && oauthToken) {
+export default async function createPicker(): Promise<void> {
+  await authLoad;
+  gapi.auth.authorize(
+    {
+      'client_id': clientId,
+      'scope': scope,
+      'immediate': false
+    },
+    handleAuthResult);
+  const oauthToken = await authorizePromise;
+  await pickerLoad;
+  if (oauthToken) {
     const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
     view.setMimeTypes("application/JSON");
     const picker = new google.picker.PickerBuilder()
@@ -41,32 +81,4 @@ function createPicker(): void {
         .build();
     picker.setVisible(true);
   }
-}
-
-function onPickerApiLoad(): void {
-  pickerApiLoaded = true;
-  createPicker();
-}
-
-function handleAuthResult(authResult: GoogleApiOAuth2TokenObject): void {
-  if (authResult && !authResult.error) {
-    oauthToken = authResult.access_token;
-    createPicker();
-  }
-}
-
-function onAuthApiLoad(): void {
-  window.gapi.auth.authorize(
-      {
-        'client_id': clientId,
-        'scope': scope,
-        'immediate': false
-      },
-      handleAuthResult);
-}
-
-// Use the Google API Loader script to load the google.picker script.
-export default function loadPicker(): void {
-  gapi.load('auth', {'callback': onAuthApiLoad});
-  gapi.load('picker', {'callback': onPickerApiLoad});
 }

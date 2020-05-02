@@ -18,6 +18,10 @@ const config = {
           title: 'Export SQL'
         },
         {
+          id: 'openGoogleDrive',
+          title: 'Open Google Drive'
+        },
+        {
           id: 'downloadSchema',
           title: 'Download'
         }

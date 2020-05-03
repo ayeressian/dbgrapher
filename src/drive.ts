@@ -1,13 +1,18 @@
+import store from './store/store';
+import { actions as schemaAction } from './store/slices/schema';
+import { actions as setSchemaAction } from './store/slices/load-schema';
+import env from '../env.json';
+
 // The Browser API key obtained from the Google API Console.
 // Replace with your own Browser API key, or your own key.
-const developerKey = 'AIzaSyC5MsNNr_aPfhg27cqAdYMcM3xzj50wE0A';
+const developerKey = env.googleDrive.developerKey;
 
 // The Client ID obtained from the Google API Console. Replace with your own Client ID.
-const clientId = "742329402198-5o9j6fd5d2ah3mbuh5f4icfl9nh3vlns.apps.googleusercontent.com";
+const clientId = env.googleDrive.clientId;
 
 // Replace with your own project number from console.developers.google.com.
 // See "Project number" under "IAM & Admin" > "Settings"
-const appId = "742329402198";
+const appId = env.googleDrive.appId;
 
 // Scope to use to access user's Drive items.
 const scope = ['https://www.googleapis.com/auth/drive.file'];
@@ -27,21 +32,23 @@ function handleAuthResult(authResult: GoogleApiOAuth2TokenObject): void {
   }
 }
 
-// A simple callback implementation.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function pickerCallback(data: any): void {
   if (data.action == google.picker.Action.PICKED) {
     const file = data.docs[0];
-    console.log(`https://www.googleapis.com/drive/v3/files/${file.id}`);
-    fetch(`https://www.googleapis.com/drive/v3/files/${file.id}`, {
-      mode: 'no-cors',
-      headers: {
-        'Authorization': 'Bearer ' + gapi.auth.getToken().access_token,
-        'Access-Control-Allow-Origin': '*'
-      },
-    }).then(data => {
+    gapi.client.request({
+      path: `https://www.googleapis.com/drive/v2/files/${file.id}`,
+      params: {
+        mimeType: file.mimeType
+      }
+    }).then((data) => {
       console.log(data);
-      debugger;
+      gapi.client.request({
+        path: data.result.downloadUrl
+      }).then((contentData) => {
+        store.dispatch(schemaAction.initiate(contentData.result));
+        store.dispatch(setSchemaAction.load());
+      });
     });
   }
 }

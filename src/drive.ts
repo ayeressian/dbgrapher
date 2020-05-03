@@ -3,16 +3,16 @@ import { actions as schemaAction } from './store/slices/schema';
 import { actions as setSchemaAction } from './store/slices/load-schema';
 import env from '../env.json';
 
-// The Browser API key obtained from the Google API Console.
-// Replace with your own Browser API key, or your own key.
-const developerKey = env.googleDrive.developerKey;
-
-// The Client ID obtained from the Google API Console. Replace with your own Client ID.
-const clientId = env.googleDrive.clientId;
-
-// Replace with your own project number from console.developers.google.com.
-// See "Project number" under "IAM & Admin" > "Settings"
-const appId = env.googleDrive.appId;
+const {
+  // The Browser API key obtained from the Google API Console.
+  // Replace with your own Browser API key, or your own key.
+  developerKey,
+  // The Client ID obtained from the Google API Console. Replace with your own Client ID.
+  clientId,
+  // Replace with your own project number from console.developers.google.com.
+  // See "Project number" under "IAM & Admin" > "Settings"
+  appId
+} = env.googleDrive;
 
 // Scope to use to access user's Drive items.
 const scope = ['https://www.googleapis.com/auth/drive.file'];

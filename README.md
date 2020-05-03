@@ -15,4 +15,4 @@ A database schema designing tool that runs in browser.
     }
   }
   ```
-  4. Run "npm start".
+4. Run "npm start". 

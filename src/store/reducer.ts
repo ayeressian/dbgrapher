@@ -8,11 +8,13 @@ import { reducer as schema } from './slices/schema';
 import { reducer as welcomeDialog } from './slices/welcome-dialog';
 import { reducer as topMenuConfig } from './slices/top-menu-config';
 import { reducer as loadSchema } from './slices/load-schema';
+import { reducer as googleDriveKey } from './slices/google-drive-key';
 
 const appReducer = combineReducers({
   createCords,
   dbViewerMode,
   topMenuConfig,
+  googleDriveKey,
   dialog: combineReducers({
     fileDialog: combineReducers({
       fileOpenDialog,

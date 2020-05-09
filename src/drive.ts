@@ -1,6 +1,7 @@
 import store from './store/store';
 import { actions as schemaAction } from './store/slices/schema';
 import { actions as setSchemaAction } from './store/slices/load-schema';
+import { actions as googleDriveAction } from './store/slices/google-drive-key';
 import env from '../env.json';
 
 const {
@@ -42,7 +43,7 @@ function pickerCallback(data: any): void {
         mimeType: file.mimeType
       }
     }).then((data) => {
-      console.log(data);
+      store.dispatch(googleDriveAction.set(file.id));
       gapi.client.request({
         path: data.result.downloadUrl
       }).then((contentData) => {
@@ -62,7 +63,7 @@ const pickerLoad = new Promise((resolve) => {
 });
 
 // Create and render a Picker object for searching images.
-export default async function createPicker(): Promise<void> {
+export async function picker(): Promise<void> {
   await authLoad;
   gapi.auth.authorize(
     {
@@ -87,5 +88,16 @@ export default async function createPicker(): Promise<void> {
         .setCallback(pickerCallback)
         .build();
     picker.setVisible(true);
+  }
+}
+
+export async function update(): Promise<void> {
+  const key = store.getState().googleDriveKey;
+  if (key) {
+    await gapi.client.request({
+      path: `https://www.googleapis.com/upload/drive/v2/files/${key}`,
+      body: store.getState().schema.present,
+      method: 'PUT',
+    });
   }
 }

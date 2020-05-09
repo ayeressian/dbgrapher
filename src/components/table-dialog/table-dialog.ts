@@ -14,6 +14,7 @@ import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
+import { update as updateDrive } from '../../drive';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -54,7 +55,7 @@ export default class extends LitElement {
   }
 
   #onOpen = (tableName?: string, cords?: Point): void => {
-    this.#schema = deepCopy(store.getState().schema.present!);
+    this.#schema = deepCopy(store.getState().schema.present);
     if (tableName) {
       this.#isEdit = true;
       this.#currentTableIndex = this.#schema.tables.findIndex(({name}) => name === tableName)!;
@@ -214,6 +215,7 @@ export default class extends LitElement {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.load());
+      updateDrive();
       store.dispatch(tableDialogAction.close());
     }
   }

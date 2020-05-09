@@ -6,7 +6,7 @@ import store from '../store/store';
 import { download } from '../util';
 import { Schema } from 'db-viewer-component';
 import schemaToSqlSchema from '../schema-to-sql-schema';
-import { picker } from '../drive';
+import { picker as drivePicker } from '../drive';
 
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
@@ -40,7 +40,7 @@ export default class extends LitElement {
         this.#downloadAsSQLSchema();
         break;
       case 'openGoogleDrive':
-        picker();
+        drivePicker();
         break;
       case 'reportIssue':
         {

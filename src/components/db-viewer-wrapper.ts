@@ -10,7 +10,7 @@ import { isSafari, isMac } from '../util';
 import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema } from 'db-viewer-component';
 import { ColumnFkSchema } from 'db-viewer-component';
 import { classMap } from 'lit-html/directives/class-map';
-import { update as updateDrive } from '../drive';
+import { update as updateDrive } from '../drive/google-drive';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {

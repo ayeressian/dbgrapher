@@ -13,6 +13,9 @@ A database schema designing tool that runs in browser.
       "developerKey": "",
       "clientId": "",
       "appId": ""
+    },
+    "oneDrive": {
+      "clientId": ""
     }
   }
   ```

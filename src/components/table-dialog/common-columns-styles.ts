@@ -42,4 +42,8 @@ export default css`
   .table-container table {
     border-collapse: collapse;
   }
+
+  .add-column {
+    display: block;
+  }
 }`;

@@ -22,6 +22,10 @@ const config = {
           title: 'Open Google Drive'
         },
         {
+          id: 'openOneDrive',
+          title: 'Open One Drive'
+        },
+        {
           id: 'downloadSchema',
           title: 'Download'
         }

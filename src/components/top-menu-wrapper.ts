@@ -6,7 +6,8 @@ import store from '../store/store';
 import { download } from '../util';
 import { Schema } from 'db-viewer-component';
 import schemaToSqlSchema from '../schema-to-sql-schema';
-import { picker as drivePicker } from '../drive';
+import { picker as googleDrivePicker } from '../drive/google-drive';
+import { picker as oneDrivePicker } from '../drive/one-drive';
 
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
@@ -36,11 +37,14 @@ export default class extends LitElement {
       case 'downloadSchema':
         download(JSON.stringify(store.getState().schema.present), 'schema.json', 'application/json');
         break;
+      case 'openOneDrive':
+        oneDrivePicker();
+        break;
       case 'exportSql':
         this.#downloadAsSQLSchema();
         break;
       case 'openGoogleDrive':
-        drivePicker();
+        googleDrivePicker();
         break;
       case 'reportIssue':
         {

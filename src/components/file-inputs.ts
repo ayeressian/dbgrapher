@@ -2,7 +2,7 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import store from '../store/store';
-import { validateJson } from '../validateSchema';
+import { validateJson } from '../validate-schema';
 import { actions as welcomeDialogActions } from '../store/slices/welcome-dialog';
 import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
 import { subscribe } from '../subscribe-store';

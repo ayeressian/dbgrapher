@@ -1,6 +1,7 @@
 import './side-panel';
 import './dialog';
 import './welcome-dialog';
+import './file-open-chooser-dialog';
 import './db-viewer-wrapper';
 import './file-inputs';
 import './top-menu';

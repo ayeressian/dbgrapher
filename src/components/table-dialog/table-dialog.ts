@@ -14,7 +14,7 @@ import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
-import { update as updateDrive } from '../../drive';
+import { update as updateDrive } from '../../drive/google-drive';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -162,8 +162,10 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <dbg-dialog ?show=${this.#open}>
-        <div class="container">
+        <div slot="head">
           <h3 class="title">${this.#isEdit ? 'Edit Table': 'Create Table'}</h3>
+        </div>
+        <div slot="body">
           <form class="pure-form pure-form-stacked">
             <label>
               Name

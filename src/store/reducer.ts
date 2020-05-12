@@ -3,6 +3,7 @@ import { reducer as createCords } from './slices/create-cords';
 import { reducer as tableDialog } from './slices/create-dialog';
 import { reducer as dbViewerMode } from './slices/db-viewer-mode';
 import { reducer as fileOpenDialog } from './slices/file-open-dialog';
+import { reducer as fileOpenChooserDialog } from './slices/file-open-chooser-dialog';
 import { reducer as fileSqlOpenDialog } from './slices/file-sql-open-dialog';
 import { reducer as schema } from './slices/schema';
 import { reducer as welcomeDialog } from './slices/welcome-dialog';
@@ -22,6 +23,7 @@ const appReducer = combineReducers({
     }),
     tableDialog,
     welcomeDialog,
+    fileOpenChooserDialog,
   }),
   loadSchema,
   schema,

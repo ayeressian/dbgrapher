@@ -29,10 +29,9 @@ export default class extends LitElement {
         display: none;
       }
 
-      .dialog-content {
+      ::slotted(*) {
         background-color: rgba(255, 255, 255, 1);
         padding: 20px;
-        border: 1px solid #888;
         width: 100%;
 
         display: flex;
@@ -44,10 +43,10 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="dialog ${classMap({ hide: !this.show })}">
-        <div class="dialog-content">
-          <slot>
-          </slot>
-        </div>
+        <slot name="head">
+        </slot>
+        <slot name="body">
+        </slot>
       </div>
     `;
   }

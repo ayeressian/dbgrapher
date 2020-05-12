@@ -13,6 +13,9 @@ export default {
     new CopyPlugin([
       {
         from: "src/index.html"
+      },
+      {
+        from: 'asset/icon-app.svg'
       }
     ])
   ],

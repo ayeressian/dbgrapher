@@ -3,6 +3,7 @@ import store from '../store/store';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
+import { actions as loadScreenAction } from '../store/slices/load-screen';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 type Options = {
@@ -35,8 +36,17 @@ export function picker(): void {
         store.dispatch(schemaAction.initiate(result));
         store.dispatch(fileOpenChooserAction.close());
         store.dispatch(setSchemaAction.load());
+        store.dispatch(loadScreenAction.stop());
       });
+    },
+    cancel: (): void => {
+      store.dispatch(loadScreenAction.stop());
+    }, 
+    error: (error: any): void => {
+      console.error(error);
+      store.dispatch(loadScreenAction.stop());
     }
   };
+  store.dispatch(loadScreenAction.start());
   OneDrive.open(options);
 }

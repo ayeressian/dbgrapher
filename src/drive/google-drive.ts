@@ -4,6 +4,7 @@ import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as googleDriveAction } from '../store/slices/google-drive-key';
 import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
 import env from '../../env.json';
+import { actions as loadScreenAction } from '../store/slices/load-screen';
 
 const {
   // The Browser API key obtained from the Google API Console.
@@ -27,6 +28,7 @@ const authorizePromise = new Promise<string>((resolve, reject) => {
 });
 
 const handleAuthResult = (authResult: GoogleApiOAuth2TokenObject): void => {
+  store.dispatch(loadScreenAction.stop());
   if (authResult.error) {
     authorizePromiseReject(authResult.error);
   } else {
@@ -37,6 +39,7 @@ const handleAuthResult = (authResult: GoogleApiOAuth2TokenObject): void => {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const pickerCallback = (data: any): void => {
   if (data.action == google.picker.Action.PICKED) {
+    store.dispatch(loadScreenAction.start());
     const file = data.docs[0];
     gapi.client.request({
       path: `https://www.googleapis.com/drive/v2/files/${file.id}`,
@@ -45,13 +48,17 @@ const pickerCallback = (data: any): void => {
       }
     }).then((data) => {
       store.dispatch(googleDriveAction.set(file.id));
-      gapi.client.request({
+      store.dispatch(fileOpenChooserAction.close());
+      return gapi.client.request({
         path: data.result.downloadUrl
-      }).then((contentData) => {
+      }).then(contentData => {
+        store.dispatch(loadScreenAction.stop());
         store.dispatch(schemaAction.initiate(contentData.result));
-        store.dispatch(fileOpenChooserAction.close());
         store.dispatch(setSchemaAction.load());
       });
+    }).catch(error => {
+      store.dispatch(loadScreenAction.stop());
+      console.error(error);
     });
   }
 };
@@ -67,6 +74,7 @@ const pickerLoad = new Promise((resolve) => {
 // Create and render a Picker object for searching images.
 export const picker = async (): Promise<void> => {
   await authLoad;
+  store.dispatch(loadScreenAction.start());
   gapi.auth.authorize(
     {
       'client_id': clientId,

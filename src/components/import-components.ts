@@ -10,3 +10,4 @@ import './table-dialog/table-dialog';
 import './table-dialog/columns';
 import './table-dialog/fk-columns';
 import './select';
+import './load-screen';

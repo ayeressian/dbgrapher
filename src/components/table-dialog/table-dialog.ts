@@ -161,10 +161,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open}>
-        <div slot="head">
-          <h3 class="title">${this.#isEdit ? 'Edit Table': 'Create Table'}</h3>
-        </div>
+      <dbg-dialog ?show=${this.#open} showClose title="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}">
         <div slot="body">
           <form class="pure-form pure-form-stacked">
             <label>

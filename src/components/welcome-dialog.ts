@@ -23,15 +23,10 @@ export default class extends ConnectLitElement {
 
   static get styles(): CSSResult {
     return css`
-      .operation {
-        color: #000000a3;
-      }
-
       .operation-icon {
         width: 75px;
         height: 100px;
         display: inline-block;
-        filter: opacity(50%);
         background-repeat: no-repeat;
         background-size: cover;
       }
@@ -66,6 +61,7 @@ export default class extends ConnectLitElement {
       }
 
       .operation-container {
+        filter: opacity(60%);
         padding: 10px;
         margin: 10px;
         width: 200px;

@@ -25,15 +25,10 @@ export default class extends ConnectLitElement {
 
   static get styles(): CSSResult {
     return css`
-      .operation {
-        color: #000000a3;
-      }
-
       .operation-icon {
         width: 100px;
         height: 100px;
         display: inline-block;
-        filter: opacity(50%);
         background-repeat: no-repeat;
         background-size: cover;
       }
@@ -56,6 +51,7 @@ export default class extends ConnectLitElement {
       }
 
       .operation-container {
+        filter: opacity(60%);
         padding: 10px;
         margin: 10px;
         width: 200px;
@@ -86,7 +82,7 @@ export default class extends ConnectLitElement {
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open}>
+      <dbg-dialog ?show=${this.#open} showBack @dbg-on-back=${this.#goBack}>
         <div slot="body">
           <div class="operation-container" @click="${this.#local}">
             <div class="local operation-icon">
@@ -107,13 +103,6 @@ export default class extends ConnectLitElement {
             </div>
             <h4 class="operation">
               One Drive
-            </h4>
-          </div>
-          <div class="operation-container" @click="${this.#goBack}">
-            <div class="go-back operation-icon">
-            </div>
-            <h4 class="operation">
-              Go Back
             </h4>
           </div>
         </div>

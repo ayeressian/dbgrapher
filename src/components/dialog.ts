@@ -96,6 +96,11 @@ export default class extends LitElement {
     `;
   }
 
+  connectedCallback(): void {
+    super.connectedCallback();
+    window.addEventListener('keydown', this.#onEscape);
+  }
+
   render(): TemplateResult {
     return html`
       <div class="dialog ${classMap({ hide: !this.show })}">
@@ -116,6 +121,13 @@ export default class extends LitElement {
         </div>
       </div>
     `;
+  }
+
+  #onEscape = (event: KeyboardEvent): void => {
+    if(event.key === "Escape") {
+      const escapeEvent = new CustomEvent('dbg-on-escape');
+      this.dispatchEvent(escapeEvent);  
+    }
   }
 
   #close = (): void => {  

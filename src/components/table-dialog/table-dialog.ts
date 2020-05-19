@@ -136,13 +136,8 @@ export default class extends LitElement {
     this.requestUpdate();
   };
 
-  #onEscape = (event: KeyboardEvent): void => {
-    if(event.key === "Escape") this.#cancel(event);
-  };
-
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('keydown', this.#onEscape);
 
     subscribe(state => state.dialog.tableDialog, ({open, tableName}, state) => {
       this.#open = open;
@@ -161,7 +156,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open} showClose title="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}">
+      <dbg-dialog ?show=${this.#open} showClose title="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}" @dbg-on-escape="${this.#cancel}">
         <div slot="body">
           <form class="pure-form pure-form-stacked">
             <label>

@@ -106,6 +106,6 @@ export default class extends ConnectLitElement {
 
   #openFile = (): void => {
     store.dispatch(welcomeDialogActions.close());
-    store.dispatch(fileOpenChooserAction.open());
+    store.dispatch(fileOpenChooserAction.open(true));
   };
 }

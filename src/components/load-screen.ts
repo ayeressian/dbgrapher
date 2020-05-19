@@ -43,15 +43,12 @@ export default class extends LitElement {
     super.connectedCallback();
 
     subscribe(state => state.loadScreen, view => {
-      // debugger;
       this.#view = view;
       this.requestUpdate();
     });
   }
 
   render(): TemplateResult {
-    console.log(this.#view);
-    // debugger;
     return html`
       <div class=${classMap({ 'hide': !this.#view, 'overlay': true })}>
         <div class="load-icon"></div>

@@ -67,13 +67,8 @@ export default class extends ConnectLitElement {
     `;
   }
 
-  #onEscape = (): void => {
-    // TODO
-  }
-
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener('keydown', this.#onEscape);
     subscribe(state => state.dialog.fileOpenChooserDialog, open => {
       this.#open = open;
       this.requestUpdate();
@@ -87,7 +82,8 @@ export default class extends ConnectLitElement {
         ?showBack=${this.#open === State.OpenFromWelcomeDialog}
         ?showClose=${this.#open === State.OpenFromTopMenu}
         @dbg-on-back=${this.#goBack}
-        @dbg-on-close=${this.#close}>
+        @dbg-on-close=${this.#close}
+        @dbg-on-escape="${this.#onEscape}">
         <div slot="body">
           <div class="operation-container" @click="${this.#local}">
             <div class="local operation-icon">
@@ -135,4 +131,12 @@ export default class extends ConnectLitElement {
   #close = (): void => {
     store.dispatch(fileOpenChooserAction.close());
   };
+
+  #onEscape = (): void => {
+    if (this.#open === State.OpenFromTopMenu) {
+      this.#close();
+    } else {
+      this.#goBack();
+    }
+  }
 }

@@ -1,13 +1,11 @@
 import { html, customElement, TemplateResult, LitElement } from 'lit-element';
 import { actions as schemaAction } from '../store/slices/schema';
-import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
+import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
 import store from '../store/store';
 import { download } from '../util';
 import { Schema } from 'db-viewer-component';
 import schemaToSqlSchema from '../schema-to-sql-schema';
-import { picker as googleDrivePicker } from '../drive/google-drive';
-import { picker as oneDrivePicker } from '../drive/one-drive';
 
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
@@ -32,19 +30,13 @@ export default class extends LitElement {
         store.dispatch(setSchemaAction.load());
         break;
       case 'open':
-        store.dispatch(fileOpenAction.open());
+        store.dispatch(fileOpenChooserAction.open(false));
         break;
       case 'downloadSchema':
         download(JSON.stringify(store.getState().schema.present), 'schema.json', 'application/json');
         break;
-      case 'openOneDrive':
-        oneDrivePicker();
-        break;
       case 'exportSql':
         this.#downloadAsSQLSchema();
-        break;
-      case 'openGoogleDrive':
-        googleDrivePicker();
         break;
       case 'reportIssue':
         {

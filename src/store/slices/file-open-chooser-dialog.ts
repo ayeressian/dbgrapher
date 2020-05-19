@@ -1,11 +1,17 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+
+export enum State {
+  OpenFromWelcomeDialog,
+  OpenFromTopMenu,
+  Close
+}
 
 const slice = createSlice({
-  initialState: false,
+  initialState: State.Close,
   name: 'fileOpenChooserDialog',
   reducers: {
-    close: (): boolean => false,
-    open: (): boolean => true,
+    close: (): State => State.Close,
+    open: (_, action: PayloadAction<boolean>): State => action.payload? State.OpenFromWelcomeDialog: State.OpenFromTopMenu,
   },
 });
 

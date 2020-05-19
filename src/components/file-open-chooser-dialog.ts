@@ -16,12 +16,12 @@ import { picker as googleDrivePicker } from '../drive/google-drive';
 import { picker as oneDrivePicker } from '../drive/one-drive';
 import { subscribe } from "../subscribe-store";
 import { actions as fileOpenDialog } from "../store/slices/file-open-dialog";
-import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
+import { actions as fileOpenChooserAction, State } from '../store/slices/file-open-chooser-dialog';
 import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
-  #open = false;
+  #open = State.Close;
 
   static get styles(): CSSResult {
     return css`
@@ -82,7 +82,12 @@ export default class extends ConnectLitElement {
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open} showBack @dbg-on-back=${this.#goBack}>
+      <dbg-dialog
+        ?show=${this.#open !== State.Close}
+        ?showBack=${this.#open === State.OpenFromWelcomeDialog}
+        ?showClose=${this.#open === State.OpenFromTopMenu}
+        @dbg-on-back=${this.#goBack}
+        @dbg-on-close=${this.#close}>
         <div slot="body">
           <div class="operation-container" @click="${this.#local}">
             <div class="local operation-icon">
@@ -98,13 +103,13 @@ export default class extends ConnectLitElement {
               Google Drive
             </h4>
           </div>
-          <div class="operation-container" @click="${this.#oneDrive}">
+          <!--<div class="operation-container" @click="${this.#oneDrive}">
             <div class="one-drive operation-icon">
             </div>
             <h4 class="operation">
               One Drive
             </h4>
-          </div>
+          </div>-->
         </div>
       </dbg-dialog>
     `;
@@ -124,6 +129,10 @@ export default class extends ConnectLitElement {
 
   #goBack = (): void => {
     store.dispatch(welcomeDialogActions.open());
+    store.dispatch(fileOpenChooserAction.close());
+  };
+
+  #close = (): void => {
     store.dispatch(fileOpenChooserAction.close());
   };
 }

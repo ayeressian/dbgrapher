@@ -4,13 +4,10 @@ import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 
 @customElement('dbg-app')
 export default class extends LitElement {
   static get styles(): CSSResult {
-    return css`
+    return css`  
       * {
-        font-family: Arial, Helvetica, sans-serif;
-      }
-      
-      body {
-        margin: 0;
+        font-family: RobotoCondensed, Arial;
+        color: #333;
       }
       
       .main_container {
@@ -19,6 +16,11 @@ export default class extends LitElement {
         grid-template-rows: 32px 1fr;
         width: 100vw;
         height: 100vh;
+
+        --theme-primary: rgb(217, 217, 217);
+        --theme-text-color: #333;
+        --theme-orange: #FF6C00;
+        --theme-font-family: Roboto;
       }
       
       dbg-side-panel {

@@ -10,7 +10,6 @@ export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
       * {
-        font-family: Arial, Helvetica, sans-serif;
         cursor: default;
       }
 
@@ -44,7 +43,7 @@ export default class extends LitElement {
         top: 50px;
         left: 0;
         display: none;
-        background-color: #cfcfcf;
+        background-color: #d9d9d9;
         z-index: 1;
         min-width: 160px;
         padding: 0;
@@ -65,7 +64,6 @@ export default class extends LitElement {
         line-height: 2em;
         padding-left: 20px;
         padding-right: 20px;
-        border-bottom: 1px solid #bdbdbd;
       }
 
       .dropdown li:last-child {

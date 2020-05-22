@@ -56,13 +56,10 @@ export default class extends LitElement {
       .icons > div {
         width: 50px;
         height: 50px;
-        filter: opacity(60%);
+        filter: opacity(70%);
         background-repeat: no-repeat;
         background-size: cover;
-      }
-
-      .icons > div:hover {
-        filter: opacity(100%);
+        cursor: pointer;
       }
 
       .icons {

@@ -15,8 +15,9 @@ export default {
         from: "src/index.html"
       },
       {
-        from: 'asset/icon-app.svg'
-      }
+        from: 'asset/',
+        to: 'asset/'
+      },
     ])
   ],
   module: {

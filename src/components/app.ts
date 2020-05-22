@@ -13,7 +13,7 @@ export default class extends LitElement {
       .main_container {
         display: grid;
         grid-template-columns: 60px 1fr;
-        grid-template-rows: 32px 1fr;
+        grid-template-rows: 33px 1fr;
         width: 100vw;
         height: 100vh;
 

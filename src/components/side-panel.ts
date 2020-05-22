@@ -14,6 +14,11 @@ export default class extends LitElement {
       .left_toolbar {
         padding: 0;
         margin: 0;
+
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
       }
       
       .left_toolbar .action {

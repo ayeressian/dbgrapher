@@ -14,7 +14,7 @@ import { actions as fileOpenChooserAction } from "../store/slices/file-open-choo
 import { AppState } from '../store/reducer';
 import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg';
 import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
-import appIcon from '../../asset/icon-app.svg';
+import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-welcome-dialog")
 export default class extends ConnectLitElement {
@@ -23,21 +23,7 @@ export default class extends ConnectLitElement {
 
   static get styles(): CSSResult {
     return css`
-      .operation-icon {
-        width: 75px;
-        height: 100px;
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
-
-      .app-icon {
-        width: 75px;
-        height: 50px;
-        background-image: url(${unsafeCSS(appIcon)});
-        background-size: cover;
-        background-repeat: no-repeat;
-      }
+      ${commonStyles}
 
       .folder-open {
         width: 112px;
@@ -46,33 +32,6 @@ export default class extends ConnectLitElement {
 
       .new-file {
         background-image: url(${unsafeCSS(fileSvg)});
-      }
-
-      .body {
-        display: flex;
-      }
-
-      .header {
-        width: 100%;
-        display: flex;
-        overflow: hidden;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .operation-container {
-        filter: opacity(60%);
-        padding: 10px;
-        margin: 10px;
-        width: 200px;
-        text-align: center;
-        background-color: white;
-      }
-
-      .operation-container:hover {
-        cursor: pointer;
-        background-color: rgba(0,0,0,.05);
-        background-blend-mode: multiply;
       }
     `;
   }

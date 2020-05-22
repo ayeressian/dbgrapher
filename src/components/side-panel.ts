@@ -1,8 +1,8 @@
 import { LitElement, html, customElement, css, unsafeCSS, CSSResult, TemplateResult } from 'lit-element';
 import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
 import store from '../store/store';
-import createIconImg from '../../asset/icon_create_table_48x48.png';
-import relationIconImg from '../../asset/icon_create_relation_48x48.png';
+import createIconImg from '../../asset/table.svg';
+import relationIconImg from '../../asset/relation.svg';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../subscribe-store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
@@ -19,9 +19,11 @@ export default class extends LitElement {
       .left_toolbar .action {
         width: 60px;
         height: 60px;
+
         list-style-type: none;
         background-repeat: no-repeat;
         background-position: center;
+        background-size: 35px;
       }
       
       .left_toolbar .action:hover {
@@ -33,6 +35,7 @@ export default class extends LitElement {
       }
       
       .left_toolbar .action.create_table {
+
         background-image: url(${unsafeCSS(createIconImg)});
       }
       

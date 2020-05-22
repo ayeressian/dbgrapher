@@ -10,7 +10,6 @@ import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
 import localSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
 import googleDriveSvg from '@fortawesome/fontawesome-free/svgs/brands/google-drive.svg';
-import goBackSvg from '@fortawesome/fontawesome-free/svgs/regular/arrow-alt-circle-left.svg';
 import oneDriveSvg from '../../asset/icon-onedrive.svg';
 import { picker as googleDrivePicker } from '../drive/google-drive';
 import { picker as oneDrivePicker } from '../drive/one-drive';
@@ -18,6 +17,7 @@ import { subscribe } from "../subscribe-store";
 import { actions as fileOpenDialog } from "../store/slices/file-open-dialog";
 import { actions as fileOpenChooserAction, State } from '../store/slices/file-open-chooser-dialog';
 import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
+import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
@@ -25,13 +25,7 @@ export default class extends ConnectLitElement {
 
   static get styles(): CSSResult {
     return css`
-      .operation-icon {
-        width: 100px;
-        height: 100px;
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-size: cover;
-      }
+      ${commonStyles}
 
       .local {
         width: 113px;
@@ -39,30 +33,12 @@ export default class extends ConnectLitElement {
       }
 
       .google-drive {
+        width: 100px;
         background-image: url(${unsafeCSS(googleDriveSvg)});
       }
 
       .one-drive {
         background-image: url(${unsafeCSS(oneDriveSvg)});
-      }
-
-      .go-back {
-        background-image: url(${unsafeCSS(goBackSvg)});
-      }
-
-      .operation-container {
-        filter: opacity(60%);
-        padding: 10px;
-        margin: 10px;
-        width: 200px;
-        text-align: center;
-        background-color: white;
-      }
-
-      .operation-container:hover {
-        cursor: pointer;
-        background-color: rgba(0,0,0,.05);
-        background-blend-mode: multiply;
       }
     `;
   }

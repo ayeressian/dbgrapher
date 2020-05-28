@@ -37,7 +37,6 @@ export default css`
     background-color: #E0E0E0;
     position: sticky;
     top: 0;
-    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.4);
   }
 
   .table-container table {
@@ -46,6 +45,10 @@ export default css`
 
   .add-column {
     display: block;
+  }
+
+  table tbody td:last-child {
+    width: 32px;
   }
 
   .remove-icon {

@@ -102,7 +102,7 @@ export default class extends LitElement {
           />
         </td>
         <td>
-          <button class="pure-button" @click="${(event: Event): void => this.#removeColumn(event, index)}">Remove</button>
+          <div class="remove-icon" @click="${(event: Event): void => this.#removeColumn(event, index)}"></div>
         </td>
       </tr>
     `;

@@ -2,6 +2,7 @@ import { css, unsafeCSS } from 'lit-element';
 import formsCss from 'purecss/build/forms-min.css';
 import buttonCss from 'purecss/build/buttons-min.css';
 import tableCss from 'purecss/build/tables-min.css';
+import removeSvg from '../../../asset/remove.svg';
 
 export default css`
   ${unsafeCSS(formsCss)}
@@ -45,5 +46,12 @@ export default css`
 
   .add-column {
     display: block;
+  }
+
+  .remove-icon {
+    width: 32px;
+    height: 32px;
+    background-image: url(${unsafeCSS(removeSvg)});
+    background-size: cover;
   }
 }`;

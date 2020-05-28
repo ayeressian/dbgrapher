@@ -6,6 +6,7 @@ import relationIconImg from '../../asset/relation.svg';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../subscribe-store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
+import { isSafari } from '../util';
 
 @customElement('dbg-side-panel')
 export default class extends LitElement {
@@ -46,7 +47,11 @@ export default class extends LitElement {
       
       .left_toolbar .action.create_relation {
         background-image: url(${unsafeCSS(relationIconImg)});
-      }    
+      }
+
+      .safari-height {
+        height: calc(100% - 33px);
+      }
     `;
   }
 
@@ -55,7 +60,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <ul class="left_toolbar">
+      <ul class="left_toolbar ${classMap({'safari-height': isSafari})}">
         <li class="action create_table ${classMap({active: this.#createActive})}" title="Create Table" @click="${this.#create}"></li>
         <li class="action create_relation ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relation}"></li>
       </ul>

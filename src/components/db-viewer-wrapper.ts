@@ -25,7 +25,7 @@ export default class DbWrapper extends LitElement {
         overflow: auto;
       }
       .safari-height {
-        height: calc(100% - 32px);
+        height: calc(100% - 33px);
       }
 
       db-viewer {

@@ -1,7 +1,7 @@
 import { LitElement, html, customElement, css, CSSResult, TemplateResult, property, unsafeCSS } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
-import goBackSvg from '@fortawesome/fontawesome-free/svgs/regular/arrow-alt-circle-left.svg';
-import closeSvg from '@fortawesome/fontawesome-free/svgs/regular/times-circle.svg';
+import goBackSvg from '../../asset/arrow-alt-circle-left.svg';
+import closeSvg from '../../asset/times-circle.svg';
 
 export type OnCloseEvent = CustomEvent;
 
@@ -56,9 +56,8 @@ export default class extends LitElement {
       .icons > div {
         width: 50px;
         height: 50px;
-        filter: opacity(70%);
         background-repeat: no-repeat;
-        background-size: cover;
+        background-size: contain;
         cursor: pointer;
       }
 

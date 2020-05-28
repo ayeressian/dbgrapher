@@ -12,8 +12,8 @@ import { watch } from "lit-redux-watch";
 import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
 import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
 import { AppState } from '../store/reducer';
-import fileSvg from '@fortawesome/fontawesome-free/svgs/regular/file.svg';
-import folderOpenSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
+import fileSvg from '../../asset/file.svg';
+import folderOpenSvg from '../../asset/folder-open.svg';
 import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-welcome-dialog")
@@ -27,6 +27,8 @@ export default class extends ConnectLitElement {
 
       .folder-open {
         width: 112px;
+        height: 75px;
+        margin-top: 10px;
         background-image: url(${unsafeCSS(folderOpenSvg)});
       }
 
@@ -41,14 +43,18 @@ export default class extends ConnectLitElement {
       <dbg-dialog ?show=${this.open}>
         <div slot="body">
           <div class="operation-container" @click="${this.#newFile}">
-            <div class="new-file operation-icon">
+            <div class="operation-icon-container">
+              <div class="new-file operation-icon">
+              </div>
             </div>
             <h4 class="operation" id="new-file">
               New Schema
             </h4>
           </div>
           <div class="operation-container" @click="${this.#openFile}">
-            <div class="folder-open operation-icon">
+            <div class="operation-icon-container">
+              <div class="folder-open operation-icon">
+              </div>
             </div>
             <h4 class="operation" id="open-file">
               Open Schema

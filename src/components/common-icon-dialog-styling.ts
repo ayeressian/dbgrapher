@@ -2,12 +2,16 @@ import { css } from 'lit-element';
 
 export default css`
   .operation-icon {
-    filter: opacity(70%);
     width: 75px;
     height: 100px;
-    display: inline-block;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .operation-icon-container {
+    width: fit-content;
+    height: 100px;
+    display: inline-block;
   }
 
   .operation {

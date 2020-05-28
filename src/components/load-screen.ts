@@ -1,6 +1,6 @@
 import { LitElement, html, customElement, css, CSSResult, TemplateResult, unsafeCSS } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
-import loadIcon from '../../asset/icon-load.svg';
+import loadIcon from '../../asset/load.svg';
 import { subscribe } from '../subscribe-store';
 
 @customElement('dbg-load-screen')

@@ -27,6 +27,10 @@ export default class DbWrapper extends LitElement {
       .safari-height {
         height: calc(100% - 32px);
       }
+
+      db-viewer {
+        --font-family: RobotoCondensed;
+      }
     `;
   }
 

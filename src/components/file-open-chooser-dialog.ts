@@ -8,9 +8,9 @@ import {
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import localSvg from '@fortawesome/fontawesome-free/svgs/regular/folder-open.svg';
-import googleDriveSvg from '@fortawesome/fontawesome-free/svgs/brands/google-drive.svg';
-import oneDriveSvg from '../../asset/icon-onedrive.svg';
+import localSvg from '../../asset/folder-open.svg';
+import googleDriveSvg from '../../asset/google-drive.svg';
+import oneDriveSvg from '../../asset/onedrive.svg';
 import { picker as googleDrivePicker } from '../drive/google-drive';
 import { picker as oneDrivePicker } from '../drive/one-drive';
 import { subscribe } from "../subscribe-store";
@@ -28,7 +28,9 @@ export default class extends ConnectLitElement {
       ${commonStyles}
 
       .local {
-        width: 113px;
+        width: 112px;
+        margin-top: 10px;
+        height: 75px;
         background-image: url(${unsafeCSS(localSvg)});
       }
 
@@ -62,14 +64,18 @@ export default class extends ConnectLitElement {
         @dbg-on-escape="${this.#onEscape}">
         <div slot="body">
           <div class="operation-container" @click="${this.#local}">
-            <div class="local operation-icon">
+            <div class="operation-icon-container">
+              <div class="local operation-icon">
+              </div>
             </div>
             <h4 class="operation">
               My Computer
             </h4>
           </div>
           <div class="operation-container" @click="${this.#googleDrive}">
-            <div class="google-drive operation-icon">
+            <div class="operation-icon-container">
+              <div class="google-drive operation-icon">
+              </div>
             </div>
             <h4 class="operation">
               Google Drive
@@ -111,7 +117,7 @@ export default class extends ConnectLitElement {
   #onEscape = (): void => {
     if (this.#open === State.OpenFromTopMenu) {
       this.#close();
-    } else {
+    } else if (this.#open === State.OpenFromWelcomeDialog) {
       this.#goBack();
     }
   }

@@ -109,7 +109,7 @@ export default class extends LitElement {
           <dbg-select value="${column.fk?.column}" options="${JSON.stringify(this.#getFkColumns(column.fk!.table).map(({name}) => name))}" @dbg-on-select="${onFkColumnSelect}"></dbg-select>
         </td>
         <td>
-          <button class="pure-button" @click="${(event: Event): void => this.#removeFkColumn(event, index)}">Remove</button>
+          <div class="remove-icon" @click="${(event: Event): void => this.#removeFkColumn(event, index)}"></div>
         </td>
       </tr>
     `;

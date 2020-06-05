@@ -1,5 +1,8 @@
 export enum IDbViewerMode {
   Create,
-  Relation,
+  RelationOneToMany,
+  RelationOneToOne,
+  RelationZeroToOne,
+  RelationZeroToMany,
   None,
 }

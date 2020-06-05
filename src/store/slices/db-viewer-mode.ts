@@ -7,7 +7,7 @@ const slice = createSlice({
   reducers: {
     createMode: (): IDbViewerMode => IDbViewerMode.Create,
     none: (): IDbViewerMode => IDbViewerMode.None,
-    relationMode: (): IDbViewerMode => IDbViewerMode.Relation,
+    relationMode: (): IDbViewerMode => IDbViewerMode.RelationOneToMany,
   },
 });
 

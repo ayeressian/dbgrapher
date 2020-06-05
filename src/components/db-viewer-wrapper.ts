@@ -128,7 +128,7 @@ export default class DbWrapper extends LitElement {
         case IDbViewerMode.Create:
           this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
           break;
-        case IDbViewerMode.Relation:
+        case IDbViewerMode.RelationOneToMany:
           this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           break;

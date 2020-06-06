@@ -27,7 +27,7 @@ export default class extends LitElement {
       
       .left_toolbar .action {
         width: 60px;
-        height: 60px;
+        height: 80px;
 
         list-style-type: none;
         background-repeat: no-repeat;

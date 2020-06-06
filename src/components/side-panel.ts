@@ -75,11 +75,11 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar ${classMap({'safari-height': isSafari})}">
-        <li class="action create_table ${classMap({active: this.#createActive})}" title="Create Table" @click="${this.#create}"></li>
-        <li class="action create_relation_one_to_many ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relationOneToMany}"></li>
-        <li class="action create_relation_zero_to_many ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relationZeroToMany}"></li>
-        <li class="action create_relation_one_to_one ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relationOneToOne}"></li>
-        <li class="action create_relation_zero_to_one ${classMap({active: this.#relationActive})}" title="Create Relation" @click="${this.#relationZeroToOne}"></li>
+        <li class="action create_table ${classMap({active: this.#createActive})}" title="Create table" @click="${this.#create}"></li>
+        <li class="action create_relation_one_to_many ${classMap({active: this.#relationActive})}" title="Create one to many relation" @click="${this.#relationOneToMany}"></li>
+        <li class="action create_relation_zero_to_many ${classMap({active: this.#relationActive})}" title="Create zero to many relation" @click="${this.#relationZeroToMany}"></li>
+        <li class="action create_relation_one_to_one ${classMap({active: this.#relationActive})}" title="Create one to one relation" @click="${this.#relationOneToOne}"></li>
+        <li class="action create_relation_zero_to_one ${classMap({active: this.#relationActive})}" title="Create zero to one relation" @click="${this.#relationZeroToOne}"></li>
       </ul>
     `;
   }

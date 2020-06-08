@@ -18,6 +18,7 @@ export default class DbWrapper extends LitElement {
   #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
   #dbViewer?: DbViewer;
   #relationFirstTableName?: string; 
+  #mode: IDbViewerMode = IDbViewerMode.None;
 
   static get styles(): CSSResult {
     return css`
@@ -64,6 +65,8 @@ export default class DbWrapper extends LitElement {
       }
       secondTable!.columns.push({
         name: relationName,
+        uq: this.#mode === IDbViewerMode.RelationOneToOne || this.#mode === IDbViewerMode.RelationZeroToOne,
+        nn: this.#mode === IDbViewerMode.RelationOneToOne || this.#mode === IDbViewerMode.RelationOneToMany,
         fk: {
           table: firstTable!.name,
           column: column.name
@@ -124,10 +127,14 @@ export default class DbWrapper extends LitElement {
     subscribe(state => state.loadSchema, this.#loadSchema);
 
     subscribe(state => state.dbViewerMode, dbViewerMode => {
+      this.#mode = dbViewerMode;
       switch(dbViewerMode) {
-        case IDbViewerMode.Create:
+        case IDbViewerMode.CreateTable:
           this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
           break;
+        case IDbViewerMode.RelationOneToOne:
+        case IDbViewerMode.RelationZeroToOne:
+        case IDbViewerMode.RelationZeroToMany:
         case IDbViewerMode.RelationOneToMany:
           this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);

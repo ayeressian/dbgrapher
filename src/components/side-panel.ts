@@ -69,17 +69,26 @@ export default class extends LitElement {
     `;
   }
 
-  #createActive = false;
-  #relationActive = false;
+  #mode: IDbViewerMode = IDbViewerMode.None;
 
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar ${classMap({'safari-height': isSafari})}">
-        <li class="action create_table ${classMap({active: this.#createActive})}" title="Create table" @click="${this.#create}"></li>
-        <li class="action create_relation_one_to_many ${classMap({active: this.#relationActive})}" title="Create one to many relation" @click="${this.#relationOneToMany}"></li>
-        <li class="action create_relation_zero_to_many ${classMap({active: this.#relationActive})}" title="Create zero to many relation" @click="${this.#relationZeroToMany}"></li>
-        <li class="action create_relation_one_to_one ${classMap({active: this.#relationActive})}" title="Create one to one relation" @click="${this.#relationOneToOne}"></li>
-        <li class="action create_relation_zero_to_one ${classMap({active: this.#relationActive})}" title="Create zero to one relation" @click="${this.#relationZeroToOne}"></li>
+        <li class="action create_table ${classMap({active: this.#mode === IDbViewerMode.CreateTable})}"
+          title="Create table"
+          @click="${this.#changeMode(IDbViewerMode.CreateTable)}"/>
+        <li class="action create_relation_one_to_many ${classMap({active: this.#mode === IDbViewerMode.RelationOneToMany})}"
+          title="Create one to many relation"
+          @click="${this.#changeMode(IDbViewerMode.RelationOneToMany)}"/>
+        <li class="action create_relation_zero_to_many ${classMap({active: this.#mode === IDbViewerMode.RelationZeroToMany})}"
+          title="Create zero to many relation"
+          @click="${this.#changeMode(IDbViewerMode.RelationZeroToMany)}"/>
+        <li class="action create_relation_one_to_one ${classMap({active: this.#mode === IDbViewerMode.RelationOneToOne})}"
+          title="Create one to one relation"
+          @click="${this.#changeMode(IDbViewerMode.RelationOneToOne)}"/>
+        <li class="action create_relation_zero_to_one ${classMap({active: this.#mode === IDbViewerMode.RelationZeroToOne})}"
+          title="Create zero to one relation"
+          @click="${this.#changeMode(IDbViewerMode.RelationZeroToOne)}"/>
       </ul>
     `;
   }
@@ -87,50 +96,17 @@ export default class extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(state => state.dbViewerMode, (dbViewerMode) => {
-      switch(dbViewerMode) {
-        case IDbViewerMode.Create:
-          this.#createActive = true;
-          this.#relationActive = false;
-          break;
-        case IDbViewerMode.RelationOneToMany:
-          this.#createActive = false;
-          this.#relationActive = true;
-          break;
-        default:
-          this.#createActive = false;
-          this.#relationActive = false;
-          break;
-      }
+    subscribe(state => state.dbViewerMode, dbViewerMode => {
+      this.#mode = dbViewerMode;
       this.requestUpdate();
     });
   }
 
-  #create = (): void => {
-    if (store.getState().dbViewerMode === IDbViewerMode.Create) {
+  #changeMode = (mode: IDbViewerMode) => (): void => {
+    if (store.getState().dbViewerMode === mode) {
       store.dispatch(dbViewerModeAction.none());
     } else {
-      store.dispatch(dbViewerModeAction.createMode());
+      store.dispatch(dbViewerModeAction.changeMode(mode));
     }
-  }
-
-  #relationOneToMany = (): void => {
-    if (store.getState().dbViewerMode === IDbViewerMode.RelationOneToMany) {
-      store.dispatch(dbViewerModeAction.none());
-    } else {
-      store.dispatch(dbViewerModeAction.relationMode());
-    }
-  }
-
-  #relationZeroToMany = (): void => {
-    //TODO
-  }
-
-  #relationOneToOne = (): void => {
-    //TODO
-  }
-
-  #relationZeroToOne = (): void => {
-    //TODO
   }
 }

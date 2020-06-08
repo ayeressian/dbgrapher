@@ -1,6 +1,7 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
+import { actions as fileOpenDialogActions } from '../store/slices/file-open-dialog';
 import store from '../store/store';
 import { validateJson } from '../validate-schema';
 import { actions as fileOpenChooserDialogOpen } from '../store/slices/file-open-chooser-dialog';
@@ -36,6 +37,7 @@ export default class extends LitElement {
     subscribe(state => state.dialog.fileDialog.fileOpenDialog, open => {
       if (open) {
         this.#loaded.then(() => {
+          store.dispatch(fileOpenDialogActions.close());
           this.#dbgFileInput!.click();
         });
       }

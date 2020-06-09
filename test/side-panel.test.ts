@@ -15,7 +15,7 @@ describe('side-panel', function() {
   describe('actions', () => {
     it('should have 2 actions', () => {
       const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
-      expect(actions.length).toEqual(2);
+      expect(actions.length).toEqual(5);
     });
 
     it('should become active when clicked', async () => {

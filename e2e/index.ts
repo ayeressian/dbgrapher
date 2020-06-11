@@ -56,6 +56,32 @@ describe('New file', () => {
           const attr = await page.getAttribute('dbg-app dbg-table-dialog dbg-dialog', 'show');
           expect(attr).toBe('');
         });
+
+        describe('when table name is provided', () => {
+          beforeEach(async () => {
+            await page.fill('dbg-app dbg-table-dialog dbg-dialog [data-testid="table-name"]', 'test');
+          });
+          describe('when save button is clicked', () => {
+            beforeEach(async () => {
+              await page.click('dbg-app dbg-table-dialog dbg-dialog [data-testid="save-btn"]');
+            });
+            it('should close the create table dialog', async () => {
+              const attr = await page.getAttribute('dbg-app dbg-table-dialog dbg-dialog', 'show');
+              expect(attr).toBe(null);
+            });
+          });
+        });
+        describe('when table name is not provided', () => {
+          describe('when save button is clicked', () => {
+            beforeEach(async () => {
+              await page.click('dbg-app dbg-table-dialog dbg-dialog [data-testid="save-btn"]');
+            });
+            it('should not close the create table dialog', async () => {
+              const attr = await page.getAttribute('dbg-app dbg-table-dialog dbg-dialog', 'show');
+              expect(attr).toBe('');
+            });
+          });
+        });
       });
     });
   });

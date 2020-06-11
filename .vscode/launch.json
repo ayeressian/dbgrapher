@@ -10,7 +10,7 @@
       "name": "e2e Test",
       "program": "${workspaceRoot}/node_modules/.bin/jasmine-ts", 
       "args": [ 
-        "--config=e2e/jasmine.json" 
+        "--config=e2e/jasmine.json"
       ], 
       "env": { 
         "NODE_PATH": ".",

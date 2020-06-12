@@ -8,5 +8,5 @@
     }
   ],
   "spec_dir": "e2e",
-  "spec_files": ["**/*.ts"]
+  "spec_files": ["relations.ts", "new-file-table-dialog.ts"]
 }

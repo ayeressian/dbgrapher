@@ -87,8 +87,12 @@ export default class extends LitElement {
       store.dispatch(schemaAction.initiate(schema));
       store.dispatch(setSchemaAction.load());
       store.dispatch(fileOpenChooserDialogOpen.close());
+
+      //Remove the value, so the same file can be set twice.
+      this.#dbgFileInput!.value = '';
     };
   };
+
   #importSqlFileChange = (): void => {
     // TODO
   };

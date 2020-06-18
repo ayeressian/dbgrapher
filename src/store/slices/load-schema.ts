@@ -1,11 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export enum State {
+  LOAD = 'LOAD',
+  LOAD_VIEWPORT_UNCHANGE = 'LOAD_VIEWPORT_UNCHANGE',
+  DEFAULT = 'DEFAULT',
+}
+
 const slice = createSlice({
-  initialState: true,
+  initialState: State.DEFAULT,
   name: 'setSchema',
   reducers: {
-    load: (): boolean => true,
-    loaded: (): boolean => false, 
+    load: (): State => State.LOAD,
+    loadViewportUnchange: (): State => State.LOAD_VIEWPORT_UNCHANGE,
+    loaded: (): State => State.DEFAULT,
   },
 });
 

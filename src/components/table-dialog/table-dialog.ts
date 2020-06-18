@@ -68,7 +68,12 @@ export default class extends LitElement {
         pos: cords,
       };
       this.#schema?.tables.unshift(this.#currentTable);
-      this.#currentTableIndex = 0; 
+      this.#currentTableIndex = 0;
+
+      // Fix for the case when old previous table data still persist after opening new dialog
+      this.requestUpdate();
+      this.updateComplete.then(() => this.#tableDialogColumns?.requestUpdate());
+      this.updateComplete.then(() => this.#tableDialogFkColumns?.requestUpdate());
     }
   };
 
@@ -208,7 +213,7 @@ export default class extends LitElement {
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
-      store.dispatch(loadSchemaActions.load());
+      store.dispatch(loadSchemaActions.loadViewportUnchange());
       updateDrive();
       store.dispatch(tableDialogAction.close());
     }

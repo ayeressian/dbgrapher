@@ -159,10 +159,17 @@ export default class extends LitElement {
       </div>`;
   }
 
-  #addColumn = (event: Event): void => {
+  #addColumn = async (event: Event): Promise<void> => {
     event.preventDefault();
     const newEvent = new CustomEvent('dbg-add-column');
     this.dispatchEvent(newEvent);
+
+    //Focus on newly added column name
+    await this.updateComplete;
+    await this.updateComplete.then(() => {
+      const lastNameInput = this.shadowRoot!.querySelector('tbody tr:last-child td:first-child input') as HTMLInputElement;
+      lastNameInput.focus();
+    });
   }
 
   #removeColumn = (event: Event, index: number): void => {

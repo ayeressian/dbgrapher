@@ -14,8 +14,8 @@ export default class extends LitElement {
         display: grid;
         grid-template-columns: 60px 1fr;
         grid-template-rows: 33px 1fr;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
 
         --theme-primary: rgb(217, 217, 217);
         --theme-text-color: #333;

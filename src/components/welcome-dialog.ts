@@ -11,6 +11,8 @@ import store from "../store/store";
 import { watch } from "lit-redux-watch";
 import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
 import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
+import { actions as schemaActions } from "../store/slices/schema";
+import { actions as loadSchemaActions } from "../store/slices/load-schema";
 import { AppState } from '../store/reducer';
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
@@ -66,6 +68,8 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
+    store.dispatch(schemaActions.initiate());
+    store.dispatch(loadSchemaActions.load());
     store.dispatch(welcomeDialogActions.close());
   };
 

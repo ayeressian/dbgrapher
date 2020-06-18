@@ -1,5 +1,5 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
-import { actions as setSchemaAction } from '../store/slices/load-schema';
+import { actions as setSchemaAction, State } from '../store/slices/load-schema';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as tableDialogAction } from '../store/slices/create-dialog';
 import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
@@ -7,10 +7,11 @@ import store from '../store/store';
 import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
 import { subscribe } from '../subscribe-store';
 import { isSafari, isMac } from '../util';
-import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema } from 'db-viewer-component';
+import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema, Viewport } from 'db-viewer-component';
 import { ColumnFkSchema } from 'db-viewer-component';
 import { classMap } from 'lit-html/directives/class-map';
 import { update as updateDrive } from '../drive/google-drive';
+import { AppState } from '../store/reducer';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -80,7 +81,7 @@ export default class DbWrapper extends LitElement {
     const secondTableName = event.detail.name;
     const schema = this.#createRelation(secondTableName);
     store.dispatch(schemaAction.set(schema));
-    store.dispatch(setSchemaAction.load());
+    store.dispatch(setSchemaAction.loadViewportUnchange());
     store.dispatch(dbViewerModeAction.none());
     this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
   };
@@ -97,40 +98,52 @@ export default class DbWrapper extends LitElement {
     this.#resolveLoaded!();
   }
 
-  #loadSchema = (): void => {
+  #loadSchema = (state: AppState, viewport: Viewport): void => {
+    this.#loaded.then(() => {
+      this.#dbViewer!.viewport = viewport;
+      this.#dbViewer!.schema = state.schema.present;
+      store.dispatch(setSchemaAction.loaded());
+    });
+  }
+
+  #loadSchemaCheck = (): void => {
     const state = store.getState();
-    if (state.loadSchema) {
-      this.#loaded.then(() => {
-        this.#dbViewer!.schema = state.schema.present;
-        store.dispatch(setSchemaAction.loaded());
-      });
+    switch (state.loadSchema) {
+      case State.LOAD:
+        this.#loadSchema(state, Viewport.centerByTables);
+        break;
+      case State.LOAD_VIEWPORT_UNCHANGE:
+        this.#loadSchema(state, Viewport.noChange);
+        break;
     }
   };
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    this.#loadSchema();
+    this.#loadSchemaCheck();
 
     document.onkeydown = (event: KeyboardEvent): void => {
       if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
         store.dispatch(schemaAction.undo());
-        store.dispatch(setSchemaAction.load());
+        store.dispatch(setSchemaAction.loadViewportUnchange());
       }
 
       if (((event.keyCode === 90 && event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) || (!isMac && event.ctrlKey)) {
         store.dispatch(schemaAction.redo());
-        store.dispatch(setSchemaAction.load());
+        store.dispatch(setSchemaAction.loadViewportUnchange());
       }
     };
 
-    subscribe(state => state.loadSchema, this.#loadSchema);
+    subscribe(state => state.loadSchema, this.#loadSchemaCheck);
 
     subscribe(state => state.dbViewerMode, dbViewerMode => {
       this.#mode = dbViewerMode;
       switch(dbViewerMode) {
         case IDbViewerMode.CreateTable:
           this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
         case IDbViewerMode.RelationOneToOne:
         case IDbViewerMode.RelationZeroToOne:
@@ -138,9 +151,12 @@ export default class DbWrapper extends LitElement {
         case IDbViewerMode.RelationOneToMany:
           this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
         default:
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
       }
     });

@@ -24,7 +24,7 @@ export default class extends LitElement {
   #currentTableIndex?: number;
   #open = false;
   #isEdit = false;
-
+  #nameInput?: HTMLInputElement;
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
   #form?: HTMLFormElement;
@@ -71,9 +71,11 @@ export default class extends LitElement {
       this.#currentTableIndex = 0;
 
       // Fix for the case when old previous table data still persist after opening new dialog
-      this.requestUpdate();
-      this.updateComplete.then(() => this.#tableDialogColumns?.requestUpdate());
-      this.updateComplete.then(() => this.#tableDialogFkColumns?.requestUpdate());
+      this.requestUpdate().then(() => {
+        this.#tableDialogColumns?.requestUpdate();
+        this.#tableDialogFkColumns?.requestUpdate();
+        this.#nameInput?.focus();
+      });
     }
   };
 
@@ -81,6 +83,7 @@ export default class extends LitElement {
     this.#form = this.shadowRoot!.querySelector('form')!;
     this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>('dbg-table-dialog-columns')!;
     this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>('dbg-table-dialog-fk-columns')!;
+    this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>('[name="name"]') as HTMLInputElement;
   }
 
   #addColumn = (): void => {

@@ -2,6 +2,7 @@ import { html, customElement, TemplateResult, LitElement } from 'lit-element';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
+import { actions as aboutDialogActions } from "../store/slices/about-dialog";
 import store from '../store/store';
 import { download } from '../util';
 import { Schema } from 'db-viewer-component';
@@ -50,7 +51,9 @@ export default class extends LitElement {
           win!.focus();
         }
         break;
-      //TODO
+      case 'about':
+        store.dispatch(aboutDialogActions.open());
+        break;
     }
   }
 }

@@ -33,16 +33,6 @@ export default class extends LitElement {
     return css`
       ${unsafeCSS(buttonCss)}
       ${unsafeCSS(formsCss)}
-      .container {
-        width: 770px;
-      }
-      .title {
-        text-align: center;
-      }
-      .errors {
-        color: #cc0000;
-        margin-bottom: 10px;
-      }
       .menu {
         display: flex;
         justify-content: center;

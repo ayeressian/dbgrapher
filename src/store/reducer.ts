@@ -11,6 +11,7 @@ import { reducer as topMenuConfig } from './slices/top-menu-config';
 import { reducer as loadSchema } from './slices/load-schema';
 import { reducer as googleDriveKey } from './slices/google-drive-key';
 import { reducer as loadScreen } from './slices/load-screen';
+import { reducer as aboutDialog } from './slices/about-dialog';
 
 const appReducer = combineReducers({
   createCords,
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   topMenuConfig,
   googleDriveKey,
   dialog: combineReducers({
+    aboutDialog,
     fileDialog: combineReducers({
       fileOpenDialog,
       fileSqlOpenDialog,

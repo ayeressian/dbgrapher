@@ -49,6 +49,8 @@ export default class extends LitElement {
         <dbg-table-dialog></dbg-table-dialog>
         <dbg-file-open-chooser-dialog></dbg-file-open-chooser-dialog>
         <dbg-load-screen></dbg-load-screen>
+        <dbg-hint></dbg-hint>
+        <dbg-about-dialog></dbg-about-dialog>
       </div>
     `;
   }

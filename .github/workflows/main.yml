@@ -23,8 +23,9 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
-    - name: run tests
-      run: |
-        npm i
-        npm test
-        npm e2e
+    - name: npm install
+      run: npm i
+    - name: npm test-headless
+      run: npm test
+    - name: npm e2e
+      run: npm test

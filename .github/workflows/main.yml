@@ -32,5 +32,7 @@ jobs:
       run: npm i
     - name: npm run test-headless
       run: npm run test-headless
+    - name: npm start
+      run: npm start
     - name: npm run e2e
       run: npm run e2e

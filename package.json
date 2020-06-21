@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --mode development --watch --config=./webpack.config.ts --host 0.0.0.0",
-    "test": "karma start",
+    "test": "karam start",
+    "test-headless": "karma start --single-run --browsers ChromeHeadless",
     "e2e": "jasmine-ts --config=e2e/jasmine.json",
     "build-prod": "webpack --mode=production",
     "build-dev": "webpack --mode=development",

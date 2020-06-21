@@ -25,7 +25,7 @@ jobs:
     # Runs a single command using the runners shell
     - name: npm install
       run: npm i
-    - name: npm test-headless
-      run: npm test
-    - name: npm e2e
-      run: npm test
+    - name: npm run test-headless
+      run: npm run test-headless
+    - name: npm run e2e
+      run: npm run e2e

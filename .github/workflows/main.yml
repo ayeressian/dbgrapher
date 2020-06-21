@@ -23,6 +23,11 @@ jobs:
     - uses: actions/checkout@v2
 
     # Runs a single command using the runners shell
+    - name: add env.json
+      uses: canastro/copy-file-action@master
+      with:
+        source: ".github/env.json"
+        target: "env.json"
     - name: npm install
       run: npm i
     - name: npm run test-headless

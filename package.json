@@ -8,6 +8,7 @@
     "test": "karam start",
     "test-headless": "karma start --single-run --browsers ChromeHeadless",
     "e2e": "jasmine-ts --config=e2e/jasmine.json",
+    "start-and-e2e": "start-server-and-test start http://localhost:9999 e2e", 
     "build-prod": "webpack --mode=production",
     "build-dev": "webpack --mode=development",
     "build-dev-watch": "webpack --mode=development --watch",
@@ -25,7 +26,8 @@
     "lit-element": "^2.3.1",
     "lit-redux-watch": "^0.3.8",
     "purecss": "^1.0.1",
-    "redux": "^4.0.5"
+    "redux": "^4.0.5",
+    "start-server-and-test": "^1.11.0"
   },
   "devDependencies": {
     "@types/copy-webpack-plugin": "^5.0.2",

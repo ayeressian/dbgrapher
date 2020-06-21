@@ -1,3 +1,5 @@
+![CI](https://github.com/ayeressian/dbgrapher/workflows/CI/badge.svg)
+
 <img src="https://raw.githubusercontent.com/ayeressian/dbgrapher/master/asset/icon-app.svg" alt="drawing" width="200"/>
 
 # DBGrapher

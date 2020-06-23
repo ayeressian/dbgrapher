@@ -5,18 +5,29 @@ on:
     tags:
       - v*
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   cd:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
 
-    # Runs a single command using the runners shell
     - run: npm i
-    - run: npm test
+    - run: npm run test-headless
+    - name: create env.json file
+      run: >
+        cat <<EOF >./env.json
+          {
+            "googleDrive": {
+              "developerKey": "${{ secrets.GDRIVE_DEV_KEY }}",
+              "clientId": "${{ secrets.GDRIVE_CLIENT_ID }}",
+              "appId": "${{ secrets.GDRIVE_APP_ID }}"
+            },
+            "oneDrive": {
+              "clientId": "${{ secrets.ONEDRIVE_CLIENT_ID }}"
+            }
+          }
+        EOF
+    - run: npm run start-and-e2e
+    - run: npm run build-prod
+    

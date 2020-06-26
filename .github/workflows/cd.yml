@@ -30,8 +30,8 @@ jobs:
         EOF
     - run: npm run start-and-e2e
     - run: npm run build-prod
-    - name: deploy to BunnyCDN
-      uses: ayeressian/bunnycdn-storage-deploy@master
+    - name: Deploy to BunnyCDN
+      uses: ayeressian/bunnycdn-storage-deploy@latest
       with:
         source: "dist"
         storageZoneName: "dbgrapher"

@@ -35,4 +35,4 @@ jobs:
       with:
         source: "dist"
         storageZoneName: "dbgrapher"
-        apiKey: ${{ secrets.BUNNY_CDN_STORAGE_KEY }}
+        accessKey: "${{ secrets.BUNNY_CDN_STORAGE_KEY }}"

@@ -31,7 +31,7 @@ jobs:
     - run: npm run start-and-e2e
     - run: npm run build-prod
     - name: deploy to BunnyCDN
-      uses: ayeressian/bunnycdn-storage-deploy@v0.0.7
+      uses: ayeressian/bunnycdn-storage-deploy@master
       with:
         source: "dist"
         storageZoneName: "dbgrapher"

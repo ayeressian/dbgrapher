@@ -8,20 +8,18 @@ import {
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import { watch } from "lit-redux-watch";
-import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
-import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
+import { actions as welcomeDialogActions } from "../store/slices/dialog/welcome-dialog";
+import { actions as fileOpenChooserAction } from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
-import { AppState } from '../store/reducer';
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
 import commonStyles from './common-icon-dialog-styling';
+import { subscribe } from "../subscribe-store";
 
-@customElement("dbg-welcome-dialog")
+@customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
-  @watch((state: AppState) => state.dialog.welcomeDialog)
-  private open = true;
+  #open = false;
 
   static get styles(): CSSResult {
     return css`
@@ -39,10 +37,19 @@ export default class extends ConnectLitElement {
       }
     `;
   }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    subscribe(state => state.dialog.welcomeDialog, open => {
+      this.#open = open;
+      this.requestUpdate();
+    });
+  }
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.open}>
+      <dbg-dialog ?show=${this.#open}>
         <div slot="body">
           <div class="operation-container" @click="${this.#newFile}">
             <div class="operation-icon-container">

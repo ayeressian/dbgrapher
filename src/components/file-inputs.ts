@@ -1,11 +1,11 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 'lit-element';
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
-import { actions as fileOpenDialogActions } from '../store/slices/file-open-dialog';
+import { actions as fileOpenDialogActions } from '../store/slices/dialog/file-dialog/file-open-dialog';
 import store from '../store/store';
 import { validateJson } from '../validate-schema';
-import { actions as fileOpenChooserDialogOpen } from '../store/slices/file-open-chooser-dialog';
-import { actions as fileOpenAction } from '../store/slices/file-open-dialog';
+import { actions as fileOpenChooserDialogOpen } from '../store/slices/dialog/file-open-chooser-dialog';
+import { actions as fileOpenAction } from '../store/slices/dialog/file-dialog/file-open-dialog';
 import { subscribe } from '../subscribe-store';
 
 const INVALID_JSON_MSG = 'Selected file does not contain valid JSON.';

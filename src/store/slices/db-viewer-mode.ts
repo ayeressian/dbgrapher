@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IDbViewerMode } from './db-viewer-mode-interface';
+import DbViewerMode from './db-viewer-mode-type';
 
 const slice = createSlice({
-  initialState: IDbViewerMode.None,
+  initialState: DbViewerMode.None,
   name: 'dbViewerMode',
   reducers: {
-    none: (): IDbViewerMode => IDbViewerMode.None,
-    changeMode: (_, { payload }: PayloadAction<IDbViewerMode>): IDbViewerMode => payload
+    none: (): DbViewerMode => DbViewerMode.None,
+    changeMode: (_, { payload }: PayloadAction<DbViewerMode>): DbViewerMode => payload
   },
 });
 

@@ -43,7 +43,6 @@ export default class extends LitElement {
       <div class="main_container">
         <dbg-top-menu-wrapper></dbg-top-menu-wrapper>
         <dbg-side-panel></dbg-side-panel>
-        <dbg-welcome-dialog></dbg-welcome-dialog>
         <dbg-db-viewer></dbg-db-viewer>
         <dbg-file-inputs></dbg-file-inputs>
         <dbg-table-dialog></dbg-table-dialog>
@@ -51,6 +50,8 @@ export default class extends LitElement {
         <dbg-load-screen></dbg-load-screen>
         <dbg-hint></dbg-hint>
         <dbg-about-dialog></dbg-about-dialog>
+        <dbg-new-open-dialog></dbg-new-open-dialog>
+        <dbg-cloud-provider-dialog></dbg-cloud-provider-dialog>
       </div>
     `;
   }

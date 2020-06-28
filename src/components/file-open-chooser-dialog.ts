@@ -11,12 +11,12 @@ import store from "../store/store";
 import localSvg from '../../asset/folder-open.svg';
 import googleDriveSvg from '../../asset/google-drive.svg';
 import oneDriveSvg from '../../asset/onedrive.svg';
-import { picker as googleDrivePicker } from '../drive/google-drive';
-import { picker as oneDrivePicker } from '../drive/one-drive';
+import { picker as googleDrivePicker } from '../drive/google-drive/google-drive';
+import { picker as oneDrivePicker } from '../drive/one-drive/one-drive';
 import { subscribe } from "../subscribe-store";
-import { actions as fileOpenDialog } from "../store/slices/file-open-dialog";
-import { actions as fileOpenChooserAction, State } from '../store/slices/file-open-chooser-dialog';
-import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
+import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
+import { actions as fileOpenChooserAction, State } from '../store/slices/dialog/file-open-chooser-dialog';
+import { actions as welcomeDialogActions } from "../store/slices/dialog/welcome-dialog";
 import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-file-open-chooser-dialog")

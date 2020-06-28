@@ -1,4 +1,4 @@
-import TopMenu from '../src/components/top-menu';
+import TopMenu from '../src/components/top-menu/top-menu';
 import { initComponentTest, removeElement } from './helper';
 
 describe('top-menu', function() {

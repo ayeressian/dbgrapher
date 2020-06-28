@@ -1,8 +1,7 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement, property } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
-import TopMenuConfig from '../store/slices/top-menu-config-interface';
-import { Item } from '../store/slices/top-menu-config-interface';
+import { TopMenuConfig, Item } from './top-menu-config';
 
 @customElement('dbg-top-menu')
 export default class extends LitElement {
@@ -14,27 +13,34 @@ export default class extends LitElement {
       }
 
       .menu-bar {
-        list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background-color: #d9d9d9;
+        display: flex;
+        height: 33px;
+        justify-content: space-between;
+      }
+      .menu-bar .right {
+        display: flex;
+      } 
+
+      .menu-bar .left {
+        justify-content: center;
       }
 
-      .menu-bar > li {
-        float: left;
-        display: block;
+      .menu-bar .left {
+        display: flex;
+      }
+
+      .menu-bar .item {
         color: black;
         text-align: center;
         padding: 7px 8px;
         text-decoration: none;
       }
 
-      .menu-bar > li.right-menu-item {
-        float: right
-      }
-
-      li:hover {
+      .menu-item:hover {
         background-color: #bfbfbf;
       }
 
@@ -85,7 +91,7 @@ export default class extends LitElement {
   };
 
   #onComponentClick = (event: MouseEvent): void => {
-    if ((event.composedPath()[0] as HTMLElement).nodeName != 'LI') {
+    if (!(event.composedPath()[0] as HTMLElement).classList.contains('menu-item')) {
       this.#dropdownItems = undefined;
       this.requestUpdate();
     }
@@ -105,18 +111,22 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <ul class="menu-bar">
-        ${
-          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
-        }
-        ${
-          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
-        }
-      </ul>
+      <div class="menu-bar">
+        <div class="left">
+          ${
+            (this.config?.items ?? []).map(menuItem => html`<div @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}" class="item menu-item">${menuItem.title}</div>`)
+          }
+        </div>
+        <slot name="center">
+        </slot>
+
+        <slot name="right">
+        </slot>
+      </div>
       <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">
         <ul>
           ${
-            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
+            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}" class="menu-item">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>

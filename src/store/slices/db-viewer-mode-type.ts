@@ -1,4 +1,4 @@
-export enum IDbViewerMode {
+enum DbViewerMode {
   CreateTable,
   RelationOneToMany,
   RelationOneToOne,
@@ -6,3 +6,5 @@ export enum IDbViewerMode {
   RelationZeroToMany,
   None,
 }
+
+export default DbViewerMode;

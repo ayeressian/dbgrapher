@@ -1,8 +1,9 @@
 import { LitElement, customElement, css, CSSResult, TemplateResult, html } from 'lit-element';
-import { IDbViewerMode } from '../store/slices/db-viewer-mode-interface';
+import DbViewerMode from '../store/slices/db-viewer-mode-type';
 import store from '../store/store';
 import { isMac } from '../util';
-import { State as FileOpenChooserDialogState } from '../store/slices/file-open-chooser-dialog';
+import { State as FileOpenChooserDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
+import { CloudProvider } from '../store/slices/cloud';
 
 const DISPLAY_TIMER = 5000;
 
@@ -53,10 +54,10 @@ export default class extends LitElement {
     store.subscribe(() => {
       const state = store.getState();
       this.#text = '';
-      if (state.dbViewerMode === IDbViewerMode.CreateTable && !state.dialog.tableDialog.open) {
+      if (state.dbViewerMode === DbViewerMode.CreateTable && !state.dialog.tableDialog.open) {
         this.#text = 'Choose the position of the new table by clicking on the viewport';
       }
-      if (state.dbViewerMode !== IDbViewerMode.None && state.dbViewerMode !== IDbViewerMode.CreateTable) {
+      if (state.dbViewerMode !== DbViewerMode.None && state.dbViewerMode !== DbViewerMode.CreateTable) {
         this.#text = 'Click on the first table to create the relation from and then click on the second table to create the relation to';
       }
       this.requestUpdate();
@@ -67,14 +68,14 @@ export default class extends LitElement {
       if (((isMac && event.metaKey) ||
         (!isMac && event.ctrlKey)) &&
         event.key === 's' &&
-        state.googleDriveKey != null &&
+        state.cloud.provider !== CloudProvider.None &&
         !state.dialog.tableDialog.open &&
         !state.dialog.welcomeDialog &&
         !state.dialog.aboutDialog &&
         state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close) {
         this.#showTimedMessage('Your changes will be automatically saved to Google drive');
+        event.preventDefault();
       }
-      event.preventDefault();
     });
   }
 }

@@ -1,5 +1,5 @@
 import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS } from 'lit-element';
-import { actions as tableDialogAction } from '../../store/slices/create-dialog';
+import { actions as tableDialogAction } from '../../store/slices/dialog/table-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
 import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
@@ -14,7 +14,7 @@ import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
-import { update as updateDrive } from '../../drive/google-drive';
+import { update as updateDrive } from '../../drive/google-drive/google-drive';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {

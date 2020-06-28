@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   initialState: true,
-  name: 'welcomeDialog',
+  name: 'cloudProviderChooserDialog',
   reducers: {
     close: (): boolean => false,
     open: (): boolean => true,

@@ -1,10 +1,11 @@
-import store from '../store/store';
-import { actions as schemaAction } from '../store/slices/schema';
-import { actions as setSchemaAction } from '../store/slices/load-schema';
-import { actions as googleDriveAction } from '../store/slices/google-drive-key';
-import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
-import env from '../../env.json';
-import { actions as loadScreenAction } from '../store/slices/load-screen';
+import store from '../../store/store';
+import { actions as schemaAction } from '../../store/slices/schema';
+import { actions as setSchemaAction } from '../../store/slices/load-schema';
+import { actions as cloudActions } from '../../store/slices/cloud';
+import { actions as fileOpenChooserAction } from "../../store/slices/dialog/file-open-chooser-dialog";
+import env from '../../../env.json';
+import { actions as loadScreenAction } from '../../store/slices/load-screen';
+import { CloudProvider, actions as cloudAction } from '../../store/slices/cloud';
 
 const {
   // The Browser API key obtained from the Google API Console.
@@ -34,6 +35,7 @@ const handleAuthResult = (authResult: GoogleApiOAuth2TokenObject): void => {
   } else {
     authorizePromiseResolve(authResult.access_token);
   }
+  store.dispatch(loadScreenAction.stop());
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -47,7 +49,7 @@ const pickerCallback = (data: any): void => {
         mimeType: file.mimeType
       }
     }).then((data) => {
-      store.dispatch(googleDriveAction.set(file.id));
+      store.dispatch(cloudActions.setFileId(file.id));
       store.dispatch(fileOpenChooserAction.close());
       return gapi.client.request({
         path: data.result.downloadUrl
@@ -71,8 +73,9 @@ const pickerLoad = new Promise((resolve) => {
   gapi.load('picker', {'callback': resolve});
 });
 
-// Create and render a Picker object for searching images.
-export const picker = async (): Promise<void> => {
+let oauthToken: string;
+
+export const login = async (): Promise<void> => {
   await authLoad;
   store.dispatch(loadScreenAction.start());
   gapi.auth.authorize(
@@ -82,32 +85,50 @@ export const picker = async (): Promise<void> => {
       'immediate': false
     },
     handleAuthResult);
-  const oauthToken = await authorizePromise;
-  await pickerLoad;
-  if (oauthToken) {
-    const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
-    view.setMimeTypes("application/JSON");
-    const picker = new google.picker.PickerBuilder()
-        .enableFeature(google.picker.Feature.NAV_HIDDEN)
-        .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
-        .setAppId(appId)
-        .setOAuthToken(oauthToken)
-        .addView(view)
-        .addView(new google.picker.DocsUploadView())
-        .setDeveloperKey(developerKey)
-        .setCallback(pickerCallback)
-        .build();
-    picker.setVisible(true);
+  oauthToken = await authorizePromise;
+
+  const userInfo = await gapi.client.request({
+    path: `https://www.googleapis.com/oauth2/v1/userinfo`,
+    method: 'GET',
+  });
+  const {name, email} = userInfo.result;
+  store.dispatch(cloudAction.googleDrive({
+    name,
+    email
+  }));
+};
+
+// Create and render a Picker object for searching images.
+export const picker = async (): Promise<void> => {
+  if (!oauthToken) {
+    await login();
   }
+  store.dispatch(loadScreenAction.start());
+  await pickerLoad;
+  const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
+  view.setMimeTypes("application/JSON");
+  const picker = new google.picker.PickerBuilder()
+      .enableFeature(google.picker.Feature.NAV_HIDDEN)
+      .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+      .setAppId(appId)
+      .setOAuthToken(oauthToken)
+      .addView(view)
+      .addView(new google.picker.DocsUploadView())
+      .setDeveloperKey(developerKey)
+      .setCallback(pickerCallback)
+      .build();
+  picker.setVisible(true);
 };
 
 export const update = async (): Promise<void> => {
-  const key = store.getState().googleDriveKey;
-  if (key) {
-    await gapi.client.request({
-      path: `https://www.googleapis.com/upload/drive/v2/files/${key}`,
-      body: store.getState().schema.present,
-      method: 'PUT',
-    });
+  const key = store.getState().cloud.fileId;
+  if (key && store.getState().cloud.provider === CloudProvider.GoogleDrive) {
+    if (store.getState().cloud.provider === CloudProvider.GoogleDrive) {
+      await gapi.client.request({
+        path: `https://www.googleapis.com/upload/drive/v2/files/${oauthToken}`,
+        body: store.getState().schema.present,
+        method: 'PUT',
+      });
+    }
   }
 };

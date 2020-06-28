@@ -1,7 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
-import TopMenuConfig from './top-menu-config-interface';
+export interface Item {
+  id: string;
+  title: string;
+  items?: Item[];
+}
 
-const config = {
+export interface TopMenuConfig {
+  items: Item[];
+}
+
+export default {
   items: [{
       id: 'file',
       title: 'File',
@@ -33,24 +40,10 @@ const config = {
         id: 'about',
         title: 'About'
       }]
-    }
-  ],
-  rightItems: [{
+    },
+    {
       id: 'gitHub',
       title: 'GitHub'
     }
-  ]
-};
-
-const slice = createSlice({
-  initialState: config as TopMenuConfig,
-  name: 'top-menu-config',
-  reducers: {},
-});
-
-export const menuConfig = config;
-
-export default slice;
-
-export const reducer = slice.reducer;
-export const actions = slice.actions;
+  ],
+} as TopMenuConfig;

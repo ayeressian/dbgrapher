@@ -1,6 +1,6 @@
 import { LitElement, customElement, CSSResult, TemplateResult, css, html } from 'lit-element';
 import { subscribe } from '../subscribe-store';
-import { actions as aboutDialogActions } from "../store/slices/about-dialog";
+import { actions as aboutDialogActions } from "../store/slices/dialog/about-dialog";
 import store from '../store/store';
 
 @customElement('dbg-about-dialog')

@@ -31,7 +31,7 @@ export default class extends LitElement {
     return html`
       <div class="right-popup ${classMap({hide: !this.open})}">
         <div>
-          You logged by ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
+          You logged in via ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
         </div>
         <div>
           ${this.cloudState?.userData?.email}

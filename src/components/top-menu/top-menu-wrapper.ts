@@ -39,28 +39,9 @@ export default class extends LitElement {
         display: none;
       }
 
-      .center-popup {
-        position: fixed;
-        height: 100px;
-        background-color: white;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-top: 5px;
-        z-index: 1;
-        padding:16px;
-        border
-      }
-
-      .right-popup {
-        position: fixed;
-        height: 100px;
-        background-color: white;
-        left: 50%;
-        transform: translateX(-90%);
-        margin-top: 5px;
-        z-index: 1;
-        padding:16px;
-        border
+      .user_picture {
+        width: 33px;
+        height: 33px;
       }
     `;
   }
@@ -77,15 +58,13 @@ export default class extends LitElement {
         </div>
 
         <div slot="right" class="${classMap({ hide: this.#cloudProvider === CloudProvider.None })}" @click="${this.#onAccountClick}">
-          ${store.getState().cloud.userData?.name}
+          <img class="user_picture" src=${store.getState().cloud.userData?.picture} />
         </div>
       </dbg-top-menu>
 
       <dbg-top-menu-center-popup ?open=${this.#openCenterPopup}></dbg-top-menu-center-popup>
 
-      <div class="right-popup ${classMap({hide: !this.#openRightPopup})}">
-        test
-      </div>
+      <dbg-top-menu-account-popup ?open=${this.#openRightPopup} .cloudState=${store.getState().cloud}></dbg-top-menu-account-popup>
     `;
   }
 

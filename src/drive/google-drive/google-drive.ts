@@ -91,10 +91,13 @@ export const login = async (): Promise<void> => {
     path: `https://www.googleapis.com/oauth2/v1/userinfo`,
     method: 'GET',
   });
-  const {name, email} = userInfo.result;
+  const {name, email, picture, given_name: firstName, family_name: lastName} = userInfo.result;
   store.dispatch(cloudAction.googleDrive({
     name,
-    email
+    firstName,
+    lastName,
+    email,
+    picture,
   }));
 };
 

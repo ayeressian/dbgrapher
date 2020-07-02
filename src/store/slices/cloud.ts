@@ -8,7 +8,10 @@ export enum CloudProvider {
 
 export type CloudUserData = {
   name: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  picture: string;
 };
 
 export type CloudState = {

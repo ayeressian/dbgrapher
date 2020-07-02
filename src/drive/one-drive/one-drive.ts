@@ -10,25 +10,6 @@ import { AuthenticationHandler, HTTPMessageHandler, Client } from '@microsoft/mi
 import CustomLoggingHandler from './CustomLoggingHandler';
 import { actions as cloudAction } from '../../store/slices/cloud';
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-type Options = {
-  clientId: string;
-  action?: string;
-  multiSelect?: boolean;
-  advanced?: any;
-  success?: (files: any) => void;
-  cancel?: () => void;
-  error?: (error: any) => void;
-};
-
-type OneDrive = {
-  open: (options: Options) => void;
-};
-
-declare global {
-  const OneDrive: OneDrive;
-}
-
 let authenticationResult: AuthenticationResult;
 
 export const login = async (): Promise<void> => {
@@ -74,9 +55,24 @@ export const login = async (): Promise<void> => {
     .api('/me')
     .get();
 
+  let picture;
+  try {
+    const photoResponse = await client
+      .api('/me/photo')
+      .get();
+    picture = photoResponse['@odata.id'];
+  } catch(e) {
+    if (e.statusCode !== 404) {
+      throw e;
+    }
+  }
+  
   store.dispatch(cloudAction.oneDrive({
     name: response.displayName,
-    email: response.userPrincipalName
+    firstName: response.givenName,
+    lastName: response.surname,
+    email: response.userPrincipalName,
+    picture
   }));
 
   store.dispatch(loadScreenAction.stop());

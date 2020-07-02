@@ -29,13 +29,11 @@ const authorizePromise = new Promise<string>((resolve, reject) => {
 });
 
 const handleAuthResult = (authResult: GoogleApiOAuth2TokenObject): void => {
-  store.dispatch(loadScreenAction.stop());
   if (authResult.error) {
     authorizePromiseReject(authResult.error);
   } else {
     authorizePromiseResolve(authResult.access_token);
   }
-  store.dispatch(loadScreenAction.stop());
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,7 +57,6 @@ const pickerCallback = (data: any): void => {
         store.dispatch(setSchemaAction.load());
       });
     }).catch(error => {
-      store.dispatch(loadScreenAction.stop());
       console.error(error);
     });
   }
@@ -99,6 +96,8 @@ export const login = async (): Promise<void> => {
     email,
     picture,
   }));
+
+  store.dispatch(loadScreenAction.stop());
 };
 
 // Create and render a Picker object for searching images.

@@ -17,16 +17,28 @@ export default class extends LitElement {
         padding: 0;
         overflow: hidden;
         background-color: #d9d9d9;
-        display: flex;
         height: 33px;
-        justify-content: space-between;
+        width: 100%;
       }
+
+      .left {
+        float: left;
+        width: min-content;
+      }
+
+      [name="center"] {
+        margin: 0 auto;
+        width: max-content;
+        display: block;
+      }
+
+      [name="right"] {
+        float: right;
+        display: block;
+      }
+
       .menu-bar .right {
         display: flex;
-      } 
-
-      .menu-bar .left {
-        justify-content: center;
       }
 
       .menu-bar .left {
@@ -34,7 +46,7 @@ export default class extends LitElement {
       }
 
       .menu-bar .item {
-        color: black;
+        color: #333;
         text-align: center;
         padding: 7px 8px;
         text-decoration: none;
@@ -53,6 +65,9 @@ export default class extends LitElement {
         z-index: 1;
         min-width: 160px;
         padding: 0;
+        margin-top: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        border-radius: 5px;
       }
 
       .dropdown ul {
@@ -117,10 +132,9 @@ export default class extends LitElement {
             (this.config?.items ?? []).map(menuItem => html`<div @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}" class="item menu-item">${menuItem.title}</div>`)
           }
         </div>
-        <slot name="center">
-        </slot>
-
         <slot name="right">
+        </slot>
+        <slot name="center">
         </slot>
       </div>
       <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">

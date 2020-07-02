@@ -1,7 +1,8 @@
-import { customElement, LitElement, CSSResult, css, TemplateResult, html, property } from 'lit-element';
+import { customElement, LitElement, CSSResult, css, TemplateResult, html, property, unsafeCSS } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { CloudState } from '../../store/slices/cloud';
 import cloudProviderName from './cloud-provider-name';
+import buttonCss from 'purecss/build/buttons-min.css';
 
 @customElement('dbg-top-menu-account-popup')
 export default class extends LitElement {
@@ -10,15 +11,20 @@ export default class extends LitElement {
 
   static get styles(): CSSResult {
     return css`
+      ${unsafeCSS(buttonCss)}
       .right-popup {
         position: fixed;
-        height: 100px;
         background-color: white;
         right: 10px;
         margin-top: 5px;
         z-index: 1;
         padding:16px;
-        border
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        border-radius: 5px;
+      }
+
+      .row {
+        margin-bottom: 8px;
       }
 
       .hide {
@@ -30,14 +36,14 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <div class="right-popup ${classMap({hide: !this.open})}">
-        <div>
-          You logged in via ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
+        <div class="row">
+          You are logged in via ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
         </div>
-        <div>
+        <div class="row">
           ${this.cloudState?.userData?.email}
         </div>
         <div>
-          <button>Logout</button>
+          <button class="pure-button-primary pure-button">Logout</button>
         </div>
       </div>
     `;

@@ -12,6 +12,10 @@ import { subscribe } from '../../subscribe-store';
 import buttonCss from 'purecss/build/buttons-min.css';
 import { CloudProvider } from '../../store/slices/cloud';
 import topMenuConfig from './top-menu-config';
+import ColorHash from 'color-hash';
+import { styleMap } from 'lit-html/directives/style-map';
+
+const colorHash = new ColorHash({saturation: 0.5});
 
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
@@ -43,6 +47,13 @@ export default class extends LitElement {
         width: 33px;
         height: 33px;
       }
+
+      .user_picture_initial {
+        width: 33px;
+        height: 33px;
+        text-align: center;
+        color: white;
+      }
     `;
   }
 
@@ -51,6 +62,7 @@ export default class extends LitElement {
   render(): TemplateResult {
     const fileName = 'Untitled';
     const text = `${fileName} - Saved to ${this.#providerName()}`;
+    const cloudState = store.getState().cloud;
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
         <div slot="center" class="${classMap({ hide: this.#cloudProvider === CloudProvider.None })}" @click="${this.#onCenterClick}">
@@ -58,13 +70,15 @@ export default class extends LitElement {
         </div>
 
         <div slot="right" class="${classMap({ hide: this.#cloudProvider === CloudProvider.None })}" @click="${this.#onAccountClick}">
-          <img class="user_picture" src=${store.getState().cloud.userData?.picture} />
+          ${cloudState.userData?.picture ? 
+            html`<img class="user_picture" src=${cloudState.userData?.picture} />` : 
+            html`<div class="user_picture_initial" style=${styleMap({ backgroundColor: colorHash.hex(cloudState.userData?.name ?? '') })}>${cloudState.userData?.name.charAt(0)}</div>`}
         </div>
       </dbg-top-menu>
 
       <dbg-top-menu-center-popup ?open=${this.#openCenterPopup}></dbg-top-menu-center-popup>
 
-      <dbg-top-menu-account-popup ?open=${this.#openRightPopup} .cloudState=${store.getState().cloud}></dbg-top-menu-account-popup>
+      <dbg-top-menu-account-popup ?open=${this.#openRightPopup} .cloudState=${cloudState}></dbg-top-menu-account-popup>
     `;
   }
 

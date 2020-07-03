@@ -92,6 +92,7 @@ export default class extends LitElement {
     });
 
     document.addEventListener('click', this.#onDocumentClick, true);
+    window.addEventListener('keydown', this.#onEscape);
   }
 
   firstUpdated(): void {
@@ -157,12 +158,29 @@ export default class extends LitElement {
   }
 
   #onCenterClick = (): void => {
-    if (!this.#openCenterPopup) this.#openCenterPopup = true;
-    this.requestUpdate();
+    if (!this.#openCenterPopup) {
+      this.#openCenterPopup = true;
+      this.requestUpdate();
+    }
   }
 
   #onAccountClick = (): void => {
-    if (!this.#openRightPopup) this.#openRightPopup = true;
-    this.requestUpdate();
+    if (!this.#openRightPopup) {
+      this.#openRightPopup = true;
+      this.requestUpdate();
+    }
+  }
+
+  #onEscape = (event: KeyboardEvent): void => {
+    if (event.key === "Escape") {
+      if (this.#openCenterPopup) {
+        this.#openCenterPopup = false;
+        this.requestUpdate();
+      }
+      if (this.#openRightPopup) {
+        this.#openRightPopup = false;
+        this.requestUpdate();
+      }
+    }
   }
 }

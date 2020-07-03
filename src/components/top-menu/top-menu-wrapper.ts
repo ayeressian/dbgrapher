@@ -23,6 +23,8 @@ export default class extends LitElement {
   #cloudProvider: CloudProvider = store.getState().cloud.provider;
   #openCenterPopup = false;
   #openRightPopup = false;
+  #centerPopup?: HTMLElement;
+  #rightPopup?: HTMLElement;
 
   static get styles(): CSSResult {
     return css`
@@ -76,9 +78,9 @@ export default class extends LitElement {
         </div>
       </dbg-top-menu>
 
-      <dbg-top-menu-center-popup ?open=${this.#openCenterPopup}></dbg-top-menu-center-popup>
+      <dbg-top-menu-center-popup class="${classMap({ hide: !this.#openCenterPopup })}"></dbg-top-menu-center-popup>
 
-      <dbg-top-menu-account-popup ?open=${this.#openRightPopup} .cloudState=${cloudState}></dbg-top-menu-account-popup>
+      <dbg-top-menu-account-popup class="${classMap({ hide: !this.#openRightPopup })}" .cloudState=${cloudState}></dbg-top-menu-account-popup>
     `;
   }
 
@@ -88,7 +90,28 @@ export default class extends LitElement {
       this.#cloudProvider = cloudProvider;
       this.requestUpdate();
     });
+
+    document.addEventListener('click', this.#onDocumentClick, true);
   }
+
+  firstUpdated(): void {
+    this.#centerPopup = this.shadowRoot!.querySelector('dbg-top-menu-center-popup') as HTMLElement;
+    this.#rightPopup = this.shadowRoot!.querySelector('dbg-top-menu-account-popup') as HTMLElement;
+  }
+
+  #onDocumentClick = (event: MouseEvent): void => {
+    if (event.composed) {
+      if (!event.composedPath().includes(this.#centerPopup!) && this.#openCenterPopup) {
+        this.#openCenterPopup = false;
+        this.requestUpdate();
+      }
+
+      if (!event.composedPath().includes(this.#rightPopup!) && this.#openRightPopup) {
+        this.#openRightPopup = false;
+        this.requestUpdate();
+      }
+    }
+  };
 
   #getCurrentSchema = (): Schema => {
     return store.getState().schema.present;
@@ -134,12 +157,12 @@ export default class extends LitElement {
   }
 
   #onCenterClick = (): void => {
-    this.#openCenterPopup = true;
+    if (!this.#openCenterPopup) this.#openCenterPopup = true;
     this.requestUpdate();
   }
 
   #onAccountClick = (): void => {
-    this.#openRightPopup = true;
+    if (!this.#openRightPopup) this.#openRightPopup = true;
     this.requestUpdate();
   }
 }

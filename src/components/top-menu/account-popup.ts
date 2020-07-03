@@ -1,12 +1,10 @@
 import { customElement, LitElement, CSSResult, css, TemplateResult, html, property, unsafeCSS } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
 import { CloudState } from '../../store/slices/cloud';
 import cloudProviderName from './cloud-provider-name';
 import buttonCss from 'purecss/build/buttons-min.css';
 
 @customElement('dbg-top-menu-account-popup')
 export default class extends LitElement {
-  @property( { type : Boolean } ) open = false;
   @property( { type : Object } ) cloudState?: CloudState;
 
   static get styles(): CSSResult {
@@ -26,16 +24,12 @@ export default class extends LitElement {
       .row {
         margin-bottom: 8px;
       }
-
-      .hide {
-        display: none;
-      }
     `;
   }
 
   render(): TemplateResult {
     return html`
-      <div class="right-popup ${classMap({hide: !this.open})}">
+      <div class="right-popup">
         <div class="row">
           You are logged in via ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
         </div>

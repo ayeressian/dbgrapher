@@ -10,7 +10,7 @@ import { isSafari, isMac } from '../util';
 import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema, Viewport } from 'db-viewer-component';
 import { ColumnFkSchema } from 'db-viewer-component';
 import { classMap } from 'lit-html/directives/class-map';
-import { update as updateDrive } from '../drive/google-drive/google-drive';
+import { driveProvider } from '../drive/factory';
 import { AppState } from '../store/reducer';
 
 @customElement('dbg-db-viewer')
@@ -88,7 +88,7 @@ export default class DbWrapper extends LitElement {
 
   #onTableMoveEnd = (): void => {
     store.dispatch(schemaAction.set(this.#dbViewer!.schema!));
-    updateDrive();
+    driveProvider.update();
   };
 
   firstUpdated(): void {

@@ -12,10 +12,9 @@ import oneDriveSvg from '../../asset/onedrive.svg';
 import googleDriveSvg from '../../asset/google-drive.svg';
 import commonStyles from './common-icon-dialog-styling';
 import { subscribe } from "../subscribe-store";
-import { login as gDriveLogin } from "../drive/google-drive/google-drive";
-import { login as oneDriveLogin } from "../drive/one-drive/one-drive";
 import store from "../store/store";
-import { actions as cloudStatusAction } from '../store/slices/cloud';
+import { actions as cloudActions } from '../store/slices/cloud';
+import { driveProvider } from '../drive/factory';
 import { actions as cloudProviderChooserDialogAction } from '../store/slices/dialog/cloud-provider-chooser-dialog';
 
 @customElement("dbg-cloud-provider-dialog")
@@ -84,17 +83,19 @@ export default class extends ConnectLitElement {
   }
 
   #googleDrive = async (): Promise<void> => {
-    await gDriveLogin();
+    store.dispatch(cloudActions.googleDrive());
+    await driveProvider.login();
     store.dispatch(cloudProviderChooserDialogAction.close());
   };
 
   #oneDrive = async (): Promise<void> => {
-    await oneDriveLogin();
+    store.dispatch(cloudActions.oneDrive());
+    await driveProvider.login();
     store.dispatch(cloudProviderChooserDialogAction.close());
   };
 
   #none = (): void => {
-    store.dispatch(cloudStatusAction.none());
+    store.dispatch(cloudActions.none());
     store.dispatch(cloudProviderChooserDialogAction.close());
   };
 }

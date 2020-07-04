@@ -10,7 +10,7 @@ import schemaToSqlSchema from '../../schema-to-sql-schema';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../../subscribe-store';
 import buttonCss from 'purecss/build/buttons-min.css';
-import { CloudProvider } from '../../store/slices/cloud';
+import { CloudState, CloudProvider } from '../../store/slices/cloud';
 import topMenuConfig from './top-menu-config';
 import ColorHash from 'color-hash';
 import { styleMap } from 'lit-html/directives/style-map';
@@ -20,7 +20,7 @@ const colorHash = new ColorHash({saturation: 0.5});
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
 
-  #cloudProvider: CloudProvider = store.getState().cloud.provider;
+  #cloudState: CloudState = store.getState().cloud;
   #openCenterPopup = false;
   #openRightPopup = false;
   #centerPopup?: HTMLElement;
@@ -59,7 +59,9 @@ export default class extends LitElement {
     `;
   }
 
-  #providerName = (): string => this.#cloudProvider === CloudProvider.GoogleDrive ? 'Google Drive' : 'OneDrive';
+  #providerName = (): string => this.#cloudState.provider === CloudProvider.GoogleDrive ? 'Google Drive' : 'OneDrive';
+
+  #hideCenterAndRight = (): boolean => this.#cloudState.provider === CloudProvider.None || this.#cloudState.userData?.name == null;
 
   render(): TemplateResult {
     const fileName = 'Untitled';
@@ -67,11 +69,11 @@ export default class extends LitElement {
     const cloudState = store.getState().cloud;
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
-        <div slot="center" class="${classMap({ hide: this.#cloudProvider === CloudProvider.None })}" @click="${this.#onCenterClick}">
+        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() })}" @click="${this.#onCenterClick}">
           ${text}
         </div>
 
-        <div slot="right" class="${classMap({ hide: this.#cloudProvider === CloudProvider.None })}" @click="${this.#onAccountClick}">
+        <div slot="right" class="${classMap({ hide: this.#hideCenterAndRight() })}" @click="${this.#onAccountClick}">
           ${cloudState.userData?.picture ? 
             html`<img class="user_picture" src=${cloudState.userData?.picture} />` : 
             html`<div class="user_picture_initial" style=${styleMap({ backgroundColor: colorHash.hex(cloudState.userData?.name ?? '') })}>${cloudState.userData?.name.charAt(0)}</div>`}
@@ -86,8 +88,8 @@ export default class extends LitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    subscribe(state => state.cloud.provider, cloudProvider => {
-      this.#cloudProvider = cloudProvider;
+    subscribe(state => state.cloud, cloudState => {
+      this.#cloudState = cloudState;
       this.requestUpdate();
     });
 

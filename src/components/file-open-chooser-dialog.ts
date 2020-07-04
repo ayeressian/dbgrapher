@@ -11,8 +11,6 @@ import store from "../store/store";
 import localSvg from '../../asset/folder-open.svg';
 import googleDriveSvg from '../../asset/google-drive.svg';
 import oneDriveSvg from '../../asset/onedrive.svg';
-import { picker as googleDrivePicker } from '../drive/google-drive/google-drive';
-import { picker as oneDrivePicker } from '../drive/one-drive/one-drive';
 import { subscribe } from "../subscribe-store";
 import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
 import { actions as fileOpenChooserAction, State } from '../store/slices/dialog/file-open-chooser-dialog';
@@ -98,11 +96,11 @@ export default class extends ConnectLitElement {
   };
 
   #googleDrive = (): void => {
-    googleDrivePicker();
+    // googleDrivePicker();
   };
 
   #oneDrive = (): void => {
-    oneDrivePicker();
+    // oneDrivePicker();
   };
 
   #goBack = (): void => {

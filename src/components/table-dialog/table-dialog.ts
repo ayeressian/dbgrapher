@@ -14,7 +14,7 @@ import { deepCopy } from '../../util';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
 import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
-import { update as updateDrive } from '../../drive/google-drive/google-drive';
+import { driveProvider } from '../../drive/factory';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -207,7 +207,7 @@ export default class extends LitElement {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
-      updateDrive();
+      driveProvider.update();
       store.dispatch(tableDialogAction.close());
     }
   }

@@ -37,9 +37,14 @@ export default class extends LitElement {
           ${this.cloudState?.userData?.email}
         </div>
         <div>
-          <button class="pure-button-primary pure-button">Logout</button>
+          <button class="pure-button-primary pure-button" @click=${this.#onLogout}>Logout</button>
         </div>
       </div>
     `;
   }
+
+  #onLogout = (event: MouseEvent): void => {
+    event.preventDefault();
+    //todo
+  };
 }

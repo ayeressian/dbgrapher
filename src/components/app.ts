@@ -1,5 +1,8 @@
+import initProviderFactory from '../drive/factory';
 import './import-components';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
+
+initProviderFactory();
 
 @customElement('dbg-app')
 export default class extends LitElement {

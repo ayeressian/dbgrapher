@@ -30,14 +30,16 @@ const slice = createSlice({
       state.provider = CloudProvider.None;
       return state;
     },
-    googleDrive: (state, { payload }: PayloadAction<CloudUserData>): CloudState => {
-      state.provider = CloudProvider.GoogleDrive;
+    setUserData: (state, { payload }: PayloadAction<CloudUserData>): CloudState => {
       state.userData = payload;
       return state;
     },
-    oneDrive: (state, { payload }: PayloadAction<CloudUserData>): CloudState => {
+    googleDrive: (state): CloudState => {
+      state.provider = CloudProvider.GoogleDrive;
+      return state;
+    },
+    oneDrive: (state): CloudState => {
       state.provider = CloudProvider.OneDrive;
-      state.userData = payload;
       return state;
     },
     setFileId: (state, { payload }: PayloadAction<number>): CloudState => {

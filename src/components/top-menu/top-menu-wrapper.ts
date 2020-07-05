@@ -1,7 +1,6 @@
 import { html, customElement, TemplateResult, LitElement, CSSResult, css, unsafeCSS } from 'lit-element';
 import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
-import { actions as fileOpenChooserAction } from "../../store/slices/dialog/file-open-chooser-dialog";
 import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
 import store from '../../store/store';
 import { download } from '../../util';
@@ -14,6 +13,7 @@ import { CloudState, CloudProvider } from '../../store/slices/cloud';
 import topMenuConfig from './top-menu-config';
 import ColorHash from 'color-hash';
 import { styleMap } from 'lit-html/directives/style-map';
+import { driveProvider } from '../../drive/factory';
 
 const colorHash = new ColorHash({saturation: 0.5});
 
@@ -133,7 +133,7 @@ export default class extends LitElement {
         store.dispatch(setSchemaAction.load());
         break;
       case 'open':
-        store.dispatch(fileOpenChooserAction.open(false));
+        driveProvider.picker();
         break;
       case 'downloadSchema':
         download(JSON.stringify(store.getState().schema.present), 'schema.json', 'application/json');

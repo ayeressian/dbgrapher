@@ -2,6 +2,7 @@ import { customElement, LitElement, CSSResult, css, TemplateResult, html, proper
 import { CloudState } from '../../store/slices/cloud';
 import cloudProviderName from './cloud-provider-name';
 import buttonCss from 'purecss/build/buttons-min.css';
+import { driveProvider } from '../../drive/factory';
 
 @customElement('dbg-top-menu-account-popup')
 export default class extends LitElement {
@@ -36,6 +37,7 @@ export default class extends LitElement {
         <div class="row">
           ${this.cloudState?.userData?.email}
         </div>
+        
         <div>
           <button class="pure-button-primary pure-button" @click=${this.#onLogout}>Logout</button>
         </div>
@@ -45,6 +47,6 @@ export default class extends LitElement {
 
   #onLogout = (event: MouseEvent): void => {
     event.preventDefault();
-    //todo
+    driveProvider.logout();
   };
 }

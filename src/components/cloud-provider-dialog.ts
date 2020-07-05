@@ -10,6 +10,7 @@ import ConnectLitElement from "./connect-lit-element";
 import fileSvg from '../../asset/file.svg';
 import oneDriveSvg from '../../asset/onedrive.svg';
 import googleDriveSvg from '../../asset/google-drive.svg';
+import noDriveSvg from '../../asset/no-drive.svg';
 import commonStyles from './common-icon-dialog-styling';
 import { subscribe } from "../subscribe-store";
 import store from "../store/store";
@@ -28,12 +29,19 @@ export default class extends ConnectLitElement {
 
       .one-drive {
         width: 179px;
+        margin-left: 10px;
         background-image: url(${unsafeCSS(oneDriveSvg)});
       }
 
       .google-drive {
         width: 100px;
         background-image: url(${unsafeCSS(googleDriveSvg)});
+      }
+
+      .no-drive {
+        width: 100px;
+        margin-left: 52px;
+        background-image: url(${unsafeCSS(noDriveSvg)});
       }
 
       .new-file {
@@ -72,7 +80,7 @@ export default class extends ConnectLitElement {
             </h4>
           </div>
           <div class="operation-container" @click="${this.#onSelect(CloudProvider.None)}">
-            <div class="one-drive operation-icon">
+            <div class="no-drive operation-icon">
             </div>
             <h4 class="operation">
               None

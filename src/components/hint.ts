@@ -70,7 +70,7 @@ export default class extends LitElement {
         event.key === 's' &&
         state.cloud.provider !== CloudProvider.None &&
         !state.dialog.tableDialog.open &&
-        !state.dialog.welcomeDialog &&
+        !state.dialog.newOpenDialog &&
         !state.dialog.aboutDialog &&
         state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close) {
         this.#showTimedMessage('Your changes will be automatically saved to Google drive');

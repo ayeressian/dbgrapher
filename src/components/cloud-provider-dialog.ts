@@ -13,9 +13,10 @@ import googleDriveSvg from '../../asset/google-drive.svg';
 import commonStyles from './common-icon-dialog-styling';
 import { subscribe } from "../subscribe-store";
 import store from "../store/store";
-import { actions as cloudActions } from '../store/slices/cloud';
+import { actions as cloudActions, CloudProvider } from '../store/slices/cloud';
 import { driveProvider } from '../drive/factory';
-import { actions as cloudProviderChooserDialogAction } from '../store/slices/dialog/cloud-provider-chooser-dialog';
+import { actions as cloudProviderChooserDialogActions } from '../store/slices/dialog/cloud-provider-chooser-dialog';
+import { actions as newOpenFileDialogActions } from '../store/slices/dialog/new-open-dialog';
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends ConnectLitElement {
@@ -54,7 +55,7 @@ export default class extends ConnectLitElement {
     return html`
       <dbg-dialog ?show=${this.#open} title="Please select a cloud provider">
         <div slot="body">
-          <div class="operation-container" @click="${this.#googleDrive}">
+          <div class="operation-container" @click="${this.#onSelect(CloudProvider.GoogleDrive)}">
             <div class="operation-icon-container">
               <div class="google-drive operation-icon">
               </div>
@@ -63,14 +64,14 @@ export default class extends ConnectLitElement {
               Google Drive
             </h4>
           </div>
-          <div class="operation-container" @click="${this.#oneDrive}">
+          <div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
             <div class="one-drive operation-icon">
             </div>
             <h4 class="operation">
               One Drive
             </h4>
           </div>
-          <div class="operation-container" @click="${this.#none}">
+          <div class="operation-container" @click="${this.#onSelect(CloudProvider.None)}">
             <div class="one-drive operation-icon">
             </div>
             <h4 class="operation">
@@ -82,20 +83,10 @@ export default class extends ConnectLitElement {
     `;
   }
 
-  #googleDrive = async (): Promise<void> => {
-    store.dispatch(cloudActions.googleDrive());
+  #onSelect = (cloudProvider: CloudProvider) => async (): Promise<void> => {
+    store.dispatch(cloudActions.setDriveType(cloudProvider));
     await driveProvider.login();
-    store.dispatch(cloudProviderChooserDialogAction.close());
-  };
-
-  #oneDrive = async (): Promise<void> => {
-    store.dispatch(cloudActions.oneDrive());
-    await driveProvider.login();
-    store.dispatch(cloudProviderChooserDialogAction.close());
-  };
-
-  #none = (): void => {
-    store.dispatch(cloudActions.none());
-    store.dispatch(cloudProviderChooserDialogAction.close());
-  };
+    store.dispatch(cloudProviderChooserDialogActions.close());
+    store.dispatch(newOpenFileDialogActions.open());
+  }
 }

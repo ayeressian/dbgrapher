@@ -7,7 +7,6 @@ export default (): string => {
       return 'Google Drive';
     case CloudProvider.OneDrive:
       return 'OneDrive';
-    case CloudProvider.None:
-      return '';
   }
+  return '';
 };

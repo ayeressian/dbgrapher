@@ -3,6 +3,7 @@ import DriveProvider from './drive-provider';
 import GoogleDriveProvider from './google-drive/google-drive-provider';
 import OneDriveProvider from './one-drive/one-drive-provider';
 import { subscribe } from '../subscribe-store';
+import NoneProvider from './none/none-provider';
 
 export let driveProvider: DriveProvider;
 
@@ -16,7 +17,8 @@ const initFactory = (): void => {
         driveProvider = new OneDriveProvider();
         break;
       default:
-        throw new Error('Unknown cloud provider');
+        driveProvider = new NoneProvider();
+        break;
     }
   });
 };

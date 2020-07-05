@@ -4,6 +4,7 @@ export enum CloudProvider {
   None = 'None',
   GoogleDrive = 'GoogleDrive',
   OneDrive = 'OneDrive',
+  NotSelected = 'NotSelected',
 }
 
 export type CloudUserData = {
@@ -22,26 +23,18 @@ export type CloudState = {
 
 const slice = createSlice({
   initialState: {
-    provider: CloudProvider.None,
+    provider: CloudProvider.NotSelected,
   } as CloudState,
   name: 'cloud',
   reducers: {
-    none: (state): CloudState => {
-      state.provider = CloudProvider.None;
-      return state;
-    },
     setUserData: (state, { payload }: PayloadAction<CloudUserData>): CloudState => {
       state.userData = payload;
       return state;
     },
-    googleDrive: (state): CloudState => {
-      state.provider = CloudProvider.GoogleDrive;
+    setDriveType: (state, { payload }: PayloadAction<CloudProvider>): CloudState => {
+      state.provider = payload;
       return state;
-    },
-    oneDrive: (state): CloudState => {
-      state.provider = CloudProvider.OneDrive;
-      return state;
-    },
+    }, 
     setFileId: (state, { payload }: PayloadAction<number>): CloudState => {
       state.fileId = payload;
       return state;

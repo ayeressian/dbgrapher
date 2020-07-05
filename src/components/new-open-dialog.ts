@@ -8,14 +8,14 @@ import {
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import { actions as welcomeDialogActions } from "../store/slices/dialog/welcome-dialog";
-import { actions as fileOpenChooserAction } from "../store/slices/dialog/file-open-chooser-dialog";
+import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
 import commonStyles from './common-icon-dialog-styling';
 import { subscribe } from "../subscribe-store";
+import { driveProvider } from "../drive/factory";
 
 @customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
@@ -41,7 +41,7 @@ export default class extends ConnectLitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(state => state.dialog.welcomeDialog, open => {
+    subscribe(state => state.dialog.newOpenDialog, open => {
       this.#open = open;
       this.requestUpdate();
     });
@@ -82,6 +82,6 @@ export default class extends ConnectLitElement {
 
   #openFile = (): void => {
     store.dispatch(welcomeDialogActions.close());
-    store.dispatch(fileOpenChooserAction.open(true));
+    driveProvider.picker();
   };
 }

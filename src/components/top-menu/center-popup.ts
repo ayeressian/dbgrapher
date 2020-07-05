@@ -4,8 +4,6 @@ import buttonCss from 'purecss/build/buttons-min.css';
 
 @customElement('dbg-top-menu-center-popup')
 export default class extends LitElement {
-  #openState?: {open: boolean};
-
   static get styles(): CSSResult {
     return css`
       ${unsafeCSS(formsCss)}
@@ -27,7 +25,6 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     const fileName = 'Untitled';
-    console.log(this.#openState?.open);
     return html`
       <div class="center-popup">
         <form class="pure-form pure-form-stacked">

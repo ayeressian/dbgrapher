@@ -8,8 +8,8 @@ import { actions as loadScreenAction } from '../../store/slices/load-screen';
 import { CloudProvider, actions as cloudAction } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 
-const authLoad = new Promise((resolve, reject) => {
-  gapi.load('auth', {callback: resolve, onerror: reject});  
+const auth2Load = new Promise((resolve, reject) => {
+  gapi.load('auth2', {callback: resolve, onerror: reject});
 });
 
 const pickerLoad = new Promise((resolve, reject) => {
@@ -27,38 +27,40 @@ export default class GoogleDriveProvider implements DriveProvider {
   static appId: string = env.googleDrive.appId
   
   // Scope to use to access user's Drive items.
-  static scope = ['https://www.googleapis.com/auth/drive.file'];
+  static scope = 'https://www.googleapis.com/auth/drive.file';
 
-  #oauthToken?: string;
+  constructor() {
+    gapi.client.init({
+      apiKey: GoogleDriveProvider.developerKey,
+      clientId: GoogleDriveProvider.clientId,
+      scope: GoogleDriveProvider.scope
+    });
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  #pickerCallback = (data: any): void => {
+  #pickerCallback = async (data: any): Promise<void> => {
     if (data.action == google.picker.Action.PICKED) {
       store.dispatch(loadScreenAction.start());
       const file = data.docs[0];
-      gapi.client.request({
+      const filesResult = await gapi.client.request({
         path: `https://www.googleapis.com/drive/v2/files/${file.id}`,
         params: {
           mimeType: file.mimeType
         }
-      }).then((data) => {
-        store.dispatch(cloudActions.setFileId(file.id));
-        store.dispatch(fileOpenChooserAction.close());
-        return gapi.client.request({
-          path: data.result.downloadUrl
-        }).then(contentData => {
-          store.dispatch(loadScreenAction.stop());
-          store.dispatch(schemaAction.initiate(contentData.result));
-          store.dispatch(setSchemaAction.load());
-        });
-      }).catch(error => {
-        console.error(error);
       });
+      store.dispatch(cloudActions.setFileId(file.id));
+      store.dispatch(fileOpenChooserAction.close());
+      const contentData = await gapi.client.request({
+        path: filesResult.result.downloadUrl
+      });
+      store.dispatch(loadScreenAction.stop());
+      store.dispatch(schemaAction.initiate(contentData.result));
+      store.dispatch(setSchemaAction.load());
     }
   };
 
   async picker(): Promise<void> {
-    if (!this.#oauthToken) {
+    if (!gapi.auth2.getAuthInstance().isSignedIn) {
       await this.login();
     }
     store.dispatch(loadScreenAction.start());
@@ -69,7 +71,7 @@ export default class GoogleDriveProvider implements DriveProvider {
         .enableFeature(google.picker.Feature.NAV_HIDDEN)
         .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
         .setAppId(GoogleDriveProvider.appId)
-        .setOAuthToken(this.#oauthToken!)
+        .setOAuthToken(gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token)
         .addView(view)
         .addView(new google.picker.DocsUploadView())
         .setDeveloperKey(GoogleDriveProvider.developerKey)
@@ -79,52 +81,30 @@ export default class GoogleDriveProvider implements DriveProvider {
     return Promise.resolve();
   }
 
-  #authorizePromiseResolve?: (accessToken: string) => void;
-  #authorizePromiseReject?: (reason: string) => void;
-
-  #handleAuthResult = (authResult: GoogleApiOAuth2TokenObject): void => {
-    if (authResult.error) {
-      this.#authorizePromiseReject!(authResult.error);
-    } else {
-      this.#authorizePromiseResolve!(authResult.access_token);
-    }
-  };
-
   async login(): Promise<void> {
-    await authLoad;
+    await auth2Load;
     store.dispatch(loadScreenAction.start());
-    gapi.auth.authorize(
-      {
-        'client_id': GoogleDriveProvider.clientId,
-        'scope': GoogleDriveProvider.scope,
-        'immediate': false
-      },
-      this.#handleAuthResult);
-    const authorizePromise = new Promise<string>((resolve, reject) => {
-      this.#authorizePromiseResolve = resolve;
-      this.#authorizePromiseReject = reject;
-    });
-    this.#oauthToken = await authorizePromise;
 
-    const userInfo = await gapi.client.request({
-      path: `https://www.googleapis.com/oauth2/v1/userinfo`,
-      method: 'GET',
-    });
-    const {name, email, picture, given_name: firstName, family_name: lastName} = userInfo.result;
+    const user = await gapi.auth2.getAuthInstance().signIn();
+    const profile = user.getBasicProfile();
+    user.getAuthResponse().access_token;
+
     store.dispatch(cloudAction.setUserData({
-      name,
-      firstName,
-      lastName,
-      email,
-      picture,
+      name: profile.getName(),
+      firstName: profile.getGivenName(),
+      lastName: profile.getFamilyName(),
+      email: profile.getEmail(),
+      picture: profile.getImageUrl(),
     }));
 
     store.dispatch(loadScreenAction.stop());
     return Promise.resolve();
   }
 
-  logout(): Promise<void> {
-    gapi.auth.signOut();
+  async logout(): Promise<void> {
+    const authInstance = gapi.auth2.getAuthInstance();
+    await authInstance.signOut();
+    authInstance.disconnect();
     return Promise.resolve();
   }
 
@@ -132,8 +112,9 @@ export default class GoogleDriveProvider implements DriveProvider {
     const key = store.getState().cloud.fileId;
     if (key && store.getState().cloud.provider === CloudProvider.GoogleDrive) {
       if (store.getState().cloud.provider === CloudProvider.GoogleDrive) {
+        const accessToken = gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse().access_token;
         await gapi.client.request({
-          path: `https://www.googleapis.com/upload/drive/v2/files/${this.#oauthToken}`,
+          path: `https://www.googleapis.com/upload/drive/v2/files/${accessToken}`,
           body: store.getState().schema.present,
           method: 'PUT',
         });

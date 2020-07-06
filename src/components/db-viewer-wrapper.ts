@@ -88,7 +88,7 @@ export default class DbWrapper extends LitElement {
 
   #onTableMoveEnd = (): void => {
     store.dispatch(schemaAction.set(this.#dbViewer!.schema!));
-    driveProvider.update();
+    driveProvider.updateFile();
   };
 
   firstUpdated(): void {

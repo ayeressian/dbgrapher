@@ -13,7 +13,10 @@ export default class NoneProvider implements DriveProvider {
   logout(): Promise<void> {
     return Promise.resolve();
   }
-  update(): Promise<void> {
+  updateFile(): Promise<void> {
+    return Promise.resolve();
+  }
+  createFile(): Promise<void>  {
     return Promise.resolve();
   }
 }

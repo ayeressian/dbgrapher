@@ -36,6 +36,7 @@
     "@types/color-hash": "^1.0.0",
     "@types/copy-webpack-plugin": "^5.0.2",
     "@types/gapi.auth2": "0.0.52",
+    "@types/gapi.client.drive": "^3.0.8",
     "@types/google.picker": "0.0.34",
     "@types/jasmine": "^3.5.10",
     "@typescript-eslint/eslint-plugin": "^2.34.0",

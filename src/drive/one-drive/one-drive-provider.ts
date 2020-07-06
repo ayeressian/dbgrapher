@@ -120,7 +120,12 @@ export default class OneDriveProvider implements DriveProvider {
     store.dispatch(loadScreenAction.stop());
   };
 
-  update(): Promise<void>  {
+  updateFile(): Promise<void>  {
+    //TODO
+    return Promise.resolve();
+  }
+
+  createFile(): Promise<void>  {
     //TODO
     return Promise.resolve();
   }

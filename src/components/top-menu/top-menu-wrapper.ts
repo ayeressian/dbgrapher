@@ -25,6 +25,7 @@ export default class extends LitElement {
   #openRightPopup = false;
   #centerPopup?: HTMLElement;
   #rightPopup?: HTMLElement;
+  #fileName?: string;
 
   static get styles(): CSSResult {
     return css`
@@ -64,13 +65,12 @@ export default class extends LitElement {
   #hideCenterAndRight = (): boolean => this.#cloudState.provider === CloudProvider.None || this.#cloudState.userData?.name == null;
 
   render(): TemplateResult {
-    const fileName = 'Untitled';
-    const text = `${fileName} - Saved to ${this.#providerName()}`;
+    const centerText = `${this.#fileName} - Saved to ${this.#providerName()}`;
     const cloudState = store.getState().cloud;
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
-        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() })}" @click="${this.#onCenterClick}">
-          ${text}
+        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.#fileName == null })}" @click="${this.#onCenterClick}">
+          ${centerText}
         </div>
 
         <div slot="right" class="${classMap({ hide: this.#hideCenterAndRight() })}" @click="${this.#onAccountClick}">
@@ -80,7 +80,7 @@ export default class extends LitElement {
         </div>
       </dbg-top-menu>
 
-      <dbg-top-menu-center-popup class="${classMap({ hide: !this.#openCenterPopup })}"></dbg-top-menu-center-popup>
+      <dbg-top-menu-center-popup class="${classMap({ hide: !this.#openCenterPopup })}" fileName="${cloudState.fileName}"></dbg-top-menu-center-popup>
 
       <dbg-top-menu-account-popup class="${classMap({ hide: !this.#openRightPopup })}" .cloudState=${cloudState}></dbg-top-menu-account-popup>
     `;
@@ -90,6 +90,7 @@ export default class extends LitElement {
     super.connectedCallback();
     subscribe(state => state.cloud, cloudState => {
       this.#cloudState = cloudState;
+      this.#fileName = cloudState.fileName;
       this.requestUpdate();
     });
 

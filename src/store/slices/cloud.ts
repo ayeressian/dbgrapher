@@ -18,7 +18,7 @@ export type CloudUserData = {
 export type CloudState = {
   provider: CloudProvider;
   userData?: CloudUserData;
-  fileId?: number;
+  fileName?: string;
 }
 
 const slice = createSlice({
@@ -35,8 +35,8 @@ const slice = createSlice({
       state.provider = payload;
       return state;
     }, 
-    setFileId: (state, { payload }: PayloadAction<number>): CloudState => {
-      state.fileId = payload;
+    setFileName: (state, { payload }: PayloadAction<string>): CloudState => {
+      state.fileName = payload;
       return state;
     }
   },

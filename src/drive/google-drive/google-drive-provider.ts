@@ -3,7 +3,7 @@ import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
 import env from '../../../env.json';
 import { actions as loadScreenAction } from '../../store/slices/load-screen';
-import { actions as cloudAction } from '../../store/slices/cloud';
+import { actions as cloudActions } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
 
@@ -57,6 +57,7 @@ export default class GoogleDriveProvider implements DriveProvider {
       store.dispatch(loadScreenAction.start());
       const file = data.docs[0];
       this.#fileId = file.id;
+      store.dispatch(cloudActions.setFileName(file.name));
       await clientDrive;
       const filesContent = await gapi.client.drive.files.get({
         fileId: file.id,
@@ -98,7 +99,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     const profile = user.getBasicProfile();
     user.getAuthResponse().access_token;
 
-    store.dispatch(cloudAction.setUserData({
+    store.dispatch(cloudActions.setUserData({
       name: profile.getName(),
       firstName: profile.getGivenName(),
       lastName: profile.getFamilyName(),

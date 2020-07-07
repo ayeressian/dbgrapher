@@ -1,9 +1,13 @@
-import { customElement, LitElement, CSSResult, css, TemplateResult, html, unsafeCSS } from 'lit-element';
+import { customElement, LitElement, CSSResult, css, TemplateResult, html, unsafeCSS, property } from 'lit-element';
 import formsCss from 'purecss/build/forms-min.css';
 import buttonCss from 'purecss/build/buttons-min.css';
 
 @customElement('dbg-top-menu-center-popup')
 export default class extends LitElement {
+  @property({
+    type: String,
+  }) fileName = '';
+  
   static get styles(): CSSResult {
     return css`
       ${unsafeCSS(formsCss)}
@@ -24,13 +28,12 @@ export default class extends LitElement {
   }
 
   render(): TemplateResult {
-    const fileName = 'Untitled';
     return html`
       <div class="center-popup">
         <form class="pure-form pure-form-stacked">
           <fieldset>
             <label for="file-name">File Name</label>
-            <input type="text" id="file-name" .value=${fileName} />
+            <input type="text" id="file-name" .value=${this.fileName} />
           </fieldset>
           <button type="submit" class="pure-button pure-button-primary">Update</button>
         </form>

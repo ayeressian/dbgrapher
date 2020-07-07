@@ -72,7 +72,8 @@ export default class extends ConnectLitElement {
               Google Drive
             </h4>
           </div>
-          <!--<div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
+          <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
+          <div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
             <div class="one-drive operation-icon">
             </div>
             <h4 class="operation">

@@ -72,13 +72,13 @@ export default class extends ConnectLitElement {
               Google Drive
             </h4>
           </div>
-          <div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
+          <!--<div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
             <div class="one-drive operation-icon">
             </div>
             <h4 class="operation">
               One Drive
             </h4>
-          </div>
+          </div>-->
           <div class="operation-container" @click="${this.#onSelect(CloudProvider.None)}">
             <div class="no-drive operation-icon">
             </div>

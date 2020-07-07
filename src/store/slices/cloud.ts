@@ -7,6 +7,12 @@ export enum CloudProvider {
   NotSelected = 'NotSelected',
 }
 
+export enum CloudUpdateState {
+  Saved = 'Saved',
+  Saving = 'Saving',
+  None = 'None',
+}
+
 export type CloudUserData = {
   name: string;
   firstName: string;
@@ -19,11 +25,13 @@ export type CloudState = {
   provider: CloudProvider;
   userData?: CloudUserData;
   fileName?: string;
+  updateState: CloudUpdateState;
 }
 
 const slice = createSlice({
   initialState: {
     provider: CloudProvider.NotSelected,
+    updateState: CloudUpdateState.None,
   } as CloudState,
   name: 'cloud',
   reducers: {
@@ -37,6 +45,10 @@ const slice = createSlice({
     }, 
     setFileName: (state, { payload }: PayloadAction<string>): CloudState => {
       state.fileName = payload;
+      return state;
+    },
+    setUpdateState: (state, { payload }: PayloadAction<CloudUpdateState>): CloudState => {
+      state.updateState = payload;
       return state;
     }
   },

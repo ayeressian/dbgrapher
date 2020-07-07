@@ -35,7 +35,7 @@ export default class extends LitElement {
             <label for="file-name">File Name</label>
             <input type="text" id="file-name" .value=${this.fileName} />
           </fieldset>
-          <button type="submit" class="pure-button pure-button-primary">Update</button>
+          <button type="submit" class="pure-button">Update</button>
         </form>
       </div>
     `;

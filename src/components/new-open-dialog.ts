@@ -11,6 +11,7 @@ import store from "../store/store";
 import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
+import { actions as cloudActions, CloudUpdateState } from '../store/slices/cloud';
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
 import commonStyles from './common-icon-dialog-styling';
@@ -75,6 +76,8 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
+    store.dispatch(cloudActions.setFileName('Untitled.dbgh'));
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
     store.dispatch(schemaActions.initiate());
     store.dispatch(loadSchemaActions.load());
     store.dispatch(welcomeDialogActions.close());

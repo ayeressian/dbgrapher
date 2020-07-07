@@ -3,7 +3,7 @@ import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
 import env from '../../../env.json';
 import { actions as loadScreenAction } from '../../store/slices/load-screen';
-import { actions as cloudActions } from '../../store/slices/cloud';
+import { actions as cloudActions, CloudUpdateState } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
 
@@ -15,10 +15,10 @@ const pickerLoad = new Promise((resolve, reject) => {
   gapi.load('picker', {callback: resolve, onerror: reject});
 });
 
-let clientDrive: Promise<void>;
+let clientDriveLoad: PromiseLike<void>;
 const clientLoad = new Promise((resolve, reject) => {
   gapi.load('client', {callback: () => {
-    clientDrive = gapi.client.load('drive', 'v2');
+    clientDriveLoad = gapi.client.load('drive', 'v3');
     resolve();
   }, onerror: reject});
 });
@@ -58,12 +58,13 @@ export default class GoogleDriveProvider implements DriveProvider {
       const file = data.docs[0];
       this.#fileId = file.id;
       store.dispatch(cloudActions.setFileName(file.name));
-      await clientDrive;
+      await clientDriveLoad;
       const filesContent = await gapi.client.drive.files.get({
         fileId: file.id,
         alt: 'media'
       });
       store.dispatch(loadScreenAction.stop());
+      store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(schemaAction.initiate((filesContent.result as unknown) as Schema));
       store.dispatch(setSchemaAction.load());
     }
@@ -118,16 +119,43 @@ export default class GoogleDriveProvider implements DriveProvider {
     return Promise.resolve();
   }
 
-  updateFile = async (): Promise<void> => {
+  async updateFile(): Promise<void> {
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
+    if (this.#fileId == null) {
+      this.createFile();
+    }
+    await clientLoad;
     await gapi.client.request({
       path: `https://www.googleapis.com/upload/drive/v2/files/${this.#fileId}`,
       body: store.getState().schema.present,
       method: 'PUT',
     });
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
   }
 
-  createFile(): Promise<void>  {
-    //TODO
-    return Promise.resolve();
+  async createFile(): Promise<void>  {
+    const fileName = store.getState().cloud.fileName!;
+    await clientDriveLoad;
+    const file = await gapi.client.drive.files.create({
+      resource: {
+        name: fileName,
+        mimeType: 'application/json',
+      }
+    });
+    
+    this.#fileId = file.result.id;
+  }
+
+  async renameFile(newFileName: string): Promise<void> {
+    if (this.#fileId) {
+      await clientDriveLoad;
+      await gapi.client.drive.files.update({
+        fileId: this.#fileId,
+        resource: {
+          name: newFileName
+        }
+      });
+      store.dispatch(cloudActions.setFileName(newFileName));
+    }
   }
 }

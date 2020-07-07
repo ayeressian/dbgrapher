@@ -2,6 +2,7 @@ import { html, customElement, TemplateResult, LitElement, CSSResult, css, unsafe
 import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
 import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
+import { actions as cloudActions } from '../../store/slices/cloud';
 import store from '../../store/store';
 import { download } from '../../util';
 import { Schema } from 'db-viewer-component';
@@ -9,7 +10,7 @@ import schemaToSqlSchema from '../../schema-to-sql-schema';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../../subscribe-store';
 import buttonCss from 'purecss/build/buttons-min.css';
-import { CloudState, CloudProvider } from '../../store/slices/cloud';
+import { CloudState, CloudProvider, CloudUpdateState } from '../../store/slices/cloud';
 import topMenuConfig from './top-menu-config';
 import ColorHash from 'color-hash';
 import { styleMap } from 'lit-html/directives/style-map';
@@ -42,6 +43,14 @@ export default class extends LitElement {
         line-height: 33px;
       }
 
+      [slot="center"] {
+        padding: 0 8px 0 8px;
+      }
+
+      [slot="center"]:hover, [slot="right"]:hover {
+        background-color: #bfbfbf;
+      }
+
       .hide {
         display: none;
       }
@@ -65,8 +74,19 @@ export default class extends LitElement {
   #hideCenterAndRight = (): boolean => this.#cloudState.provider === CloudProvider.None || this.#cloudState.userData?.name == null;
 
   render(): TemplateResult {
-    const centerText = `${this.#fileName} - Saved to ${this.#providerName()}`;
     const cloudState = store.getState().cloud;
+    let centerText;
+    switch (cloudState.updateState) {
+      case CloudUpdateState.None:
+        centerText = this.#fileName;
+        break;
+      case CloudUpdateState.Saved:
+        centerText = `${this.#fileName} - Saved to ${this.#providerName()}`;
+        break;
+      case CloudUpdateState.Saving:
+        centerText = `${this.#fileName} - Saving to ${this.#providerName()}`;
+        break;
+    }
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
         <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.#fileName == null })}" @click="${this.#onCenterClick}">
@@ -130,6 +150,8 @@ export default class extends LitElement {
   #itemSelected = (event: CustomEvent): void => {
     switch(event.detail.id) {
       case 'new':
+        store.dispatch(cloudActions.setFileName('Untitled.dbgh'));
+        store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
         store.dispatch(schemaAction.initiate());
         store.dispatch(setSchemaAction.load());
         break;

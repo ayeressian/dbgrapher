@@ -126,11 +126,13 @@ export default class DbWrapper extends LitElement {
     document.onkeydown = (event: KeyboardEvent): void => {
       if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
         store.dispatch(schemaAction.undo());
+        driveProvider.updateFile();
         store.dispatch(setSchemaAction.loadViewportUnchange());
       }
 
       if (((event.keyCode === 90 && event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) || (!isMac && event.ctrlKey)) {
         store.dispatch(schemaAction.redo());
+        driveProvider.updateFile();
         store.dispatch(setSchemaAction.loadViewportUnchange());
       }
     };

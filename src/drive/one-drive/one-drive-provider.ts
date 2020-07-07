@@ -40,7 +40,9 @@ export default class OneDriveProvider implements DriveProvider {
         store.dispatch(loadScreenAction.stop());
       },
       advanced: {
-        accessToken: this.#authenticationResult!.accessToken
+        accessToken: this.#authenticationResult!.accessToken,
+        endpointHint: 'api.onedrive.com',
+        redirectUri: "http://localhost:9999"
       }
     };
     store.dispatch(loadScreenAction.start());
@@ -66,7 +68,7 @@ export default class OneDriveProvider implements DriveProvider {
       }
     });
     this.#authenticationResult = await this.#msalInstance.loginPopup({
-      scopes: ['openid', 'User.Read', 'Files.ReadWrite'],
+      scopes: ['openid', 'User.Read', 'Files.ReadWrite.All'],
       redirectUri: '',
     });
   

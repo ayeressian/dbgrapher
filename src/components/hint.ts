@@ -1,4 +1,4 @@
-import { LitElement, customElement, css, CSSResult, TemplateResult, html } from 'lit-element';
+import { LitElement, customElement, css, CSSResult, TemplateResult, html, internalProperty } from 'lit-element';
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
 import store from '../store/store';
 import { isMac } from '../util';
@@ -9,8 +9,8 @@ const DISPLAY_TIMER = 5000;
 
 @customElement('dbg-hint')
 export default class extends LitElement {
-
-  #text = '';
+  @internalProperty()
+  text = '';
 
   static get styles(): CSSResult {
     return css`
@@ -30,22 +30,20 @@ export default class extends LitElement {
   }
 
   render(): TemplateResult {
-    return this.#text ? html`
+    return this.text ? html`
       <div>
-        ${this.#text}
+        ${this.text}
       </div>
     ` : html``;
   }
 
   #showTimedMessage = (message: string): void => {
     setTimeout(() => {
-      if (this.#text === message) {
-        this.#text = '';
-        this.requestUpdate();
+      if (this.text === message) {
+        this.text = '';
       }
     }, DISPLAY_TIMER);
-    this.#text = message;
-    this.requestUpdate();
+    this.text = message;
   }
 
   connectedCallback(): void {
@@ -53,14 +51,13 @@ export default class extends LitElement {
 
     store.subscribe(() => {
       const state = store.getState();
-      this.#text = '';
+      this.text = '';
       if (state.dbViewerMode === DbViewerMode.CreateTable && !state.dialog.tableDialog.open) {
-        this.#text = 'Choose the position of the new table by clicking on the viewport';
+        this.text = 'Choose the position of the new table by clicking on the viewport';
       }
       if (state.dbViewerMode !== DbViewerMode.None && state.dbViewerMode !== DbViewerMode.CreateTable) {
-        this.#text = 'Click on the first table to create the relation from and then click on the second table to create the relation to';
+        this.text = 'Click on the first table to create the relation from and then click on the second table to create the relation to';
       }
-      this.requestUpdate();
     });
 
     window.addEventListener('keydown', (event) => {

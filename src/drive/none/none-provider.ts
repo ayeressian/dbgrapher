@@ -19,4 +19,7 @@ export default class NoneProvider implements DriveProvider {
   createFile(): Promise<void>  {
     return Promise.resolve();
   }
+  renameFile(): Promise<void>  {
+    return Promise.resolve();
+  }
 }

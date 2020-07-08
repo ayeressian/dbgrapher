@@ -1,4 +1,4 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement, property } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, property, internalProperty } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
 import { TopMenuConfig, Item } from './top-menu-config';
@@ -95,20 +95,21 @@ export default class extends LitElement {
 
   @property( { type : Object } ) config?: TopMenuConfig;
 
-  #dropdownItems?: Item[];
-  #dropdownStyle = {};
+  @internalProperty()
+  dropdownItems?: Item[];
+
+  @internalProperty()
+  dropdownStyle = {};
 
   #onDocumentClick = (event: MouseEvent): void => {
     if (event.composed && !event.composedPath().includes(this)) {
-      this.#dropdownItems = undefined;
-      this.requestUpdate();
+      this.dropdownItems = undefined;
     }
   };
 
   #onComponentClick = (event: MouseEvent): void => {
     if (!(event.composedPath()[0] as HTMLElement).classList.contains('menu-item')) {
-      this.#dropdownItems = undefined;
-      this.requestUpdate();
+      this.dropdownItems = undefined;
     }
   };
 
@@ -137,10 +138,10 @@ export default class extends LitElement {
         <slot name="center">
         </slot>
       </div>
-      <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">
+      <div class="${classMap({dropdown: true, show: this.dropdownItems != null})}" style="${styleMap(this.dropdownStyle)}">
         <ul>
           ${
-            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}" class="menu-item">${dropdownItem.title}</li>`)
+            (this.dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}" class="menu-item">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>
@@ -158,8 +159,7 @@ export default class extends LitElement {
 
   #onDropdownItemClick = (item: Item): void => {
     this.#itemSelected(item);
-    this.#dropdownItems = undefined;
-    this.requestUpdate();
+    this.dropdownItems = undefined;
   }
 
   #onMenuItemClick = (event: Event, item: Item): void => {
@@ -167,14 +167,13 @@ export default class extends LitElement {
     const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
 
     if (item.items != null) {
-      this.#dropdownStyle = {
+      this.dropdownStyle = {
         top: viewportOffset.bottom + 'px',
         left: viewportOffset.left + 'px'
       };
-      this.#dropdownItems = item.items;
+      this.dropdownItems = item.items;
     } else {
-      this.#dropdownItems = undefined;
+      this.dropdownItems = undefined;
     }
-    this.requestUpdate();
   }
 }

@@ -5,6 +5,7 @@ import {
   CSSResult,
   TemplateResult,
   unsafeCSS,
+  internalProperty,
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
@@ -20,7 +21,8 @@ import { driveProvider } from "../drive/factory";
 
 @customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
-  #open = false;
+  @internalProperty()
+  open = false;
 
   static get styles(): CSSResult {
     return css`
@@ -43,14 +45,13 @@ export default class extends ConnectLitElement {
     super.connectedCallback();
 
     subscribe(state => state.dialog.newOpenDialog, open => {
-      this.#open = open;
-      this.requestUpdate();
+      this.open = open;
     });
   }
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open}>
+      <dbg-dialog ?show=${this.open}>
         <div slot="body">
           <div class="operation-container" @click="${this.#newFile}">
             <div class="operation-icon-container">

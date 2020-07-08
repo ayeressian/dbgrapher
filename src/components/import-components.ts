@@ -6,7 +6,7 @@ import './db-viewer-wrapper';
 import './file-inputs';
 import './top-menu/top-menu';
 import './top-menu/top-menu-wrapper';
-import './top-menu/center-popup';
+import './top-menu/file-name-popup';
 import './top-menu/account-popup';
 import './table-dialog/table-dialog';
 import './table-dialog/columns';

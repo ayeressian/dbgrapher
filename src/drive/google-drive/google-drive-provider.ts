@@ -155,7 +155,7 @@ export default class GoogleDriveProvider implements DriveProvider {
           name: newFileName
         }
       });
-      store.dispatch(cloudActions.setFileName(newFileName));
     }
+    store.dispatch(cloudActions.setFileName(newFileName));
   }
 }

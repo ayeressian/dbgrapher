@@ -1,4 +1,4 @@
-import { html, customElement, TemplateResult, LitElement, CSSResult, css, unsafeCSS } from 'lit-element';
+import { html, customElement, TemplateResult, LitElement, CSSResult, css, unsafeCSS, internalProperty } from 'lit-element';
 import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
 import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
@@ -15,18 +15,26 @@ import topMenuConfig from './top-menu-config';
 import ColorHash from 'color-hash';
 import { styleMap } from 'lit-html/directives/style-map';
 import { driveProvider } from '../../drive/factory';
+import { FileNameUpdateEvent } from './file-name-popup';
 
 const colorHash = new ColorHash({saturation: 0.5});
 
 @customElement('dbg-top-menu-wrapper')
 export default class extends LitElement {
 
-  #cloudState: CloudState = store.getState().cloud;
-  #openCenterPopup = false;
-  #openRightPopup = false;
-  #centerPopup?: HTMLElement;
-  #rightPopup?: HTMLElement;
-  #fileName?: string;
+  @internalProperty()
+  openAccountPopup = false;
+
+  @internalProperty()
+  openFileRenamePopup = false;
+
+  @internalProperty()
+  fileName?: string;
+
+  @internalProperty()
+  cloudState: CloudState = store.getState().cloud;
+
+  #accountPopup?: HTMLElement;
 
   static get styles(): CSSResult {
     return css`
@@ -69,27 +77,28 @@ export default class extends LitElement {
     `;
   }
 
-  #providerName = (): string => this.#cloudState.provider === CloudProvider.GoogleDrive ? 'Google Drive' : 'OneDrive';
+  #providerName = (): string => this.cloudState.provider === CloudProvider.GoogleDrive ? 'Google Drive' : 'OneDrive';
 
-  #hideCenterAndRight = (): boolean => this.#cloudState.provider === CloudProvider.None || this.#cloudState.userData?.name == null;
+  #hideCenterAndRight = (): boolean => this.cloudState.provider === CloudProvider.None || this.cloudState.userData?.name == null;
 
   render(): TemplateResult {
     const cloudState = store.getState().cloud;
     let centerText;
     switch (cloudState.updateState) {
       case CloudUpdateState.None:
-        centerText = this.#fileName;
+        centerText = this.fileName;
         break;
       case CloudUpdateState.Saved:
-        centerText = `${this.#fileName} - Saved to ${this.#providerName()}`;
+        centerText = `${this.fileName} - Saved to ${this.#providerName()}`;
         break;
       case CloudUpdateState.Saving:
-        centerText = `${this.#fileName} - Saving to ${this.#providerName()}`;
+        centerText = `${this.fileName} - Saving to ${this.#providerName()}`;
         break;
     }
+
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
-        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.#fileName == null })}" @click="${this.#onCenterClick}">
+        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.fileName == null })}" @click="${this.#onCenterClick}">
           ${centerText}
         </div>
 
@@ -100,18 +109,20 @@ export default class extends LitElement {
         </div>
       </dbg-top-menu>
 
-      <dbg-top-menu-center-popup class="${classMap({ hide: !this.#openCenterPopup })}" fileName="${cloudState.fileName}"></dbg-top-menu-center-popup>
+      ${this.openFileRenamePopup ?
+        html`<dbg-file-rename-popup fileName="${cloudState.fileName}" @dbg-file-rename=${this.#onfileRename}></dbg-file-rename-popup>`:  
+        html``
+      }
 
-      <dbg-top-menu-account-popup class="${classMap({ hide: !this.#openRightPopup })}" .cloudState=${cloudState}></dbg-top-menu-account-popup>
+      <dbg-top-menu-account-popup class="${classMap({ hide: !this.openAccountPopup })}" .cloudState=${cloudState}></dbg-top-menu-account-popup>
     `;
   }
 
   connectedCallback(): void {
     super.connectedCallback();
     subscribe(state => state.cloud, cloudState => {
-      this.#cloudState = cloudState;
-      this.#fileName = cloudState.fileName;
-      this.requestUpdate();
+      this.cloudState = cloudState;
+      this.fileName = cloudState.fileName;
     });
 
     document.addEventListener('click', this.#onDocumentClick, true);
@@ -119,20 +130,23 @@ export default class extends LitElement {
   }
 
   firstUpdated(): void {
-    this.#centerPopup = this.shadowRoot!.querySelector('dbg-top-menu-center-popup') as HTMLElement;
-    this.#rightPopup = this.shadowRoot!.querySelector('dbg-top-menu-account-popup') as HTMLElement;
+    this.#accountPopup = this.shadowRoot!.querySelector('dbg-top-menu-account-popup') as HTMLElement;
+  }
+
+  #onfileRename = (event: FileNameUpdateEvent): void => {
+    driveProvider.renameFile(event.detail.newFileName);
+    this.openFileRenamePopup = false;
   }
 
   #onDocumentClick = (event: MouseEvent): void => {
     if (event.composed) {
-      if (!event.composedPath().includes(this.#centerPopup!) && this.#openCenterPopup) {
-        this.#openCenterPopup = false;
-        this.requestUpdate();
+      const fileNamePopup = this.shadowRoot!.querySelector('dbg-file-rename-popup') as HTMLElement;
+      if (!event.composedPath().includes(fileNamePopup) && this.openFileRenamePopup) {
+        this.openFileRenamePopup = false;
       }
 
-      if (!event.composedPath().includes(this.#rightPopup!) && this.#openRightPopup) {
-        this.#openRightPopup = false;
-        this.requestUpdate();
+      if (!event.composedPath().includes(this.#accountPopup!) && this.openAccountPopup) {
+        this.openAccountPopup = false;
       }
     }
   };
@@ -183,28 +197,24 @@ export default class extends LitElement {
   }
 
   #onCenterClick = (): void => {
-    if (!this.#openCenterPopup) {
-      this.#openCenterPopup = true;
-      this.requestUpdate();
+    if (!this.openFileRenamePopup) {
+      this.openFileRenamePopup = true;
     }
   }
 
   #onAccountClick = (): void => {
-    if (!this.#openRightPopup) {
-      this.#openRightPopup = true;
-      this.requestUpdate();
+    if (!this.openAccountPopup) {
+      this.openAccountPopup = true;
     }
   }
 
   #onEscape = (event: KeyboardEvent): void => {
     if (event.key === "Escape") {
-      if (this.#openCenterPopup) {
-        this.#openCenterPopup = false;
-        this.requestUpdate();
+      if (this.openFileRenamePopup) {
+        this.openFileRenamePopup = false;
       }
-      if (this.#openRightPopup) {
-        this.#openRightPopup = false;
-        this.requestUpdate();
+      if (this.openAccountPopup) {
+        this.openAccountPopup = false;
       }
     }
   }

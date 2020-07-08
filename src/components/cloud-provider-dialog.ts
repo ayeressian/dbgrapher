@@ -5,6 +5,7 @@ import {
   CSSResult,
   TemplateResult,
   unsafeCSS,
+  internalProperty,
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import fileSvg from '../../asset/file.svg';
@@ -21,7 +22,8 @@ import { actions as newOpenFileDialogActions } from '../store/slices/dialog/new-
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends ConnectLitElement {
-  #open = true;
+  @internalProperty()
+  open = true;
 
   static get styles(): CSSResult {
     return css`
@@ -54,14 +56,13 @@ export default class extends ConnectLitElement {
     super.connectedCallback();
 
     subscribe(state => state.dialog.cloudProviderChooserDialog, open => {
-      this.#open = open;
-      this.requestUpdate();
+      this.open = open;
     });
   }
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open} title="Please select a cloud provider">
+      <dbg-dialog ?show=${this.open} title="Please select a cloud provider">
         <div slot="body">
           <div class="operation-container" @click="${this.#onSelect(CloudProvider.GoogleDrive)}">
             <div class="operation-icon-container">

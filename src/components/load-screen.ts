@@ -1,4 +1,4 @@
-import { LitElement, html, customElement, css, CSSResult, TemplateResult, unsafeCSS } from 'lit-element';
+import { LitElement, html, customElement, css, CSSResult, TemplateResult, unsafeCSS, internalProperty } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import loadIcon from '../../asset/load.svg';
 import { subscribe } from '../subscribe-store';
@@ -6,7 +6,8 @@ import { subscribe } from '../subscribe-store';
 @customElement('dbg-load-screen')
 export default class extends LitElement {
 
-  #view = false;
+  @internalProperty()
+  view = false;
 
   static get styles(): CSSResult {
     return css`
@@ -43,14 +44,13 @@ export default class extends LitElement {
     super.connectedCallback();
 
     subscribe(state => state.loadScreen, view => {
-      this.#view = view;
-      this.requestUpdate();
+      this.view = view;
     });
   }
 
   render(): TemplateResult {
     return html`
-      <div class=${classMap({ 'hide': !this.#view, 'overlay': true })}>
+      <div class=${classMap({ 'hide': !this.view, 'overlay': true })}>
         <div class="load-icon"></div>
       </div>
     `;

@@ -2,11 +2,17 @@ import { customElement, LitElement, CSSResult, css, TemplateResult, html, unsafe
 import formsCss from 'purecss/build/forms-min.css';
 import buttonCss from 'purecss/build/buttons-min.css';
 
-@customElement('dbg-top-menu-center-popup')
+type FileNameUpdateEventDetail = { newFileName: string };
+
+export type FileNameUpdateEvent = CustomEvent<FileNameUpdateEventDetail>;
+
+@customElement('dbg-file-rename-popup')
 export default class extends LitElement {
   @property({
     type: String,
   }) fileName = '';
+
+  #fileNameInput?: HTMLInputElement;
   
   static get styles(): CSSResult {
     return css`
@@ -33,11 +39,24 @@ export default class extends LitElement {
         <form class="pure-form pure-form-stacked">
           <fieldset>
             <label for="file-name">File Name</label>
-            <input type="text" id="file-name" .value=${this.fileName} />
+            <input type="text" id="file-name" .value="${this.fileName}" />
           </fieldset>
-          <button type="submit" class="pure-button">Update</button>
+          <button type="submit" class="pure-button" @click=${this.#onUpdate}>Update</button>
         </form>
       </div>
     `;
+  }
+
+  firstUpdated(): void {
+    this.#fileNameInput = this.shadowRoot!.querySelector('#file-name') as HTMLInputElement;
+  }
+
+  #onUpdate = (event: MouseEvent): void => {
+    event.preventDefault();
+    const detail: FileNameUpdateEventDetail = {
+      newFileName: this.#fileNameInput!.value
+    };
+    const newEvent = new CustomEvent<FileNameUpdateEventDetail>('dbg-file-rename', { detail });
+    this.dispatchEvent(newEvent);
   }
 }

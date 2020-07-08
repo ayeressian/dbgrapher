@@ -122,7 +122,7 @@ export default class GoogleDriveProvider implements DriveProvider {
   async updateFile(): Promise<void> {
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
     if (this.#fileId == null) {
-      this.createFile();
+      await this.createFile();
     }
     await clientLoad;
     await gapi.client.request({
@@ -142,7 +142,6 @@ export default class GoogleDriveProvider implements DriveProvider {
         mimeType: 'application/json',
       }
     });
-    
     this.#fileId = file.result.id;
   }
 

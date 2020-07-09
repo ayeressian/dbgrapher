@@ -9,9 +9,8 @@ import {
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import { actions as schemaActions } from "../store/slices/schema";
-import { actions as loadSchemaActions } from "../store/slices/load-schema";
+import { actions as loadSchemaActions, State } from "../store/slices/load-schema";
 import { actions as cloudActions, CloudUpdateState } from '../store/slices/cloud';
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
@@ -47,6 +46,10 @@ export default class extends ConnectLitElement {
     subscribe(state => state.dialog.newOpenDialog, open => {
       this.open = open;
     });
+
+    subscribe(state => state.loadSchema, state => {
+      if (state !== State.DEFAULT) this.open = false;
+    });
   }
   
   render(): TemplateResult {
@@ -81,11 +84,9 @@ export default class extends ConnectLitElement {
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
     store.dispatch(schemaActions.initiate());
     store.dispatch(loadSchemaActions.load());
-    store.dispatch(welcomeDialogActions.close());
   };
 
   #openFile = (): void => {
-    store.dispatch(welcomeDialogActions.close());
     driveProvider.picker();
   };
 }

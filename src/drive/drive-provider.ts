@@ -1,6 +1,6 @@
 interface DriveProvider {
   picker: () => Promise<void>;
-  login: () => Promise<void>;
+  login: () => Promise<boolean>;
   logout: () => Promise<void>;
   updateFile: () => Promise<void>;
   createFile: () => Promise<void>;

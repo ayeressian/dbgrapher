@@ -95,8 +95,10 @@ export default class extends ConnectLitElement {
 
   #onSelect = (cloudProvider: CloudProvider) => async (): Promise<void> => {
     store.dispatch(cloudActions.setDriveType(cloudProvider));
-    await driveProvider.login();
-    store.dispatch(cloudProviderChooserDialogActions.close());
-    store.dispatch(newOpenFileDialogActions.open());
+    const loggedIn = await driveProvider.login();
+    if (loggedIn) {
+      store.dispatch(cloudProviderChooserDialogActions.close());
+      store.dispatch(newOpenFileDialogActions.open());
+    }
   }
 }

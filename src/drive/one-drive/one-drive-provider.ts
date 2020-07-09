@@ -56,7 +56,7 @@ export default class OneDriveProvider implements DriveProvider {
     store.dispatch(loadScreenAction.stop());
   }
 
-  login = async (): Promise<void> => {
+  login = async (): Promise<boolean> => {
     store.dispatch(loadScreenAction.start());
     this.#msalInstance = new PublicClientApplication({
       auth: {
@@ -120,6 +120,7 @@ export default class OneDriveProvider implements DriveProvider {
     }));
   
     store.dispatch(loadScreenAction.stop());
+    return true;
   };
 
   updateFile(): Promise<void>  {

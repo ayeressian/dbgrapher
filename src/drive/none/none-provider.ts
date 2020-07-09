@@ -7,8 +7,8 @@ export default class NoneProvider implements DriveProvider {
     store.dispatch(fileOpenDialog.open());
     return Promise.resolve();
   }
-  login(): Promise<void> {
-    return Promise.resolve();
+  login(): Promise<boolean> {
+    return Promise.resolve(true);
   }
   logout(): Promise<void> {
     return Promise.resolve();

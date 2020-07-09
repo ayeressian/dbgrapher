@@ -114,7 +114,7 @@ export default class extends LitElement {
         html``
       }
 
-      <dbg-top-menu-account-popup class="${classMap({ hide: !this.openAccountPopup })}" .cloudState=${cloudState}></dbg-top-menu-account-popup>
+      <dbg-top-menu-account-popup class="${classMap({ hide: !this.openAccountPopup })}" .cloudState=${cloudState} @dbg-logout="${this.#logout}"></dbg-top-menu-account-popup>
     `;
   }
 
@@ -127,6 +127,11 @@ export default class extends LitElement {
 
     document.addEventListener('click', this.#onDocumentClick, true);
     window.addEventListener('keydown', this.#onEscape);
+  }
+
+  #logout = (): void => {
+    this.openAccountPopup = false;
+    driveProvider.logout();
   }
 
   firstUpdated(): void {

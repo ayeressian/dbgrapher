@@ -2,7 +2,6 @@ import { customElement, LitElement, CSSResult, css, TemplateResult, html, proper
 import { CloudState } from '../../store/slices/cloud';
 import cloudProviderName from './cloud-provider-name';
 import buttonCss from 'purecss/build/buttons-min.css';
-import { driveProvider } from '../../drive/factory';
 
 @customElement('dbg-top-menu-account-popup')
 export default class extends LitElement {
@@ -45,8 +44,8 @@ export default class extends LitElement {
     `;
   }
 
-  #onLogout = (event: MouseEvent): void => {
-    event.preventDefault();
-    driveProvider.logout();
+  #onLogout = (): void => {
+    const event = new CustomEvent('dbg-logout');
+    this.dispatchEvent(event);
   };
 }

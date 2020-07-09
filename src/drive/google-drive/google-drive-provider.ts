@@ -38,6 +38,8 @@ export default class GoogleDriveProvider implements DriveProvider {
 
   #initPromise: Promise<void>;
   #fileId?: string;
+  #pickerPromise?: Promise<void>;
+  #pickerPromiseResolve?: () => void;
 
   constructor() {
     this.#initPromise = new Promise((resolve, reject) => {
@@ -63,19 +65,23 @@ export default class GoogleDriveProvider implements DriveProvider {
         fileId: file.id,
         alt: 'media'
       });
-      store.dispatch(loadScreenAction.stop());
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(schemaAction.initiate((filesContent.result as unknown) as Schema));
       store.dispatch(setSchemaAction.load());
     }
+    if ([google.picker.Action.PICKED, google.picker.Action.CANCEL].includes(data.action)) {
+      this.#pickerPromiseResolve!();
+    }
   };
 
   async picker(): Promise<void> {
+    store.dispatch(loadScreenAction.start());
     await this.#initPromise;
+
+    this.#pickerPromise = new Promise((resolve) => this.#pickerPromiseResolve = resolve);
     if (!gapi.auth2.getAuthInstance().isSignedIn) {
       await this.login();
     }
-    store.dispatch(loadScreenAction.start());
     await pickerLoad;
     const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
     view.setMimeTypes("application/JSON");
@@ -89,14 +95,23 @@ export default class GoogleDriveProvider implements DriveProvider {
         .setCallback(this.#pickerCallback)
         .build();
     picker.setVisible(true);
-    return Promise.resolve();
+    await this.#pickerPromise;
+    store.dispatch(loadScreenAction.stop());
   }
 
-  async login(): Promise<void> {
-    await auth2Load;
+  async login(): Promise<boolean> {
     store.dispatch(loadScreenAction.start());
-
-    const user = await gapi.auth2.getAuthInstance().signIn();
+    await auth2Load;
+    let user;
+    try {
+      user = await gapi.auth2.getAuthInstance().signIn();
+    } catch(error) {
+      if (error.error === 'popup_closed_by_user') {
+        store.dispatch(loadScreenAction.stop());    
+        return false;
+      }
+      throw error;
+    }
     const profile = user.getBasicProfile();
     user.getAuthResponse().access_token;
 
@@ -109,13 +124,14 @@ export default class GoogleDriveProvider implements DriveProvider {
     }));
 
     store.dispatch(loadScreenAction.stop());
-    return Promise.resolve();
+    return true;
   }
 
   async logout(): Promise<void> {
     const authInstance = gapi.auth2.getAuthInstance();
     await authInstance.signOut();
     authInstance.disconnect();
+    store.dispatch({type: 'RESET'});
     return Promise.resolve();
   }
 

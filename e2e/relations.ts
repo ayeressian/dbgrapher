@@ -1,7 +1,7 @@
 import { Browser, Page, chromium } from 'playwright';
 import twoTableSchema from './two-table-schema.json';
 
-describe('One to one', () => {
+describe('Relations', () => {
   let browser: Browser;
   let page: Page;
   const passData: {page?: Page} = {};
@@ -19,7 +19,8 @@ describe('One to one', () => {
     await page.goto('http://localhost:9999/');
     passData.page = page;
 
-    await page.click('dbg-app dbg-welcome-dialog dbg-dialog .folder-open');
+    await page.click('dbg-app dbg-cloud-provider-dialog dbg-dialog .no-drive');
+    await page.click('dbg-app dbg-new-open-dialog dbg-dialog .folder-open');
 
     // Upload buffer from memory
     await page.setInputFiles('dbg-app dbg-file-inputs #dbgFileInput', {

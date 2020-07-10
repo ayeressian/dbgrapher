@@ -5,23 +5,23 @@ import {
   CSSResult,
   TemplateResult,
   unsafeCSS,
+  internalProperty,
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
 import localSvg from '../../asset/folder-open.svg';
 import googleDriveSvg from '../../asset/google-drive.svg';
 import oneDriveSvg from '../../asset/onedrive.svg';
-import { picker as googleDrivePicker } from '../drive/google-drive';
-import { picker as oneDrivePicker } from '../drive/one-drive';
 import { subscribe } from "../subscribe-store";
-import { actions as fileOpenDialog } from "../store/slices/file-open-dialog";
-import { actions as fileOpenChooserAction, State } from '../store/slices/file-open-chooser-dialog';
-import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
+import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
+import { actions as fileOpenChooserAction, State } from '../store/slices/dialog/file-open-chooser-dialog';
+import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
-  #open = State.Close;
+  @internalProperty()
+  open = State.Close;
 
   static get styles(): CSSResult {
     return css`
@@ -48,17 +48,16 @@ export default class extends ConnectLitElement {
   connectedCallback(): void {
     super.connectedCallback();
     subscribe(state => state.dialog.fileOpenChooserDialog, open => {
-      this.#open = open;
-      this.requestUpdate();
+      this.open = open;
     });
   }
   
   render(): TemplateResult {
     return html`
       <dbg-dialog
-        ?show=${this.#open !== State.Close}
-        ?showBack=${this.#open === State.OpenFromWelcomeDialog}
-        ?showClose=${this.#open === State.OpenFromTopMenu}
+        ?show=${this.open !== State.Close}
+        ?showBack=${this.open === State.OpenFromWelcomeDialog}
+        ?showClose=${this.open === State.OpenFromTopMenu}
         @dbg-on-back=${this.#goBack}
         @dbg-on-close=${this.#close}
         @dbg-on-escape="${this.#onEscape}">
@@ -98,11 +97,11 @@ export default class extends ConnectLitElement {
   };
 
   #googleDrive = (): void => {
-    googleDrivePicker();
+    // googleDrivePicker();
   };
 
   #oneDrive = (): void => {
-    oneDrivePicker();
+    // oneDrivePicker();
   };
 
   #goBack = (): void => {
@@ -115,9 +114,9 @@ export default class extends ConnectLitElement {
   };
 
   #onEscape = (): void => {
-    if (this.#open === State.OpenFromTopMenu) {
+    if (this.open === State.OpenFromTopMenu) {
       this.#close();
-    } else if (this.#open === State.OpenFromWelcomeDialog) {
+    } else if (this.open === State.OpenFromWelcomeDialog) {
       this.#goBack();
     }
   }

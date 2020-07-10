@@ -1,23 +1,22 @@
 import { combineReducers, Action } from 'redux';
 import { reducer as createCords } from './slices/create-cords';
-import { reducer as tableDialog } from './slices/create-dialog';
+import { reducer as tableDialog } from './slices/dialog/table-dialog';
 import { reducer as dbViewerMode } from './slices/db-viewer-mode';
-import { reducer as fileOpenDialog } from './slices/file-open-dialog';
-import { reducer as fileOpenChooserDialog } from './slices/file-open-chooser-dialog';
-import { reducer as fileSqlOpenDialog } from './slices/file-sql-open-dialog';
+import { reducer as fileOpenDialog } from './slices/dialog/file-dialog/file-open-dialog';
+import { reducer as fileOpenChooserDialog } from './slices/dialog/file-open-chooser-dialog';
+import { reducer as fileSqlOpenDialog } from './slices/dialog/file-dialog/file-sql-open-dialog';
 import { reducer as schema } from './slices/schema';
-import { reducer as welcomeDialog } from './slices/welcome-dialog';
-import { reducer as topMenuConfig } from './slices/top-menu-config';
+import { reducer as newOpenDialog } from './slices/dialog/new-open-dialog';
 import { reducer as loadSchema } from './slices/load-schema';
-import { reducer as googleDriveKey } from './slices/google-drive-key';
 import { reducer as loadScreen } from './slices/load-screen';
-import { reducer as aboutDialog } from './slices/about-dialog';
+import { reducer as aboutDialog } from './slices/dialog/about-dialog';
+import { reducer as cloudProviderChooserDialog } from './slices/dialog/cloud-provider-chooser-dialog';
+import { reducer as cloud } from './slices/cloud';
 
 const appReducer = combineReducers({
   createCords,
   dbViewerMode,
-  topMenuConfig,
-  googleDriveKey,
+  cloud,
   dialog: combineReducers({
     aboutDialog,
     fileDialog: combineReducers({
@@ -25,7 +24,8 @@ const appReducer = combineReducers({
       fileSqlOpenDialog,
     }),
     tableDialog,
-    welcomeDialog,
+    newOpenDialog,
+    cloudProviderChooserDialog,
     fileOpenChooserDialog,
   }),
   loadScreen,

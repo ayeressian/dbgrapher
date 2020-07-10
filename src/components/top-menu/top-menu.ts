@@ -1,8 +1,7 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement, property } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, property, internalProperty } from 'lit-element';
 import { classMap } from 'lit-html/directives/class-map';
 import { styleMap } from 'lit-html/directives/style-map';
-import TopMenuConfig from '../store/slices/top-menu-config-interface';
-import { Item } from '../store/slices/top-menu-config-interface';
+import { TopMenuConfig, Item } from './top-menu-config';
 
 @customElement('dbg-top-menu')
 export default class extends LitElement {
@@ -14,27 +13,46 @@ export default class extends LitElement {
       }
 
       .menu-bar {
-        list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
         background-color: #d9d9d9;
+        height: 33px;
+        width: 100%;
       }
 
-      .menu-bar > li {
+      .left {
         float: left;
+        width: min-content;
+      }
+
+      [name="center"] {
+        margin: 0 auto;
+        width: max-content;
         display: block;
-        color: black;
+      }
+
+      [name="right"] {
+        float: right;
+        display: block;
+      }
+
+      .menu-bar .right {
+        display: flex;
+      }
+
+      .menu-bar .left {
+        display: flex;
+      }
+
+      .menu-bar .item {
+        color: #333;
         text-align: center;
         padding: 7px 8px;
         text-decoration: none;
       }
 
-      .menu-bar > li.right-menu-item {
-        float: right
-      }
-
-      li:hover {
+      .menu-item:hover {
         background-color: #bfbfbf;
       }
 
@@ -47,6 +65,9 @@ export default class extends LitElement {
         z-index: 1;
         min-width: 160px;
         padding: 0;
+        margin-top: 5px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        border-radius: 5px;
       }
 
       .dropdown ul {
@@ -74,20 +95,21 @@ export default class extends LitElement {
 
   @property( { type : Object } ) config?: TopMenuConfig;
 
-  #dropdownItems?: Item[];
-  #dropdownStyle = {};
+  @internalProperty()
+  dropdownItems?: Item[];
+
+  @internalProperty()
+  dropdownStyle = {};
 
   #onDocumentClick = (event: MouseEvent): void => {
     if (event.composed && !event.composedPath().includes(this)) {
-      this.#dropdownItems = undefined;
-      this.requestUpdate();
+      this.dropdownItems = undefined;
     }
   };
 
   #onComponentClick = (event: MouseEvent): void => {
-    if ((event.composedPath()[0] as HTMLElement).nodeName != 'LI') {
-      this.#dropdownItems = undefined;
-      this.requestUpdate();
+    if (!(event.composedPath()[0] as HTMLElement).classList.contains('menu-item')) {
+      this.dropdownItems = undefined;
     }
   };
 
@@ -105,18 +127,21 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <ul class="menu-bar">
-        ${
-          (this.config?.items ?? []).map(menuItem => html`<li @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
-        }
-        ${
-          (this.config?.rightItems ?? []).map(menuItem => html`<li class="right-menu-item" @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}">${menuItem.title}</li>`)
-        }
-      </ul>
-      <div class="${classMap({dropdown: true, show: this.#dropdownItems != null})}" style="${styleMap(this.#dropdownStyle)}">
+      <div class="menu-bar">
+        <div class="left">
+          ${
+            (this.config?.items ?? []).map(menuItem => html`<div @click="${(event: Event): void => this.#onMenuItemClick(event, menuItem)}" class="item menu-item">${menuItem.title}</div>`)
+          }
+        </div>
+        <slot name="right">
+        </slot>
+        <slot name="center">
+        </slot>
+      </div>
+      <div class="${classMap({dropdown: true, show: this.dropdownItems != null})}" style="${styleMap(this.dropdownStyle)}">
         <ul>
           ${
-            (this.#dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}">${dropdownItem.title}</li>`)
+            (this.dropdownItems ?? []).map(dropdownItem => html`<li @click="${(): void => this.#onDropdownItemClick(dropdownItem)}" class="menu-item">${dropdownItem.title}</li>`)
           }
         </ul>
       </div>
@@ -134,8 +159,7 @@ export default class extends LitElement {
 
   #onDropdownItemClick = (item: Item): void => {
     this.#itemSelected(item);
-    this.#dropdownItems = undefined;
-    this.requestUpdate();
+    this.dropdownItems = undefined;
   }
 
   #onMenuItemClick = (event: Event, item: Item): void => {
@@ -143,14 +167,13 @@ export default class extends LitElement {
     const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
 
     if (item.items != null) {
-      this.#dropdownStyle = {
+      this.dropdownStyle = {
         top: viewportOffset.bottom + 'px',
         left: viewportOffset.left + 'px'
       };
-      this.#dropdownItems = item.items;
+      this.dropdownItems = item.items;
     } else {
-      this.#dropdownItems = undefined;
+      this.dropdownItems = undefined;
     }
-    this.requestUpdate();
   }
 }

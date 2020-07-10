@@ -1,13 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-type GoogleDriveKey = string | null;
-
 const slice = createSlice({
-  initialState: null as GoogleDriveKey,
-  name: 'googleDialogKey',
+  initialState: true,
+  name: 'cloudProviderChooserDialog',
   reducers: {
-    clean: (): GoogleDriveKey => null,
-    set: (_, {payload: key}): GoogleDriveKey => key,
+    close: (): boolean => false,
+    open: (): boolean => true,
   },
 });
 

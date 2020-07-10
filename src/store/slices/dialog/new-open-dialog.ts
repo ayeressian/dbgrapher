@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   initialState: false,
-  name: 'welcomeDialog',
+  name: 'new-open-dialog',
   reducers: {
     close: (): boolean => false,
     open: (): boolean => true,

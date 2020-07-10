@@ -1,11 +1,11 @@
-import WelcomeDialog from '../src/components/new-open-dialog';
+import NewOpenDialog from '../src/components/new-open-dialog';
 import { initComponentTest, removeElement } from './helper';
 
-describe('welcome-dialog', function() {
-  let welcomeDialog: WelcomeDialog;
+describe('new-open-dialog', function() {
+  let welcomeDialog: NewOpenDialog;
 
   beforeEach(async () => {
-    welcomeDialog = await initComponentTest('dbg-welcome-dialog') as WelcomeDialog;
+    welcomeDialog = await initComponentTest('dbg-new-open-dialog') as NewOpenDialog;
   });
 
   afterEach(function() {

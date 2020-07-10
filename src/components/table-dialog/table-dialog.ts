@@ -201,7 +201,7 @@ export default class extends LitElement {
     store.dispatch(dbViewerModeAction.none());
   }
 
-  #save = (event: Event): void => {    
+  #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());

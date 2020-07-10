@@ -4,7 +4,7 @@
 <img src="https://raw.githubusercontent.com/ayeressian/dbgrapher/master/asset/icon-app.svg" alt="drawing" width="200"/>
 
 # DBGrapher
-A database schema designing tool that runs in browser. To viewing the pre release version click [here](https://dbgrapher.b-cdn.net/).
+A database schema designing tool that runs in browser. To view the pre release version click [here](https://dbgrapher.b-cdn.net/).
 
 
 ## To run

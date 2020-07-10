@@ -30,11 +30,6 @@ describe('top-menu', function() {
           title: 'twoSubOneTitle'
         }]
       }
-    ],
-    rightItems: [{
-        id: 'right',
-        title: 'rightTitle'
-      }
     ]
   };
 
@@ -48,19 +43,14 @@ describe('top-menu', function() {
     removeElement(topMenu);
   });
 
-  it ('should render correct number of top left items', () => {
-    const topLeftItems = topMenu.shadowRoot!.querySelectorAll('ul > li:not(.right-menu-item)')!;
+  it ('should render correct number of top items', () => {
+    const topLeftItems = topMenu.shadowRoot!.querySelectorAll('.menu-bar .item')!;
     expect(topLeftItems.length).toEqual(config.items.length);
-  });
-
-  it ('should render correct number of top right items', () => {
-    const topRightItems = topMenu.shadowRoot!.querySelectorAll('ul > li.right-menu-item')!;
-    expect(topRightItems.length).toEqual(config.rightItems.length);
   });
 
   describe('when clicked on top item', () => {
     beforeEach(async () => {
-      (topMenu.shadowRoot!.querySelector('ul > li') as HTMLElement).click();
+      (topMenu.shadowRoot!.querySelector('.menu-bar .item') as HTMLElement).click();
       await topMenu.updateComplete;
     });
     it ('should open dropdown view', () => {

@@ -1,5 +1,7 @@
 import { LitElement } from 'lit-element';
 import store from '../src/store/store';
+import initProviderFactory from '../src/drive/factory';
+import { actions as cloudActions, CloudProvider } from '../src/store/slices/cloud';
 
 export const createElement = async (elementType: string): Promise<LitElement> => {
   const element = document.createElement(elementType) as LitElement;
@@ -11,6 +13,8 @@ export const createElement = async (elementType: string): Promise<LitElement> =>
 
 export const initComponentTest = (elementType: string): Promise<LitElement> => {
   store.dispatch({type: 'RESET'});
+  initProviderFactory();
+  store.dispatch(cloudActions.setDriveType(CloudProvider.None));
   return createElement(elementType);
 };
 

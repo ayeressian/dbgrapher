@@ -1,11 +1,12 @@
-import { LitElement, customElement, CSSResult, TemplateResult, css, html } from 'lit-element';
+import { LitElement, customElement, CSSResult, TemplateResult, css, html, internalProperty } from 'lit-element';
 import { subscribe } from '../subscribe-store';
-import { actions as aboutDialogActions } from "../store/slices/about-dialog";
+import { actions as aboutDialogActions } from "../store/slices/dialog/about-dialog";
 import store from '../store/store';
 
 @customElement('dbg-about-dialog')
 export default class extends LitElement {
-  #open = false;
+  @internalProperty()
+  open = false;
 
   static get styles(): CSSResult {
     return css`
@@ -17,7 +18,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <dbg-dialog title="About" showClose ?show=${this.#open} @dbg-on-close="${this.#close}" @dbg-on-escape="${this.#close}">
+      <dbg-dialog title="About" showClose ?show=${this.open} @dbg-on-close="${this.#close}" @dbg-on-escape="${this.#close}">
         <div slot="body">
           <p>
             Hello my name is Ara. Currenttly I'm the only contributer of this project. I initiated this project for my own needs.
@@ -36,8 +37,7 @@ export default class extends LitElement {
     super.connectedCallback();
 
     subscribe(state => state.dialog.aboutDialog, open => {
-      this.#open = open;
-      this.requestUpdate();
+      this.open = open;
     });
   }
 

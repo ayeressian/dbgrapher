@@ -5,23 +5,23 @@ import {
   CSSResult,
   TemplateResult,
   unsafeCSS,
+  internalProperty,
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import { watch } from "lit-redux-watch";
-import { actions as welcomeDialogActions } from "../store/slices/welcome-dialog";
-import { actions as fileOpenChooserAction } from "../store/slices/file-open-chooser-dialog";
 import { actions as schemaActions } from "../store/slices/schema";
-import { actions as loadSchemaActions } from "../store/slices/load-schema";
-import { AppState } from '../store/reducer';
+import { actions as loadSchemaActions, State } from "../store/slices/load-schema";
+import { actions as cloudActions, CloudUpdateState } from '../store/slices/cloud';
 import fileSvg from '../../asset/file.svg';
 import folderOpenSvg from '../../asset/folder-open.svg';
 import commonStyles from './common-icon-dialog-styling';
+import { subscribe } from "../subscribe-store";
+import { driveProvider } from "../drive/factory";
 
-@customElement("dbg-welcome-dialog")
+@customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
-  @watch((state: AppState) => state.dialog.welcomeDialog)
-  private open = true;
+  @internalProperty()
+  open = false;
 
   static get styles(): CSSResult {
     return css`
@@ -38,6 +38,18 @@ export default class extends ConnectLitElement {
         background-image: url(${unsafeCSS(fileSvg)});
       }
     `;
+  }
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    subscribe(state => state.dialog.newOpenDialog, open => {
+      this.open = open;
+    });
+
+    subscribe(state => state.loadSchema, state => {
+      if (state !== State.DEFAULT) this.open = false;
+    });
   }
   
   render(): TemplateResult {
@@ -68,13 +80,13 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
+    store.dispatch(cloudActions.setFileName('Untitled.dbgh'));
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
     store.dispatch(schemaActions.initiate());
     store.dispatch(loadSchemaActions.load());
-    store.dispatch(welcomeDialogActions.close());
   };
 
   #openFile = (): void => {
-    store.dispatch(welcomeDialogActions.close());
-    store.dispatch(fileOpenChooserAction.open(true));
+    driveProvider.picker();
   };
 }

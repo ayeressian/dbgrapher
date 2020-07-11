@@ -34,7 +34,7 @@ export default class GoogleDriveProvider implements DriveProvider {
   static appId: string = env.googleDrive.appId
   
   // Scope to use to access user's Drive items.
-  static scope = 'https://www.googleapis.com/auth/drive.file';
+  static scope = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.install';
 
   #initPromise: Promise<void>;
   #fileId?: string;

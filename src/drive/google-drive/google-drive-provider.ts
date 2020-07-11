@@ -54,6 +54,7 @@ export default class GoogleDriveProvider implements DriveProvider {
   }
 
   async open(fileId: string, fileName?: string): Promise<void> {
+    await clientDriveLoad;
     if (fileName == null) {
       const file = await gapi.client.drive.files.get({
         fileId
@@ -61,8 +62,7 @@ export default class GoogleDriveProvider implements DriveProvider {
       fileName = file.result.name!;
     }
     store.dispatch(cloudActions.setFileName(fileName));
-    
-    await clientDriveLoad;
+
     const filesContent = await gapi.client.drive.files.get({
       fileId: fileId,
       alt: 'media'

@@ -62,7 +62,7 @@ export default class extends ConnectLitElement {
   
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.open} title="Please select a cloud provider">
+      <dbg-dialog ?show=${this.open} title="Please select a cloud provider. NOTE THIS THE PRE RELEASE VERSION OF APPLICATION.">
         <div slot="body">
           <div class="operation-container" @click="${this.#onSelect(CloudProvider.GoogleDrive)}">
             <div class="operation-icon-container">

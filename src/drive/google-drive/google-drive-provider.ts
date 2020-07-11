@@ -15,12 +15,15 @@ const pickerLoad = new Promise((resolve, reject) => {
   gapi.load('picker', {callback: resolve, onerror: reject});
 });
 
-let clientDriveLoad: PromiseLike<void>;
+let clientDriveLoad: Promise<void>;
+
 const clientLoad = new Promise((resolve, reject) => {
-  gapi.load('client', {callback: () => {
-    clientDriveLoad = gapi.client.load('drive', 'v3');
-    resolve();
-  }, onerror: reject});
+  clientDriveLoad = new Promise((driveResolve) => {
+    gapi.load('client', {callback: () => {
+      gapi.client.load('drive', 'v3').then(driveResolve);
+      resolve();
+    }, onerror: reject});
+  });
 });
 
 export default class GoogleDriveProvider implements DriveProvider {

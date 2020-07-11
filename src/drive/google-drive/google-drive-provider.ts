@@ -53,21 +53,32 @@ export default class GoogleDriveProvider implements DriveProvider {
     });
   }
 
+  async open(fileId: string, fileName?: string): Promise<void> {
+    if (fileName == null) {
+      const file = await gapi.client.drive.files.get({
+        fileId
+      });
+      fileName = file.result.name!;
+    }
+    store.dispatch(cloudActions.setFileName(fileName));
+    
+    await clientDriveLoad;
+    const filesContent = await gapi.client.drive.files.get({
+      fileId: fileId,
+      alt: 'media'
+    });
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
+    store.dispatch(schemaAction.initiate((filesContent.result as unknown) as Schema));
+    store.dispatch(setSchemaAction.load());
+  }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   #pickerCallback = async (data: any): Promise<void> => {
     if (data.action == google.picker.Action.PICKED) {
       store.dispatch(loadScreenAction.start());
       const file = data.docs[0];
       this.#fileId = file.id;
-      store.dispatch(cloudActions.setFileName(file.name));
-      await clientDriveLoad;
-      const filesContent = await gapi.client.drive.files.get({
-        fileId: file.id,
-        alt: 'media'
-      });
-      store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
-      store.dispatch(schemaAction.initiate((filesContent.result as unknown) as Schema));
-      store.dispatch(setSchemaAction.load());
+      await this.open(file.id, file.name);
     }
     if ([google.picker.Action.PICKED, google.picker.Action.CANCEL].includes(data.action)) {
       this.#pickerPromiseResolve!();
@@ -149,14 +160,16 @@ export default class GoogleDriveProvider implements DriveProvider {
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
   }
 
-  async createFile(): Promise<void>  {
+  async createFile(folderId?: string): Promise<void>  {
     const fileName = store.getState().cloud.fileName!;
     await clientDriveLoad;
+    const resource = {
+      name: fileName,
+      mimeType: 'application/json',
+    } as gapi.client.drive.File;
+    if (folderId) resource.parents = [folderId];
     const file = await gapi.client.drive.files.create({
-      resource: {
-        name: fileName,
-        mimeType: 'application/json',
-      }
+      resource,
     });
     this.#fileId = file.result.id;
   }

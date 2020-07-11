@@ -3,8 +3,9 @@ interface DriveProvider {
   login: () => Promise<boolean>;
   logout: () => Promise<void>;
   updateFile: () => Promise<void>;
-  createFile: () => Promise<void>;
+  createFile: (folderId: string) => Promise<void>;
   renameFile: (newfileName: string) => Promise<void>;
+  open: (fileId: string) => Promise<void>;
 }
 
 export default DriveProvider;

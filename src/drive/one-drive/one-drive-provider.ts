@@ -137,4 +137,9 @@ export default class OneDriveProvider implements DriveProvider {
     //TODO
     return Promise.resolve();
   }
+
+  open(): Promise<void>  {
+    //TODO
+    return Promise.resolve();
+  }
 }

@@ -126,7 +126,8 @@ export default class GoogleDriveProvider implements DriveProvider {
           case 'popup_closed_by_user':
             return false;
           case 'popup_blocked_by_browser':
-            if (await ConfirmationDialog.confirm('Sign in is required to continue.')) {
+            store.dispatch(loadScreenAction.stop());
+            if (await ConfirmationDialog.confirm('Sign in is required to continue.', 'Login')) {
               return await this.login();
             }
             throw new ResetStoreException;

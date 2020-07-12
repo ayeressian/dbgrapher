@@ -122,10 +122,6 @@ export default class GoogleDriveProvider implements DriveProvider {
       try {
         user = await gapi.auth2.getAuthInstance().signIn();
       } catch(error) {
-        if (error.error === 'popup_closed_by_user') {
-          store.dispatch(loadScreenAction.stop());    
-          return false;
-        }
         switch(error.error) {
           case 'popup_closed_by_user':
             store.dispatch(loadScreenAction.stop());    

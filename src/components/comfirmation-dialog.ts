@@ -13,9 +13,19 @@ export default class ConfirmationDialog extends LitElement {
   @property()
   message = '';
 
+  @property()
+  confirmText = '';
+
+  @property()
+  cancelText = '';
+
   static get styles(): CSSResult {
     return css`
       ${unsafeCSS(buttonCss)}
+
+      .row {
+        margin-top: 10px;
+      }
     `;
   }
 
@@ -23,12 +33,12 @@ export default class ConfirmationDialog extends LitElement {
     return html`
       <dbg-dialog ?show=${this.open} @dbg-on-escape="${this.#cancel}">
         <div slot="body">
-          <div class="row">
+          <div>
             ${this.message}
           </div>
           <div class="row">
-            <button class="pure-button" @click="${this.#confirm}" data-testid="confirm-dialog-confirm-btn">Confirm</button>
-            <button class="pure-button" @click="${this.#cancel}" data-testid="confirm-dialog-cancel-btn">Cancel</button>
+            <button class="pure-button" @click="${this.#confirm}" data-testid="confirm-dialog-confirm-btn">${this.confirmText}</button>
+            <button class="pure-button" @click="${this.#cancel}" data-testid="confirm-dialog-cancel-btn">${this.cancelText}</button>
           </div>
         </div>
       </dbg-dialog>
@@ -55,9 +65,11 @@ export default class ConfirmationDialog extends LitElement {
     ConfirmationDialog.instance = this;
   }
 
-  static confirm(message: string): Promise<boolean> {
+  static confirm(message: string, confirmText = 'Confirm', cancelText = 'Cancel'): Promise<boolean> {
     ConfirmationDialog.instance.message = message;
     ConfirmationDialog.instance.open = true;
+    ConfirmationDialog.instance.confirmText = confirmText;
+    ConfirmationDialog.instance.cancelText = cancelText;
     if (ConfirmationDialog.result) throw new Error('Another unresolved confirmation dialog exist.');
     ConfirmationDialog.result = new Promise<boolean>(resolve => {
       ConfirmationDialog.resultResolve = resolve;

@@ -6,6 +6,8 @@ import { actions as loadScreenAction } from '../../store/slices/load-screen';
 import { actions as cloudActions, CloudUpdateState } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
+import ConfirmationDialog from '../../components/comfirmation-dialog';
+import ResetStoreException from '../../reset-exception';
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load('auth2', {callback: resolve, onerror: reject});
@@ -124,6 +126,16 @@ export default class GoogleDriveProvider implements DriveProvider {
           store.dispatch(loadScreenAction.stop());    
           return false;
         }
+        switch(error.error) {
+          case 'popup_closed_by_user':
+            store.dispatch(loadScreenAction.stop());    
+            return false;
+          case 'popup_blocked_by_browser':
+            if (await ConfirmationDialog.confirm('Sign in is required to continue.')) {
+              return await this.login();
+            }
+            throw new ResetStoreException;
+        }
         throw error;
       } finally {
         store.dispatch(loadScreenAction.stop());
@@ -143,12 +155,11 @@ export default class GoogleDriveProvider implements DriveProvider {
     return true;
   }
 
-  async logout(): Promise<void> {
+  async logout(): Promise<never> {
     const authInstance = gapi.auth2.getAuthInstance();
     await authInstance.signOut();
     authInstance.disconnect();
-    store.dispatch({type: 'RESET'});
-    return Promise.resolve();
+    throw new ResetStoreException;
   }
 
   async updateFile(): Promise<void> {

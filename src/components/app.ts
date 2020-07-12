@@ -1,6 +1,8 @@
 import initProviderFactory from '../drive/factory';
 import './import-components';
 import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
+import store from '../store/store';
+import ResetStoreException from '../reset-exception';
 
 initProviderFactory();
 
@@ -55,7 +57,22 @@ export default class extends LitElement {
         <dbg-about-dialog></dbg-about-dialog>
         <dbg-new-open-dialog></dbg-new-open-dialog>
         <dbg-cloud-provider-dialog></dbg-cloud-provider-dialog>
+        <dbg-confirmation-dialog></dbg-confirmation-dialog>
       </div>
     `;
+  }
+
+  #handleErrors = (error: Error, event: Event): void => {
+    if (error instanceof ResetStoreException) {
+      store.dispatch({type: 'RESET'});
+      event.preventDefault();
+    }
+  } 
+
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    window.addEventListener('error', errorEvent => this.#handleErrors(errorEvent.error, errorEvent));
+    window.addEventListener('unhandledrejection', errorEvent => this.#handleErrors(errorEvent.reason, errorEvent));
   }
 }

@@ -14,6 +14,7 @@ export enum CloudUpdateState {
 }
 
 export type CloudUserData = {
+  id: string;
   name: string;
   firstName: string;
   lastName: string;

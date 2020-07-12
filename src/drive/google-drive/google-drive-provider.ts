@@ -45,18 +45,17 @@ export default class GoogleDriveProvider implements DriveProvider {
   #pickerPromiseResolve?: () => void;
 
   constructor() {
-    this.#initPromise = new Promise((resolve, reject) => {
-      clientLoad.then(() => {
-        gapi.client.init({
-          apiKey: GoogleDriveProvider.developerKey,
-          clientId: GoogleDriveProvider.clientId,
-          scope: GoogleDriveProvider.scope
-        }).then(resolve).catch(reject);
+    this.#initPromise = clientLoad.then(() => {
+      return gapi.client.init({
+        apiKey: GoogleDriveProvider.developerKey,
+        clientId: GoogleDriveProvider.clientId,
+        scope: GoogleDriveProvider.scope
       });
     });
   }
 
   async open(fileId: string, fileName?: string): Promise<void> {
+    await this.login();
     await clientDriveLoad;
     if (fileName == null) {
       const file = await gapi.client.drive.files.get({
@@ -89,13 +88,10 @@ export default class GoogleDriveProvider implements DriveProvider {
   };
 
   async picker(): Promise<void> {
+    await this.login();
     store.dispatch(loadScreenAction.start());
-    await this.#initPromise;
 
     this.#pickerPromise = new Promise((resolve) => this.#pickerPromiseResolve = resolve);
-    if (!gapi.auth2.getAuthInstance().isSignedIn) {
-      await this.login();
-    }
     await pickerLoad;
     const view = new google.picker.DocsView(google.picker.ViewId.DOCS);
     view.setMimeTypes("application/JSON");
@@ -114,30 +110,36 @@ export default class GoogleDriveProvider implements DriveProvider {
   }
 
   async login(): Promise<boolean> {
-    store.dispatch(loadScreenAction.start());
     await auth2Load;
+    await this.#initPromise;
     let user;
-    try {
-      user = await gapi.auth2.getAuthInstance().signIn();
-    } catch(error) {
-      if (error.error === 'popup_closed_by_user') {
-        store.dispatch(loadScreenAction.stop());    
-        return false;
+    if (gapi.auth2.getAuthInstance().isSignedIn) {
+      user = gapi.auth2.getAuthInstance().currentUser.get();
+    } else {
+      store.dispatch(loadScreenAction.start());
+      try {
+        user = await gapi.auth2.getAuthInstance().signIn();
+      } catch(error) {
+        if (error.error === 'popup_closed_by_user') {
+          store.dispatch(loadScreenAction.stop());    
+          return false;
+        }
+        throw error;
+      } finally {
+        store.dispatch(loadScreenAction.stop());
       }
-      throw error;
     }
     const profile = user.getBasicProfile();
-    user.getAuthResponse().access_token;
-
-    store.dispatch(cloudActions.setUserData({
-      name: profile.getName(),
-      firstName: profile.getGivenName(),
-      lastName: profile.getFamilyName(),
-      email: profile.getEmail(),
-      picture: profile.getImageUrl(),
-    }));
-
-    store.dispatch(loadScreenAction.stop());
+    if (user.getId() !== store.getState().cloud.userData?.id) {
+      store.dispatch(cloudActions.setUserData({
+        id: user.getId(),
+        name: profile.getName(),
+        firstName: profile.getGivenName(),
+        lastName: profile.getFamilyName(),
+        email: profile.getEmail(),
+        picture: profile.getImageUrl(),
+      }));
+    }
     return true;
   }
 
@@ -150,11 +152,11 @@ export default class GoogleDriveProvider implements DriveProvider {
   }
 
   async updateFile(): Promise<void> {
+    await this.login();
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
     if (this.#fileId == null) {
       await this.createFile();
     }
-    await clientLoad;
     await gapi.client.request({
       path: `https://www.googleapis.com/upload/drive/v2/files/${this.#fileId}`,
       body: store.getState().schema.present,
@@ -164,6 +166,7 @@ export default class GoogleDriveProvider implements DriveProvider {
   }
 
   async createFile(folderId?: string): Promise<void>  {
+    await this.login();
     const fileName = store.getState().cloud.fileName!;
     await clientDriveLoad;
     const resource = {
@@ -179,6 +182,7 @@ export default class GoogleDriveProvider implements DriveProvider {
 
   async renameFile(newFileName: string): Promise<void> {
     if (this.#fileId) {
+      await this.login();
       await clientDriveLoad;
       await gapi.client.drive.files.update({
         fileId: this.#fileId,

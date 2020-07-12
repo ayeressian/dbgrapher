@@ -112,6 +112,7 @@ export default class OneDriveProvider implements DriveProvider {
     }
     
     store.dispatch(cloudAction.setUserData({
+      id: response.id,
       name: response.displayName,
       firstName: response.givenName,
       lastName: response.surname,

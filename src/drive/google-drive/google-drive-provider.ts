@@ -113,7 +113,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     await auth2Load;
     await this.#initPromise;
     let user;
-    if (gapi.auth2.getAuthInstance().isSignedIn) {
+    if (gapi.auth2.getAuthInstance().isSignedIn.get()) {
       user = gapi.auth2.getAuthInstance().currentUser.get();
     } else {
       store.dispatch(loadScreenAction.start());
@@ -129,8 +129,8 @@ export default class GoogleDriveProvider implements DriveProvider {
         store.dispatch(loadScreenAction.stop());
       }
     }
-    const profile = user.getBasicProfile();
     if (user.getId() !== store.getState().cloud.userData?.id) {
+      const profile = user.getBasicProfile();
       store.dispatch(cloudActions.setUserData({
         id: user.getId(),
         name: profile.getName(),

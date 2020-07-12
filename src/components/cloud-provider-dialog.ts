@@ -49,6 +49,11 @@ export default class extends ConnectLitElement {
       .new-file {
         background-image: url(${unsafeCSS(fileSvg)});
       }
+
+      .operations {
+        display: flex;
+        flex-direction: horizontal;
+      }
     `;
   }
 
@@ -64,29 +69,31 @@ export default class extends ConnectLitElement {
     return html`
       <dbg-dialog ?show=${this.open} title="Please select a cloud provider. NOTE THIS IS THE PRE RELEASE VERSION OF THE APPLICATION.">
         <div slot="body">
-          <div class="operation-container" @click="${this.#onSelect(CloudProvider.GoogleDrive)}">
-            <div class="operation-icon-container">
-              <div class="google-drive operation-icon">
+          <div class="operations">
+            <div class="operation-container" @click="${this.#onSelect(CloudProvider.GoogleDrive)}">
+              <div class="operation-icon-container">
+                <div class="google-drive operation-icon">
+                </div>
               </div>
+              <h4 class="operation">
+                Google Drive
+              </h4>
             </div>
-            <h4 class="operation">
-              Google Drive
-            </h4>
-          </div>
-          <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
-          <div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
-            <div class="one-drive operation-icon">
+            <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
+            <div class="operation-container" @click="${this.#onSelect(CloudProvider.OneDrive)}">
+              <div class="one-drive operation-icon">
+              </div>
+              <h4 class="operation">
+                One Drive
+              </h4>
+            </div>-->
+            <div class="operation-container" @click="${this.#onSelect(CloudProvider.None)}">
+              <div class="no-drive operation-icon">
+              </div>
+              <h4 class="operation">
+                None
+              </h4>
             </div>
-            <h4 class="operation">
-              One Drive
-            </h4>
-          </div>-->
-          <div class="operation-container" @click="${this.#onSelect(CloudProvider.None)}">
-            <div class="no-drive operation-icon">
-            </div>
-            <h4 class="operation">
-              None
-            </h4>
           </div>
         </div>
       </dbg-dialog>

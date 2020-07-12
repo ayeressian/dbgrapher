@@ -16,3 +16,4 @@ import './load-screen';
 import './hint';
 import './about-dialog';
 import './cloud-provider-dialog';
+import './comfirmation-dialog';

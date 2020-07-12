@@ -37,6 +37,11 @@ export default class extends ConnectLitElement {
       .new-file {
         background-image: url(${unsafeCSS(fileSvg)});
       }
+
+      .operations {
+        display: flex;
+        flex-direction: horizontal;
+      }
     `;
   }
 
@@ -56,25 +61,27 @@ export default class extends ConnectLitElement {
     return html`
       <dbg-dialog ?show=${this.open}>
         <div slot="body">
-          <div class="operation-container" @click="${this.#newFile}">
-            <div class="operation-icon-container">
-              <div class="new-file operation-icon">
+          <div class="operations">
+            <div class="operation-container" @click="${this.#newFile}">
+              <div class="operation-icon-container">
+                <div class="new-file operation-icon">
+                </div>
               </div>
+              <h4 class="operation" id="new-file">
+                New Schema
+              </h4>
             </div>
-            <h4 class="operation" id="new-file">
-              New Schema
-            </h4>
-          </div>
-          <div class="operation-container" @click="${this.#openFile}">
-            <div class="operation-icon-container">
-              <div class="folder-open operation-icon">
+            <div class="operation-container" @click="${this.#openFile}">
+              <div class="operation-icon-container">
+                <div class="folder-open operation-icon">
+                </div>
               </div>
+              <h4 class="operation" id="open-file">
+                Open Schema
+              </h4>
             </div>
-            <h4 class="operation" id="open-file">
-              Open Schema
-            </h4>
           </div>
-        <div class="container">
+        </div>
       </dbg-dialog>
     `;
   }

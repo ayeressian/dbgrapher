@@ -155,6 +155,10 @@ export default class DbWrapper extends LitElement {
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
+        case DbViewerMode.Remove:
+          this.#dbViewer!.addEventListener('tableClick', this.#removeTable);
+          // this.#dbViewer!.addEventListener('relationClick', this.#removeRelation);
+          break;
         default:
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
@@ -163,6 +167,16 @@ export default class DbWrapper extends LitElement {
       }
     });
   }
+
+  #removeTable = (event: TableClickEvent): void => {
+    console.log(event.detail.name);
+    
+    //TODO
+  }
+
+  // #removeRelation = (): void => {
+  //   //TODO
+  // }
 
   render(): TemplateResult {
     return html`<db-viewer class="${classMap({'safari-height': isSafari})}"/>`;

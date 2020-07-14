@@ -4,6 +4,7 @@ enum DbViewerMode {
   RelationOneToOne,
   RelationZeroToOne,
   RelationZeroToMany,
+  Remove,
   None,
 }
 

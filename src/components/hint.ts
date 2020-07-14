@@ -52,11 +52,21 @@ export default class extends LitElement {
     store.subscribe(() => {
       const state = store.getState();
       this.text = '';
-      if (state.dbViewerMode === DbViewerMode.CreateTable && !state.dialog.tableDialog.open) {
-        this.text = 'Choose the position of the new table by clicking on the viewport';
-      }
-      if (state.dbViewerMode !== DbViewerMode.None && state.dbViewerMode !== DbViewerMode.CreateTable) {
-        this.text = 'Click on the first table to create the relation from and then click on the second table to create the relation to';
+      switch (state.dbViewerMode) {
+        case DbViewerMode.CreateTable:
+          if (!state.dialog.tableDialog.open) {
+            this.text = 'Choose the position of the new table by clicking on the viewport';    
+          }
+          break;
+        case DbViewerMode.RelationOneToMany:
+        case DbViewerMode.RelationOneToOne:
+        case DbViewerMode.RelationZeroToMany:
+        case DbViewerMode.RelationZeroToOne:
+          this.text = 'Click on the first table to create the relation from and then click on the second table to create the relation to';
+          break;
+        case DbViewerMode.Remove:
+          this.text = 'Please select on the table or relation that you want to remove';
+          break;
       }
     });
 

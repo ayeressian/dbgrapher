@@ -6,6 +6,7 @@ import relationOneToManyIcon from '../../asset/relation-one-to-many.svg';
 import relationOneToOneIcon from '../../asset/relation-one-to-one.svg';
 import relationZeroToOneIcon from '../../asset/relation-zero-to-one.svg';
 import relationZeroToManyIcon from '../../asset/relation-zero-to-many.svg';
+import clearIcon from '../../asset/clear.svg';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../subscribe-store';
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
@@ -63,6 +64,10 @@ export default class extends LitElement {
         background-image: url(${unsafeCSS(relationZeroToOneIcon)});
       }
 
+      .left_toolbar .action.clear {
+        background-image: url(${unsafeCSS(clearIcon)});
+      }
+
       .safari-height {
         height: calc(100% - 33px);
       }
@@ -90,6 +95,9 @@ export default class extends LitElement {
         <li class="action create_relation_zero_to_one ${classMap({active: this.mode === DbViewerMode.RelationZeroToOne})}"
           title="Create zero to one relation"
           @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"/>
+        <li class="action clear ${classMap({active: this.mode === DbViewerMode.Remove})}"
+          title="Remove table or relation"
+          @click="${this.#changeMode(DbViewerMode.Remove)}"/>
       </ul>
     `;
   }

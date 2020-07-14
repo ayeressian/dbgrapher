@@ -7,7 +7,7 @@ import store from '../store/store';
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
 import { subscribe } from '../subscribe-store';
 import { isSafari, isMac } from '../util';
-import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema, Viewport } from 'db-viewer-component';
+import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema, Viewport, RelationClickEvent } from 'db-viewer-component';
 import { ColumnFkSchema } from 'db-viewer-component';
 import { classMap } from 'lit-html/directives/class-map';
 import { driveProvider } from '../drive/factory';
@@ -146,6 +146,8 @@ export default class DbWrapper extends LitElement {
           this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
           break;
         case DbViewerMode.RelationOneToOne:
         case DbViewerMode.RelationZeroToOne:
@@ -154,29 +156,45 @@ export default class DbWrapper extends LitElement {
           this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
           break;
         case DbViewerMode.Remove:
           this.#dbViewer!.addEventListener('tableClick', this.#removeTable);
-          // this.#dbViewer!.addEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer!.addEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
         default:
           this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
           this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
           break;
       }
     });
   }
 
   #removeTable = (event: TableClickEvent): void => {
-    console.log(event.detail.name);
-    
-    //TODO
+    const schema = this.#dbViewer!.schema!;
+    const tableName = event.detail.name;
+    schema.tables = schema.tables.filter(table => table.name !== tableName);
+    schema.tables.forEach(table => {
+      table.columns = table.columns.filter(column => (column as ColumnFkSchema).fk?.table !== tableName);
+    });
+    store.dispatch(schemaAction.set(schema));
+    store.dispatch(setSchemaAction.loadViewportUnchange());
   }
 
-  // #removeRelation = (): void => {
-  //   //TODO
-  // }
+  #removeRelation = (event: RelationClickEvent): void => {
+    const schema = this.#dbViewer!.schema!;
+    const fromTable = schema.tables.find(table => table.name === event.detail.fromTable)!;
+    fromTable.columns = fromTable.columns.filter(column => column.name !== event.detail.fromColumn);
+    store.dispatch(schemaAction.set(schema));
+    store.dispatch(setSchemaAction.loadViewportUnchange());
+  }
 
   render(): TemplateResult {
     return html`<db-viewer class="${classMap({'safari-height': isSafari})}"/>`;

@@ -6,7 +6,7 @@ import { actions as loadScreenAction } from '../../store/slices/load-screen';
 import { actions as cloudActions, CloudUpdateState } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
-import ConfirmationDialog from '../../components/comfirmation-dialog';
+import ConfirmationDialog from '../../components/confirmation-dialog';
 import ResetStoreException from '../../reset-exception';
 
 const auth2Load = new Promise((resolve, reject) => {

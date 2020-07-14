@@ -13,9 +13,9 @@ describe('side-panel', function() {
   });
 
   describe('actions', () => {
-    it('should have 2 actions', () => {
+    it('should have 6 actions', () => {
       const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
-      expect(actions.length).toEqual(5);
+      expect(actions.length).toEqual(6);
     });
 
     it('should become active when clicked', async () => {

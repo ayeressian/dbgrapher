@@ -185,6 +185,7 @@ export default class DbWrapper extends LitElement {
       table.columns = table.columns.filter(column => (column as ColumnFkSchema).fk?.table !== tableName);
     });
     store.dispatch(schemaAction.set(schema));
+    driveProvider.updateFile();
     store.dispatch(setSchemaAction.loadViewportUnchange());
   }
 
@@ -193,6 +194,7 @@ export default class DbWrapper extends LitElement {
     const fromTable = schema.tables.find(table => table.name === event.detail.fromTable)!;
     fromTable.columns = fromTable.columns.filter(column => column.name !== event.detail.fromColumn);
     store.dispatch(schemaAction.set(schema));
+    driveProvider.updateFile();
     store.dispatch(setSchemaAction.loadViewportUnchange());
   }
 

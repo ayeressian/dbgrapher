@@ -53,10 +53,12 @@ export default class ConfirmationDialog extends LitElement {
   };
 
   #cancel = (): void => {
-    this.message = '';
-    this.open = false;
-    ConfirmationDialog.resultResolve(false);
-    ConfirmationDialog.result = undefined;
+    if (this.open) {
+      this.message = '';
+      this.open = false;
+      ConfirmationDialog.resultResolve(false);
+      ConfirmationDialog.result = undefined;
+    }
   };
 
   constructor() {

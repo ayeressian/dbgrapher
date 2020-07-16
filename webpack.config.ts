@@ -1,6 +1,7 @@
 import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default {
   entry: './src/index.ts',
@@ -12,13 +13,14 @@ export default {
   plugins: [
     new CopyPlugin([
       {
-        from: "src/index.html"
-      },
-      {
         from: 'asset/',
         to: 'asset/'
       },
-    ])
+    ]),
+    new HtmlWebpackPlugin({
+      hash: true,
+      template: 'src/index.html'
+    })
   ],
   module: {
     rules: [

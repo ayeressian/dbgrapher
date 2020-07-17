@@ -21,7 +21,7 @@ export default class extends LitElement {
 
   @property({
     type: String,
-  }) title = '';
+  }) centerTitle = '';
 
   static get styles(): CSSResult {
     return css`
@@ -104,14 +104,14 @@ export default class extends LitElement {
       <div class="dialog ${classMap({ hide: !this.show })}">
         <div class="containter">
           <slot name="head">
-            <div class="head ${classMap({ hide: !this.showClose && !this.showBack && this.title === ''})}">
+            <div class="head ${classMap({ hide: !this.showClose && !this.showBack && this.centerTitle === ''})}">
               <div class="icons">
                 <div class="close-icon ${classMap({ hide: !this.showClose })}" @click="${this.#close}">
                 </div>
                 <div class="go-back-icon ${classMap({ hide: !this.showBack })}" @click="${this.#back}">
                 </div>
               </div>
-              <h2 class="title">${this.title}</h2>
+              <h2 class="title">${this.centerTitle}</h2>
             </div>
           </slot>
           <slot name="body">

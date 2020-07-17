@@ -26,7 +26,6 @@
     "@microsoft/microsoft-graph-client": "^2.0.0",
     "@reduxjs/toolkit": "^1.4.0",
     "ajv": "^6.12.3",
-    "bulma": "^0.8.2",
     "color-hash": "^1.0.3",
     "db-viewer-component": "^4.2.1",
     "lit-element": "^2.3.1",

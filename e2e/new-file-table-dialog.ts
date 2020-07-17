@@ -1,5 +1,6 @@
-import { chromium, Browser, Page } from 'playwright';
+import { Browser, Page } from 'playwright';
 import createTableDialog from './create-table-dialog';
+import getBrowser from './get-browser';
 
 describe('New file', () => {
   let browser: Browser;
@@ -7,7 +8,7 @@ describe('New file', () => {
   const passData: {page?: Page} = {};
 
   beforeAll(async () => {
-    browser = await chromium.launch({ headless: process.env.DEBUG !== 'true' });
+    browser = await getBrowser();
   });
   
   afterAll(async () => {

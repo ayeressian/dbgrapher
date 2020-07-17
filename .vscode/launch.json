@@ -14,7 +14,7 @@
       ], 
       "env": { 
         "NODE_PATH": ".",
-        "DEBUG": "true"
+        "NO_HEADLESS": "true"
       } 
     }
   ]

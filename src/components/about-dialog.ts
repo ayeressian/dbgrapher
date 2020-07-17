@@ -18,7 +18,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <dbg-dialog title="About" showClose ?show=${this.open} @dbg-on-close="${this.#close}" @dbg-on-escape="${this.#close}">
+      <dbg-dialog centerTitle="About" showClose ?show=${this.open} @dbg-on-close="${this.#close}" @dbg-on-escape="${this.#close}">
         <div slot="body">
           <p>
             Hello my name is Ara. Currenttly I'm the only contributer of this project. I initiated this project for my own needs.

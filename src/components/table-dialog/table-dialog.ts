@@ -28,6 +28,7 @@ export default class extends LitElement {
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
   #form?: HTMLFormElement;
+  #originalTableName?: string;
 
   static get styles(): CSSResult {
     return css`
@@ -50,6 +51,7 @@ export default class extends LitElement {
       this.#isEdit = true;
       this.#currentTableIndex = this.#schema.tables.findIndex(({name}) => name === tableName)!;
       this.#currentTable = this.#schema.tables[this.#currentTableIndex];
+      this.#originalTableName = tableName;
     } else {
       this.#isEdit = false;
       this.#currentTable = {
@@ -204,11 +206,23 @@ export default class extends LitElement {
   #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
+      this.#fixFkTableNames();
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.#schema!));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
       driveProvider.updateFile();
       store.dispatch(tableDialogAction.close());
     }
+  }
+
+  #fixFkTableNames = (): void => {
+    this.#schema!.tables.forEach(table => {
+      table.columns.forEach(column => {
+        const columnFk = column as ColumnFkSchema;
+        if (this.#originalTableName && (columnFk.fk?.table === this.#originalTableName)) {
+          columnFk.fk.table = this.#currentTable!.name;
+        }
+      });
+    });
   }
 }

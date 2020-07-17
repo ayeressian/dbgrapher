@@ -1,5 +1,6 @@
-import { Browser, Page, chromium } from 'playwright';
+import { Browser, Page } from 'playwright';
 import twoTableSchema from './two-table-schema.json';
+import getBrowser from './get-browser';
 
 describe('Relations', () => {
   let browser: Browser;
@@ -7,7 +8,7 @@ describe('Relations', () => {
   const passData: {page?: Page} = {};
 
   beforeAll(async () => {
-    browser = await chromium.launch({ headless: process.env.DEBUG !== 'true' });
+    browser = await getBrowser();
   });
   
   afterAll(async () => {
@@ -20,7 +21,6 @@ describe('Relations', () => {
     passData.page = page;
 
     await page.click('dbg-app dbg-cloud-provider-dialog dbg-dialog .no-drive');
-    await page.click('dbg-app dbg-new-open-dialog dbg-dialog .folder-open');
 
     // Upload buffer from memory
     await page.setInputFiles('dbg-app dbg-file-inputs #dbgFileInput', {

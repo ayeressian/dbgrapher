@@ -7,7 +7,7 @@ import { subscribe } from '../subscribe-store';
 export default class extends LitElement {
 
   @internalProperty()
-  view = false;
+  private view = false;
 
   static get styles(): CSSResult {
     return css`

@@ -10,7 +10,7 @@ const DISPLAY_TIMER = 5000;
 @customElement('dbg-hint')
 export default class extends LitElement {
   @internalProperty()
-  text = '';
+  private text = '';
 
   static get styles(): CSSResult {
     return css`

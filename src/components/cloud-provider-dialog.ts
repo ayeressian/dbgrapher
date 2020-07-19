@@ -23,7 +23,7 @@ import { actions as newOpenFileDialogActions } from '../store/slices/dialog/new-
 @customElement("dbg-cloud-provider-dialog")
 export default class extends ConnectLitElement {
   @internalProperty()
-  open = store.getState().dialog.cloudProviderChooserDialog;
+  private open = store.getState().dialog.cloudProviderChooserDialog;
 
   static get styles(): CSSResult {
     return css`

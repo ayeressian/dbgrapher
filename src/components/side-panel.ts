@@ -75,7 +75,7 @@ export default class extends LitElement {
   }
 
   @internalProperty()
-  mode: DbViewerMode = DbViewerMode.None;
+  private mode: DbViewerMode = DbViewerMode.None;
 
   render(): TemplateResult {
     return html`

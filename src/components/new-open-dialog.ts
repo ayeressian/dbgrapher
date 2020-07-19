@@ -21,7 +21,7 @@ import { driveProvider } from "../drive/factory";
 @customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
   @internalProperty()
-  open = false;
+  private open = false;
 
   static get styles(): CSSResult {
     return css`

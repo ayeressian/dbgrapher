@@ -21,7 +21,7 @@ import commonStyles from './common-icon-dialog-styling';
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
   @internalProperty()
-  open = State.Close;
+  private open = State.Close;
 
   static get styles(): CSSResult {
     return css`

@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { deepCopy } from '../../util';
 import { Schema } from 'db-viewer-component';
 
 type Data = {
@@ -23,42 +22,34 @@ const slice = createSlice({
         present: action.payload ?? {tables: []}
       };
     },
-    set: (state, action: PayloadAction<Schema>): Data => {
-      const {past, present} = deepCopy(state);
+    set: (state, action: PayloadAction<Schema>): void => {
+      const {past, present} = state;
       if (present) past.push(present);
-      return {
-        past,
-        present: action.payload,
-        future: []
-      };
+      state.past = past;
+      state.present = action.payload;
+      state.future = [];
     },
-    undo: (state): Data => {
-      const newState = deepCopy(state);
-      const {past, future} = newState;
-      let { present } = newState;
+    undo: (state): void => {
+      const {past, future} = state;
+      let { present } = state;
       if (past.length > 0) {
         future.push(present);
         present = past.pop()!;
       }
-      return {
-        past,
-        future,
-        present,
-      };
+      state.past = past;
+      state.present = present;
+      state.future = future;
     },
-    redo: (state): Data => {
-      const newState = deepCopy(state);
-      const {past, future} = newState;
-      let { present } = newState;
+    redo: (state): void => {
+      const {past, future} = state;
+      let { present } = state;
       if (future.length > 0) {
         past.push(present);
         present = future.pop()!;
       }
-      return {
-        past,
-        future,
-        present,
-      };
+      state.past = past;
+      state.present = present;
+      state.future = future;
     },
   },
 });

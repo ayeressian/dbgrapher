@@ -96,10 +96,10 @@ export default class extends LitElement {
   @property( { type : Object } ) config?: TopMenuConfig;
 
   @internalProperty()
-  dropdownItems?: Item[];
+  private dropdownItems?: Item[];
 
   @internalProperty()
-  dropdownStyle = {};
+  private dropdownStyle = {};
 
   #onDocumentClick = (event: MouseEvent): void => {
     if (event.composed && !event.composedPath().includes(this)) {

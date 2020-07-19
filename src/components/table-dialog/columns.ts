@@ -2,11 +2,12 @@ import { customElement, LitElement, TemplateResult, html, property, CSSResult, c
 import commonTableStyles from './common-columns-styles';
 import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
 import columnNameValidation from './column-name-validation';
-import { deepEqual } from '../../util';
+import produce from 'immer';
 
 export interface ColumnChangeEventDetail {
   column: ColumnNoneFkSchema;
   index: number;
+  prevName: string;
 }
 
 export interface ColumnRemoveDetail {
@@ -17,10 +18,7 @@ export type ColumnRemoveEvent = CustomEvent<ColumnRemoveDetail>;
 
 @customElement('dbg-table-dialog-columns')
 export default class extends LitElement {
-  @property( {
-    type: Object,
-    hasChanged: (newVal: Schema, oldVal: Schema): boolean => deepEqual(newVal, oldVal)
-  } ) schema?: Schema;
+  @property( { type: Object } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
   #form?: HTMLFormElement;
@@ -35,10 +33,11 @@ export default class extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: ColumnNoneFkSchema): void => {
+  #onColumnChange = (index: number, column: ColumnNoneFkSchema, prevName: string): void => {
     const detail: ColumnChangeEventDetail = {
       column,
       index,
+      prevName,
     };
     const event = new CustomEvent('dbg-column-change', { detail });
     this.dispatchEvent(event);
@@ -46,23 +45,26 @@ export default class extends LitElement {
 
   #renderColumn = (column: ColumnNoneFkSchema, index: number): TemplateResult => {
     const onColumnChange = (type: keyof ColumnNoneFkSchema) => (event: InputEvent): void => {
-      const element = event.target as HTMLInputElement;
-      switch(type){
-        case 'nn':
-        case 'uq':
-        case 'pk':
-          column[type] = element.checked;
-          break;
-        case 'name':
-          columnNameValidation(this.schema!, this.tableIndex!, element, index);
-          column[type] = element.value;
-          break;
-        default:
-          column[type] = element.value;
-          break;
-      }
-      
-      this.#onColumnChange(index, column);
+      const newColumn = produce(column, columnDraft => {
+        const element = event.target as HTMLInputElement;
+        switch(type){
+          case 'nn':
+          case 'uq':
+          case 'pk':
+            columnDraft[type] = element.checked;
+            break;
+          case 'name':
+            columnNameValidation(this.schema!, this.tableIndex!, element, index);
+            element.dataset.prev;
+            columnDraft[type] = element.value;
+            break;
+          default:
+            columnDraft[type] = element.value;
+            break;
+        }
+      });
+      const currentTable = this.schema?.tables?.[this.tableIndex!];
+      this.#onColumnChange(index, newColumn, currentTable?.columns[index].name!);
     };
     return html`
       <tr>

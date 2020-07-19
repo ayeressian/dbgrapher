@@ -1,6 +1,3 @@
-export const deepCopy = <T extends object>(data: T): T => JSON.parse(JSON.stringify(data));
-export const deepEqual = <T extends object>(data1: T, data2: T): boolean => JSON.stringify(data1) === JSON.stringify(data2);
-
 export const isMac = navigator.platform.toUpperCase().includes('MAC');
 
 export const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);

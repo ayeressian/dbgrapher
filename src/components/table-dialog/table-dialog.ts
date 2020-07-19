@@ -1,4 +1,4 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS, internalProperty } from 'lit-element';
 import { actions as tableDialogAction } from '../../store/slices/dialog/table-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
@@ -10,25 +10,29 @@ import buttonCss from 'purecss/build/buttons-min.css';
 import formsCss from 'purecss/build/forms-min.css';
 import { actions as schemaActions} from '../../store/slices/schema';
 import { actions as loadSchemaActions} from '../../store/slices/load-schema';
-import { deepCopy } from '../../util';
+import { cloneDeep } from 'lodash';
 import { actions as dbViewerModeAction } from '../../store/slices/db-viewer-mode';
-import { ColumnNoneFkSchema, Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
+import { Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
 import { driveProvider } from '../../drive/factory';
+import { produce } from 'immer';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
 
-  #schema?: Schema;
-  #currentTable?: TableSchema;
+  @internalProperty()
+  private open = false;
+
+  @internalProperty()
+  private schema?: Schema;
+
   #currentTableIndex?: number;
-  #open = false;
   #isEdit = false;
   #nameInput?: HTMLInputElement;
   #tableDialogColumns?: TableDialogColumns;
   #tableDialogFkColumns?: TableDialogFkColumns;
   #form?: HTMLFormElement;
-  #originalTableName?: string;
+  #originalTableName= '';
 
   static get styles(): CSSResult {
     return css`
@@ -45,21 +49,23 @@ export default class extends LitElement {
     `;
   }
 
-  #onOpen = (tableName?: string, cords?: Point): void => {
-    this.#schema = deepCopy(store.getState().schema.present);
+  #onOpen = (tableName?: string, pos?: Point): void => {
+    this.schema = cloneDeep(store.getState().schema.present);
     if (tableName) {
       this.#isEdit = true;
-      this.#currentTableIndex = this.#schema.tables.findIndex(({name}) => name === tableName)!;
-      this.#currentTable = this.#schema.tables[this.#currentTableIndex];
+      this.#currentTableIndex = this.schema.tables.findIndex(({name}) => name === tableName)!;
       this.#originalTableName = tableName;
     } else {
       this.#isEdit = false;
-      this.#currentTable = {
-        name: '',
-        columns: [],
-        pos: cords,
-      };
-      this.#schema?.tables.unshift(this.#currentTable);
+      this.schema = produce(this.schema, schema => {
+        const currentTable = {
+          pos,
+          name: '',
+          columns: []
+        };
+        schema.tables.unshift(currentTable);  
+      });
+
       this.#currentTableIndex = 0;
 
       // Fix for the case when old previous table data still persist after opening new dialog
@@ -79,18 +85,19 @@ export default class extends LitElement {
   }
 
   #addColumn = (): void => {
-    this.#currentTable?.columns.push({
-      name: '',
-      type: '',
+    this.schema = produce(this.schema, schema => {
+      this.#getCurrentTable(schema)?.columns.push({
+        name: '',
+        type: '',
+      });
     });
-    this.requestUpdate();
   };
 
-  #getFkTables = (index: number, targetTable: TableSchema): {table: TableSchema; columnIndex: number}[]  => {
+  #getFkTables = (index: number, targetTable: TableSchema, schema: Schema): {table: TableSchema; columnIndex: number}[]  => {
     const targetTableColumns = targetTable.columns;
     
     const fkTables: {table: TableSchema; columnIndex: number}[] = [];
-    this.#schema!.tables.forEach((table) => {
+    schema.tables.forEach((table) => {
       table.columns.filter((column, columnIndex) => {
         if ((column as ColumnFkSchema)?.fk?.table === targetTable.name
           && targetTableColumns[index].name === (column as ColumnFkSchema)?.fk!.column) {
@@ -103,48 +110,57 @@ export default class extends LitElement {
 
   #removeColumn = (event: ColumnRemoveEvent): void => {
     const index = event.detail.index;
-    const fkTables = this.#getFkTables(index, this.#currentTable!);
-    if (fkTables.length > 0 && window.confirm(`Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n ${fkTables.map(item => `${item.table.name}.${item.table.columns[item.columnIndex].name}`)}`)) {
-      while (fkTables.length > 0) {
-        const item = fkTables.shift()!;
-        fkTables.push(...this.#getFkTables(item.columnIndex, item.table));
-        item.table.columns.splice(item.columnIndex, 1);
+    this.schema = produce(this.schema!, schema => {
+      const fkTables = this.#getFkTables(index, this.#getCurrentTable()!, schema);
+      if (fkTables.length > 0 && window.confirm(`Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n ${fkTables.map(item => `${item.table.name}.${item.table.columns[item.columnIndex].name}`)}`)) {
+        while (fkTables.length > 0) {
+          const item = fkTables.shift()!;
+          fkTables.push(...this.#getFkTables(item.columnIndex, item.table, schema));
+          item.table.columns.splice(item.columnIndex, 1);
+        }
       }
-    }
-    this.#currentTable?.columns.splice(index, 1);
-    this.requestUpdate();
+    
+      this.#getCurrentTable(schema)?.columns.splice(index, 1);
+    });
   };
 
   #addFkColumn = (): void => {
-    this.#currentTable?.columns.push({
-      name: '',
-      fk: {
-        table: '',
-        column: '',
-      },
+    this.schema = produce(this.schema, schema => {
+      this.#getCurrentTable(schema)?.columns.push({
+        name: '',
+        fk: {
+          table: '',
+          column: '',
+        },
+      });
     });
-    this.requestUpdate();
   };
 
   #fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>): void => {
-    (this.#currentTable!.columns[event.detail.index] as ColumnFkSchema) = event.detail.column;
-    this.requestUpdate();
+    this.schema = produce(this.schema, schema => {
+      this.#getCurrentTable(schema)!.columns[event.detail.index] = event.detail.column;
+    });
   };
 
+  #getCurrentTable = (schema = this.schema): TableSchema => schema?.tables[this.#currentTableIndex!]!;
+
   #columnChange = (event: CustomEvent<ColumnChangeEventDetail>): void => {
-    (this.#currentTable!.columns[event.detail.index] as ColumnNoneFkSchema) = event.detail.column;
-    this.requestUpdate();
+    const changeColumn = event.detail.column;
+    this.schema = produce(this.schema!, schema => {
+      const currentTable = this.#getCurrentTable(schema);
+      this.#fixFkColumnNames(changeColumn.name, event.detail.prevName, schema);
+      currentTable.columns[event.detail.index] = event.detail.column;
+    });
   };
 
   connectedCallback(): void {
     super.connectedCallback();
 
     subscribe(state => state.dialog.tableDialog, ({open, tableName}, state) => {
-      this.#open = open;
+      this.open = open;
       if (open) {
         this.#onOpen(tableName, state.dialog.tableDialog.cords);
       }
-      this.requestUpdate();
     });
   }
 
@@ -156,22 +172,22 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <dbg-dialog ?show=${this.#open} showClose centerTitle="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}" @dbg-on-escape="${this.#cancel}">
+      <dbg-dialog ?show=${this.open} showClose centerTitle="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}" @dbg-on-escape="${this.#cancel}">
         <div slot="body">
           <form class="pure-form pure-form-stacked">
             <label>
               Name
-              <input name='name' data-testid="table-name" type='text' @input="${this.#onChangeTableName}" .value="${this.#currentTable?.name}" required/>
+              <input name='name' data-testid="table-name" type='text' @input="${this.#onChangeTableName}" .value="${this.#getCurrentTable()?.name}" required/>
             </label>
             <dbg-table-dialog-columns
-              .schema="${this.#schema ?? {}}"
+              .schema="${this.schema ?? {}}"
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-column="${this.#addColumn}"
               @dbg-column-change="${this.#columnChange}"
               @dbg-remove-column="${this.#removeColumn}">
             </dbg-table-dialog-columns>
             <dbg-table-dialog-fk-columns
-              .schema="${this.#schema ?? {}}"
+              .schema="${this.schema ?? {}}"
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-fk-column="${this.#addFkColumn}"
               @dbg-fk-column-change="${this.#fkColumnChange}"
@@ -186,15 +202,20 @@ export default class extends LitElement {
       </dbg-dialog>`;
   }
 
-  #onChangeTableName = (event: Event): void => {
+  #onChangeTableName = (event: InputEvent): void => {
     const element = (event.target! as HTMLInputElement);
-    this.#currentTable!.name = element.value;
-    if (this.#schema!.tables.find((table, index) => table.name === this.#currentTable!.name && index !== this.#currentTableIndex)) {
-      element.setCustomValidity(`There is already a table with the name "${this.#currentTable!.name}".`);
+    this.schema = produce(this.schema, schema => {
+      this.#getCurrentTable(schema)!.name = element.value;
+    });
+    const currentTable = this.#getCurrentTable();
+    if (this.schema!.tables.find((table, index) => table.name === currentTable.name && index !== this.#currentTableIndex)) {
+      element.setCustomValidity(`There is already a table with the name "${currentTable.name}".`);
     } else {
       element.setCustomValidity('');
+      const tableName = (event.target as HTMLInputElement).value;
+      this.#fixFkTableNames(tableName);
+      this.#originalTableName = tableName;
     }
-    this.requestUpdate();
   }
 
   #cancel = (event: Event): void => {
@@ -206,21 +227,39 @@ export default class extends LitElement {
   #save = (event: Event): void => {
     event.preventDefault();
     if (this.#validate()) {
-      this.#fixFkTableNames();
       store.dispatch(dbViewerModeAction.none());
-      store.dispatch(schemaActions.set(this.#schema!));
+      store.dispatch(schemaActions.set(this.schema!));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
       driveProvider.updateFile();
       store.dispatch(tableDialogAction.close());
     }
   }
 
-  #fixFkTableNames = (): void => {
-    this.#schema!.tables.forEach(table => {
+  #fixFkTableNames = (tableName: string): void => {
+    this.schema = produce(this.schema, schema => {
+      schema!.tables.forEach(table => {
+        table.columns.forEach(column => {
+          const columnFk = column as ColumnFkSchema;
+          if (columnFk.fk && columnFk.fk.table === this.#originalTableName) {
+            columnFk.fk.table = tableName;
+            if (columnFk.name === `fk_${this.#originalTableName}_${columnFk.fk.column}`) {
+              columnFk.name = `fk_${tableName}_${columnFk.fk.column}`;
+            }
+          }
+        });
+      });
+    });
+  }
+
+  #fixFkColumnNames = (columnName: string, originalColumnName: string, schema: Schema): void => {
+    schema.tables.forEach(table => {
       table.columns.forEach(column => {
         const columnFk = column as ColumnFkSchema;
-        if (this.#originalTableName && (columnFk.fk?.table === this.#originalTableName)) {
-          columnFk.fk.table = this.#currentTable!.name;
+        if (columnFk.fk && columnFk.fk.table === this.#originalTableName && columnFk.fk.column === originalColumnName) {
+          columnFk.fk.column = columnName;
+          if (columnFk.name === `fk_${this.#originalTableName}_${originalColumnName}`) {
+            columnFk.name = `fk_${this.#originalTableName}_${columnFk.fk.column}`;
+          }
         }
       });
     });

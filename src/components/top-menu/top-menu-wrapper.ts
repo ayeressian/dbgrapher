@@ -23,16 +23,16 @@ const colorHash = new ColorHash({saturation: 0.5});
 export default class extends LitElement {
 
   @internalProperty()
-  openAccountPopup = false;
+  private openAccountPopup = false;
 
   @internalProperty()
-  openFileRenamePopup = false;
+  private openFileRenamePopup = false;
 
   @internalProperty()
-  fileName?: string;
+  private fileName?: string;
 
   @internalProperty()
-  cloudState: CloudState = store.getState().cloud;
+  private cloudState: CloudState = store.getState().cloud;
 
   #accountPopup?: HTMLElement;
 

@@ -6,7 +6,7 @@ import store from '../store/store';
 @customElement('dbg-about-dialog')
 export default class extends LitElement {
   @internalProperty()
-  open = false;
+  private open = false;
 
   static get styles(): CSSResult {
     return css`

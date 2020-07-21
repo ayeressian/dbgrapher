@@ -2,7 +2,6 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafe
 import { actions as tableDialogAction } from '../../store/slices/dialog/table-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
-import { ColumnChangeEventDetail, ColumnRemoveEvent } from './columns';
 import { FkColumnChangeEventDetail } from './fk-columns';
 import TableDialogColumns from './columns';
 import TableDialogFkColumns from './fk-columns';
@@ -16,6 +15,7 @@ import { Schema, TableSchema, ColumnFkSchema } from 'db-viewer-component';
 import { Point } from 'db-viewer-component';
 import { driveProvider } from '../../drive/factory';
 import { produce } from 'immer';
+import { ColumnOpsEvent, ColumnChangeEvent } from './common-columns';
 
 @customElement('dbg-table-dialog')
 export default class extends LitElement {
@@ -108,7 +108,7 @@ export default class extends LitElement {
     return fkTables;
   };
 
-  #removeColumn = (event: ColumnRemoveEvent): void => {
+  #removeColumn = (event: ColumnOpsEvent): void => {
     const index = event.detail.index;
     this.schema = produce(this.schema!, schema => {
       const fkTables = this.#getFkTables(index, this.#getCurrentTable()!, schema);
@@ -123,6 +123,36 @@ export default class extends LitElement {
       this.#getCurrentTable(schema)?.columns.splice(index, 1);
     });
   };
+
+  #moveUpColumn = (event: ColumnOpsEvent, isFk: boolean): void => {
+    const index = event.detail.index;
+    this.schema = produce(this.schema!, schema => {
+      const currentTableColumns = this.#getCurrentTable(schema).columns;
+      const columnToBeMoved = currentTableColumns[index];
+      for (let i = index - 1; i >= 0; --i) {
+        if (isFk ? (currentTableColumns[i] as ColumnFkSchema).fk: !(currentTableColumns[i] as ColumnFkSchema).fk) {
+          currentTableColumns.splice(index, 1);
+          currentTableColumns.splice(i, 0, columnToBeMoved);
+          break;
+        }
+      }
+    });
+  }
+
+  #moveDownColumn = (event: ColumnOpsEvent, isFk: boolean): void => {
+    const index = event.detail.index;
+    this.schema = produce(this.schema!, schema => {
+      const currentTableColumns = this.#getCurrentTable(schema).columns;
+      const columnToBeMoved = currentTableColumns[index];
+      for (let i = index + 1; i < currentTableColumns.length; ++i) {
+        if (isFk ? (currentTableColumns[i] as ColumnFkSchema).fk: !(currentTableColumns[i] as ColumnFkSchema).fk) {
+          currentTableColumns.splice(index, 1);
+          currentTableColumns.splice(i, 0, columnToBeMoved);
+          break;
+        }
+      }
+    });
+  }
 
   #addFkColumn = (): void => {
     this.schema = produce(this.schema, schema => {
@@ -144,7 +174,7 @@ export default class extends LitElement {
 
   #getCurrentTable = (schema = this.schema): TableSchema => schema?.tables[this.#currentTableIndex!]!;
 
-  #columnChange = (event: CustomEvent<ColumnChangeEventDetail>): void => {
+  #columnChange = (event: ColumnChangeEvent): void => {
     const changeColumn = event.detail.column;
     this.schema = produce(this.schema!, schema => {
       const currentTable = this.#getCurrentTable(schema);
@@ -184,14 +214,18 @@ export default class extends LitElement {
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-column="${this.#addColumn}"
               @dbg-column-change="${this.#columnChange}"
-              @dbg-remove-column="${this.#removeColumn}">
+              @dbg-remove-column="${this.#removeColumn}"
+              @dbg-move-up-column="${(event: ColumnOpsEvent): void => this.#moveUpColumn(event, false)}"
+              @dbg-move-down-column="${(event: ColumnOpsEvent): void => this.#moveDownColumn(event, false)}">
             </dbg-table-dialog-columns>
             <dbg-table-dialog-fk-columns
               .schema="${this.schema ?? {}}"
               tableIndex="${this.#currentTableIndex}"
               @dbg-add-fk-column="${this.#addFkColumn}"
               @dbg-fk-column-change="${this.#fkColumnChange}"
-              @dbg-remove-fk-column="${this.#removeColumn}">
+              @dbg-remove-column="${this.#removeColumn}"
+              @dbg-move-up-column="${(event: ColumnOpsEvent): void => this.#moveUpColumn(event, true)}"
+              @dbg-move-down-column="${(event: ColumnOpsEvent): void => this.#moveDownColumn(event, true)}">
             </dbg-table-dialog-fk-columns>
             <div class="menu">
               <button class="pure-button" @click="${this.#save}" data-testid="save-btn">Save</button>

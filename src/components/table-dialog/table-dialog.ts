@@ -263,7 +263,6 @@ export default class extends LitElement {
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.schema!));
-      console.log(this.schema);
       store.dispatch(loadSchemaActions.loadViewportUnchange());
       driveProvider.updateFile();
       store.dispatch(tableDialogAction.close());

@@ -1,23 +1,11 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
-import commonTableStyles from './common-columns-styles';
+import { styles as commonStyles, ColumnChangeEventDetail, removeColumn, moveUpColumn, moveDownColumn } from './common-columns';
 import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
 import columnNameValidation from './column-name-validation';
 import produce from 'immer';
 
-export interface ColumnChangeEventDetail {
-  column: ColumnNoneFkSchema;
-  index: number;
-  prevName: string;
-}
-
-export interface ColumnRemoveDetail {
-  index: number;
-}
-
-export type ColumnRemoveEvent = CustomEvent<ColumnRemoveDetail>;
-
 @customElement('dbg-table-dialog-columns')
-export default class extends LitElement {
+export default class TableDialogColumns extends LitElement {
   @property( { type: Object } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
@@ -26,10 +14,9 @@ export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
       table {
-        width: 660px;
+        width: 760px;
       }
-      ${commonTableStyles}
-        
+      ${commonStyles}
     `;
   }
 
@@ -104,7 +91,13 @@ export default class extends LitElement {
           />
         </td>
         <td>
-          <div class="remove-icon" @click="${(event: Event): void => this.#removeColumn(event, index)}"></div>
+          <div class="remove-icon" @click="${(): void => removeColumn.bind(this)(index)}" title="Remove row"></div>
+        </td>
+        <td>
+          <div class="move-up-icon" @click="${(): void => moveUpColumn.bind(this)(index)}"  title="Move row up"></div>
+        </td>
+        <td>
+          <div class="move-down-icon" @click="${(): void => moveDownColumn.bind(this)(index)}"  title="Move row down"></div>
         </td>
       </tr>
     `;
@@ -121,7 +114,7 @@ export default class extends LitElement {
     if (currentTableColumns.length > 0) {
       result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as ColumnNoneFkSchema, index))}`;
     } else {
-      result = html`<tr><td class="no-column" colspan="6">No columns to show</td></tr>`;
+      result = html`<tr><td class="no-column" colspan="8">No columns to show</td></tr>`;
     }
     return html`${result}`;
   }
@@ -151,6 +144,8 @@ export default class extends LitElement {
                   <th>UQ</th>
                   <th>NN</th>
                   <th/>
+                  <th/>
+                  <th/>
                 </tr>
               </thead>
               <tbody>${this.#renderColumns()}</tbody>
@@ -173,14 +168,4 @@ export default class extends LitElement {
       lastNameInput.focus();
     });
   }
-
-  #removeColumn = (event: Event, index: number): void => {
-    event.preventDefault();
-
-    const detail: ColumnRemoveDetail = {
-      index,
-    };
-    const newEvent = new CustomEvent('dbg-remove-column', { detail });
-    this.dispatchEvent(newEvent);
-  };
 }

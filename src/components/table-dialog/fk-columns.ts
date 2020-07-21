@@ -1,5 +1,5 @@
 import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
-import commonTableStyles from './common-columns-styles';
+import { styles as commonStyles, removeColumn, moveUpColumn, moveDownColumn } from './common-columns';
 import { OnSelectEvent } from '../select';
 import { ColumnFkSchema, ColumnSchema } from 'db-viewer-component';
 import {Schema} from 'db-viewer-component';
@@ -12,14 +12,8 @@ export interface FkColumnChangeEventDetail {
   prevName: string;
 }
 
-export interface FkColumnRemoveDetail {
-  index: number;
-}
-
-export type FkColumnRemoveEvent = CustomEvent<FkColumnRemoveDetail>;
-
 @customElement('dbg-table-dialog-fk-columns')
-export default class extends LitElement {
+export default class TableDialogFkColumns extends LitElement {
   @property( { type: Object } ) schema?: Schema;
   @property( { type : Number } ) tableIndex?: number;
 
@@ -28,9 +22,9 @@ export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
       table {
-        width: 770px;
+        width: 870px;
       }
-      ${commonTableStyles}
+      ${commonStyles}
     `;
   }
 
@@ -113,7 +107,13 @@ export default class extends LitElement {
           <dbg-select value="${column.fk?.column}" options="${JSON.stringify(this.#getFkColumns(column.fk!.table).map(({name}) => name))}" @dbg-on-select="${onFkColumnSelect}"></dbg-select>
         </td>
         <td>
-          <div class="remove-icon" @click="${(event: Event): void => this.#removeFkColumn(event, index)}"></div>
+          <div class="remove-icon" @click="${(): void => removeColumn.bind(this)(index)}" title="Remove row"></div>
+        </td>
+        <td>
+          <div class="move-up-icon" @click="${(): void => moveUpColumn.bind(this)(index)}" title="Move row up"></div>
+        </td>
+        <td>
+          <div class="move-down-icon" @click="${(): void => moveDownColumn.bind(this)(index)}" title="Move row down"></div>
         </td>
       </tr>
     `;
@@ -130,7 +130,7 @@ export default class extends LitElement {
     if (currentTableColumns.length > 0) {
       result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column, index))}`;
     } else {
-      result = html`<tr><td class="no-column" colspan="7">No fk columns to show</td></tr>`;
+      result = html`<tr><td class="no-column" colspan="9">No fk columns to show</td></tr>`;
     }
     return result;
   }
@@ -160,6 +160,8 @@ export default class extends LitElement {
                   <th>NN</th>
                   <th>Foreign Table</th>
                   <th>Foreign Column</th>
+                  <th/>
+                  <th/>
                   <th/>
                 </tr>
               </thead>
@@ -191,15 +193,5 @@ export default class extends LitElement {
       const {fk} = (column as ColumnFkSchema);
       return (pk || (nn && uq)) && fk == null;
     }) || [];
-  };
-
-  #removeFkColumn = (event: Event, index: number): void => {
-    event.preventDefault();
-
-    const detail: FkColumnRemoveDetail = {
-      index,
-    };
-    const newEvent = new CustomEvent('dbg-remove-fk-column', { detail });
-    this.dispatchEvent(newEvent);
   };
 }

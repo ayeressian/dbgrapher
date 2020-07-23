@@ -74,6 +74,7 @@ export default class extends LitElement {
         this.#tableDialogFkColumns?.requestUpdate();
         this.#nameInput?.focus();
       });
+      this.#originalTableName = '';
     }
   };
 

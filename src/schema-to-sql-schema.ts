@@ -1,8 +1,37 @@
-import { Schema, ColumnFkSchema, ColumnNoneFkSchema } from "db-viewer-component";
+import { Schema, ColumnFkSchema, ColumnNoneFkSchema, TableSchema } from "db-viewer-component";
+import toposort from 'toposort';
+import ConfirmationDialog from "./components/confirmation-dialog";
 
-export default (schema: Schema): string => {
+const topoLogicalSortTables = async (tables: TableSchema[]): Promise<TableSchema[] | undefined> => {
+  const keyVal: [string, TableSchema][] = tables.map((table) => [table.name, table]);
+  const tableMap = new Map(keyVal);
+  const graph: [string, string][] = [];
+  for (const table of tables) {
+    for (const column of table.columns) {
+      const fkColumn = column as ColumnFkSchema;
+      if (fkColumn.fk) {
+        graph.push([fkColumn.fk.table, table.name]);
+      }
+    }
+  }
+  let result;
+  try {
+    result = toposort(graph);
+  } catch (error) {
+    if (await ConfirmationDialog.confirm('There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.', 'Continue')) {
+      return tables;
+    } else {
+      return;
+    }
+  }
+  return result.map(tableName => tableMap.get(tableName)!);
+};
+
+export default async (schema: Schema): Promise<string | undefined> => {
   let sqlSchema = '';
-  schema.tables.forEach((table, index) => {
+  const sortedTables = await topoLogicalSortTables(schema.tables);
+  if (sortedTables == null) return;
+  sortedTables.forEach((table, index) => {
     let columnSql = '';
     table.columns.forEach((column, index) => {
       if ((column as ColumnFkSchema).fk) {

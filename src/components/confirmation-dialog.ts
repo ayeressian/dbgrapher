@@ -24,7 +24,7 @@ export default class ConfirmationDialog extends LitElement {
       ${unsafeCSS(buttonCss)}
 
       .row {
-        margin-top: 10px;
+        margin-top: 20px;
       }
     `;
   }

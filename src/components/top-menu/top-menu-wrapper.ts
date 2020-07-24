@@ -160,10 +160,10 @@ export default class extends LitElement {
     return store.getState().schema.present;
   };
 
-  #downloadAsSQLSchema = (): void => {
+  #downloadAsSQLSchema = async (): Promise<void> => {
     const schema = this.#getCurrentSchema();
-    const result = schemaToSqlSchema(schema);
-    download(result, 'schema.sql', 'text/plain');
+    const result = await schemaToSqlSchema(schema);
+    if (result) download(result, 'schema.sql', 'text/plain');
   };
 
   #itemSelected = (event: CustomEvent): void => {

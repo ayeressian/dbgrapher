@@ -52,7 +52,7 @@ const initFactory = (): void => {
       {
         store.dispatch(loadActions.start);
         const { folderId } = googleDriveCommon<CreateURIData>();
-        store.dispatch(cloudActions.setFileName('untitled.dbgh'));
+        store.dispatch(cloudActions.setFileName('untitled.dbgr'));
         store.dispatch(schemaActions.initiate());
         store.dispatch(loadSchemaActions.load());
         driveProvider.createFile(folderId);

@@ -35,6 +35,7 @@ export default class extends LitElement {
   private cloudState: CloudState = store.getState().cloud;
 
   #accountPopup?: HTMLElement;
+  #error= false;
 
   static get styles(): CSSResult {
     return css`
@@ -74,6 +75,10 @@ export default class extends LitElement {
         text-align: center;
         color: white;
       }
+
+      .error {
+        color: #B00020;
+      }
     `;
   }
 
@@ -84,6 +89,7 @@ export default class extends LitElement {
   render(): TemplateResult {
     const cloudState = store.getState().cloud;
     let centerText;
+    this.#error = false;
     switch (cloudState.updateState) {
       case CloudUpdateState.None:
         centerText = this.fileName;
@@ -94,11 +100,15 @@ export default class extends LitElement {
       case CloudUpdateState.Saving:
         centerText = `${this.fileName} - Saving to ${this.#providerName()}`;
         break;
+      case CloudUpdateState.NetworkError:
+        this.#error = true;
+        centerText = `${this.fileName} - Not saved to ${this.#providerName()}. Please check your internet connection.`;
+        break;
     }
 
     return html`
       <dbg-top-menu .config="${topMenuConfig}" @item-selected="${this.#itemSelected}">
-        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.fileName == null })}" @click="${this.#onCenterClick}">
+        <div slot="center" class="${classMap({ hide: this.#hideCenterAndRight() || this.fileName == null, error: this.#error })}" @click="${this.#onCenterClick}">
           ${centerText}
         </div>
 

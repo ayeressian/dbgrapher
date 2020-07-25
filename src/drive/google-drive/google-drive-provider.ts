@@ -8,6 +8,7 @@ import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
 import ConfirmationDialog from '../../components/confirmation-dialog';
 import ResetStoreException from '../../reset-exception';
+import { wait } from '../../util';
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load('auth2', {callback: resolve, onerror: reject});
@@ -158,17 +159,28 @@ export default class GoogleDriveProvider implements DriveProvider {
     throw new ResetStoreException;
   }
 
-  async updateFile(): Promise<void> {
+  async updateFile(isRetry = false): Promise<void> {
     await this.login();
-    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
+    if (!isRetry) store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
     if (this.#fileId == null) {
       await this.createFile();
     }
-    await gapi.client.request({
-      path: `https://www.googleapis.com/upload/drive/v2/files/${this.#fileId}`,
-      body: store.getState().schema.present,
-      method: 'PUT',
-    });
+    try {
+      await gapi.client.request({
+        path: `https://www.googleapis.com/upload/drive/v2/files/${this.#fileId}`,
+        body: store.getState().schema.present,
+        method: 'PUT',
+      });
+    } catch(err) {
+      //network error
+      if (err.result.error.code === -1) {
+        store.dispatch(cloudActions.setUpdateState(CloudUpdateState.NetworkError));
+        await wait(2000);
+        await this.updateFile(true);
+        return;
+      }
+      throw err;
+    }
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
   }
 
@@ -191,13 +203,25 @@ export default class GoogleDriveProvider implements DriveProvider {
     if (this.#fileId) {
       await this.login();
       await clientDriveLoad;
-      await gapi.client.drive.files.update({
-        fileId: this.#fileId,
-        resource: {
-          name: newFileName
+      try {
+        await gapi.client.drive.files.update({
+          fileId: this.#fileId,
+          resource: {
+            name: newFileName
+          }
+        });
+      } catch(err) {
+        //network error
+        if (err.result.error.code === -1) {
+          store.dispatch(cloudActions.setUpdateState(CloudUpdateState.NetworkError));
+          await wait(2000);
+          await this.renameFile(newFileName);
+          return;
         }
-      });
+        throw err;
+      }
     }
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
     store.dispatch(cloudActions.setFileName(newFileName));
   }
 }

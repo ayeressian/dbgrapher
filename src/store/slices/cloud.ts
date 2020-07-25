@@ -11,6 +11,7 @@ export enum CloudUpdateState {
   Saved = 'Saved',
   Saving = 'Saving',
   None = 'None',
+  NetworkError = 'NetworkError',
 }
 
 export type CloudUserData = {

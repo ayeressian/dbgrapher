@@ -21,3 +21,5 @@ export const download = (data: string, filename: string, type: string): void => 
     });
   }
 };
+
+export const wait = (time?: number): Promise<void> => new Promise(resolve => setTimeout(resolve, time));

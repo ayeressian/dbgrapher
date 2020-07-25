@@ -26,7 +26,7 @@ export default class extends LitElement {
         transform: translateX(-50%);
         margin-top: 5px;
         z-index: 1;
-        padding:0 16px 0 16px;
+        padding:0 16px 14px 16px;
         box-shadow: 0 2px 10px rgba(0,0,0,.2);
         border-radius: 5px;
       }

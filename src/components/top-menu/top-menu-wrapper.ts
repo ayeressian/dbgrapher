@@ -179,7 +179,7 @@ export default class extends LitElement {
   #itemSelected = (event: CustomEvent): void => {
     switch(event.detail.id) {
       case 'new':
-        store.dispatch(cloudActions.setFileName('Untitled.dbgh'));
+        store.dispatch(cloudActions.setFileName('untitled.dbgr'));
         store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
         store.dispatch(schemaAction.initiate());
         store.dispatch(setSchemaAction.load());

@@ -6,10 +6,9 @@ import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
 import store from '../store/store';
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
 import { subscribe } from '../subscribe-store';
-import { isSafari, isMac } from '../util';
+import { isMac } from '../util';
 import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Schema, Viewport, RelationClickEvent } from 'db-viewer-component';
 import { ColumnFkSchema } from 'db-viewer-component';
-import { classMap } from 'lit-html/directives/class-map';
 import { driveProvider } from '../drive/factory';
 import { AppState } from '../store/reducer';
 
@@ -26,11 +25,9 @@ export default class DbWrapper extends LitElement {
       :host {
         overflow: auto;
       }
-      .safari-height {
-        height: calc(100% - 33px);
-      }
 
       db-viewer {
+        height: 100%;
         --font-family: RobotoCondensed;
       }
     `;
@@ -199,6 +196,6 @@ export default class DbWrapper extends LitElement {
   }
 
   render(): TemplateResult {
-    return html`<db-viewer class="${classMap({'safari-height': isSafari})}"/>`;
+    return html`<db-viewer />`;
   }
 }

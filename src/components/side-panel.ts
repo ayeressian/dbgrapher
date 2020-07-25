@@ -10,7 +10,6 @@ import clearIcon from '../../asset/clear.svg';
 import { classMap } from 'lit-html/directives/class-map';
 import { subscribe } from '../subscribe-store';
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
-import { isSafari } from '../util';
 
 @customElement('dbg-side-panel')
 export default class extends LitElement {
@@ -67,10 +66,6 @@ export default class extends LitElement {
       .left_toolbar .action.clear {
         background-image: url(${unsafeCSS(clearIcon)});
       }
-
-      .safari-height {
-        height: calc(100% - 33px);
-      }
     `;
   }
 
@@ -79,7 +74,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     return html`
-      <ul class="left_toolbar ${classMap({'safari-height': isSafari})}">
+      <ul class="left_toolbar">
         <li class="action create_table ${classMap({active: this.mode === DbViewerMode.CreateTable})}"
           title="Create table"
           @click="${this.#changeMode(DbViewerMode.CreateTable)}"/>

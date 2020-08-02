@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:osb="http://www.openswatchbook.org/uri/2009/osb"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 187 60"
+   height="60mm"
+   width="187mm">
+  <defs
+     id="defs2">
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient2871">
+      <stop
+         id="stop2869"
+         offset="0"
+         style="stop-color:#333333;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       osb:paint="gradient"
+       id="linearGradient2861">
+      <stop
+         id="stop2857"
+         offset="0"
+         style="stop-color:#000000;stop-opacity:1;" />
+      <stop
+         id="stop2859"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </linearGradient>
+    <linearGradient
+       osb:paint="solid"
+       id="linearGradient2789">
+      <stop
+         id="stop2787"
+         offset="0"
+         style="stop-color:#00ffff;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       gradientTransform="matrix(0.57687394,0,0,0.68430039,-62.72915,-108.57935)"
+       gradientUnits="userSpaceOnUse"
+       y2="180.59225"
+       x2="178.45642"
+       y1="180.59225"
+       x1="124.0746"
+       id="linearGradient2873"
+       xlink:href="#linearGradient2871" />
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1">
+    <rect
+       ry="0.16246673"
+       y="4.0566147e-07"
+       x="4.0979648e-07"
+       height="60"
+       width="187"
+       id="rect3023"
+       style="fill:#e3ebed;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       transform="translate(-0.00215115,-0.00227912)"
+       id="g3922">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#333333;stroke-width:1.8;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2855"
+         width="28.197496"
+         height="38.201855"
+         x="10.902151"
+         y="10.90228"
+         ry="0" />
+      <rect
+         style="fill:url(#linearGradient2873);fill-opacity:1;stroke:#333333;stroke-width:0;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect2867"
+         width="28.215393"
+         height="9.0707455"
+         x="10.894794"
+         y="10.929255" />
+      <path
+         style="fill:none;stroke:#333333;stroke-width:1.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="M 15,26.995631 H 34.988846"
+         id="path2877" />
+      <path
+         id="path2877-8"
+         d="M 15,34.000001 H 34.988846"
+         style="fill:none;stroke:#333333;stroke-width:1.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         id="path2877-9"
+         d="M 15,41.000001 H 34.988846"
+         style="fill:none;stroke:#333333;stroke-width:1.8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <text
+       id="text3021"
+       y="42.489574"
+       x="45.481636"
+       style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:29.9861px;line-height:1.25;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Light';fill:#333333;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-size:29.9861px;font-family:'Roboto Condensed';-inkscape-font-specification:'Roboto Condensed, Light';fill:#333333;fill-opacity:1;stroke-width:0.264583"
+         y="42.489574"
+         x="45.481636"
+         id="tspan3019">DB Grapher</tspan></text>
+  </g>
+</svg>

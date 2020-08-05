@@ -3,7 +3,7 @@
 
 <img src="https://raw.githubusercontent.com/ayeressian/dbgrapher/master/asset/icon-app.svg" alt="drawing" width="200"/>
 
-# DBGrapher
+# DB Grapher
 A database schema designing tool that runs in browser. To view the pre release version click [here](https://dbgrapher.com).
 
 

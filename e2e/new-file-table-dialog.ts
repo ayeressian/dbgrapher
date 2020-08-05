@@ -27,7 +27,7 @@ describe('New file', () => {
   });
 
   it('should have correct title', async () => {
-    expect(await page.title()).toBe('DBGrapher');
+    expect(await page.title()).toBe('DB Grapher');
   });
 
   it('should show cloud provider dialog', async () => {

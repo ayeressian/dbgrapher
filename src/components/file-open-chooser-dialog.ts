@@ -14,14 +14,14 @@ import googleDriveSvg from '../../asset/google-drive.svg';
 import oneDriveSvg from '../../asset/onedrive.svg';
 import { subscribe } from "../subscribe-store";
 import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
-import { actions as fileOpenChooserAction, State } from '../store/slices/dialog/file-open-chooser-dialog';
+import { actions as fileOpenChooserAction, FileOpenDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
 import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import commonStyles from './common-icon-dialog-styling';
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
   @internalProperty()
-  private open = State.Close;
+  private open = FileOpenDialogState.Close;
 
   static get styles(): CSSResult {
     return css`
@@ -55,9 +55,9 @@ export default class extends ConnectLitElement {
   render(): TemplateResult {
     return html`
       <dbg-dialog
-        ?show=${this.open !== State.Close}
-        ?showBack=${this.open === State.OpenFromWelcomeDialog}
-        ?showClose=${this.open === State.OpenFromTopMenu}
+        ?show=${this.open !== FileOpenDialogState.Close}
+        ?showBack=${this.open === FileOpenDialogState.OpenFromWelcomeDialog}
+        ?showClose=${this.open === FileOpenDialogState.OpenFromTopMenu}
         @dbg-on-back=${this.#goBack}
         @dbg-on-close=${this.#close}
         @dbg-on-escape="${this.#onEscape}">
@@ -114,9 +114,9 @@ export default class extends ConnectLitElement {
   };
 
   #onEscape = (): void => {
-    if (this.open === State.OpenFromTopMenu) {
+    if (this.open === FileOpenDialogState.OpenFromTopMenu) {
       this.#close();
-    } else if (this.open === State.OpenFromWelcomeDialog) {
+    } else if (this.open === FileOpenDialogState.OpenFromWelcomeDialog) {
       this.#goBack();
     }
   }

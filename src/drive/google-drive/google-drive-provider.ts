@@ -3,6 +3,7 @@ import { actions as schemaAction } from '../../store/slices/schema';
 import { actions as setSchemaAction } from '../../store/slices/load-schema';
 import env from '../../../env.json';
 import { actions as loadScreenAction } from '../../store/slices/load-screen';
+import { actions as newOpenDialogActions } from '../../store/slices/dialog/new-open-dialog';
 import { actions as cloudActions, CloudUpdateState } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 import { Schema } from 'db-viewer-component';
@@ -75,6 +76,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
     store.dispatch(schemaAction.initiate((filesContent.result as unknown) as Schema));
     store.dispatch(setSchemaAction.load());
+    store.dispatch(newOpenDialogActions.close());
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

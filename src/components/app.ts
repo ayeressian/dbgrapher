@@ -21,11 +21,6 @@ export default class extends LitElement {
         grid-template-rows: 33px 1fr;
         width: 100%;
         height: 100%;
-
-        --theme-primary: rgb(217, 217, 217);
-        --theme-text-color: #333;
-        --theme-orange: #FF6C00;
-        --theme-font-family: Roboto;
       }
       
       dbg-side-panel {

@@ -18,6 +18,7 @@ describe('New file', () => {
   beforeEach(async () => {
     page = await browser.newPage();
     await page.goto('http://localhost:9999/');
+    await page.waitForLoadState('domcontentloaded');
     passData.page = page;
   });
 

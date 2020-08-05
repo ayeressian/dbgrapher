@@ -2,7 +2,7 @@ import { LitElement, customElement, css, CSSResult, TemplateResult, html, intern
 import DbViewerMode from '../store/slices/db-viewer-mode-type';
 import store from '../store/store';
 import { isMac } from '../util';
-import { State as FileOpenChooserDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
+import { FileOpenDialogState as FileOpenChooserDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
 import { CloudProvider } from '../store/slices/cloud';
 
 const DISPLAY_TIMER = 5000;

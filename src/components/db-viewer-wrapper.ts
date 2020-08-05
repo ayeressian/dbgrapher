@@ -11,6 +11,7 @@ import DbViewer, { TableClickEvent, TableDblClickEvent, ViewportClickEvent, Sche
 import { ColumnFkSchema } from 'db-viewer-component';
 import { driveProvider } from '../drive/factory';
 import { AppState } from '../store/reducer';
+import { FileOpenDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
@@ -115,22 +116,33 @@ export default class DbWrapper extends LitElement {
     }
   };
 
+  #isDialogOpen = (): boolean => {
+    const stateDialog = store.getState().dialog;
+    return stateDialog.aboutDialog ||
+      stateDialog.cloudProviderChooserDialog ||
+      stateDialog.fileOpenChooserDialog !== FileOpenDialogState.Close ||
+      stateDialog.newOpenDialog ||
+      stateDialog.tableDialog.open;
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
 
     this.#loadSchemaCheck();
 
     document.onkeydown = (event: KeyboardEvent): void => {
-      if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
-        store.dispatch(schemaAction.undo());
-        driveProvider.updateFile();
-        store.dispatch(setSchemaAction.loadViewportUnchange());
-      }
+      if (!this.#isDialogOpen()) {
+        if ((event.keyCode === 90 && !event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) {
+          store.dispatch(schemaAction.undo());
+          driveProvider.updateFile();
+          store.dispatch(setSchemaAction.loadViewportUnchange());
+        }
 
-      if (((event.keyCode === 90 && event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) || (!isMac && event.ctrlKey)) {
-        store.dispatch(schemaAction.redo());
-        driveProvider.updateFile();
-        store.dispatch(setSchemaAction.loadViewportUnchange());
+        if (((event.keyCode === 90 && event.shiftKey) && ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) || (!isMac && event.ctrlKey)) {
+          store.dispatch(schemaAction.redo());
+          driveProvider.updateFile();
+          store.dispatch(setSchemaAction.loadViewportUnchange());
+        }
       }
     };
 

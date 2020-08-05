@@ -2,6 +2,7 @@ import { html, customElement, css, CSSResult, TemplateResult, LitElement } from 
 import { actions as schemaAction } from '../store/slices/schema';
 import { actions as setSchemaAction } from '../store/slices/load-schema';
 import { actions as fileOpenDialogActions } from '../store/slices/dialog/file-dialog/file-open-dialog';
+import { actions as newOpenDialogActions } from "../store/slices/dialog/new-open-dialog";
 import store from '../store/store';
 import { validateJson } from '../validate-schema';
 import { actions as fileOpenChooserDialogOpen } from '../store/slices/dialog/file-open-chooser-dialog';
@@ -87,6 +88,7 @@ export default class extends LitElement {
       store.dispatch(schemaAction.initiate(schema));
       store.dispatch(setSchemaAction.load());
       store.dispatch(fileOpenChooserDialogOpen.close());
+      store.dispatch(newOpenDialogActions.close());
 
       //Remove the value, so the same file can be set twice.
       this.#dbgFileInput!.value = '';

@@ -12,7 +12,7 @@ export default class extends LitElement {
     type: String,
   }) fileName = '';
 
-  #fileNameInput?: HTMLInputElement;
+  #fileNameInput!: HTMLInputElement;
   
   static get styles(): CSSResult {
     return css`
@@ -54,7 +54,7 @@ export default class extends LitElement {
   #onUpdate = (event: MouseEvent): void => {
     event.preventDefault();
     const detail: FileNameUpdateEventDetail = {
-      newFileName: this.#fileNameInput!.value
+      newFileName: this.#fileNameInput.value
     };
     const newEvent = new CustomEvent<FileNameUpdateEventDetail>('dbg-file-rename', { detail });
     this.dispatchEvent(newEvent);

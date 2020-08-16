@@ -29,12 +29,12 @@ export default class extends LitElement {
   private openFileRenamePopup = false;
 
   @internalProperty()
-  private fileName?: string;
+  private fileName!: string;
 
   @internalProperty()
   private cloudState: CloudState = store.getState().cloud;
 
-  #accountPopup?: HTMLElement;
+  #accountPopup!: HTMLElement;
   #error= false;
 
   static get styles(): CSSResult {
@@ -132,7 +132,7 @@ export default class extends LitElement {
     super.connectedCallback();
     subscribe(state => state.cloud, cloudState => {
       this.cloudState = cloudState;
-      this.fileName = cloudState.fileName;
+      this.fileName = cloudState.fileName!;
     });
 
     document.addEventListener('click', this.#onDocumentClick, true);
@@ -160,7 +160,7 @@ export default class extends LitElement {
         this.openFileRenamePopup = false;
       }
 
-      if (!event.composedPath().includes(this.#accountPopup!) && this.openAccountPopup) {
+      if (!event.composedPath().includes(this.#accountPopup) && this.openAccountPopup) {
         this.openAccountPopup = false;
       }
     }

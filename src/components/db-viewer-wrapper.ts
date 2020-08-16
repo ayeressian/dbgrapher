@@ -15,10 +15,10 @@ import { FileOpenDialogState } from '../store/slices/dialog/file-open-chooser-di
 
 @customElement('dbg-db-viewer')
 export default class DbWrapper extends LitElement {
-  #resolveLoaded?: Function;
+  #resolveLoaded!: Function;
   #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
-  #dbViewer?: DbViewer;
-  #relationFirstTableName?: string; 
+  #dbViewer!: DbViewer;
+  #relationFirstTableName!: string; 
   #mode: DbViewerMode = DbViewerMode.None;
 
   static get styles(): CSSResult {
@@ -43,13 +43,13 @@ export default class DbWrapper extends LitElement {
   };
 
   #relationFirstClickListener = (event: TableClickEvent): void => {
-    this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
-    this.#dbViewer!.addEventListener('tableClick', this.#relationSecondClickListener);
+    this.#dbViewer.removeEventListener('tableClick', this.#relationFirstClickListener);
+    this.#dbViewer.addEventListener('tableClick', this.#relationSecondClickListener);
     this.#relationFirstTableName = event.detail.name;
   };
 
   #createRelation = (secondTableName: string): Schema => {
-    const schema = this.#dbViewer!.schema;
+    const schema = this.#dbViewer.schema;
     const tables = schema!.tables;
     const firstTable = tables.find(table => table.name === this.#relationFirstTableName);
     const secondTable = tables.find(table => table.name === secondTableName);
@@ -81,11 +81,11 @@ export default class DbWrapper extends LitElement {
     store.dispatch(schemaAction.set(schema));
     store.dispatch(setSchemaAction.loadViewportUnchange());
     store.dispatch(dbViewerModeAction.none());
-    this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
+    this.#dbViewer.removeEventListener('tableClick', this.#relationSecondClickListener);
   };
 
   #onTableMoveEnd = (): void => {
-    store.dispatch(schemaAction.set(this.#dbViewer!.schema!));
+    store.dispatch(schemaAction.set(this.#dbViewer.schema!));
     driveProvider.updateFile();
   };
 
@@ -93,13 +93,13 @@ export default class DbWrapper extends LitElement {
     this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>('db-viewer')!;
     this.#dbViewer.addEventListener('tableDblClick', this.#onTableDblClick);
     this.#dbViewer.addEventListener('tableMoveEnd', this.#onTableMoveEnd);
-    this.#resolveLoaded!();
+    this.#resolveLoaded();
   }
 
   #loadSchema = (state: AppState, viewport: Viewport): void => {
     this.#loaded.then(() => {
-      this.#dbViewer!.viewport = viewport;
-      this.#dbViewer!.schema = state.schema.present;
+      this.#dbViewer.viewport = viewport;
+      this.#dbViewer.schema = state.schema.present;
       store.dispatch(setSchemaAction.loaded());
     });
   }
@@ -152,42 +152,42 @@ export default class DbWrapper extends LitElement {
       this.#mode = dbViewerMode;
       switch(dbViewerMode) {
         case DbViewerMode.CreateTable:
-          this.#dbViewer!.addEventListener('viewportClick', this.#tableCreateListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
-          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer.addEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer.removeEventListener('relationClick', this.#removeRelation);
           break;
         case DbViewerMode.RelationOneToOne:
         case DbViewerMode.RelationZeroToOne:
         case DbViewerMode.RelationZeroToMany:
         case DbViewerMode.RelationOneToMany:
-          this.#dbViewer!.addEventListener('tableClick', this.#relationFirstClickListener);
-          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
-          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer.addEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer.removeEventListener('relationClick', this.#removeRelation);
           break;
         case DbViewerMode.Remove:
-          this.#dbViewer!.addEventListener('tableClick', this.#removeTable);
-          this.#dbViewer!.addEventListener('relationClick', this.#removeRelation);
-          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer.addEventListener('tableClick', this.#removeTable);
+          this.#dbViewer.addEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationSecondClickListener);
           break;
         default:
-          this.#dbViewer!.removeEventListener('viewportClick', this.#tableCreateListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationFirstClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#relationSecondClickListener);
-          this.#dbViewer!.removeEventListener('tableClick', this.#removeTable);
-          this.#dbViewer!.removeEventListener('relationClick', this.#removeRelation);
+          this.#dbViewer.removeEventListener('viewportClick', this.#tableCreateListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationFirstClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#relationSecondClickListener);
+          this.#dbViewer.removeEventListener('tableClick', this.#removeTable);
+          this.#dbViewer.removeEventListener('relationClick', this.#removeRelation);
           break;
       }
     });
   }
 
   #removeTable = (event: TableClickEvent): void => {
-    const schema = this.#dbViewer!.schema!;
+    const schema = this.#dbViewer.schema!;
     const tableName = event.detail.name;
     schema.tables = schema.tables.filter(table => table.name !== tableName);
     schema.tables.forEach(table => {
@@ -199,7 +199,7 @@ export default class DbWrapper extends LitElement {
   }
 
   #removeRelation = (event: RelationClickEvent): void => {
-    const schema = this.#dbViewer!.schema!;
+    const schema = this.#dbViewer.schema!;
     const fromTable = schema.tables.find(table => table.name === event.detail.fromTable)!;
     fromTable.columns = fromTable.columns.filter(column => column.name !== event.detail.fromColumn);
     store.dispatch(schemaAction.set(schema));

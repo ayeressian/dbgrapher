@@ -14,8 +14,8 @@ export interface FkColumnChangeEventDetail {
 
 @customElement('dbg-table-dialog-fk-columns')
 export default class TableDialogFkColumns extends LitElement {
-  @property( { type: Object } ) schema?: Schema;
-  @property( { type : Number } ) tableIndex?: number;
+  @property( { type: Object } ) schema!: Schema;
+  @property( { type : Number } ) tableIndex!: number;
 
   #form?: HTMLFormElement;
 
@@ -39,7 +39,7 @@ export default class TableDialogFkColumns extends LitElement {
   }
 
   #renderColumn = (column: ColumnFkSchema, index: number): TemplateResult => {
-    const currentTableName = this.schema?.tables?.[this.tableIndex!].columns[index].name!;
+    const currentTableName = this.schema.tables[this.tableIndex].columns[index].name;
     const onColumnChange = (type: keyof Omit<ColumnFkSchema, 'fk'>) => (event: InputEvent): void => {
       const newColumn = produce(column, columnDraft => {
         const element = event.target as HTMLInputElement;
@@ -50,7 +50,7 @@ export default class TableDialogFkColumns extends LitElement {
             columnDraft[type] = element.checked;
             break;
           case 'name':
-            columnNameValidation(this.schema!, this.tableIndex!, element, index);
+            columnNameValidation(this.schema, this.tableIndex, element, index);
             columnDraft[type] = element.value;
             break;
         }
@@ -120,7 +120,7 @@ export default class TableDialogFkColumns extends LitElement {
   }
 
   #getCurrentTableFkColumns = (): { column: ColumnSchema; index: number }[] => {
-    const currentTable = this.schema?.tables?.[this.tableIndex!];
+    const currentTable = this.schema?.tables?.[this.tableIndex];
     return currentTable?.columns.map((column, index) => ({column, index})).filter(item => (item.column as ColumnFkSchema).fk) ?? [];
   };
 
@@ -187,7 +187,7 @@ export default class TableDialogFkColumns extends LitElement {
   }
 
   #getFkColumns = (tableName: string): ColumnFkSchema[] => {
-    const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex!];
+    const table = this.schema?.tables.find(table => table.name === tableName) ?? this.schema?.tables[this.tableIndex];
     return table?.columns.filter(column => {
       const {pk, uq, nn} = column;
       const {fk} = (column as ColumnFkSchema);

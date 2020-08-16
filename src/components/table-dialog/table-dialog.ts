@@ -1,4 +1,4 @@
-import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS, internalProperty } from 'lit-element';
+import { html, customElement, css, CSSResult, TemplateResult, LitElement, unsafeCSS, internalProperty, PropertyValues } from 'lit-element';
 import { actions as tableDialogAction } from '../../store/slices/dialog/table-dialog';
 import store from '../../store/store';
 import { subscribe } from '../../subscribe-store';
@@ -67,22 +67,24 @@ export default class extends LitElement {
       });
 
       this.#currentTableIndex = 0;
-
-      // Fix for the case when old previous table data still persist after opening new dialog
-      this.requestUpdate().then(() => {
-        this.#tableDialogColumns?.requestUpdate();
-        this.#tableDialogFkColumns?.requestUpdate();
-        this.#nameInput?.focus();
-      });
       this.#originalTableName = '';
     }
   };
 
   firstUpdated(): void {
-    this.#form = this.shadowRoot!.querySelector('form')!;
-    this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>('dbg-table-dialog-columns')!;
-    this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>('dbg-table-dialog-fk-columns')!;
-    this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>('[name="name"]') as HTMLInputElement;
+    
+  }
+
+  async update(changedProperties: PropertyValues): Promise<void> {
+    super.update(changedProperties);
+    if (changedProperties.has('open') && this.open) {
+      await this.updateComplete;
+      this.#form = this.shadowRoot!.querySelector('form')!;
+      this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>('dbg-table-dialog-columns')!;
+      this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>('dbg-table-dialog-fk-columns')!;
+      this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>('[name="name"]') as HTMLInputElement;
+      this.#nameInput.focus();
+    }
   }
 
   #addColumn = (): void => {
@@ -202,8 +204,9 @@ export default class extends LitElement {
   }
 
   render(): TemplateResult {
+    if (!this.open) return html``;
     return html`
-      <dbg-dialog ?show=${this.open} showClose centerTitle="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}" @dbg-on-escape="${this.#cancel}">
+      <dbg-dialog ?show=${true} showClose centerTitle="${this.#isEdit ? 'Edit Table': 'Create Table'}" @dbg-on-close="${this.#cancel}" @dbg-on-escape="${this.#cancel}" data-testid="table-dialog">
         <div slot="body">
           <form class="pure-form pure-form-stacked">
             <label>

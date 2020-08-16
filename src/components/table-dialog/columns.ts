@@ -6,10 +6,10 @@ import produce from 'immer';
 
 @customElement('dbg-table-dialog-columns')
 export default class TableDialogColumns extends LitElement {
-  @property( { type: Object } ) schema?: Schema;
-  @property( { type : Number } ) tableIndex?: number;
+  @property( { type: Object } ) schema!: Schema;
+  @property( { type : Number } ) tableIndex!: number;
 
-  #form?: HTMLFormElement;
+  #form!: HTMLFormElement;
   
   static get styles(): CSSResult {
     return css`
@@ -41,7 +41,7 @@ export default class TableDialogColumns extends LitElement {
             columnDraft[type] = element.checked;
             break;
           case 'name':
-            columnNameValidation(this.schema!, this.tableIndex!, element, index);
+            columnNameValidation(this.schema, this.tableIndex, element, index);
             element.dataset.prev;
             columnDraft[type] = element.value;
             break;
@@ -50,8 +50,8 @@ export default class TableDialogColumns extends LitElement {
             break;
         }
       });
-      const currentTable = this.schema?.tables?.[this.tableIndex!];
-      this.#onColumnChange(index, newColumn, currentTable?.columns[index].name!);
+      const currentTable = this.schema.tables[this.tableIndex];
+      this.#onColumnChange(index, newColumn, currentTable.columns[index].name);
     };
     return html`
       <tr>
@@ -104,8 +104,8 @@ export default class TableDialogColumns extends LitElement {
   }
 
   #getCurrentTableColumns = (): { column: ColumnSchema; index: number }[] => {
-    const currentTable = this.schema?.tables?.[this.tableIndex!];
-    return currentTable?.columns.map((column, index) => ({column, index})).filter(item => !(item.column as ColumnFkSchema).fk) ?? [];
+    const currentTable = this.schema.tables[this.tableIndex];
+    return currentTable.columns.map((column, index) => ({column, index})).filter(item => !(item.column as ColumnFkSchema).fk) ?? [];
   };
 
   #renderColumns = (): TemplateResult => {
@@ -124,7 +124,7 @@ export default class TableDialogColumns extends LitElement {
   }
 
   validate(): boolean {
-    return this.#form!.reportValidity();
+    return this.#form.reportValidity();
   }
   
   render(): TemplateResult {

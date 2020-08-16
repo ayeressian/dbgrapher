@@ -12,8 +12,8 @@ import { actions as cloudAction } from '../../store/slices/cloud';
 import DriveProvider from '../drive-provider';
 
 export default class OneDriveProvider implements DriveProvider {
-  #authenticationResult?: AuthenticationResult;
-  #msalInstance?: PublicClientApplication;
+  #authenticationResult!: AuthenticationResult;
+  #msalInstance!: PublicClientApplication;
 
   picker(): Promise<void> {
     const options = {
@@ -40,7 +40,7 @@ export default class OneDriveProvider implements DriveProvider {
         store.dispatch(loadScreenAction.stop());
       },
       advanced: {
-        accessToken: this.#authenticationResult!.accessToken,
+        accessToken: this.#authenticationResult.accessToken,
         endpointHint: 'api.onedrive.com',
         redirectUri: "http://localhost:9999"
       }
@@ -52,7 +52,7 @@ export default class OneDriveProvider implements DriveProvider {
 
   logout = async (): Promise<void> => {
     store.dispatch(loadScreenAction.start());
-    await this.#msalInstance!.logout();
+    await this.#msalInstance.logout();
     store.dispatch(loadScreenAction.stop());
   }
 

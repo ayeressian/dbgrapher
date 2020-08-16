@@ -8,7 +8,7 @@ describe('table-dialog', function() {
   let shadowRoot: ShadowRoot;
 
   beforeEach(async function(): Promise<void> {
-    tableDialog = await initComponentTest('dbg-table-dialog') as TableDialog;
+    tableDialog = await initComponentTest({ elementType: 'dbg-table-dialog', noUpdate: true }) as TableDialog;
     store.dispatch(tableDialogAction.openCreate({x: 0, y: 0}));
     await tableDialog.updateComplete;
     shadowRoot = tableDialog.shadowRoot!;

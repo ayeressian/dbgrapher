@@ -44,9 +44,9 @@ export default class GoogleDriveProvider implements DriveProvider {
   static scope = 'https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.install';
 
   #initPromise: Promise<void>;
-  #fileId?: string;
-  #pickerPromise?: Promise<void>;
-  #pickerPromiseResolve?: () => void;
+  #fileId!: string;
+  #pickerPromise!: Promise<void>;
+  #pickerPromiseResolve!: () => void;
 
   constructor() {
     this.#initPromise = clientLoad.then(() => {
@@ -88,7 +88,7 @@ export default class GoogleDriveProvider implements DriveProvider {
       await this.open(file.id, file.name);
     }
     if ([google.picker.Action.PICKED, google.picker.Action.CANCEL].includes(data.action)) {
-      this.#pickerPromiseResolve!();
+      this.#pickerPromiseResolve();
     }
   };
 
@@ -198,7 +198,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     const file = await gapi.client.drive.files.create({
       resource,
     });
-    this.#fileId = file.result.id;
+    this.#fileId = file.result.id!;
   }
 
   async renameFile(newFileName: string): Promise<void> {

@@ -24,14 +24,14 @@ export default class extends LitElement {
   private open = false;
 
   @internalProperty()
-  private schema?: Schema;
+  private schema!: Schema;
 
-  #currentTableIndex?: number;
+  #currentTableIndex!: number;
   #isEdit = false;
-  #nameInput?: HTMLInputElement;
-  #tableDialogColumns?: TableDialogColumns;
-  #tableDialogFkColumns?: TableDialogFkColumns;
-  #form?: HTMLFormElement;
+  #nameInput!: HTMLInputElement;
+  #tableDialogColumns!: TableDialogColumns;
+  #tableDialogFkColumns!: TableDialogFkColumns;
+  #form!: HTMLFormElement;
   #originalTableName= '';
 
   static get styles(): CSSResult {
@@ -111,7 +111,7 @@ export default class extends LitElement {
 
   #removeColumn = (event: ColumnOpsEvent): void => {
     const index = event.detail.index;
-    this.schema = produce(this.schema!, schema => {
+    this.schema = produce(this.schema, schema => {
       const fkTables = this.#getFkTables(index, this.#getCurrentTable()!, schema);
       if (fkTables.length > 0 && window.confirm(`Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n ${fkTables.map(item => `${item.table.name}.${item.table.columns[item.columnIndex].name}`)}`)) {
         while (fkTables.length > 0) {
@@ -127,7 +127,7 @@ export default class extends LitElement {
 
   #moveUpColumn = (event: ColumnOpsEvent, isFk: boolean): void => {
     const index = event.detail.index;
-    this.schema = produce(this.schema!, schema => {
+    this.schema = produce(this.schema, schema => {
       const currentTableColumns = this.#getCurrentTable(schema).columns;
       const columnToBeMoved = currentTableColumns[index];
       for (let i = index - 1; i >= 0; --i) {
@@ -142,7 +142,7 @@ export default class extends LitElement {
 
   #moveDownColumn = (event: ColumnOpsEvent, isFk: boolean): void => {
     const index = event.detail.index;
-    this.schema = produce(this.schema!, schema => {
+    this.schema = produce(this.schema, schema => {
       const currentTableColumns = this.#getCurrentTable(schema).columns;
       const columnToBeMoved = currentTableColumns[index];
       for (let i = index + 1; i < currentTableColumns.length; ++i) {
@@ -173,11 +173,11 @@ export default class extends LitElement {
     });
   };
 
-  #getCurrentTable = (schema = this.schema): TableSchema => schema?.tables[this.#currentTableIndex!]!;
+  #getCurrentTable = (schema = this.schema): TableSchema => schema.tables[this.#currentTableIndex]!;
 
   #columnChange = (event: ColumnChangeEvent): void => {
     const changeColumn = event.detail.column;
-    this.schema = produce(this.schema!, schema => {
+    this.schema = produce(this.schema, schema => {
       const currentTable = this.#getCurrentTable(schema);
       this.#fixFkColumnNames(changeColumn.name, event.detail.prevName, schema);
       currentTable.columns[event.detail.index] = event.detail.column;
@@ -196,9 +196,9 @@ export default class extends LitElement {
   }
 
   #validate = (): boolean => {
-    return this.#form!.reportValidity() &&
-      this.#tableDialogColumns!.validate() &&
-      this.#tableDialogFkColumns!.validate();
+    return this.#form.reportValidity() &&
+      this.#tableDialogColumns.validate() &&
+      this.#tableDialogFkColumns.validate();
   }
 
   render(): TemplateResult {
@@ -243,7 +243,7 @@ export default class extends LitElement {
       this.#getCurrentTable(schema)!.name = element.value;
     });
     const currentTable = this.#getCurrentTable();
-    if (this.schema!.tables.find((table, index) => table.name === currentTable.name && index !== this.#currentTableIndex)) {
+    if (this.schema.tables.find((table, index) => table.name === currentTable.name && index !== this.#currentTableIndex)) {
       element.setCustomValidity(`There is already a table with the name "${currentTable.name}".`);
     } else {
       element.setCustomValidity('');
@@ -263,7 +263,7 @@ export default class extends LitElement {
     event.preventDefault();
     if (this.#validate()) {
       store.dispatch(dbViewerModeAction.none());
-      store.dispatch(schemaActions.set(this.schema!));
+      store.dispatch(schemaActions.set(this.schema));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
       driveProvider.updateFile();
       store.dispatch(tableDialogAction.close());
@@ -272,7 +272,7 @@ export default class extends LitElement {
 
   #fixFkTableNames = (tableName: string): void => {
     this.schema = produce(this.schema, schema => {
-      schema!.tables.forEach(table => {
+      schema.tables.forEach(table => {
         table.columns.forEach(column => {
           const columnFk = column as ColumnFkSchema;
           if (columnFk.fk && columnFk.fk.table === this.#originalTableName) {

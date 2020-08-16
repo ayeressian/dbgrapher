@@ -5,7 +5,7 @@ import buttonCss from 'purecss/build/buttons-min.css';
 
 @customElement('dbg-top-menu-account-popup')
 export default class extends LitElement {
-  @property( { type : Object } ) cloudState?: CloudState;
+  @property( { type : Object } ) cloudState!: CloudState;
 
   static get styles(): CSSResult {
     return css`
@@ -31,10 +31,10 @@ export default class extends LitElement {
     return html`
       <div class="right-popup">
         <div class="row">
-          You are logged in via ${cloudProviderName()} as ${this.cloudState?.userData?.name}.
+          You are logged in via ${cloudProviderName()} as ${this.cloudState.userData?.name}.
         </div>
         <div class="row">
-          ${this.cloudState?.userData?.email}
+          ${this.cloudState.userData?.email}
         </div>
         
         <div>

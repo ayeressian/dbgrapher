@@ -34,9 +34,10 @@ export default async (schema: Schema): Promise<string | undefined> => {
   sortedTables.forEach((table, index) => {
     let columnSql = '';
     table.columns.forEach((column, index) => {
-      if ((column as ColumnFkSchema).fk) {
-        const table = schema.tables.find((table) => table.name === (column as ColumnFkSchema)!.fk!.table)!;
-        const type = (table.columns.find(tableColumn => tableColumn.name === (column as ColumnFkSchema).fk?.column) as ColumnNoneFkSchema).type;
+      const fkColumn = column as ColumnFkSchema;
+      if (fkColumn.fk != null) {
+        const table = schema.tables.find(table => table.name === fkColumn.fk!.table)!;
+        const type = (table.columns.find(tableColumn => tableColumn.name === fkColumn.fk!.column) as ColumnNoneFkSchema).type;
         columnSql += '  ' + column.name + ' ' + type;
       } else {
         columnSql += '  ' + column.name + ' ' + (column as ColumnNoneFkSchema).type;
@@ -50,8 +51,8 @@ export default async (schema: Schema): Promise<string | undefined> => {
       if (column.pk === true) {
         columnSql += ' PRIMARY KEY';
       }
-      if ((column as ColumnFkSchema).fk != null) {
-        columnSql += ' REFERENCES ' + (column as ColumnFkSchema)!.fk!.table + '(' + (column as ColumnFkSchema)!.fk!.column + ')';
+      if (fkColumn.fk != null) {
+        columnSql += ' REFERENCES ' + fkColumn.fk.table + '(' + fkColumn.fk.column + ')';
       }
       if (index < table.columns.length -1) {
         columnSql += ',';

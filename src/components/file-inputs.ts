@@ -14,15 +14,15 @@ const INVALID_FILE_FORMAT = 'Selected file does not have correct Db designer fil
 
 @customElement('dbg-file-inputs')
 export default class extends LitElement {
-  #resolveLoaded?: Function;
+  #resolveLoaded!: Function;
   #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
-  #sqlFileInput?: HTMLInputElement;
-  #dbgFileInput?: HTMLInputElement;
+  #sqlFileInput!: HTMLInputElement;
+  #dbgFileInput!: HTMLInputElement;
 
   firstUpdated(): void {
     this.#dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#dbgFileInput')!;
     this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>('#sqlFileInput')!;
-    this.#resolveLoaded!();
+    this.#resolveLoaded();
   }
   
   static get styles(): CSSResult {
@@ -39,14 +39,14 @@ export default class extends LitElement {
       if (open) {
         this.#loaded.then(() => {
           store.dispatch(fileOpenDialogActions.close());
-          this.#dbgFileInput!.click();
+          this.#dbgFileInput.click();
         });
       }
     });
     subscribe(state => state.dialog.fileDialog.fileSqlOpenDialog, open => {
       if (open) {
         this.#loaded.then(() => {
-          this.#sqlFileInput!.click();
+          this.#sqlFileInput.click();
         });
       }
     });
@@ -91,7 +91,7 @@ export default class extends LitElement {
       store.dispatch(newOpenDialogActions.close());
 
       //Remove the value, so the same file can be set twice.
-      this.#dbgFileInput!.value = '';
+      this.#dbgFileInput.value = '';
     };
   };
 

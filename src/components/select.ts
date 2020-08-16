@@ -9,12 +9,12 @@ export type OnSelectEvent = CustomEvent<OnSelectEventDetail>;
 
 @customElement('dbg-select')
 export default class extends LitElement {
-  @property( { type : Object } ) options?: Option[];
-  @property( { type : String } ) value?: string;
+  @property( { type : Object } ) options!: Option[];
+  @property( { type : String } ) value!: string;
 
-  #resolveLoaded?: Function;
+  #resolveLoaded!: Function;
   #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
-  #selectElement?: HTMLSelectElement;
+  #selectElement!: HTMLSelectElement;
 
   static get styles(): CSSResult {
     return css`
@@ -27,11 +27,11 @@ export default class extends LitElement {
 
   firstUpdated(): void {
     this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>('select')!;
-    this.#resolveLoaded!();
+    this.#resolveLoaded();
   }
 
   #updateValue = (): void => {
-    this.#selectElement!.value = this.value || '';
+    this.#selectElement.value = this.value || '';
   };
 
   #dispatch = (value: string, index: number): void => {
@@ -64,7 +64,7 @@ export default class extends LitElement {
 
   render(): TemplateResult {
     if (this.#getOptionIndex(this.value) === -1 && (this.options?.length ?? 0) > 0) {
-      const option = this.options![0];
+      const option = this.options[0];
       this.value = typeof option === 'object'? option.value : option;
       this.#dispatch(this.value, 0);
     }

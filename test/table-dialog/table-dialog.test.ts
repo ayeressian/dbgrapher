@@ -18,8 +18,8 @@ describe('table-dialog', function() {
   });
 
   it('should render properly', function() {
-    expect(getTagName('dbg-table-dialog-columns', shadowRoot)).not.toBeNull();
-    expect(getTagName('dbg-table-dialog-fk-columns', shadowRoot)).not.toBeNull();
+    expect(getTagName('dbg-table-dialog-columns', shadowRoot)).toBeDefined();
+    expect(getTagName('dbg-table-dialog-fk-columns', shadowRoot)).toBeDefined();
     expect(getTagName('[data-testid="table-name"]', shadowRoot)).toEqual('INPUT');
     expect(getTagName('[data-testid="save-btn"]', shadowRoot)).toEqual('BUTTON');
     expect(getTagName('[data-testid="cancel-btn"]', shadowRoot)).toEqual('BUTTON');
@@ -28,7 +28,7 @@ describe('table-dialog', function() {
   describe('when table name is not set',  function() {
     it('should not close the dialog on save', function() {
       (shadowRoot.querySelector('[data-testid="save-btn"]') as HTMLButtonElement).click();
-      expect(shadowRoot.querySelector('dbg-dialog')!.hasAttribute('show')).toEqual(true);
+      expect(getTagName('[data-testid="table-dialog"]', shadowRoot)).toBeDefined();
     });
   });
 
@@ -39,7 +39,7 @@ describe('table-dialog', function() {
     it('should close the dialog on save', async () => {
       (shadowRoot.querySelector('[data-testid="save-btn"]') as HTMLButtonElement).click();
       await tableDialog.updateComplete;
-      expect(shadowRoot.querySelector('dbg-dialog')!.hasAttribute('show')).toEqual(false);
+      expect(getTagName('[data-testid="table-dialog"]', shadowRoot)).not.toBeDefined();
     });
   });
 });

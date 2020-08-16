@@ -16,8 +16,8 @@ export default (data: {page: Page}): void => {
           await page.click('dbg-app dbg-table-dialog dbg-dialog [data-testid="save-btn"]');
         });
         it('should close the create table dialog', async () => {
-          const attr = await page.getAttribute('dbg-app dbg-table-dialog dbg-dialog', 'show');
-          expect(attr).toBe(null);
+          const elemHandle = await page.$('dbg-app dbg-table-dialog dbg-dialog [data-testid="table-dialog"]');
+          expect(elemHandle).toBeNull();
         });
         it('should create a new table on the viewer', async () => {
           const elems = await page.$$('dbg-app dbg-db-viewer db-viewer table');
@@ -32,8 +32,8 @@ export default (data: {page: Page}): void => {
           await page.click('dbg-app dbg-table-dialog dbg-dialog [data-testid="save-btn"]');
         });
         it('should not close the create table dialog', async () => {
-          const attr = await page.getAttribute('dbg-app dbg-table-dialog dbg-dialog', 'show');
-          expect(attr).toBe('');
+          const elemHandle = await page.$('dbg-app dbg-table-dialog dbg-dialog [data-testid="table-dialog"]');
+          expect(elemHandle).toBeDefined();
         });
       });
     });

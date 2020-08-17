@@ -28,5 +28,6 @@ jobs:
         source: ".github/env.json"
         target: "env.json"
     - run: npm i
+    - run: npm run lint
     - run: npm run test-headless
     - run: npm run start-and-e2e

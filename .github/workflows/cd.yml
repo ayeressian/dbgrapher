@@ -9,31 +9,31 @@ jobs:
   cd:
     runs-on: ubuntu-latest
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
 
-    - run: npm i
-    - run: npm run lint
-    - run: npm run test-headless
-    - name: create env.json file
-      run: >
-        cat <<EOF >./env.json
-          {
-            "googleDrive": {
-              "developerKey": "${{ secrets.GDRIVE_DEV_KEY }}",
-              "clientId": "${{ secrets.GDRIVE_CLIENT_ID }}",
-              "appId": "${{ secrets.GDRIVE_APP_ID }}"
-            },
-            "oneDrive": {
-              "clientId": "${{ secrets.ONEDRIVE_CLIENT_ID }}"
+      - run: npm i
+      - run: npm run lint
+      - run: npm run test-headless
+      - name: create env.json file
+        run: >
+          cat <<EOF >./env.json
+            {
+              "googleDrive": {
+                "developerKey": "${{ secrets.GDRIVE_DEV_KEY }}",
+                "clientId": "${{ secrets.GDRIVE_CLIENT_ID }}",
+                "appId": "${{ secrets.GDRIVE_APP_ID }}"
+              },
+              "oneDrive": {
+                "clientId": "${{ secrets.ONEDRIVE_CLIENT_ID }}"
+              }
             }
-          }
-        EOF
-    - run: npm run start-and-e2e
-    - run: npm run build-prod
-    - name: Deploy to BunnyCDN
-      uses: ayeressian/bunnycdn-storage-deploy@master
-      with:
-        source: "dist"
-        storageZoneName: "dbgrapher"
-        accessKey: "${{ secrets.BUNNY_CDN_STORAGE_KEY }}"
+          EOF
+      - run: npm run start-and-e2e
+      - run: npm run build-prod
+      - name: Deploy to BunnyCDN
+        uses: ayeressian/bunnycdn-storage-deploy@master
+        with:
+          source: "dist"
+          storageZoneName: "dbgrapher"
+          accessKey: "${{ secrets.BUNNY_CDN_STORAGE_KEY }}"

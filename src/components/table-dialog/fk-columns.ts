@@ -211,9 +211,9 @@ export default class TableDialogFkColumns extends LitElement {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>PK</th>
-                <th>UQ</th>
-                <th>NN</th>
+                <th title="Primary key">PK</th>
+                <th title="Unique">UQ</th>
+                <th title="Not null">NN</th>
                 <th>Foreign Table</th>
                 <th>Foreign Column</th>
                 <th />

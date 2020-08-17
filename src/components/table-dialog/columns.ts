@@ -187,9 +187,9 @@ export default class TableDialogColumns extends LitElement {
               <tr>
                 <th>Name</th>
                 <th>Type</th>
-                <th>PK</th>
-                <th>UQ</th>
-                <th>NN</th>
+                <th title="Primary key">PK</th>
+                <th title="Unique">UQ</th>
+                <th title="Not null">NN</th>
                 <th />
                 <th />
                 <th />

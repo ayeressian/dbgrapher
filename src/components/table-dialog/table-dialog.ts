@@ -71,10 +71,6 @@ export default class extends LitElement {
     }
   };
 
-  firstUpdated(): void {
-    
-  }
-
   async update(changedProperties: PropertyValues): Promise<void> {
     super.update(changedProperties);
     if (changedProperties.has('open') && this.open) {

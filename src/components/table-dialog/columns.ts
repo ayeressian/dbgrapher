@@ -1,16 +1,35 @@
-import { customElement, LitElement, TemplateResult, html, property, CSSResult, css } from 'lit-element';
-import { styles as commonStyles, ColumnChangeEventDetail, removeColumn, moveUpColumn, moveDownColumn } from './common-columns';
-import { ColumnNoneFkSchema, ColumnFkSchema, Schema, ColumnSchema } from 'db-viewer-component';
-import columnNameValidation from './column-name-validation';
-import produce from 'immer';
+import {
+  customElement,
+  LitElement,
+  TemplateResult,
+  html,
+  property,
+  CSSResult,
+  css,
+} from "lit-element";
+import {
+  styles as commonStyles,
+  ColumnChangeEventDetail,
+  removeColumn,
+  moveUpColumn,
+  moveDownColumn,
+} from "./common-columns";
+import {
+  ColumnNoneFkSchema,
+  ColumnFkSchema,
+  Schema,
+  ColumnSchema,
+} from "db-viewer-component";
+import columnNameValidation from "./column-name-validation";
+import produce from "immer";
 
-@customElement('dbg-table-dialog-columns')
+@customElement("dbg-table-dialog-columns")
 export default class TableDialogColumns extends LitElement {
-  @property( { type: Object } ) schema!: Schema;
-  @property( { type : Number } ) tableIndex!: number;
+  @property({ type: Object }) schema!: Schema;
+  @property({ type: Number }) tableIndex!: number;
 
   #form!: HTMLFormElement;
-  
+
   static get styles(): CSSResult {
     return css`
       table {
@@ -20,27 +39,36 @@ export default class TableDialogColumns extends LitElement {
     `;
   }
 
-  #onColumnChange = (index: number, column: ColumnNoneFkSchema, prevName: string): void => {
+  #onColumnChange = (
+    index: number,
+    column: ColumnNoneFkSchema,
+    prevName: string
+  ): void => {
     const detail: ColumnChangeEventDetail = {
       column,
       index,
       prevName,
     };
-    const event = new CustomEvent('dbg-column-change', { detail });
+    const event = new CustomEvent("dbg-column-change", { detail });
     this.dispatchEvent(event);
-  }
+  };
 
-  #renderColumn = (column: ColumnNoneFkSchema, index: number): TemplateResult => {
-    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (event: InputEvent): void => {
-      const newColumn = produce(column, columnDraft => {
+  #renderColumn = (
+    column: ColumnNoneFkSchema,
+    index: number
+  ): TemplateResult => {
+    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (
+      event: InputEvent
+    ): void => {
+      const newColumn = produce(column, (columnDraft) => {
         const element = event.target as HTMLInputElement;
-        switch(type){
-          case 'nn':
-          case 'uq':
-          case 'pk':
+        switch (type) {
+          case "nn":
+          case "uq":
+          case "pk":
             columnDraft[type] = element.checked;
             break;
-          case 'name':
+          case "name":
             columnNameValidation(this.schema, this.tableIndex, element, index);
             element.dataset.prev;
             columnDraft[type] = element.value;
@@ -57,115 +85,140 @@ export default class TableDialogColumns extends LitElement {
       <tr>
         <td>
           <input
-            @input="${onColumnChange('name')}"
+            @input="${onColumnChange("name")}"
             .value="${column.name}"
             required
           />
         </td>
         <td>
           <input
-            @input="${onColumnChange('type')}"
+            @input="${onColumnChange("type")}"
             .value="${column.type}"
             required
           />
         </td>
         <td>
           <input
-            type='checkbox'
-            @change="${onColumnChange('pk')}"
+            type="checkbox"
+            @change="${onColumnChange("pk")}"
             .checked="${column.pk}"
           />
         </td>
         <td>
           <input
-            type='checkbox'
-            @change="${onColumnChange('uq')}"
+            type="checkbox"
+            @change="${onColumnChange("uq")}"
             .checked="${column.uq}"
           />
         </td>
         <td>
           <input
-            type='checkbox'
-            @change="${onColumnChange('nn')}"
+            type="checkbox"
+            @change="${onColumnChange("nn")}"
             .checked="${column.nn}"
           />
         </td>
         <td>
-          <div class="remove-icon" @click="${(): void => removeColumn.bind(this)(index)}" title="Remove row"></div>
+          <div
+            class="remove-icon"
+            @click="${(): void => removeColumn.bind(this)(index)}"
+            title="Remove row"
+          ></div>
         </td>
         <td>
-          <div class="move-up-icon" @click="${(): void => moveUpColumn.bind(this)(index)}"  title="Move row up"></div>
+          <div
+            class="move-up-icon"
+            @click="${(): void => moveUpColumn.bind(this)(index)}"
+            title="Move row up"
+          ></div>
         </td>
         <td>
-          <div class="move-down-icon" @click="${(): void => moveDownColumn.bind(this)(index)}"  title="Move row down"></div>
+          <div
+            class="move-down-icon"
+            @click="${(): void => moveDownColumn.bind(this)(index)}"
+            title="Move row down"
+          ></div>
         </td>
       </tr>
     `;
-  }
+  };
 
   #getCurrentTableColumns = (): { column: ColumnSchema; index: number }[] => {
     const currentTable = this.schema.tables[this.tableIndex];
-    return currentTable.columns.map((column, index) => ({column, index})).filter(item => !(item.column as ColumnFkSchema).fk) ?? [];
+    return (
+      currentTable.columns
+        .map((column, index) => ({ column, index }))
+        .filter((item) => !(item.column as ColumnFkSchema).fk) ?? []
+    );
   };
 
   #renderColumns = (): TemplateResult => {
     const currentTableColumns = this.#getCurrentTableColumns();
     let result;
     if (currentTableColumns.length > 0) {
-      result = html`${currentTableColumns.map(({column, index}) => this.#renderColumn(column as ColumnNoneFkSchema, index))}`;
+      result = html`${currentTableColumns.map(({ column, index }) =>
+        this.#renderColumn(column as ColumnNoneFkSchema, index)
+      )}`;
     } else {
-      result = html`<tr><td class="no-column" colspan="8">No columns to show</td></tr>`;
+      result = html`<tr>
+        <td class="no-column" colspan="8">No columns to show</td>
+      </tr>`;
     }
     return html`${result}`;
-  }
+  };
 
   firstUpdated(): void {
-    this.#form = this.shadowRoot!.querySelector('form')!;
+    this.#form = this.shadowRoot!.querySelector("form")!;
   }
 
   validate(): boolean {
     return this.#form.reportValidity();
   }
-  
+
   render(): TemplateResult {
-    return html`
-      <div class="container">
-        <form class="pure-form">
-          <div class="title">
-            Columns
-          </div>
-          <div class="table-container">
-            <table class="pure-table pure-table-horizontal">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th>PK</th>
-                  <th>UQ</th>
-                  <th>NN</th>
-                  <th/>
-                  <th/>
-                  <th/>
-                </tr>
-              </thead>
-              <tbody>${this.#renderColumns()}</tbody>
-            </table>
-          </div>
-          <button class="pure-button add-column" @click="${this.#addColumn}">Add column</button>
-        </form>
-      </div>`;
+    return html` <div class="container">
+      <form class="pure-form">
+        <div class="title">
+          Columns
+        </div>
+        <div class="table-container">
+          <table class="pure-table pure-table-horizontal">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th>PK</th>
+                <th>UQ</th>
+                <th>NN</th>
+                <th />
+                <th />
+                <th />
+              </tr>
+            </thead>
+            <tbody>
+              ${this.#renderColumns()}
+            </tbody>
+          </table>
+        </div>
+        <button class="pure-button add-column" @click="${this.#addColumn}">
+          Add column
+        </button>
+      </form>
+    </div>`;
   }
 
   #addColumn = async (event: Event): Promise<void> => {
     event.preventDefault();
-    const newEvent = new CustomEvent('dbg-add-column');
+    const newEvent = new CustomEvent("dbg-add-column");
     this.dispatchEvent(newEvent);
 
     //Focus on newly added column name
     await this.updateComplete;
     await this.updateComplete.then(() => {
-      const lastNameInput = this.shadowRoot!.querySelector('tbody tr:last-child td:first-child input') as HTMLInputElement;
+      const lastNameInput = this.shadowRoot!.querySelector(
+        "tbody tr:last-child td:first-child input"
+      ) as HTMLInputElement;
       lastNameInput.focus();
     });
-  }
+  };
 }

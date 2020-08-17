@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Schema } from 'db-viewer-component';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Schema } from "db-viewer-component";
 
 type Data = {
   past: Schema[];
@@ -11,26 +11,26 @@ const slice = createSlice({
   initialState: {
     past: [],
     future: [],
-    present: {tables: []}
+    present: { tables: [] },
   } as Data,
-  name: 'schema',
+  name: "schema",
   reducers: {
     initiate: (_, action: PayloadAction<Schema | undefined>): Data => {
       return {
         past: [],
         future: [],
-        present: action.payload ?? {tables: []}
+        present: action.payload ?? { tables: [] },
       };
     },
     set: (state, action: PayloadAction<Schema>): void => {
-      const {past, present} = state;
+      const { past, present } = state;
       if (present) past.push(present);
       state.past = past;
       state.present = action.payload;
       state.future = [];
     },
     undo: (state): void => {
-      const {past, future} = state;
+      const { past, future } = state;
       let { present } = state;
       if (past.length > 0) {
         future.push(present);
@@ -41,7 +41,7 @@ const slice = createSlice({
       state.future = future;
     },
     redo: (state): void => {
-      const {past, future} = state;
+      const { past, future } = state;
       let { present } = state;
       if (future.length > 0) {
         past.push(present);

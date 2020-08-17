@@ -5,7 +5,7 @@ module.exports = {
     sourceType: 'module',
     project: "./tsconfig.json"
   },
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'prettier'],
   env: {
     browser: true,
     node: true,
@@ -15,12 +15,14 @@ module.exports = {
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    'prettier'
   ],
   parserOptions: {
     "project": "./tsconfig.json"
   },
   rules: {
     "@typescript-eslint/no-non-null-assertion": 0,
-    "semi": 2
+    "semi": 2,
+    "prettier/prettier": 2
   }
 };

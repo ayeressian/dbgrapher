@@ -1,20 +1,27 @@
-import initProviderFactory from '../drive/factory';
-import './import-components';
-import { LitElement, html, customElement, css, CSSResult, TemplateResult } from 'lit-element';
-import store from '../store/store';
-import ResetStoreException from '../reset-exception';
+import initProviderFactory from "../drive/factory";
+import "./import-components";
+import {
+  LitElement,
+  html,
+  customElement,
+  css,
+  CSSResult,
+  TemplateResult,
+} from "lit-element";
+import store from "../store/store";
+import ResetStoreException from "../reset-exception";
 
 initProviderFactory();
 
-@customElement('dbg-app')
+@customElement("dbg-app")
 export default class extends LitElement {
   static get styles(): CSSResult {
-    return css`  
+    return css`
       * {
         font-family: RobotoCondensed, Arial;
         color: #333;
       }
-      
+
       .main_container {
         display: grid;
         grid-template-columns: 60px 1fr;
@@ -22,15 +29,15 @@ export default class extends LitElement {
         width: 100%;
         height: 100%;
       }
-      
+
       dbg-side-panel {
         grid-row: 2;
       }
-      
+
       dbg-db-viewer {
         grid-row: 2;
       }
-      
+
       dbg-top-menu-wrapper {
         grid-column: 1 / 3;
         grid-row: 1;
@@ -59,15 +66,19 @@ export default class extends LitElement {
 
   #handleErrors = (error: Error, event: Event): void => {
     if (error instanceof ResetStoreException) {
-      store.dispatch({type: 'RESET'});
+      store.dispatch({ type: "RESET" });
       event.preventDefault();
     }
-  } 
+  };
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    window.addEventListener('error', errorEvent => this.#handleErrors(errorEvent.error, errorEvent));
-    window.addEventListener('unhandledrejection', errorEvent => this.#handleErrors(errorEvent.reason, errorEvent));
+    window.addEventListener("error", (errorEvent) =>
+      this.#handleErrors(errorEvent.error, errorEvent)
+    );
+    window.addEventListener("unhandledrejection", (errorEvent) =>
+      this.#handleErrors(errorEvent.reason, errorEvent)
+    );
   }
 }

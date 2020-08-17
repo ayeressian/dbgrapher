@@ -1,17 +1,26 @@
-import { LitElement, html, customElement, css, unsafeCSS, CSSResult, TemplateResult, internalProperty } from 'lit-element';
-import { actions as dbViewerModeAction } from '../store/slices/db-viewer-mode';
-import store from '../store/store';
-import createIconImg from '../../asset/table.svg';
-import relationOneToManyIcon from '../../asset/relation-one-to-many.svg';
-import relationOneToOneIcon from '../../asset/relation-one-to-one.svg';
-import relationZeroToOneIcon from '../../asset/relation-zero-to-one.svg';
-import relationZeroToManyIcon from '../../asset/relation-zero-to-many.svg';
-import clearIcon from '../../asset/clear.svg';
-import { classMap } from 'lit-html/directives/class-map';
-import { subscribe } from '../subscribe-store';
-import DbViewerMode from '../store/slices/db-viewer-mode-type';
+import {
+  LitElement,
+  html,
+  customElement,
+  css,
+  unsafeCSS,
+  CSSResult,
+  TemplateResult,
+  internalProperty,
+} from "lit-element";
+import { actions as dbViewerModeAction } from "../store/slices/db-viewer-mode";
+import store from "../store/store";
+import createIconImg from "../../asset/table.svg";
+import relationOneToManyIcon from "../../asset/relation-one-to-many.svg";
+import relationOneToOneIcon from "../../asset/relation-one-to-one.svg";
+import relationZeroToOneIcon from "../../asset/relation-zero-to-one.svg";
+import relationZeroToManyIcon from "../../asset/relation-zero-to-many.svg";
+import clearIcon from "../../asset/clear.svg";
+import { classMap } from "lit-html/directives/class-map";
+import { subscribe } from "../subscribe-store";
+import DbViewerMode from "../store/slices/db-viewer-mode-type";
 
-@customElement('dbg-side-panel')
+@customElement("dbg-side-panel")
 export default class extends LitElement {
   static get styles(): CSSResult {
     return css`
@@ -24,7 +33,7 @@ export default class extends LitElement {
         flex-direction: column;
         justify-content: center;
       }
-      
+
       .left_toolbar .action {
         width: 60px;
         height: 80px;
@@ -34,19 +43,19 @@ export default class extends LitElement {
         background-position: center;
         background-size: 35px;
       }
-      
+
       .left_toolbar .action:hover {
         background-color: #dddddd;
       }
-      
+
       .left_toolbar .action.active {
         background-color: #d68080;
       }
-      
+
       .left_toolbar .action.create_table {
         background-image: url(${unsafeCSS(createIconImg)});
       }
-      
+
       .left_toolbar .action.create_relation_one_to_many {
         background-image: url(${unsafeCSS(relationOneToManyIcon)});
       }
@@ -75,24 +84,48 @@ export default class extends LitElement {
   render(): TemplateResult {
     return html`
       <ul class="left_toolbar">
-        <li class="action create_table ${classMap({active: this.mode === DbViewerMode.CreateTable})}"
+        <li
+          class="action create_table ${classMap({
+            active: this.mode === DbViewerMode.CreateTable,
+          })}"
           title="Create table"
-          @click="${this.#changeMode(DbViewerMode.CreateTable)}"/>
-        <li class="action create_relation_one_to_many ${classMap({active: this.mode === DbViewerMode.RelationOneToMany})}"
+          @click="${this.#changeMode(DbViewerMode.CreateTable)}"
+        />
+        <li
+          class="action create_relation_one_to_many ${classMap({
+            active: this.mode === DbViewerMode.RelationOneToMany,
+          })}"
           title="Create one to many relation"
-          @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"/>
-        <li class="action create_relation_zero_to_many ${classMap({active: this.mode === DbViewerMode.RelationZeroToMany})}"
+          @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"
+        />
+        <li
+          class="action create_relation_zero_to_many ${classMap({
+            active: this.mode === DbViewerMode.RelationZeroToMany,
+          })}"
           title="Create zero to many relation"
-          @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"/>
-        <li class="action create_relation_one_to_one ${classMap({active: this.mode === DbViewerMode.RelationOneToOne})}"
+          @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"
+        />
+        <li
+          class="action create_relation_one_to_one ${classMap({
+            active: this.mode === DbViewerMode.RelationOneToOne,
+          })}"
           title="Create one to one relation"
-          @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"/>
-        <li class="action create_relation_zero_to_one ${classMap({active: this.mode === DbViewerMode.RelationZeroToOne})}"
+          @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"
+        />
+        <li
+          class="action create_relation_zero_to_one ${classMap({
+            active: this.mode === DbViewerMode.RelationZeroToOne,
+          })}"
           title="Create zero to one relation"
-          @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"/>
-        <li class="action clear ${classMap({active: this.mode === DbViewerMode.Remove})}"
+          @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"
+        />
+        <li
+          class="action clear ${classMap({
+            active: this.mode === DbViewerMode.Remove,
+          })}"
           title="Remove table or relation"
-          @click="${this.#changeMode(DbViewerMode.Remove)}"/>
+          @click="${this.#changeMode(DbViewerMode.Remove)}"
+        />
       </ul>
     `;
   }
@@ -100,9 +133,12 @@ export default class extends LitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(state => state.dbViewerMode, dbViewerMode => {
-      this.mode = dbViewerMode;
-    });
+    subscribe(
+      (state) => state.dbViewerMode,
+      (dbViewerMode) => {
+        this.mode = dbViewerMode;
+      }
+    );
   }
 
   #changeMode = (mode: DbViewerMode) => (): void => {
@@ -111,5 +147,5 @@ export default class extends LitElement {
     } else {
       store.dispatch(dbViewerModeAction.changeMode(mode));
     }
-  }
+  };
 }

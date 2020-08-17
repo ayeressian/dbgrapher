@@ -1,13 +1,13 @@
-import { css, unsafeCSS } from 'lit-element';
-import formsCss from 'purecss/build/forms-min.css';
-import buttonCss from 'purecss/build/buttons-min.css';
-import tableCss from 'purecss/build/tables-min.css';
-import removeSvg from '../../../asset/remove.svg';
-import moveUpSvg from '../../../asset/move-up.svg';
-import moveDownSvg from '../../../asset/move-down.svg';
-import { ColumnSchema } from 'db-viewer-component';
-import TableDialogColumns from './columns';
-import TableDialogFkColumns from './fk-columns';
+import { css, unsafeCSS } from "lit-element";
+import formsCss from "purecss/build/forms-min.css";
+import buttonCss from "purecss/build/buttons-min.css";
+import tableCss from "purecss/build/tables-min.css";
+import removeSvg from "../../../asset/remove.svg";
+import moveUpSvg from "../../../asset/move-up.svg";
+import moveDownSvg from "../../../asset/move-down.svg";
+import { ColumnSchema } from "db-viewer-component";
+import TableDialogColumns from "./columns";
+import TableDialogFkColumns from "./fk-columns";
 
 export const styles = css`
   ${unsafeCSS(formsCss)}
@@ -92,26 +92,35 @@ export interface ColumnChangeEventDetail {
 
 export type ColumnChangeEvent = CustomEvent<ColumnChangeEventDetail>;
 
-export function removeColumn(this: TableDialogColumns | TableDialogFkColumns, index: number): void {
+export function removeColumn(
+  this: TableDialogColumns | TableDialogFkColumns,
+  index: number
+): void {
   const detail: ColumnOpsDetail = {
     index,
   };
-  const newEvent = new CustomEvent('dbg-remove-column', { detail });
+  const newEvent = new CustomEvent("dbg-remove-column", { detail });
   this.dispatchEvent(newEvent);
 }
 
-export function moveUpColumn(this: TableDialogColumns | TableDialogFkColumns, index: number): void {
+export function moveUpColumn(
+  this: TableDialogColumns | TableDialogFkColumns,
+  index: number
+): void {
   const detail: ColumnOpsDetail = {
     index,
   };
-  const newEvent = new CustomEvent('dbg-move-up-column', { detail });
+  const newEvent = new CustomEvent("dbg-move-up-column", { detail });
   this.dispatchEvent(newEvent);
 }
 
-export function moveDownColumn(this: TableDialogColumns | TableDialogFkColumns, index: number): void {
+export function moveDownColumn(
+  this: TableDialogColumns | TableDialogFkColumns,
+  index: number
+): void {
   const detail: ColumnOpsDetail = {
     index,
   };
-  const newEvent = new CustomEvent('dbg-move-down-column', { detail });
+  const newEvent = new CustomEvent("dbg-move-down-column", { detail });
   this.dispatchEvent(newEvent);
 }

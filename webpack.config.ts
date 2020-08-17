@@ -4,23 +4,23 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 
 export default {
-  entry: './src/index.ts',
-  devtool: 'inline-source-map',
+  entry: "./src/index.ts",
+  devtool: "inline-source-map",
   devServer: {
     contentBase: "dist",
-    port: 9999
+    port: 9999,
   },
   plugins: [
     new CopyPlugin([
       {
-        from: 'asset/',
-        to: 'asset/'
+        from: "asset/",
+        to: "asset/",
       },
     ]),
     new HtmlWebpackPlugin({
       hash: true,
-      template: 'src/index.html'
-    })
+      template: "src/index.html",
+    }),
   ],
   module: {
     rules: [
@@ -30,30 +30,30 @@ export default {
           {
             loader: "url-loader",
             options: {
-              limit: 8192
-            }
-          }
-        ]
+              limit: 8192,
+            },
+          },
+        ],
       },
       {
         test: /(?<!\.d)\.ts?$/,
-        loader: "ts-loader"
+        loader: "ts-loader",
       },
       {
         test: /\.d\.ts$/,
-        loader: "ignore-loader"
+        loader: "ignore-loader",
       },
       {
         test: /\.css$/,
-        loader: "css-loader"
+        loader: "css-loader",
       },
-    ]
+    ],
   },
   resolve: {
-    extensions: [".ts", ".js"]
+    extensions: [".ts", ".js"],
   },
   output: {
     filename: "bundle.js",
-    path: path.resolve(__dirname, "dist")
-  }
+    path: path.resolve(__dirname, "dist"),
+  },
 } as webpack.Configuration;

@@ -1,4 +1,4 @@
-import { css } from 'lit-element';
+import { css } from "lit-element";
 
 export default css`
   .operation-icon {
@@ -40,7 +40,7 @@ export default css`
 
   .operation-container:hover {
     cursor: pointer;
-    background-color: rgba(0,0,0,.05);
+    background-color: rgba(0, 0, 0, 0.05);
     background-blend-mode: multiply;
   }
 `;

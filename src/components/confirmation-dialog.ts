@@ -1,7 +1,16 @@
-import { LitElement, customElement, CSSResult, TemplateResult, css, html, property, unsafeCSS } from 'lit-element';
-import buttonCss from 'purecss/build/buttons-min.css';
+import {
+  LitElement,
+  customElement,
+  CSSResult,
+  TemplateResult,
+  css,
+  html,
+  property,
+  unsafeCSS,
+} from "lit-element";
+import buttonCss from "purecss/build/buttons-min.css";
 
-@customElement('dbg-confirmation-dialog')
+@customElement("dbg-confirmation-dialog")
 export default class ConfirmationDialog extends LitElement {
   private static instance: ConfirmationDialog;
   private static resultResolve: (result: boolean) => void;
@@ -11,13 +20,13 @@ export default class ConfirmationDialog extends LitElement {
   open = false;
 
   @property()
-  message = '';
+  message = "";
 
   @property()
-  confirmText = '';
+  confirmText = "";
 
   @property()
-  cancelText = '';
+  cancelText = "";
 
   static get styles(): CSSResult {
     return css`
@@ -37,8 +46,20 @@ export default class ConfirmationDialog extends LitElement {
             ${this.message}
           </div>
           <div class="row">
-            <button class="pure-button" @click="${this.#confirm}" data-testid="confirm-dialog-confirm-btn">${this.confirmText}</button>
-            <button class="pure-button" @click="${this.#cancel}" data-testid="confirm-dialog-cancel-btn">${this.cancelText}</button>
+            <button
+              class="pure-button"
+              @click="${this.#confirm}"
+              data-testid="confirm-dialog-confirm-btn"
+            >
+              ${this.confirmText}
+            </button>
+            <button
+              class="pure-button"
+              @click="${this.#cancel}"
+              data-testid="confirm-dialog-cancel-btn"
+            >
+              ${this.cancelText}
+            </button>
           </div>
         </div>
       </dbg-dialog>
@@ -46,7 +67,7 @@ export default class ConfirmationDialog extends LitElement {
   }
 
   #confirm = (): void => {
-    this.message = '';
+    this.message = "";
     this.open = false;
     ConfirmationDialog.resultResolve(true);
     ConfirmationDialog.result = undefined;
@@ -54,7 +75,7 @@ export default class ConfirmationDialog extends LitElement {
 
   #cancel = (): void => {
     if (this.open) {
-      this.message = '';
+      this.message = "";
       this.open = false;
       ConfirmationDialog.resultResolve(false);
       ConfirmationDialog.result = undefined;
@@ -63,17 +84,25 @@ export default class ConfirmationDialog extends LitElement {
 
   constructor() {
     super();
-    if (ConfirmationDialog.instance) throw new Error('ConfirmationDialog is singlton. ConfirmationDialog instance already exist.');
+    if (ConfirmationDialog.instance)
+      throw new Error(
+        "ConfirmationDialog is singlton. ConfirmationDialog instance already exist."
+      );
     ConfirmationDialog.instance = this;
   }
 
-  static confirm(message: string, confirmText = 'Confirm', cancelText = 'Cancel'): Promise<boolean> {
+  static confirm(
+    message: string,
+    confirmText = "Confirm",
+    cancelText = "Cancel"
+  ): Promise<boolean> {
     ConfirmationDialog.instance.message = message;
     ConfirmationDialog.instance.open = true;
     ConfirmationDialog.instance.confirmText = confirmText;
     ConfirmationDialog.instance.cancelText = cancelText;
-    if (ConfirmationDialog.result) throw new Error('Another unresolved confirmation dialog exist.');
-    ConfirmationDialog.result = new Promise<boolean>(resolve => {
+    if (ConfirmationDialog.result)
+      throw new Error("Another unresolved confirmation dialog exist.");
+    ConfirmationDialog.result = new Promise<boolean>((resolve) => {
       ConfirmationDialog.resultResolve = resolve;
     });
 

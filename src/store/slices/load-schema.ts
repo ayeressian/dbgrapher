@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 export enum State {
-  LOAD = 'LOAD',
-  LOAD_VIEWPORT_UNCHANGE = 'LOAD_VIEWPORT_UNCHANGE',
-  DEFAULT = 'DEFAULT',
+  LOAD = "LOAD",
+  LOAD_VIEWPORT_UNCHANGE = "LOAD_VIEWPORT_UNCHANGE",
+  DEFAULT = "DEFAULT",
 }
 
 const slice = createSlice({
   initialState: State.LOAD,
-  name: 'setSchema',
+  name: "setSchema",
   reducers: {
     load: (): State => State.LOAD,
     loadViewportUnchange: (): State => State.LOAD_VIEWPORT_UNCHANGE,

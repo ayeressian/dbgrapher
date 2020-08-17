@@ -12,10 +12,13 @@ import store from "../store/store";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as newOpenDialogActions } from "../store/slices/dialog/new-open-dialog";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
-import { actions as cloudActions, CloudUpdateState } from '../store/slices/cloud';
-import fileSvg from '../../asset/file.svg';
-import folderOpenSvg from '../../asset/folder-open.svg';
-import commonStyles from './common-icon-dialog-styling';
+import {
+  actions as cloudActions,
+  CloudUpdateState,
+} from "../store/slices/cloud";
+import fileSvg from "../../asset/file.svg";
+import folderOpenSvg from "../../asset/folder-open.svg";
+import commonStyles from "./common-icon-dialog-styling";
 import { subscribe } from "../subscribe-store";
 import { driveProvider } from "../drive/factory";
 
@@ -49,11 +52,14 @@ export default class extends ConnectLitElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(state => state.dialog.newOpenDialog, open => {
-      this.open = open;
-    });
+    subscribe(
+      (state) => state.dialog.newOpenDialog,
+      (open) => {
+        this.open = open;
+      }
+    );
   }
-  
+
   render(): TemplateResult {
     return html`
       <dbg-dialog ?show=${this.open}>
@@ -61,8 +67,7 @@ export default class extends ConnectLitElement {
           <div class="operations">
             <div class="operation-container" @click="${this.#newFile}">
               <div class="operation-icon-container">
-                <div class="new-file operation-icon">
-                </div>
+                <div class="new-file operation-icon"></div>
               </div>
               <h4 class="operation" id="new-file">
                 New Schema
@@ -70,8 +75,7 @@ export default class extends ConnectLitElement {
             </div>
             <div class="operation-container" @click="${this.#openFile}">
               <div class="operation-icon-container">
-                <div class="folder-open operation-icon">
-                </div>
+                <div class="folder-open operation-icon"></div>
               </div>
               <h4 class="operation" id="open-file">
                 Open Schema
@@ -84,7 +88,7 @@ export default class extends ConnectLitElement {
   }
 
   #newFile = (): void => {
-    store.dispatch(cloudActions.setFileName('untitled.dbgr'));
+    store.dispatch(cloudActions.setFileName("untitled.dbgr"));
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
     store.dispatch(schemaActions.initiate());
     store.dispatch(loadSchemaActions.load());

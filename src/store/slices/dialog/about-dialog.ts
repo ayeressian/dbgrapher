@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   initialState: false,
-  name: 'aboutDialog',
+  name: "aboutDialog",
   reducers: {
     close: (): boolean => false,
     open: (): boolean => true,

@@ -1,24 +1,24 @@
-import Dialog from '../src/components/dialog';
-import { initComponentTest, removeElement } from './helper';
+import Dialog from "../src/components/dialog";
+import { initComponentTest, removeElement } from "./helper";
 
-describe('dialog', function() {
+describe("dialog", function () {
   let dialog: Dialog;
 
   beforeEach(async () => {
-    dialog = await initComponentTest('dbg-dialog') as Dialog;
+    dialog = (await initComponentTest("dbg-dialog")) as Dialog;
   });
 
-  afterEach(function() {
+  afterEach(function () {
     removeElement(dialog);
   });
 
-  it ('should not be visible', () => {
-    expect(dialog.shadowRoot!.querySelector('div')).toHaveClass('hide');
+  it("should not be visible", () => {
+    expect(dialog.shadowRoot!.querySelector("div")).toHaveClass("hide");
   });
 
-  it ('should be visible when show attribute exist', async () => {
-    dialog.setAttribute('show', '');
+  it("should be visible when show attribute exist", async () => {
+    dialog.setAttribute("show", "");
     await dialog.updateComplete;
-    expect(dialog.shadowRoot!.querySelector('div')).not.toHaveClass('hide');
+    expect(dialog.shadowRoot!.querySelector("div")).not.toHaveClass("hide");
   });
 });

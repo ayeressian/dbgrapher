@@ -9,14 +9,17 @@ import {
 } from "lit-element";
 import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
-import localSvg from '../../asset/folder-open.svg';
-import googleDriveSvg from '../../asset/google-drive.svg';
-import oneDriveSvg from '../../asset/onedrive.svg';
+import localSvg from "../../asset/folder-open.svg";
+import googleDriveSvg from "../../asset/google-drive.svg";
+import oneDriveSvg from "../../asset/onedrive.svg";
 import { subscribe } from "../subscribe-store";
 import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
-import { actions as fileOpenChooserAction, FileOpenDialogState } from '../store/slices/dialog/file-open-chooser-dialog';
+import {
+  actions as fileOpenChooserAction,
+  FileOpenDialogState,
+} from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
-import commonStyles from './common-icon-dialog-styling';
+import commonStyles from "./common-icon-dialog-styling";
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
@@ -47,11 +50,14 @@ export default class extends ConnectLitElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    subscribe(state => state.dialog.fileOpenChooserDialog, open => {
-      this.open = open;
-    });
+    subscribe(
+      (state) => state.dialog.fileOpenChooserDialog,
+      (open) => {
+        this.open = open;
+      }
+    );
   }
-  
+
   render(): TemplateResult {
     return html`
       <dbg-dialog
@@ -60,12 +66,12 @@ export default class extends ConnectLitElement {
         ?showClose=${this.open === FileOpenDialogState.OpenFromTopMenu}
         @dbg-on-back=${this.#goBack}
         @dbg-on-close=${this.#close}
-        @dbg-on-escape="${this.#onEscape}">
+        @dbg-on-escape="${this.#onEscape}"
+      >
         <div slot="body">
           <div class="operation-container" @click="${this.#local}">
             <div class="operation-icon-container">
-              <div class="local operation-icon">
-              </div>
+              <div class="local operation-icon"></div>
             </div>
             <h4 class="operation">
               My Computer
@@ -73,8 +79,7 @@ export default class extends ConnectLitElement {
           </div>
           <div class="operation-container" @click="${this.#googleDrive}">
             <div class="operation-icon-container">
-              <div class="google-drive operation-icon">
-              </div>
+              <div class="google-drive operation-icon"></div>
             </div>
             <h4 class="operation">
               Google Drive
@@ -119,5 +124,5 @@ export default class extends ConnectLitElement {
     } else if (this.open === FileOpenDialogState.OpenFromWelcomeDialog) {
       this.#goBack();
     }
-  }
+  };
 }

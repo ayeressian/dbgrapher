@@ -1,2 +1,2 @@
-import './components/app';
-import 'db-viewer-component';
+import "./components/app";
+import "db-viewer-component";

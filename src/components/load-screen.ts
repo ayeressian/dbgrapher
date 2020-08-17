@@ -1,11 +1,19 @@
-import { LitElement, html, customElement, css, CSSResult, TemplateResult, unsafeCSS, internalProperty } from 'lit-element';
-import { classMap } from 'lit-html/directives/class-map';
-import loadIcon from '../../asset/load.svg';
-import { subscribe } from '../subscribe-store';
+import {
+  LitElement,
+  html,
+  customElement,
+  css,
+  CSSResult,
+  TemplateResult,
+  unsafeCSS,
+  internalProperty,
+} from "lit-element";
+import { classMap } from "lit-html/directives/class-map";
+import loadIcon from "../../asset/load.svg";
+import { subscribe } from "../subscribe-store";
 
-@customElement('dbg-load-screen')
+@customElement("dbg-load-screen")
 export default class extends LitElement {
-
   @internalProperty()
   private view = false;
 
@@ -15,14 +23,14 @@ export default class extends LitElement {
         display: none;
       }
 
-      .overlay { 
+      .overlay {
         height: 100vh;
         width: 100vw;
         position: fixed;
         z-index: 2;
         left: 0;
         top: 0;
-        background-color: rgba(255,255,255, 0.6);
+        background-color: rgba(255, 255, 255, 0.6);
         overflow-x: hidden;
 
         display: flex;
@@ -36,21 +44,24 @@ export default class extends LitElement {
         background-image: url(${unsafeCSS(loadIcon)});
         background-size: cover;
         background-repeat: no-repeat;
-      } 
+      }
     `;
   }
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(state => state.loadScreen, view => {
-      this.view = view;
-    });
+    subscribe(
+      (state) => state.loadScreen,
+      (view) => {
+        this.view = view;
+      }
+    );
   }
 
   render(): TemplateResult {
     return html`
-      <div class=${classMap({ 'hide': !this.view, 'overlay': true })}>
+      <div class=${classMap({ hide: !this.view, overlay: true })}>
         <div class="load-icon"></div>
       </div>
     `;

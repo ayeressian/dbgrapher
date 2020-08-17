@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   initialState: true,
-  name: 'cloudProviderChooserDialog',
+  name: "cloudProviderChooserDialog",
   reducers: {
     close: (): boolean => false,
     open: (): boolean => true,

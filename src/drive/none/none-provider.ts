@@ -16,13 +16,13 @@ export default class NoneProvider implements DriveProvider {
   updateFile(): Promise<void> {
     return Promise.resolve();
   }
-  createFile(): Promise<void>  {
+  createFile(): Promise<void> {
     return Promise.resolve();
   }
-  renameFile(): Promise<void>  {
+  renameFile(): Promise<void> {
     return Promise.resolve();
   }
-  open(): Promise<void>  {
+  open(): Promise<void> {
     return Promise.resolve();
   }
 }

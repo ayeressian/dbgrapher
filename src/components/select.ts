@@ -1,19 +1,30 @@
-import { customElement, LitElement, TemplateResult, html, property, CSSResult, css, unsafeCSS } from 'lit-element';
-import formsCss from 'purecss/build/forms-min.css';
+import {
+  customElement,
+  LitElement,
+  TemplateResult,
+  html,
+  property,
+  CSSResult,
+  css,
+  unsafeCSS,
+} from "lit-element";
+import formsCss from "purecss/build/forms-min.css";
 
-type ComplexItem = {value: string; text: string};
+type ComplexItem = { value: string; text: string };
 type Option = string | ComplexItem;
 
-type OnSelectEventDetail = {value: string; selectedIndex: number};
+type OnSelectEventDetail = { value: string; selectedIndex: number };
 export type OnSelectEvent = CustomEvent<OnSelectEventDetail>;
 
-@customElement('dbg-select')
+@customElement("dbg-select")
 export default class extends LitElement {
-  @property( { type : Object } ) options!: Option[];
-  @property( { type : String } ) value!: string;
+  @property({ type: Object }) options!: Option[];
+  @property({ type: String }) value!: string;
 
   #resolveLoaded!: Function;
-  #loaded: Promise<null> = new Promise((resolve) => this.#resolveLoaded = resolve);
+  #loaded: Promise<null> = new Promise(
+    (resolve) => (this.#resolveLoaded = resolve)
+  );
   #selectElement!: HTMLSelectElement;
 
   static get styles(): CSSResult {
@@ -26,26 +37,34 @@ export default class extends LitElement {
   }
 
   firstUpdated(): void {
-    this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>('select')!;
+    this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>(
+      "select"
+    )!;
     this.#resolveLoaded();
   }
 
   #updateValue = (): void => {
-    this.#selectElement.value = this.value || '';
+    this.#selectElement.value = this.value || "";
   };
 
   #dispatch = (value: string, index: number): void => {
-    const newEvent = new CustomEvent('dbg-on-select', { detail: {value, index} });
+    const newEvent = new CustomEvent("dbg-on-select", {
+      detail: { value, index },
+    });
     this.dispatchEvent(newEvent);
   };
 
-  #onChange = (event: InputEvent, ): void => {
+  #onChange = (event: InputEvent): void => {
     const element = event.target as HTMLSelectElement;
     this.#dispatch(element.value, element.selectedIndex);
   };
 
-  attributeChangedCallback(name: string, old: string|null, value: string|null): void {
-    if (name === 'options') {
+  attributeChangedCallback(
+    name: string,
+    old: string | null,
+    value: string | null
+  ): void {
+    if (name === "options") {
       Promise.all([this.requestUpdate(), this.#loaded]).then(this.#updateValue);
     } else {
       this.#loaded.then(this.#updateValue);
@@ -54,8 +73,8 @@ export default class extends LitElement {
   }
 
   #getOptionIndex = (value?: string): number => {
-    return (this.options ?? []).findIndex(option => {
-      if (typeof option === 'object') {
+    return (this.options ?? []).findIndex((option) => {
+      if (typeof option === "object") {
         return option.value === value;
       }
       return value === option;
@@ -63,9 +82,12 @@ export default class extends LitElement {
   };
 
   render(): TemplateResult {
-    if (this.#getOptionIndex(this.value) === -1 && (this.options?.length ?? 0) > 0) {
+    if (
+      this.#getOptionIndex(this.value) === -1 &&
+      (this.options?.length ?? 0) > 0
+    ) {
       const option = this.options[0];
-      this.value = typeof option === 'object'? option.value : option;
+      this.value = typeof option === "object" ? option.value : option;
       this.#dispatch(this.value, 0);
     }
     return html`
@@ -73,7 +95,9 @@ export default class extends LitElement {
         <select @change="${this.#onChange}">
           ${this.options?.map((option: Option) => {
             if ((option as ComplexItem).value) {
-              return html`<option value="${(option as ComplexItem).value}">${(option as ComplexItem).text}</option>`;
+              return html`<option value="${(option as ComplexItem).value}"
+                >${(option as ComplexItem).text}</option
+              >`;
             }
             return html`<option value="${option}">${option}</option>`;
           })}

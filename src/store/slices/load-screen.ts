@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const slice = createSlice({
   initialState: false,
-  name: 'loadScreen',
+  name: "loadScreen",
   reducers: {
     start: (): boolean => true,
     stop: (): boolean => false,

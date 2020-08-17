@@ -1,17 +1,17 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum CloudProvider {
-  None = 'None',
-  GoogleDrive = 'GoogleDrive',
-  OneDrive = 'OneDrive',
-  NotSelected = 'NotSelected',
+  None = "None",
+  GoogleDrive = "GoogleDrive",
+  OneDrive = "OneDrive",
+  NotSelected = "NotSelected",
 }
 
 export enum CloudUpdateState {
-  Saved = 'Saved',
-  Saving = 'Saving',
-  None = 'None',
-  NetworkError = 'NetworkError',
+  Saved = "Saved",
+  Saving = "Saving",
+  None = "None",
+  NetworkError = "NetworkError",
 }
 
 export type CloudUserData = {
@@ -28,31 +28,40 @@ export type CloudState = {
   userData?: CloudUserData;
   fileName?: string;
   updateState: CloudUpdateState;
-}
+};
 
 const slice = createSlice({
   initialState: {
     provider: CloudProvider.NotSelected,
     updateState: CloudUpdateState.None,
   } as CloudState,
-  name: 'cloud',
+  name: "cloud",
   reducers: {
-    setUserData: (state, { payload }: PayloadAction<CloudUserData>): CloudState => {
+    setUserData: (
+      state,
+      { payload }: PayloadAction<CloudUserData>
+    ): CloudState => {
       state.userData = payload;
       return state;
     },
-    setDriveType: (state, { payload }: PayloadAction<CloudProvider>): CloudState => {
+    setDriveType: (
+      state,
+      { payload }: PayloadAction<CloudProvider>
+    ): CloudState => {
       state.provider = payload;
       return state;
-    }, 
+    },
     setFileName: (state, { payload }: PayloadAction<string>): CloudState => {
       state.fileName = payload;
       return state;
     },
-    setUpdateState: (state, { payload }: PayloadAction<CloudUpdateState>): CloudState => {
+    setUpdateState: (
+      state,
+      { payload }: PayloadAction<CloudUpdateState>
+    ): CloudState => {
       state.updateState = payload;
       return state;
-    }
+    },
   },
 });
 

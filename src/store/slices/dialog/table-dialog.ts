@@ -1,5 +1,5 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { Point } from 'db-viewer-component';
+import { createSlice } from "@reduxjs/toolkit";
+import { Point } from "db-viewer-component";
 
 type TableDialogData = {
   open: boolean;
@@ -9,13 +9,25 @@ type TableDialogData = {
 
 const slice = createSlice({
   initialState: {
-    open: false
+    open: false,
   } as TableDialogData,
-  name: 'tableDialog',
+  name: "tableDialog",
   reducers: {
-    close: (): TableDialogData => ({tableName: undefined, open: false, cords: undefined}),
-    openCreate: (_, {payload: cords}): TableDialogData => ({tableName: undefined, open: true, cords}),
-    openEdit: (_, {payload: tableName}): TableDialogData => ({tableName, open: true, cords: undefined}),
+    close: (): TableDialogData => ({
+      tableName: undefined,
+      open: false,
+      cords: undefined,
+    }),
+    openCreate: (_, { payload: cords }): TableDialogData => ({
+      tableName: undefined,
+      open: true,
+      cords,
+    }),
+    openEdit: (_, { payload: tableName }): TableDialogData => ({
+      tableName,
+      open: true,
+      cords: undefined,
+    }),
   },
 });
 

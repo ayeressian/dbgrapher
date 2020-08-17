@@ -88,6 +88,9 @@ export default class TableDialogFkColumns extends LitElement {
     const onFkColumnSelect = (event: OnSelectEvent): void => {
       const newColumn = produce(column, (columnDraft) => {
         columnDraft.fk!.column = event.detail.value;
+        columnDraft.fk!.table = (this.shadowRoot!.querySelector(
+          `#table-select-${index}`
+        ) as HTMLInputElement).value;
       });
       this.#onColumnChange(index, newColumn, currentTableName);
     };
@@ -123,6 +126,7 @@ export default class TableDialogFkColumns extends LitElement {
         </td>
         <td>
           <dbg-select
+            id="table-select-${index}"
             value="${column.fk?.table}"
             options="${JSON.stringify(
               this.schema?.tables.map(({ name }) => name)

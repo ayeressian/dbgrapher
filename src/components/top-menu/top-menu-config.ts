@@ -33,6 +33,20 @@ export default {
       ],
     },
     {
+      id: "edit",
+      title: "Edit",
+      items: [
+        {
+          id: "undo",
+          title: "Undo",
+        },
+        {
+          id: "redo",
+          title: "Redo",
+        },
+      ],
+    },
+    {
       id: "help",
       title: "Help",
       items: [

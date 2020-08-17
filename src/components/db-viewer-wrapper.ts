@@ -26,6 +26,7 @@ import { ColumnFkSchema } from "db-viewer-component";
 import { driveProvider } from "../drive/factory";
 import { AppState } from "../store/reducer";
 import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
+import { undo, redo } from "./operations";
 
 @customElement("dbg-db-viewer")
 export default class DbWrapper extends LitElement {
@@ -175,9 +176,7 @@ export default class DbWrapper extends LitElement {
           !event.shiftKey &&
           ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
         ) {
-          store.dispatch(schemaAction.undo());
-          driveProvider.updateFile();
-          store.dispatch(setSchemaAction.loadViewportUnchange());
+          undo();
         }
 
         if (
@@ -186,9 +185,7 @@ export default class DbWrapper extends LitElement {
             ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
           (!isMac && event.ctrlKey)
         ) {
-          store.dispatch(schemaAction.redo());
-          driveProvider.updateFile();
-          store.dispatch(setSchemaAction.loadViewportUnchange());
+          redo();
         }
       }
     };

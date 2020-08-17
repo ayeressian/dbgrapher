@@ -29,6 +29,7 @@ import ColorHash from "color-hash";
 import { styleMap } from "lit-html/directives/style-map";
 import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
+import { undo, redo } from "../operations";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -262,6 +263,12 @@ export default class extends LitElement {
         break;
       case "exportSql":
         this.#downloadAsSQLSchema();
+        break;
+      case "undo":
+        undo();
+        break;
+      case "redo":
+        redo();
         break;
       case "reportIssue":
         {

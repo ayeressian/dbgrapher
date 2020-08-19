@@ -19,6 +19,7 @@ import { actions as cloudActions, CloudProvider } from "../store/slices/cloud";
 import { driveProvider } from "../drive/factory";
 import { actions as cloudProviderChooserDialogActions } from "../store/slices/dialog/cloud-provider-chooser-dialog";
 import { actions as newOpenFileDialogActions } from "../store/slices/dialog/new-open-dialog";
+import texts from "../texts";
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends ConnectLitElement {
@@ -72,7 +73,7 @@ export default class extends ConnectLitElement {
     return html`
       <dbg-dialog
         ?show=${this.open}
-        centerTitle="Please select a cloud provider. NOTE THIS IS THE PRE RELEASE VERSION OF THE APPLICATION."
+        centerTitle=${texts.dialog.cloudProvider.title}
       >
         <div slot="body">
           <div class="operations">
@@ -84,7 +85,7 @@ export default class extends ConnectLitElement {
                 <div class="google-drive operation-icon"></div>
               </div>
               <h4 class="operation">
-                Google Drive
+                ${texts.dialog.cloudProvider.operation.googleDrive}
               </h4>
             </div>
             <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
@@ -103,7 +104,7 @@ export default class extends ConnectLitElement {
             >
               <div class="no-drive operation-icon"></div>
               <h4 class="operation">
-                None
+                ${texts.dialog.cloudProvider.operation.none}
               </h4>
             </div>
           </div>

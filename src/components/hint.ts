@@ -12,6 +12,7 @@ import store from "../store/store";
 import { isMac } from "../util";
 import { FileOpenDialogState as FileOpenChooserDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
 import { CloudProvider } from "../store/slices/cloud";
+import texts from "../texts";
 
 const DISPLAY_TIMER = 5000;
 
@@ -65,20 +66,17 @@ export default class extends LitElement {
       switch (state.dbViewerMode) {
         case DbViewerMode.CreateTable:
           if (!state.dialog.tableDialog.open) {
-            this.text =
-              "Choose the position of the new table by clicking on the viewport";
+            this.text = texts.hint.tableCreation;
           }
           break;
         case DbViewerMode.RelationOneToMany:
         case DbViewerMode.RelationOneToOne:
         case DbViewerMode.RelationZeroToMany:
         case DbViewerMode.RelationZeroToOne:
-          this.text =
-            "Click on the first table to create the relation from and then click on the second table to create the relation to";
+          this.text = texts.hint.relationCreation;
           break;
         case DbViewerMode.Remove:
-          this.text =
-            "Please select on the table or relation that you want to remove";
+          this.text = texts.hint.remove;
           break;
       }
     });
@@ -94,9 +92,7 @@ export default class extends LitElement {
         !state.dialog.aboutDialog &&
         state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
       ) {
-        this.#showTimedMessage(
-          "Your changes will be automatically saved to Google drive"
-        );
+        this.#showTimedMessage(texts.hint.driveSave);
         event.preventDefault();
       }
     });

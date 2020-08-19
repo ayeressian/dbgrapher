@@ -10,6 +10,7 @@ import {
 import { subscribe } from "../subscribe-store";
 import { actions as aboutDialogActions } from "../store/slices/dialog/about-dialog";
 import store from "../store/store";
+import texts from "../texts";
 
 @customElement("dbg-about-dialog")
 export default class extends LitElement {
@@ -50,7 +51,7 @@ export default class extends LitElement {
             >.
 
             <br /><br />
-            I hope you enjoy using this application.
+            ${texts.dialog.about.footer}
           </p>
         </div>
       </dbg-dialog>

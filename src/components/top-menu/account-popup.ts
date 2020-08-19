@@ -11,6 +11,8 @@ import {
 import { CloudState } from "../../store/slices/cloud";
 import cloudProviderName from "./cloud-provider-name";
 import buttonCss from "purecss/build/buttons-min.css";
+import texts from "../../texts";
+import { formatText } from "../../util";
 
 @customElement("dbg-top-menu-account-popup")
 export default class extends LitElement {
@@ -40,8 +42,11 @@ export default class extends LitElement {
     return html`
       <div class="right-popup">
         <div class="row">
-          You are logged in via ${cloudProviderName()} as
-          ${this.cloudState.userData?.name}.
+          ${formatText(
+            texts.topMenu.accountPopup.text,
+            cloudProviderName(),
+            this.cloudState.userData?.name ?? ""
+          )}
         </div>
         <div class="row">
           ${this.cloudState.userData?.email}
@@ -52,7 +57,7 @@ export default class extends LitElement {
             class="pure-button-primary pure-button"
             @click=${this.#onLogout}
           >
-            Logout
+            ${texts.topMenu.accountPopup.logout}
           </button>
         </div>
       </div>

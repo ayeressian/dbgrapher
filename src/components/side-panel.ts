@@ -19,6 +19,7 @@ import clearIcon from "../../asset/clear.svg";
 import { classMap } from "lit-html/directives/class-map";
 import { subscribe } from "../subscribe-store";
 import DbViewerMode from "../store/slices/db-viewer-mode-type";
+import texts from "../texts";
 
 @customElement("dbg-side-panel")
 export default class extends LitElement {
@@ -88,42 +89,42 @@ export default class extends LitElement {
           class="action create_table ${classMap({
             active: this.mode === DbViewerMode.CreateTable,
           })}"
-          title="Create table"
+          title=${texts.sidePanel.createTable}
           @click="${this.#changeMode(DbViewerMode.CreateTable)}"
         />
         <li
           class="action create_relation_one_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationOneToMany,
           })}"
-          title="Create one to many relation"
+          title=${texts.sidePanel.createOneToManyRelation}
           @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"
         />
         <li
           class="action create_relation_zero_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToMany,
           })}"
-          title="Create zero to many relation"
+          title=${texts.sidePanel.createZeroToManyRelation}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"
         />
         <li
           class="action create_relation_one_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationOneToOne,
           })}"
-          title="Create one to one relation"
+          title=${texts.sidePanel.createOneToOneRelation}
           @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"
         />
         <li
           class="action create_relation_zero_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToOne,
           })}"
-          title="Create zero to one relation"
+          title=${texts.sidePanel.createZeroToOneRelation}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"
         />
         <li
           class="action clear ${classMap({
             active: this.mode === DbViewerMode.Remove,
           })}"
-          title="Remove table or relation"
+          title=${texts.sidePanel.removeTableOrRelation}
           @click="${this.#changeMode(DbViewerMode.Remove)}"
         />
       </ul>

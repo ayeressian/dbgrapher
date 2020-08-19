@@ -18,7 +18,7 @@ import { subscribe } from "../subscribe-store";
 
 const INVALID_JSON_MSG = "Selected file does not contain valid JSON.";
 const INVALID_FILE_FORMAT =
-  "Selected file does not have correct Db designer file format";
+  "Selected file does not have correct DB grapher file format";
 
 @customElement("dbg-file-inputs")
 export default class extends LitElement {

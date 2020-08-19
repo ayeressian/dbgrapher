@@ -20,6 +20,7 @@ import {
 } from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import commonStyles from "./common-icon-dialog-styling";
+import texts from "../texts";
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends ConnectLitElement {
@@ -74,7 +75,7 @@ export default class extends ConnectLitElement {
               <div class="local operation-icon"></div>
             </div>
             <h4 class="operation">
-              My Computer
+              ${texts.dialog.fileOpenChooser.operation.myComputer}
             </h4>
           </div>
           <div class="operation-container" @click="${this.#googleDrive}">
@@ -82,7 +83,7 @@ export default class extends ConnectLitElement {
               <div class="google-drive operation-icon"></div>
             </div>
             <h4 class="operation">
-              Google Drive
+              ${texts.dialog.fileOpenChooser.operation.googleDrive}
             </h4>
           </div>
           <!--<div class="operation-container" @click="${this.#oneDrive}">

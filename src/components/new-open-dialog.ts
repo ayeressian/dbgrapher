@@ -21,6 +21,7 @@ import folderOpenSvg from "../../asset/folder-open.svg";
 import commonStyles from "./common-icon-dialog-styling";
 import { subscribe } from "../subscribe-store";
 import { driveProvider } from "../drive/factory";
+import texts from "../texts";
 
 @customElement("dbg-new-open-dialog")
 export default class extends ConnectLitElement {
@@ -70,7 +71,7 @@ export default class extends ConnectLitElement {
                 <div class="new-file operation-icon"></div>
               </div>
               <h4 class="operation" id="new-file">
-                New Schema
+                ${texts.dialog.newOpen.operation.newSchema}
               </h4>
             </div>
             <div class="operation-container" @click="${this.#openFile}">
@@ -78,7 +79,7 @@ export default class extends ConnectLitElement {
                 <div class="folder-open operation-icon"></div>
               </div>
               <h4 class="operation" id="open-file">
-                Open Schema
+                ${texts.dialog.newOpen.operation.openSchema}
               </h4>
             </div>
           </div>

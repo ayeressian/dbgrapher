@@ -1,6 +1,5 @@
 import {
   customElement,
-  LitElement,
   CSSResult,
   css,
   TemplateResult,
@@ -10,13 +9,14 @@ import {
 } from "lit-element";
 import formsCss from "purecss/build/forms-min.css";
 import buttonCss from "purecss/build/buttons-min.css";
+import { DBGElement } from "../dbg-element";
 
 type FileNameUpdateEventDetail = { newFileName: string };
 
 export type FileNameUpdateEvent = CustomEvent<FileNameUpdateEventDetail>;
 
 @customElement("dbg-file-rename-popup")
-export default class extends LitElement {
+export default class extends DBGElement {
   @property({
     type: String,
   })

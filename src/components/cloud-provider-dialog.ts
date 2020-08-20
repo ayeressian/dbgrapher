@@ -7,7 +7,6 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import ConnectLitElement from "./connect-lit-element";
 import fileSvg from "../../asset/file.svg";
 import oneDriveSvg from "../../asset/onedrive.svg";
 import googleDriveSvg from "../../asset/google-drive.svg";
@@ -19,10 +18,11 @@ import { actions as cloudActions, CloudProvider } from "../store/slices/cloud";
 import { driveProvider } from "../drive/factory";
 import { actions as cloudProviderChooserDialogActions } from "../store/slices/dialog/cloud-provider-chooser-dialog";
 import { actions as newOpenFileDialogActions } from "../store/slices/dialog/new-open-dialog";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-cloud-provider-dialog")
-export default class extends ConnectLitElement {
+export default class extends DBGElement {
   @internalProperty()
   private open = store.getState().dialog.cloudProviderChooserDialog;
 
@@ -70,10 +70,11 @@ export default class extends ConnectLitElement {
   }
 
   render(): TemplateResult {
+    console.log("render");
     return html`
       <dbg-dialog
         ?show=${this.open}
-        centerTitle=${texts.dialog.cloudProvider.title}
+        centerTitle=${t((l) => l.dialog.cloudProvider.title)}
       >
         <div slot="body">
           <div class="operations">
@@ -85,7 +86,7 @@ export default class extends ConnectLitElement {
                 <div class="google-drive operation-icon"></div>
               </div>
               <h4 class="operation">
-                ${texts.dialog.cloudProvider.operation.googleDrive}
+                ${t((l) => l.dialog.cloudProvider.operation.googleDrive)}
               </h4>
             </div>
             <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
@@ -104,7 +105,7 @@ export default class extends ConnectLitElement {
             >
               <div class="no-drive operation-icon"></div>
               <h4 class="operation">
-                ${texts.dialog.cloudProvider.operation.none}
+                ${t((l) => l.dialog.cloudProvider.operation.none)}
               </h4>
             </div>
           </div>

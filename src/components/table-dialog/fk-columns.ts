@@ -1,6 +1,5 @@
 import {
   customElement,
-  LitElement,
   TemplateResult,
   html,
   property,
@@ -18,6 +17,7 @@ import { ColumnFkSchema, ColumnSchema } from "db-viewer-component";
 import { Schema } from "db-viewer-component";
 import columnNameValidation from "./column-name-validation";
 import produce from "immer";
+import { DBGElement } from "../dbg-element";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -26,7 +26,7 @@ export interface FkColumnChangeEventDetail {
 }
 
 @customElement("dbg-table-dialog-fk-columns")
-export default class TableDialogFkColumns extends LitElement {
+export default class TableDialogFkColumns extends DBGElement {
   @property({ type: Object }) schema!: Schema;
   @property({ type: Number }) tableIndex!: number;
 

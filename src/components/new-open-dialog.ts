@@ -7,7 +7,6 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as newOpenDialogActions } from "../store/slices/dialog/new-open-dialog";
@@ -21,10 +20,11 @@ import folderOpenSvg from "../../asset/folder-open.svg";
 import commonStyles from "./common-icon-dialog-styling";
 import { subscribe } from "../subscribe-store";
 import { driveProvider } from "../drive/factory";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-new-open-dialog")
-export default class extends ConnectLitElement {
+export default class extends DBGElement {
   @internalProperty()
   private open = false;
 
@@ -71,7 +71,7 @@ export default class extends ConnectLitElement {
                 <div class="new-file operation-icon"></div>
               </div>
               <h4 class="operation" id="new-file">
-                ${texts.dialog.newOpen.operation.newSchema}
+                ${t((l) => l.dialog.newOpen.operation.newSchema)}
               </h4>
             </div>
             <div class="operation-container" @click="${this.#openFile}">
@@ -79,7 +79,7 @@ export default class extends ConnectLitElement {
                 <div class="folder-open operation-icon"></div>
               </div>
               <h4 class="operation" id="open-file">
-                ${texts.dialog.newOpen.operation.openSchema}
+                ${t((l) => l.dialog.newOpen.operation.openSchema)}
               </h4>
             </div>
           </div>

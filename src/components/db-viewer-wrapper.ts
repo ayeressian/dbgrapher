@@ -4,7 +4,6 @@ import {
   css,
   CSSResult,
   TemplateResult,
-  LitElement,
 } from "lit-element";
 import { actions as setSchemaAction, State } from "../store/slices/load-schema";
 import { actions as schemaAction } from "../store/slices/schema";
@@ -27,9 +26,10 @@ import { driveProvider } from "../drive/factory";
 import { AppState } from "../store/reducer";
 import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
 import { undo, redo } from "./operations";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-db-viewer")
-export default class DbWrapper extends LitElement {
+export default class DbWrapper extends DBGElement {
   #resolveLoaded!: Function;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)

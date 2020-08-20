@@ -14,7 +14,7 @@ import ConfirmationDialog from "../../components/confirmation-dialog";
 import ResetStoreException from "../../reset-exception";
 import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";
-import texts from "../../texts";
+import texts from "../../local_en";
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load("auth2", { callback: resolve, onerror: reject });

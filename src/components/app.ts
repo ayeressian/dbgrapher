@@ -1,7 +1,7 @@
 import initProviderFactory from "../drive/factory";
+import "../localization";
 import "./import-components";
 import {
-  LitElement,
   html,
   customElement,
   css,
@@ -10,11 +10,12 @@ import {
 } from "lit-element";
 import store from "../store/store";
 import ResetStoreException from "../reset-exception";
+import { DBGElement } from "./dbg-element";
 
 initProviderFactory();
 
 @customElement("dbg-app")
-export default class extends LitElement {
+export default class extends DBGElement {
   static get styles(): CSSResult {
     return css`
       * {

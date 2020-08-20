@@ -4,16 +4,16 @@ import {
   css,
   CSSResult,
   TemplateResult,
-  LitElement,
-  property,
   internalProperty,
+  property,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
 import { styleMap } from "lit-html/directives/style-map";
 import { TopMenuConfig, Item } from "./top-menu-config";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-top-menu")
-export default class extends LitElement {
+export default class extends DBGElement {
   static get styles(): CSSResult {
     return css`
       * {

@@ -4,7 +4,6 @@ import {
   css,
   CSSResult,
   TemplateResult,
-  LitElement,
 } from "lit-element";
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as setSchemaAction } from "../store/slices/load-schema";
@@ -15,13 +14,14 @@ import { validateJson } from "../validate-schema";
 import { actions as fileOpenChooserDialogOpen } from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as fileOpenAction } from "../store/slices/dialog/file-dialog/file-open-dialog";
 import { subscribe } from "../subscribe-store";
+import { DBGElement } from "./dbg-element";
 
 const INVALID_JSON_MSG = "Selected file does not contain valid JSON.";
 const INVALID_FILE_FORMAT =
   "Selected file does not have correct DB grapher file format";
 
 @customElement("dbg-file-inputs")
-export default class extends LitElement {
+export default class extends DBGElement {
   #resolveLoaded!: Function;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)

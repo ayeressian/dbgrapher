@@ -1,6 +1,5 @@
 import {
   customElement,
-  LitElement,
   TemplateResult,
   html,
   property,
@@ -9,6 +8,7 @@ import {
   unsafeCSS,
 } from "lit-element";
 import formsCss from "purecss/build/forms-min.css";
+import { DBGElement } from "./dbg-element";
 
 type ComplexItem = { value: string; text: string };
 type Option = string | ComplexItem;
@@ -17,7 +17,7 @@ type OnSelectEventDetail = { value: string; selectedIndex: number };
 export type OnSelectEvent = CustomEvent<OnSelectEventDetail>;
 
 @customElement("dbg-select")
-export default class extends LitElement {
+export default class extends DBGElement {
   @property({ type: Object }) options!: Option[];
   @property({ type: String }) value!: string;
 

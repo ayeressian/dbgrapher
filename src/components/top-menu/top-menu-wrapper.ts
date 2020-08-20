@@ -2,7 +2,6 @@ import {
   html,
   customElement,
   TemplateResult,
-  LitElement,
   CSSResult,
   css,
   unsafeCSS,
@@ -30,11 +29,12 @@ import { styleMap } from "lit-html/directives/style-map";
 import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
 import { undo, redo } from "../operations";
+import { DBGElement } from "../dbg-element";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
 @customElement("dbg-top-menu-wrapper")
-export default class extends LitElement {
+export default class extends DBGElement {
   @internalProperty()
   private openAccountPopup = false;
 

@@ -12,6 +12,7 @@ import { reducer as loadScreen } from "./slices/load-screen";
 import { reducer as aboutDialog } from "./slices/dialog/about-dialog";
 import { reducer as cloudProviderChooserDialog } from "./slices/dialog/cloud-provider-chooser-dialog";
 import { reducer as cloud } from "./slices/cloud";
+import { reducer as localization } from "./slices/localization";
 
 const appReducer = combineReducers({
   createCords,
@@ -31,6 +32,7 @@ const appReducer = combineReducers({
   loadScreen,
   loadSchema,
   schema,
+  localization,
 });
 
 export type AppState = ReturnType<typeof appReducer>;

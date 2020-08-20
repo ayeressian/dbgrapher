@@ -1,5 +1,4 @@
 import {
-  LitElement,
   html,
   customElement,
   css,
@@ -19,10 +18,11 @@ import clearIcon from "../../asset/clear.svg";
 import { classMap } from "lit-html/directives/class-map";
 import { subscribe } from "../subscribe-store";
 import DbViewerMode from "../store/slices/db-viewer-mode-type";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-side-panel")
-export default class extends LitElement {
+export default class extends DBGElement {
   static get styles(): CSSResult {
     return css`
       .left_toolbar {
@@ -89,42 +89,42 @@ export default class extends LitElement {
           class="action create_table ${classMap({
             active: this.mode === DbViewerMode.CreateTable,
           })}"
-          title=${texts.sidePanel.createTable}
+          title=${t((l) => l.sidePanel.createTable)}
           @click="${this.#changeMode(DbViewerMode.CreateTable)}"
         />
         <li
           class="action create_relation_one_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationOneToMany,
           })}"
-          title=${texts.sidePanel.createOneToManyRelation}
+          title=${t((l) => l.sidePanel.createOneToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"
         />
         <li
           class="action create_relation_zero_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToMany,
           })}"
-          title=${texts.sidePanel.createZeroToManyRelation}
+          title=${t((l) => l.sidePanel.createZeroToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"
         />
         <li
           class="action create_relation_one_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationOneToOne,
           })}"
-          title=${texts.sidePanel.createOneToOneRelation}
+          title=${t((l) => l.sidePanel.createOneToOneRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"
         />
         <li
           class="action create_relation_zero_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToOne,
           })}"
-          title=${texts.sidePanel.createZeroToOneRelation}
+          title=${t((l) => l.sidePanel.createZeroToOneRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"
         />
         <li
           class="action clear ${classMap({
             active: this.mode === DbViewerMode.Remove,
           })}"
-          title=${texts.sidePanel.removeTableOrRelation}
+          title=${t((l) => l.sidePanel.removeTableOrRelation)}
           @click="${this.#changeMode(DbViewerMode.Remove)}"
         />
       </ul>

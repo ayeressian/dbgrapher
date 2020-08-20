@@ -1,6 +1,5 @@
 import {
   customElement,
-  LitElement,
   TemplateResult,
   html,
   property,
@@ -22,9 +21,10 @@ import {
 } from "db-viewer-component";
 import columnNameValidation from "./column-name-validation";
 import produce from "immer";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-table-dialog-columns")
-export default class TableDialogColumns extends LitElement {
+export default class TableDialogColumns extends DBGElement {
   @property({ type: Object }) schema!: Schema;
   @property({ type: Number }) tableIndex!: number;
 

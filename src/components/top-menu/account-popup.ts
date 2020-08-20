@@ -1,6 +1,5 @@
 import {
   customElement,
-  LitElement,
   CSSResult,
   css,
   TemplateResult,
@@ -11,11 +10,11 @@ import {
 import { CloudState } from "../../store/slices/cloud";
 import cloudProviderName from "./cloud-provider-name";
 import buttonCss from "purecss/build/buttons-min.css";
-import texts from "../../texts";
-import { formatText } from "../../util";
+import { t } from "../../localization";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-top-menu-account-popup")
-export default class extends LitElement {
+export default class extends DBGElement {
   @property({ type: Object }) cloudState!: CloudState;
 
   static get styles(): CSSResult {
@@ -42,7 +41,7 @@ export default class extends LitElement {
     return html`
       <div class="right-popup">
         <div class="row">
-          ${formatText(texts.topMenu.accountPopup.text, {
+          ${t((l) => l.topMenu.accountPopup.text, {
             cloudProvider: cloudProviderName(),
             userIdentifier: this.cloudState.userData?.name ?? "",
           })}
@@ -56,7 +55,7 @@ export default class extends LitElement {
             class="pure-button-primary pure-button"
             @click=${this.#onLogout}
           >
-            ${texts.topMenu.accountPopup.logout}
+            ${t((l) => l.topMenu.accountPopup.logout)}
           </button>
         </div>
       </div>

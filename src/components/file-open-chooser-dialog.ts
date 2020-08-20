@@ -7,7 +7,6 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import ConnectLitElement from "./connect-lit-element";
 import store from "../store/store";
 import localSvg from "../../asset/folder-open.svg";
 import googleDriveSvg from "../../asset/google-drive.svg";
@@ -20,10 +19,11 @@ import {
 } from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
 import commonStyles from "./common-icon-dialog-styling";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-file-open-chooser-dialog")
-export default class extends ConnectLitElement {
+export default class extends DBGElement {
   @internalProperty()
   private open = FileOpenDialogState.Close;
 
@@ -75,7 +75,7 @@ export default class extends ConnectLitElement {
               <div class="local operation-icon"></div>
             </div>
             <h4 class="operation">
-              ${texts.dialog.fileOpenChooser.operation.myComputer}
+              ${t((l) => l.dialog.fileOpenChooser.operation.myComputer)}
             </h4>
           </div>
           <div class="operation-container" @click="${this.#googleDrive}">
@@ -83,7 +83,7 @@ export default class extends ConnectLitElement {
               <div class="google-drive operation-icon"></div>
             </div>
             <h4 class="operation">
-              ${texts.dialog.fileOpenChooser.operation.googleDrive}
+              ${t((l) => l.dialog.fileOpenChooser.operation.googleDrive)}
             </h4>
           </div>
           <!--<div class="operation-container" @click="${this.#oneDrive}">

@@ -4,7 +4,6 @@ import {
   css,
   CSSResult,
   TemplateResult,
-  LitElement,
   unsafeCSS,
   internalProperty,
   PropertyValues,
@@ -26,9 +25,10 @@ import { Point } from "db-viewer-component";
 import { driveProvider } from "../../drive/factory";
 import { produce } from "immer";
 import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-table-dialog")
-export default class extends LitElement {
+export default class extends DBGElement {
   @internalProperty()
   private open = false;
 

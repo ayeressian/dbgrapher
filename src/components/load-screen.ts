@@ -1,5 +1,4 @@
 import {
-  LitElement,
   html,
   customElement,
   css,
@@ -11,9 +10,10 @@ import {
 import { classMap } from "lit-html/directives/class-map";
 import loadIcon from "../../asset/load.svg";
 import { subscribe } from "../subscribe-store";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-load-screen")
-export default class extends LitElement {
+export default class extends DBGElement {
   @internalProperty()
   private view = false;
 

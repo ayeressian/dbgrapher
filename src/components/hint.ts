@@ -1,5 +1,4 @@
 import {
-  LitElement,
   customElement,
   css,
   CSSResult,
@@ -12,12 +11,13 @@ import store from "../store/store";
 import { isMac } from "../util";
 import { FileOpenDialogState as FileOpenChooserDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
 import { CloudProvider } from "../store/slices/cloud";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 const DISPLAY_TIMER = 5000;
 
 @customElement("dbg-hint")
-export default class extends LitElement {
+export default class extends DBGElement {
   @internalProperty()
   private text = "";
 
@@ -66,17 +66,17 @@ export default class extends LitElement {
       switch (state.dbViewerMode) {
         case DbViewerMode.CreateTable:
           if (!state.dialog.tableDialog.open) {
-            this.text = texts.hint.tableCreation;
+            this.text = t((l) => l.hint.tableCreation);
           }
           break;
         case DbViewerMode.RelationOneToMany:
         case DbViewerMode.RelationOneToOne:
         case DbViewerMode.RelationZeroToMany:
         case DbViewerMode.RelationZeroToOne:
-          this.text = texts.hint.relationCreation;
+          this.text = t((l) => l.hint.relationCreation);
           break;
         case DbViewerMode.Remove:
-          this.text = texts.hint.remove;
+          this.text = t((l) => l.hint.remove);
           break;
       }
     });
@@ -92,7 +92,7 @@ export default class extends LitElement {
         !state.dialog.aboutDialog &&
         state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
       ) {
-        this.#showTimedMessage(texts.hint.driveSave);
+        this.#showTimedMessage(t((l) => l.hint.driveSave));
         event.preventDefault();
       }
     });

@@ -1,5 +1,4 @@
 import {
-  LitElement,
   customElement,
   CSSResult,
   TemplateResult,
@@ -10,10 +9,11 @@ import {
 import { subscribe } from "../subscribe-store";
 import { actions as aboutDialogActions } from "../store/slices/dialog/about-dialog";
 import store from "../store/store";
-import texts from "../texts";
+import { t } from "../localization";
+import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-about-dialog")
-export default class extends LitElement {
+export default class extends DBGElement {
   @internalProperty()
   private open = false;
 
@@ -51,7 +51,7 @@ export default class extends LitElement {
             >.
 
             <br /><br />
-            ${texts.dialog.about.footer}
+            ${t((l) => l.dialog.about.footer)}
           </p>
         </div>
       </dbg-dialog>

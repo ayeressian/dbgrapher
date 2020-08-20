@@ -76,8 +76,6 @@ export default class GoogleDriveProvider implements DriveProvider {
       });
       fileName = file.result.name!;
     }
-    store.dispatch(cloudActions.setFileName(fileName));
-
     const filesContent = await gapi.client.drive.files.get({
       fileId: fileId,
       alt: "media",
@@ -86,6 +84,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     if (!jsonValidation) {
       alert(texts.error.invalidFileFormat);
     } else {
+      store.dispatch(cloudActions.setFileName(fileName));
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(
         schemaAction.initiate((filesContent.result as unknown) as Schema)
@@ -210,7 +209,7 @@ export default class GoogleDriveProvider implements DriveProvider {
       });
     } catch (err) {
       //network error
-      if (err.result.error.code === -1) {
+      if (err?.result?.error?.code === -1) {
         store.dispatch(
           cloudActions.setUpdateState(CloudUpdateState.NetworkError)
         );

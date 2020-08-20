@@ -53,7 +53,7 @@ export default {
   },
   topMenu: {
     accountPopup: {
-      text: "You are logged in via $1 as $2",
+      text: "You are logged in via $cloudProvider as $userIdentifier",
       logout: "Logout",
     },
   },

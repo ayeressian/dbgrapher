@@ -42,11 +42,10 @@ export default class extends LitElement {
     return html`
       <div class="right-popup">
         <div class="row">
-          ${formatText(
-            texts.topMenu.accountPopup.text,
-            cloudProviderName(),
-            this.cloudState.userData?.name ?? ""
-          )}
+          ${formatText(texts.topMenu.accountPopup.text, {
+            cloudProvider: cloudProviderName(),
+            userIdentifier: this.cloudState.userData?.name ?? "",
+          })}
         </div>
         <div class="row">
           ${this.cloudState.userData?.email}

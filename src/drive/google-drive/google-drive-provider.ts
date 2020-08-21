@@ -14,7 +14,7 @@ import ConfirmationDialog from "../../components/confirmation-dialog";
 import ResetStoreException from "../../reset-exception";
 import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";
-import texts from "../../local_en";
+import { t } from "../../localization";
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load("auth2", { callback: resolve, onerror: reject });
@@ -82,7 +82,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     });
     const jsonValidation = validateJson(filesContent.result as string);
     if (!jsonValidation) {
-      alert(texts.error.invalidFileFormat);
+      alert(t((l) => l.error.invalidFileFormat));
     } else {
       store.dispatch(cloudActions.setFileName(fileName));
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
@@ -156,8 +156,8 @@ export default class GoogleDriveProvider implements DriveProvider {
             store.dispatch(loadScreenAction.stop());
             if (
               await ConfirmationDialog.confirm(
-                texts.confirmation.signin.text,
-                texts.confirmation.signin.confirm
+                t((l) => l.confirmation.signin.text),
+                t((l) => l.confirmation.signin.confirm)
               )
             ) {
               return await this.login();

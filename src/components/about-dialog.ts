@@ -36,20 +36,7 @@ export default class extends DBGElement {
       >
         <div slot="body">
           <p>
-            Hello my name is Ara. Currenttly I'm the only contributer of this
-            project. I initiated this project for my own needs. If you like
-            relational databases and have knowledge or wish to learn more about
-            typescript, webcomponent, litelement, redux, webpack, karma,
-            jasmine, playwright and much more you should consider to contribute
-            to this
-            <a
-              target="_blank"
-              and
-              rel="noopener noreferrer"
-              href="https://github.com/ayeressian/dbgrapher"
-              >project</a
-            >.
-
+            ${t((l) => l.dialog.about.text)}
             <br /><br />
             ${t((l) => l.dialog.about.footer)}
           </p>

@@ -1,8 +1,9 @@
 import { subscribe } from "./subscribe-store";
 import { LocalizationState } from "./store/slices/localization";
-import en from "./local_en";
-import arm from "./local_arm";
+import en from "./local/local-en";
+import arm from "./local/local-arm";
 import store from "./store/store";
+import { merge } from "lodash";
 
 type Localization = typeof en;
 
@@ -11,7 +12,7 @@ const getLocal = (localization: LocalizationState): Localization => {
     case LocalizationState.ENGLISH:
       return en;
     case LocalizationState.ARMENIAN:
-      return arm;
+      return merge(en, arm);
     default:
       return en;
   }

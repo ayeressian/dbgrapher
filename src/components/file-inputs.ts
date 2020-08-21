@@ -15,10 +15,7 @@ import { actions as fileOpenChooserDialogOpen } from "../store/slices/dialog/fil
 import { actions as fileOpenAction } from "../store/slices/dialog/file-dialog/file-open-dialog";
 import { subscribe } from "../subscribe-store";
 import { DBGElement } from "./dbg-element";
-
-const INVALID_JSON_MSG = "Selected file does not contain valid JSON.";
-const INVALID_FILE_FORMAT =
-  "Selected file does not have correct DB grapher file format";
+import { t } from "../localization";
 
 @customElement("dbg-file-inputs")
 export default class extends DBGElement {
@@ -97,12 +94,12 @@ export default class extends DBGElement {
       try {
         schema = JSON.parse(readerEvent.target!.result as string);
       } catch (e) {
-        alert(INVALID_JSON_MSG);
+        alert(t((l) => l.error.invalidJSON));
         return;
       }
       const jsonValidation = validateJson(schema);
       if (!jsonValidation) {
-        alert(INVALID_FILE_FORMAT);
+        alert(t((l) => l.error.invalidFileFormat));
         return;
       }
       store.dispatch(schemaAction.initiate(schema));

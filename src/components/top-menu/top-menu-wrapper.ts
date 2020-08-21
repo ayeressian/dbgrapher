@@ -30,6 +30,8 @@ import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
 import { undo, redo } from "../operations";
 import { DBGElement } from "../dbg-element";
+import { t } from "../../localization";
+import providerName from "./cloud-provider-name";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -97,11 +99,6 @@ export default class extends DBGElement {
     `;
   }
 
-  #providerName = (): string =>
-    this.cloudState.provider === CloudProvider.GoogleDrive
-      ? "Google Drive"
-      : "OneDrive";
-
   #hideCenterAndRight = (): boolean =>
     this.cloudState.provider === CloudProvider.None ||
     this.cloudState.userData?.name == null;
@@ -110,21 +107,26 @@ export default class extends DBGElement {
     const cloudState = store.getState().cloud;
     let centerText;
     this.#error = false;
+    const translationParams = {
+      fileName: this.fileName,
+      providerName: providerName(),
+    };
     switch (cloudState.updateState) {
       case CloudUpdateState.None:
         centerText = this.fileName;
         break;
       case CloudUpdateState.Saved:
-        centerText = `${this.fileName} - Saved to ${this.#providerName()}`;
+        centerText = t((l) => l.topMenu.centerText.saved, translationParams);
         break;
       case CloudUpdateState.Saving:
-        centerText = `${this.fileName} - Saving to ${this.#providerName()}`;
+        centerText = t((l) => l.topMenu.centerText.saving, translationParams);
         break;
       case CloudUpdateState.NetworkError:
         this.#error = true;
-        centerText = `${
-          this.fileName
-        } - Not saved to ${this.#providerName()}. Please check your internet connection.`;
+        centerText = t(
+          (l) => l.topMenu.centerText.networkError,
+          translationParams
+        );
         break;
     }
 

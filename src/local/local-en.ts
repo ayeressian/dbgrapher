@@ -2,6 +2,7 @@ export default {
   error: {
     invalidFileFormat:
       "Selected file does not have correct DB grapher file format",
+    invalidJSON: "Selected file does not contain valid JSON.",
   },
   confirmation: {
     signin: {
@@ -12,6 +13,12 @@ export default {
   dialog: {
     about: {
       footer: "I hope you enjoy using this application.",
+      text: `Hello my name is Ara. Currenttly I'm the only contributer of this
+        project. I initiated this project for my own needs. If you like
+        relational databases and have knowledge or wish to learn more about
+        typescript, webcomponent, litelement, redux, webpack, karma,
+        jasmine, playwright and much more you should consider to contribute
+        to this project.`,
     },
     cloudProvider: {
       title:
@@ -56,5 +63,15 @@ export default {
       text: "You are logged in via $cloudProvider as $userIdentifier",
       logout: "Logout",
     },
+    centerText: {
+      networkError:
+        "$fileName - Not saved to $providerName. Please check your internet connection.",
+      saving: "$fileName - Saving to $providerName",
+      saved: "$fileName - Saved to $providerName",
+    },
+  },
+  cloudProvider: {
+    googleDrive: "Google Drive",
+    oneDrive: "OneDrive",
   },
 };

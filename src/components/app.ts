@@ -11,6 +11,7 @@ import {
 import store from "../store/store";
 import ResetStoreException from "../reset-exception";
 import { DBGElement } from "./dbg-element";
+import { CloudProvider } from "../store/slices/cloud";
 
 initProviderFactory();
 
@@ -81,5 +82,12 @@ export default class extends DBGElement {
     window.addEventListener("unhandledrejection", (errorEvent) =>
       this.#handleErrors(errorEvent.reason, errorEvent)
     );
+    window.addEventListener("beforeunload", (event: BeforeUnloadEvent) => {
+      const state = store.getState();
+      if (state.cloud.provider === CloudProvider.None && state.schema.present) {
+        event.preventDefault();
+        event.returnValue = "";
+      }
+    });
   }
 }

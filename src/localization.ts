@@ -29,7 +29,7 @@ subscribe(
 
 export function t(
   path: (l: Localization) => string,
-  replaceTexts?: object
+  replaceTexts?: Record<string, string>
 ): string;
 export function t(
   path: (l: Localization) => string,
@@ -38,7 +38,7 @@ export function t(
 ): string;
 export function t(
   path: (l: Localization) => string,
-  replaceTexts?: string | object,
+  replaceTexts?: string | Record<string, string>,
   ...replaceTextsRest: string[]
 ): string {
   let text = path(local);

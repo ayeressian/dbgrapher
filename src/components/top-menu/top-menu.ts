@@ -195,8 +195,8 @@ export default class extends DBGElement {
 
     if (item.items != null) {
       this.dropdownStyle = {
-        top: viewportOffset.bottom + "px",
-        left: viewportOffset.left + "px",
+        top: `${viewportOffset.bottom}px`,
+        left: `${viewportOffset.left}px`,
       };
       this.dropdownItems = item.items;
     } else {

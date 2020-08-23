@@ -9,7 +9,7 @@ export abstract class DBGElement extends LitElement {
     subscribe(
       (state) => state.localization,
       () => {
-        this.requestUpdate();
+        void this.requestUpdate();
       }
     );
   }

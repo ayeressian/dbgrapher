@@ -21,7 +21,7 @@ export default class extends DBGElement {
   @property({ type: Object }) options!: Option[];
   @property({ type: String }) value!: string;
 
-  #resolveLoaded!: Function;
+  #resolveLoaded!: () => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -65,9 +65,11 @@ export default class extends DBGElement {
     value: string | null
   ): void {
     if (name === "options") {
-      Promise.all([this.requestUpdate(), this.#loaded]).then(this.#updateValue);
+      void Promise.all([this.requestUpdate(), this.#loaded]).then(
+        this.#updateValue
+      );
     } else {
-      this.#loaded.then(this.#updateValue);
+      void this.#loaded.then(this.#updateValue);
     }
     super.attributeChangedCallback(name, old, value);
   }

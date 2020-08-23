@@ -40,6 +40,14 @@ export default {
         openSchema: "Open Schema",
       },
     },
+    table: {
+      warningRecursive:
+        "Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n $tableColumn",
+      errorSameNameTable: "There is already a table with the name $name.",
+      labelName: "Name",
+      saveBtn: "Save",
+      cancelBtn: "Cancel",
+    },
   },
   hint: {
     tableCreation:

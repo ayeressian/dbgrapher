@@ -16,10 +16,11 @@ import { actions as fileOpenAction } from "../store/slices/dialog/file-dialog/fi
 import { subscribe } from "../subscribe-store";
 import { DBGElement } from "./dbg-element";
 import { t } from "../localization";
+import { Schema } from "db-viewer-component";
 
 @customElement("dbg-file-inputs")
 export default class extends DBGElement {
-  #resolveLoaded!: Function;
+  #resolveLoaded!: () => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -50,7 +51,7 @@ export default class extends DBGElement {
       (state) => state.dialog.fileDialog.fileOpenDialog,
       (open) => {
         if (open) {
-          this.#loaded.then(() => {
+          void this.#loaded.then(() => {
             store.dispatch(fileOpenDialogActions.close());
             this.#dbgFileInput.click();
           });
@@ -61,7 +62,7 @@ export default class extends DBGElement {
       (state) => state.dialog.fileDialog.fileSqlOpenDialog,
       (open) => {
         if (open) {
-          this.#loaded.then(() => {
+          void this.#loaded.then(() => {
             this.#sqlFileInput.click();
           });
         }
@@ -92,7 +93,7 @@ export default class extends DBGElement {
       store.dispatch(fileOpenAction.close());
       let schema;
       try {
-        schema = JSON.parse(readerEvent.target!.result as string);
+        schema = JSON.parse(readerEvent.target!.result as string) as Schema;
       } catch (e) {
         alert(t((l) => l.error.invalidJSON));
         return;

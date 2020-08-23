@@ -5,12 +5,12 @@ import { actions as setSchemaAction } from "../store/slices/load-schema";
 
 export const undo = (): void => {
   store.dispatch(schemaAction.undo());
-  driveProvider.updateFile();
+  void driveProvider.updateFile();
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };
 
 export const redo = (): void => {
   store.dispatch(schemaAction.redo());
-  driveProvider.updateFile();
+  void driveProvider.updateFile();
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };

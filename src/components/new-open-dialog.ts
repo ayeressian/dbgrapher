@@ -97,6 +97,6 @@ export default class extends DBGElement {
   };
 
   #openFile = (): void => {
-    driveProvider.picker();
+    void driveProvider.picker();
   };
 }

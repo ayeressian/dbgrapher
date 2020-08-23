@@ -30,7 +30,7 @@ const clientLoad = new Promise((resolve, reject) => {
   clientDriveLoad = new Promise((driveResolve) => {
     gapi.load("client", {
       callback: () => {
-        gapi.client.load("drive", "v3").then(driveResolve);
+        void gapi.client.load("drive", "v3").then(driveResolve);
         resolve();
       },
       onerror: reject,
@@ -80,7 +80,7 @@ export default class GoogleDriveProvider implements DriveProvider {
       fileId: fileId,
       alt: "media",
     });
-    const jsonValidation = validateJson(filesContent.result as string);
+    const jsonValidation = validateJson(filesContent.result as Schema);
     if (!jsonValidation) {
       alert(t((l) => l.error.invalidFileFormat));
     } else {
@@ -94,7 +94,7 @@ export default class GoogleDriveProvider implements DriveProvider {
     }
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
   #pickerCallback = async (data: any): Promise<void> => {
     if (data.action == google.picker.Action.PICKED) {
       store.dispatch(loadScreenAction.start());

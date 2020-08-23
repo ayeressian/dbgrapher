@@ -1,6 +1,7 @@
 import webpackConfig from "./webpack.test.config";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// Because karama typescript doesn't have summaryReporter and webpack props
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export default function (config: any): void {
   config.set({
     frameworks: ["jasmine"],

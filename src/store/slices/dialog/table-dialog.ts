@@ -3,7 +3,7 @@ import { Point } from "db-viewer-component";
 
 type TableDialogData = {
   open: boolean;
-  tableName?: undefined;
+  tableName?: string;
   cords?: Point;
 };
 
@@ -21,10 +21,10 @@ const slice = createSlice({
     openCreate: (_, { payload: cords }): TableDialogData => ({
       tableName: undefined,
       open: true,
-      cords,
+      cords: cords as Point,
     }),
     openEdit: (_, { payload: tableName }): TableDialogData => ({
-      tableName,
+      tableName: tableName as string,
       open: true,
       cords: undefined,
     }),

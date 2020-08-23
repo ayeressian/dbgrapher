@@ -26,6 +26,7 @@ import { driveProvider } from "../../drive/factory";
 import { produce } from "immer";
 import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
 import { DBGElement } from "../dbg-element";
+import { t } from "../../localization";
 
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {
@@ -142,10 +143,16 @@ export default class extends DBGElement {
       if (
         fkTables.length > 0 &&
         window.confirm(
-          `Removing this column will result in recursive deletion of the following columns in tables that have fk constraint to this column.\n ${fkTables.map(
-            (item) =>
-              `${item.table.name}.${item.table.columns[item.columnIndex].name}`
-          )}`
+          t((l) => l.dialog.table.warningRecursive, {
+            tableColumn: fkTables
+              .map(
+                (item) =>
+                  `${item.table.name}.${
+                    item.table.columns[item.columnIndex].name
+                  }`
+              )
+              .join(", "),
+          })
         )
       ) {
         while (fkTables.length > 0) {
@@ -265,7 +272,7 @@ export default class extends DBGElement {
       <div slot="body">
         <form class="pure-form pure-form-stacked">
           <label>
-            Name
+            ${t((l) => l.dialog.table.labelName)}
             <input
               name="name"
               data-testid="table-name"
@@ -305,14 +312,14 @@ export default class extends DBGElement {
               @click="${this.#save}"
               data-testid="save-btn"
             >
-              Save
+              ${t((l) => l.dialog.table.saveBtn)}
             </button>
             <button
               class="pure-button"
               @click="${this.#cancel}"
               data-testid="cancel-btn"
             >
-              Cancel
+              ${t((l) => l.dialog.table.cancelBtn)}
             </button>
           </div>
         </form>
@@ -333,7 +340,9 @@ export default class extends DBGElement {
       )
     ) {
       element.setCustomValidity(
-        `There is already a table with the name "${currentTable.name}".`
+        t((l) => l.dialog.table.errorSameNameTable, {
+          name: currentTable.name,
+        })
       );
     } else {
       element.setCustomValidity("");
@@ -355,7 +364,7 @@ export default class extends DBGElement {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.schema));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
-      driveProvider.updateFile();
+      void driveProvider.updateFile();
       store.dispatch(tableDialogAction.close());
     }
   };

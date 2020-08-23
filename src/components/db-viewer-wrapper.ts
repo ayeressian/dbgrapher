@@ -30,7 +30,7 @@ import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-db-viewer")
 export default class DbWrapper extends DBGElement {
-  #resolveLoaded!: Function;
+  #resolveLoaded!: () => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -123,7 +123,7 @@ export default class DbWrapper extends DBGElement {
 
   #onTableMoveEnd = (): void => {
     store.dispatch(schemaAction.set(this.#dbViewer.schema!));
-    driveProvider.updateFile();
+    void driveProvider.updateFile();
   };
 
   firstUpdated(): void {
@@ -134,7 +134,7 @@ export default class DbWrapper extends DBGElement {
   }
 
   #loadSchema = (state: AppState, viewport: Viewport): void => {
-    this.#loaded.then(() => {
+    void this.#loaded.then(() => {
       this.#dbViewer.viewport = viewport;
       this.#dbViewer.schema = state.schema.present;
       store.dispatch(setSchemaAction.loaded());
@@ -304,7 +304,7 @@ export default class DbWrapper extends DBGElement {
       (column) => column.name !== event.detail.fromColumn
     );
     store.dispatch(schemaAction.set(schema));
-    driveProvider.updateFile();
+    void driveProvider.updateFile();
     store.dispatch(setSchemaAction.loadViewportUnchange());
   };
 

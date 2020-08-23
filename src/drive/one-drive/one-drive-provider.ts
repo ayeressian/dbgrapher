@@ -29,7 +29,7 @@ export default class OneDriveProvider implements DriveProvider {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       success: (files: any): void => {
         const file = files.value[0];
-        fetch(file["@microsoft.graph.downloadUrl"])
+        void fetch(file["@microsoft.graph.downloadUrl"])
           .then((result) => {
             return result.json();
           })

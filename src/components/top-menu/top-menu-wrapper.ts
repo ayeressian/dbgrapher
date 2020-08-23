@@ -200,7 +200,7 @@ export default class extends DBGElement {
 
   #logout = (): void => {
     this.openAccountPopup = false;
-    driveProvider.logout();
+    void driveProvider.logout();
   };
 
   firstUpdated(): void {
@@ -210,7 +210,7 @@ export default class extends DBGElement {
   }
 
   #onfileRename = (event: FileNameUpdateEvent): void => {
-    driveProvider.renameFile(event.detail.newFileName);
+    void driveProvider.renameFile(event.detail.newFileName);
     this.openFileRenamePopup = false;
   };
 

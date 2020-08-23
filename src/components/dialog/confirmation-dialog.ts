@@ -8,7 +8,7 @@ import {
   unsafeCSS,
 } from "lit-element";
 import buttonCss from "purecss/build/buttons-min.css";
-import { DBGElement } from "./dbg-element";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-confirmation-dialog")
 export default class ConfirmationDialog extends DBGElement {

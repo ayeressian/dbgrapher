@@ -5,7 +5,7 @@ import {
   TableSchema,
 } from "db-viewer-component";
 import toposort from "toposort";
-import ConfirmationDialog from "./components/confirmation-dialog";
+import ConfirmationDialog from "./components/dialog/confirmation-dialog";
 
 const topoLogicalSortTables = async (
   tables: TableSchema[]

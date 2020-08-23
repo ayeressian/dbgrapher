@@ -7,19 +7,22 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import fileSvg from "../../asset/file.svg";
-import oneDriveSvg from "../../asset/onedrive.svg";
-import googleDriveSvg from "../../asset/google-drive.svg";
-import noDriveSvg from "../../asset/no-drive.svg";
-import commonStyles from "./common-icon-dialog-styling";
-import { subscribe } from "../subscribe-store";
-import store from "../store/store";
-import { actions as cloudActions, CloudProvider } from "../store/slices/cloud";
-import { driveProvider } from "../drive/factory";
-import { actions as cloudProviderChooserDialogActions } from "../store/slices/dialog/cloud-provider-chooser-dialog";
-import { actions as newOpenFileDialogActions } from "../store/slices/dialog/new-open-dialog";
-import { t } from "../localization";
-import { DBGElement } from "./dbg-element";
+import fileSvg from "../../../asset/file.svg";
+import oneDriveSvg from "../../../asset/onedrive.svg";
+import googleDriveSvg from "../../../asset/google-drive.svg";
+import noDriveSvg from "../../../asset/no-drive.svg";
+import commonStyles from "../common-icon-dialog-styling";
+import { subscribe } from "../../subscribe-store";
+import store from "../../store/store";
+import {
+  actions as cloudActions,
+  CloudProvider,
+} from "../../store/slices/cloud";
+import { driveProvider } from "../../drive/factory";
+import { actions as cloudProviderChooserDialogActions } from "../../store/slices/dialog/cloud-provider-chooser-dialog";
+import { actions as newOpenFileDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import { t } from "../../localization";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends DBGElement {

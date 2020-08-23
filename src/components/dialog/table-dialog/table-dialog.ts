@@ -8,25 +8,25 @@ import {
   internalProperty,
   PropertyValues,
 } from "lit-element";
-import { actions as tableDialogAction } from "../../store/slices/dialog/table-dialog";
-import store from "../../store/store";
-import { subscribe } from "../../subscribe-store";
+import { actions as tableDialogAction } from "../../../store/slices/dialog/table-dialog";
+import store from "../../../store/store";
+import { subscribe } from "../../../subscribe-store";
 import { FkColumnChangeEventDetail } from "./fk-columns";
 import TableDialogColumns from "./columns";
 import TableDialogFkColumns from "./fk-columns";
 import buttonCss from "purecss/build/buttons-min.css";
 import formsCss from "purecss/build/forms-min.css";
-import { actions as schemaActions } from "../../store/slices/schema";
-import { actions as loadSchemaActions } from "../../store/slices/load-schema";
+import { actions as schemaActions } from "../../../store/slices/schema";
+import { actions as loadSchemaActions } from "../../../store/slices/load-schema";
 import { cloneDeep } from "lodash";
-import { actions as dbViewerModeAction } from "../../store/slices/db-viewer-mode";
+import { actions as dbViewerModeAction } from "../../../store/slices/db-viewer-mode";
 import { Schema, TableSchema, ColumnFkSchema } from "db-viewer-component";
 import { Point } from "db-viewer-component";
-import { driveProvider } from "../../drive/factory";
+import { driveProvider } from "../../../drive/factory";
 import { produce } from "immer";
 import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
-import { DBGElement } from "../dbg-element";
-import { t } from "../../localization";
+import { DBGElement } from "../../dbg-element";
+import { t } from "../../../localization";
 
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {

@@ -1,4 +1,4 @@
-import NewOpenDialog from "../src/components/new-open-dialog";
+import NewOpenDialog from "../src/components/dialog/new-open-dialog";
 import { initComponentTest, removeElement } from "./helper";
 
 describe("new-open-dialog", function () {

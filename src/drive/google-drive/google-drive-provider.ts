@@ -10,7 +10,7 @@ import {
 } from "../../store/slices/cloud";
 import DriveProvider from "../drive-provider";
 import { Schema } from "db-viewer-component";
-import ConfirmationDialog from "../../components/confirmation-dialog";
+import ConfirmationDialog from "../../components/dialog/confirmation-dialog";
 import ResetStoreException from "../../reset-exception";
 import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";

@@ -7,21 +7,21 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import store from "../store/store";
-import { actions as schemaActions } from "../store/slices/schema";
-import { actions as newOpenDialogActions } from "../store/slices/dialog/new-open-dialog";
-import { actions as loadSchemaActions } from "../store/slices/load-schema";
+import store from "../../store/store";
+import { actions as schemaActions } from "../../store/slices/schema";
+import { actions as newOpenDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import { actions as loadSchemaActions } from "../../store/slices/load-schema";
 import {
   actions as cloudActions,
   CloudUpdateState,
-} from "../store/slices/cloud";
-import fileSvg from "../../asset/file.svg";
-import folderOpenSvg from "../../asset/folder-open.svg";
-import commonStyles from "./common-icon-dialog-styling";
-import { subscribe } from "../subscribe-store";
-import { driveProvider } from "../drive/factory";
-import { t } from "../localization";
-import { DBGElement } from "./dbg-element";
+} from "../../store/slices/cloud";
+import fileSvg from "../../../asset/file.svg";
+import folderOpenSvg from "../../../asset/folder-open.svg";
+import commonStyles from "../common-icon-dialog-styling";
+import { subscribe } from "../../subscribe-store";
+import { driveProvider } from "../../drive/factory";
+import { t } from "../../localization";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-new-open-dialog")
 export default class extends DBGElement {

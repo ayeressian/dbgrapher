@@ -8,32 +8,34 @@ import {
 } from "lit-element";
 import {
   styles as commonStyles,
-  ColumnChangeEventDetail,
   removeColumn,
   moveUpColumn,
   moveDownColumn,
 } from "./common-columns";
-import {
-  ColumnNoneFkSchema,
-  ColumnFkSchema,
-  Schema,
-  ColumnSchema,
-} from "db-viewer-component";
+import { OnSelectEvent } from "../../select";
+import { ColumnFkSchema, ColumnSchema } from "db-viewer-component";
+import { Schema } from "db-viewer-component";
 import columnNameValidation from "./column-name-validation";
 import produce from "immer";
-import { DBGElement } from "../dbg-element";
+import { DBGElement } from "../../dbg-element";
 
-@customElement("dbg-table-dialog-columns")
-export default class TableDialogColumns extends DBGElement {
+export interface FkColumnChangeEventDetail {
+  column: ColumnFkSchema;
+  index: number;
+  prevName: string;
+}
+
+@customElement("dbg-table-dialog-fk-columns")
+export default class TableDialogFkColumns extends DBGElement {
   @property({ type: Object }) schema!: Schema;
   @property({ type: Number }) tableIndex!: number;
 
-  #form!: HTMLFormElement;
+  #form?: HTMLFormElement;
 
   static get styles(): CSSResult {
     return css`
       table {
-        width: 760px;
+        width: 870px;
       }
       ${commonStyles}
     `;
@@ -41,23 +43,22 @@ export default class TableDialogColumns extends DBGElement {
 
   #onColumnChange = (
     index: number,
-    column: ColumnNoneFkSchema,
+    column: ColumnFkSchema,
     prevName: string
   ): void => {
-    const detail: ColumnChangeEventDetail = {
+    const detail: FkColumnChangeEventDetail = {
       column,
       index,
       prevName,
     };
-    const event = new CustomEvent("dbg-column-change", { detail });
+    const event = new CustomEvent("dbg-fk-column-change", { detail });
     this.dispatchEvent(event);
   };
 
-  #renderColumn = (
-    column: ColumnNoneFkSchema,
-    index: number
-  ): TemplateResult => {
-    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (
+  #renderColumn = (column: ColumnFkSchema, index: number): TemplateResult => {
+    const currentTableName = this.schema.tables[this.tableIndex].columns[index]
+      .name;
+    const onColumnChange = (type: keyof Omit<ColumnFkSchema, "fk">) => (
       event: InputEvent
     ): void => {
       const newColumn = produce(column, (columnDraft) => {
@@ -70,16 +71,28 @@ export default class TableDialogColumns extends DBGElement {
             break;
           case "name":
             columnNameValidation(this.schema, this.tableIndex, element, index);
-            element.dataset.prev;
-            columnDraft[type] = element.value;
-            break;
-          default:
             columnDraft[type] = element.value;
             break;
         }
       });
-      const currentTable = this.schema.tables[this.tableIndex];
-      this.#onColumnChange(index, newColumn, currentTable.columns[index].name);
+      this.#onColumnChange(index, newColumn, currentTableName);
+    };
+    const onFkTableSelect = (event: OnSelectEvent): void => {
+      const newColumn = produce(column, (columnDraft) => {
+        columnDraft.fk!.table = event.detail.value;
+        columnDraft.fk!.column =
+          this.#getFkColumns(columnDraft.fk!.table)[0]?.name ?? "";
+      });
+      this.#onColumnChange(index, newColumn, currentTableName);
+    };
+    const onFkColumnSelect = (event: OnSelectEvent): void => {
+      const newColumn = produce(column, (columnDraft) => {
+        columnDraft.fk!.column = event.detail.value;
+        columnDraft.fk!.table = (this.shadowRoot!.querySelector(
+          `#table-select-${index}`
+        ) as HTMLInputElement).value;
+      });
+      this.#onColumnChange(index, newColumn, currentTableName);
     };
     return html`
       <tr>
@@ -87,13 +100,6 @@ export default class TableDialogColumns extends DBGElement {
           <input
             @input="${onColumnChange("name")}"
             .value="${column.name}"
-            required
-          />
-        </td>
-        <td>
-          <input
-            @input="${onColumnChange("type")}"
-            .value="${column.type}"
             required
           />
         </td>
@@ -117,6 +123,25 @@ export default class TableDialogColumns extends DBGElement {
             @change="${onColumnChange("nn")}"
             .checked="${column.nn}"
           />
+        </td>
+        <td>
+          <dbg-select
+            id="table-select-${index}"
+            value="${column.fk?.table}"
+            options="${JSON.stringify(
+              this.schema?.tables.map(({ name }) => name)
+            )}"
+            @dbg-on-select="${onFkTableSelect}"
+          ></dbg-select>
+        </td>
+        <td>
+          <dbg-select
+            value="${column.fk?.column}"
+            options="${JSON.stringify(
+              this.#getFkColumns(column.fk!.table).map(({ name }) => name)
+            )}"
+            @dbg-on-select="${onFkColumnSelect}"
+          ></dbg-select>
         </td>
         <td>
           <div
@@ -143,28 +168,28 @@ export default class TableDialogColumns extends DBGElement {
     `;
   };
 
-  #getCurrentTableColumns = (): { column: ColumnSchema; index: number }[] => {
-    const currentTable = this.schema.tables[this.tableIndex];
+  #getCurrentTableFkColumns = (): { column: ColumnSchema; index: number }[] => {
+    const currentTable = this.schema?.tables?.[this.tableIndex];
     return (
-      currentTable.columns
+      currentTable?.columns
         .map((column, index) => ({ column, index }))
-        .filter((item) => !(item.column as ColumnFkSchema).fk) ?? []
+        .filter((item) => (item.column as ColumnFkSchema).fk) ?? []
     );
   };
 
   #renderColumns = (): TemplateResult => {
-    const currentTableColumns = this.#getCurrentTableColumns();
+    const currentTableColumns = this.#getCurrentTableFkColumns();
     let result;
     if (currentTableColumns.length > 0) {
       result = html`${currentTableColumns.map(({ column, index }) =>
-        this.#renderColumn(column as ColumnNoneFkSchema, index)
+        this.#renderColumn(column, index)
       )}`;
     } else {
       result = html`<tr>
-        <td class="no-column" colspan="8">No columns to show</td>
+        <td class="no-column" colspan="9">No fk columns to show</td>
       </tr>`;
     }
-    return html`${result}`;
+    return result;
   };
 
   firstUpdated(): void {
@@ -172,24 +197,25 @@ export default class TableDialogColumns extends DBGElement {
   }
 
   validate(): boolean {
-    return this.#form.reportValidity();
+    return this.#form!.reportValidity();
   }
 
   render(): TemplateResult {
     return html` <div class="container">
       <form class="pure-form">
         <div class="title">
-          Columns
+          Foreign Key Columns
         </div>
         <div class="table-container">
           <table class="pure-table pure-table-horizontal">
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Type</th>
                 <th title="Primary key">PK</th>
                 <th title="Unique">UQ</th>
                 <th title="Not null">NN</th>
+                <th>Foreign Table</th>
+                <th>Foreign Column</th>
                 <th />
                 <th />
                 <th />
@@ -201,7 +227,7 @@ export default class TableDialogColumns extends DBGElement {
           </table>
         </div>
         <button class="pure-button add-column" @click="${this.#addColumn}">
-          Add column
+          Add foreign key
         </button>
       </form>
     </div>`;
@@ -209,7 +235,7 @@ export default class TableDialogColumns extends DBGElement {
 
   #addColumn = async (event: Event): Promise<void> => {
     event.preventDefault();
-    const newEvent = new CustomEvent("dbg-add-column");
+    const newEvent = new CustomEvent("dbg-add-fk-column");
     this.dispatchEvent(newEvent);
 
     //Focus on newly added column name
@@ -220,5 +246,18 @@ export default class TableDialogColumns extends DBGElement {
       ) as HTMLInputElement;
       lastNameInput.focus();
     });
+  };
+
+  #getFkColumns = (tableName: string): ColumnFkSchema[] => {
+    const table =
+      this.schema?.tables.find((table) => table.name === tableName) ??
+      this.schema?.tables[this.tableIndex];
+    return (
+      table?.columns.filter((column) => {
+        const { pk, uq, nn } = column;
+        const { fk } = column as ColumnFkSchema;
+        return (pk || (nn && uq)) && fk == null;
+      }) || []
+    );
   };
 }

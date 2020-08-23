@@ -7,20 +7,20 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import store from "../store/store";
-import localSvg from "../../asset/folder-open.svg";
-import googleDriveSvg from "../../asset/google-drive.svg";
-import oneDriveSvg from "../../asset/onedrive.svg";
-import { subscribe } from "../subscribe-store";
-import { actions as fileOpenDialog } from "../store/slices/dialog/file-dialog/file-open-dialog";
+import store from "../../store/store";
+import localSvg from "../../../asset/folder-open.svg";
+import googleDriveSvg from "../../../asset/google-drive.svg";
+import oneDriveSvg from "../../../asset/onedrive.svg";
+import { subscribe } from "../../subscribe-store";
+import { actions as fileOpenDialog } from "../../store/slices/dialog/file-dialog/file-open-dialog";
 import {
   actions as fileOpenChooserAction,
   FileOpenDialogState,
-} from "../store/slices/dialog/file-open-chooser-dialog";
-import { actions as welcomeDialogActions } from "../store/slices/dialog/new-open-dialog";
-import commonStyles from "./common-icon-dialog-styling";
-import { t } from "../localization";
-import { DBGElement } from "./dbg-element";
+} from "../../store/slices/dialog/file-open-chooser-dialog";
+import { actions as welcomeDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import commonStyles from "../common-icon-dialog-styling";
+import { t } from "../../localization";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-file-open-chooser-dialog")
 export default class extends DBGElement {

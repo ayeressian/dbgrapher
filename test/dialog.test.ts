@@ -1,4 +1,4 @@
-import Dialog from "../src/components/dialog";
+import Dialog from "../src/components/dialog/dialog";
 import { initComponentTest, removeElement } from "./helper";
 
 describe("dialog", function () {

@@ -8,9 +8,9 @@ import {
   unsafeCSS,
 } from "lit-element";
 import { classMap } from "lit-html/directives/class-map";
-import goBackSvg from "../../asset/arrow-alt-circle-left.svg";
-import closeSvg from "../../asset/times-circle.svg";
-import { DBGElement } from "./dbg-element";
+import goBackSvg from "../../../asset/arrow-alt-circle-left.svg";
+import closeSvg from "../../../asset/times-circle.svg";
+import { DBGElement } from "../dbg-element";
 
 export type OnCloseEvent = CustomEvent;
 

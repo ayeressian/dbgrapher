@@ -49,12 +49,12 @@ export default class extends DBGElement {
         dbg-side-panel {
           display: none;
         }
-  
+
         dbg-db-viewer {
           grid-row: 1 / 3;
           grid-column: 1 / 3;
         }
-  
+
         dbg-top-menu-wrapper {
           display: none;
         }

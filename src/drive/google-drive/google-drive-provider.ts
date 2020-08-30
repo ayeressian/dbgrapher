@@ -15,6 +15,7 @@ import ResetStoreException from "../../reset-exception";
 import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";
 import { t } from "../../localization";
+import DbGrapherSchema from "../../db-grapher-schema";
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load("auth2", { callback: resolve, onerror: reject });
@@ -87,7 +88,9 @@ export default class GoogleDriveProvider implements DriveProvider {
       store.dispatch(cloudActions.setFileName(fileName));
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(
-        schemaAction.initiate((filesContent.result as unknown) as Schema)
+        schemaAction.initiate(
+          (filesContent.result as unknown) as DbGrapherSchema
+        )
       );
       store.dispatch(setSchemaAction.load());
       store.dispatch(newOpenDialogActions.close());

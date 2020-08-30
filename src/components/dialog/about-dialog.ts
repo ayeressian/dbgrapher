@@ -6,11 +6,11 @@ import {
   html,
   internalProperty,
 } from "lit-element";
-import { subscribe } from "../subscribe-store";
-import { actions as aboutDialogActions } from "../store/slices/dialog/about-dialog";
-import store from "../store/store";
-import { t } from "../localization";
-import { DBGElement } from "./dbg-element";
+import { subscribe } from "../../subscribe-store";
+import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
+import store from "../../store/store";
+import { t } from "../../localization";
+import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-about-dialog")
 export default class extends DBGElement {

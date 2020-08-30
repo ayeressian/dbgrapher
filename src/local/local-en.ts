@@ -48,6 +48,14 @@ export default {
       saveBtn: "Save",
       cancelBtn: "Cancel",
     },
+    dbType: {
+      mssql: "Microsoft SQL Server",
+      mysql: "MySQL",
+      postgresql: "PostgreSQL",
+      sqlite: "SQLite",
+      generic: "Generic",
+      title: "Please select the database type",
+    },
   },
   hint: {
     tableCreation:

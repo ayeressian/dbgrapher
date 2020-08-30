@@ -16,7 +16,7 @@ import { actions as fileOpenAction } from "../store/slices/dialog/file-dialog/fi
 import { subscribe } from "../subscribe-store";
 import { DBGElement } from "./dbg-element";
 import { t } from "../localization";
-import { Schema } from "db-viewer-component";
+import DbGrapherSchema from "../db-grapher-schema";
 
 @customElement("dbg-file-inputs")
 export default class extends DBGElement {
@@ -93,7 +93,9 @@ export default class extends DBGElement {
       store.dispatch(fileOpenAction.close());
       let schema;
       try {
-        schema = JSON.parse(readerEvent.target!.result as string) as Schema;
+        schema = JSON.parse(
+          readerEvent.target!.result as string
+        ) as DbGrapherSchema;
       } catch (e) {
         alert(t((l) => l.error.invalidJSON));
         return;

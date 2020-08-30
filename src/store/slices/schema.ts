@@ -1,33 +1,47 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Schema } from "db-viewer-component";
+import DbGrapherSchema from "../../db-grapher-schema";
+import { DbType } from "../../db-grapher-schema";
 
 type Data = {
-  past: Schema[];
-  present: Schema;
-  future: Schema[];
+  past: DbGrapherSchema[];
+  present: DbGrapherSchema;
+  future: DbGrapherSchema[];
 };
 
 const slice = createSlice({
   initialState: {
     past: [],
     future: [],
-    present: { tables: [] },
+    present: {
+      dbGrapher: {
+        type: DbType.Generic,
+      },
+      tables: [],
+    },
   } as Data,
   name: "schema",
   reducers: {
-    initiate: (_, action: PayloadAction<Schema | undefined>): Data => {
+    initiate: (_, action: PayloadAction<DbGrapherSchema | undefined>): Data => {
       return {
         past: [],
         future: [],
-        present: action.payload ?? { tables: [] },
+        present: action.payload ?? {
+          dbGrapher: {
+            type: DbType.Generic,
+          },
+          tables: [],
+        },
       };
     },
-    set: (state, action: PayloadAction<Schema>): void => {
+    set: (state, action: PayloadAction<DbGrapherSchema>): void => {
       const { past, present } = state;
       if (present) past.push(present);
       state.past = past;
       state.present = action.payload;
       state.future = [];
+    },
+    setDbType: (state, action: PayloadAction<DbType>): void => {
+      state.present.dbGrapher.type = action.payload;
     },
     undo: (state): void => {
       const { past, future } = state;

@@ -44,6 +44,21 @@ export default class extends DBGElement {
         grid-column: 1 / 3;
         grid-row: 1;
       }
+
+      @media print {
+        dbg-side-panel {
+          display: none;
+        }
+
+        dbg-db-viewer {
+          grid-row: 1 / 3;
+          grid-column: 1 / 3;
+        }
+
+        dbg-top-menu-wrapper {
+          display: none;
+        }
+      }
     `;
   }
 
@@ -62,6 +77,7 @@ export default class extends DBGElement {
         <dbg-new-open-dialog></dbg-new-open-dialog>
         <dbg-cloud-provider-dialog></dbg-cloud-provider-dialog>
         <dbg-confirmation-dialog></dbg-confirmation-dialog>
+        <dbg-db-type-dialog></dbg-db-type-dialog>
       </div>
     `;
   }

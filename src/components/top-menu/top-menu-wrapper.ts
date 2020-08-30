@@ -28,7 +28,7 @@ import ColorHash from "color-hash";
 import { styleMap } from "lit-html/directives/style-map";
 import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
-import { undo, redo } from "../operations";
+import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
@@ -248,13 +248,10 @@ export default class extends DBGElement {
   #itemSelected = (event: CustomEvent): void => {
     switch (event.detail.id) {
       case "new":
-        store.dispatch(cloudActions.setFileName("untitled.dbgr"));
-        store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
-        store.dispatch(schemaAction.initiate());
-        store.dispatch(setSchemaAction.load());
+        newFile();
         break;
       case "open":
-        driveProvider.picker();
+        openFile();
         break;
       case "downloadSchema":
         download(

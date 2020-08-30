@@ -10,6 +10,7 @@ import { reducer as newOpenDialog } from "./slices/dialog/new-open-dialog";
 import { reducer as loadSchema } from "./slices/load-schema";
 import { reducer as loadScreen } from "./slices/load-screen";
 import { reducer as aboutDialog } from "./slices/dialog/about-dialog";
+import { reducer as dbTypeDialog } from "./slices/dialog/db-type-dialog";
 import { reducer as cloudProviderChooserDialog } from "./slices/dialog/cloud-provider-chooser-dialog";
 import { reducer as cloud } from "./slices/cloud";
 import { reducer as localization } from "./slices/localization";
@@ -20,6 +21,7 @@ const appReducer = combineReducers({
   cloud,
   dialog: combineReducers({
     aboutDialog,
+    dbTypeDialog,
     fileDialog: combineReducers({
       fileOpenDialog,
       fileSqlOpenDialog,

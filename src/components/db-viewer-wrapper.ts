@@ -17,7 +17,6 @@ import DbViewer, {
   TableClickEvent,
   TableDblClickEvent,
   ViewportClickEvent,
-  Schema,
   Viewport,
   RelationClickEvent,
 } from "db-viewer-component";
@@ -27,6 +26,7 @@ import { AppState } from "../store/reducer";
 import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
 import { undo, redo } from "./operations";
 import { DBGElement } from "./dbg-element";
+import DbGrapherSchema from "../db-grapher-schema";
 
 @customElement("dbg-db-viewer")
 export default class DbWrapper extends DBGElement {
@@ -71,8 +71,8 @@ export default class DbWrapper extends DBGElement {
     this.#relationFirstTableName = event.detail.name;
   };
 
-  #createRelation = (secondTableName: string): Schema => {
-    const schema = this.#dbViewer.schema;
+  #createRelation = (secondTableName: string): DbGrapherSchema => {
+    const schema = this.#dbViewer.schema as DbGrapherSchema;
     const tables = schema!.tables;
     const firstTable = tables.find(
       (table) => table.name === this.#relationFirstTableName
@@ -122,7 +122,7 @@ export default class DbWrapper extends DBGElement {
   };
 
   #onTableMoveEnd = (): void => {
-    store.dispatch(schemaAction.set(this.#dbViewer.schema!));
+    store.dispatch(schemaAction.set(this.#dbViewer.schema as DbGrapherSchema));
     void driveProvider.updateFile();
   };
 
@@ -282,7 +282,7 @@ export default class DbWrapper extends DBGElement {
   }
 
   #removeTable = (event: TableClickEvent): void => {
-    const schema = this.#dbViewer.schema!;
+    const schema = this.#dbViewer.schema as DbGrapherSchema;
     const tableName = event.detail.name;
     schema.tables = schema.tables.filter((table) => table.name !== tableName);
     schema.tables.forEach((table) => {
@@ -296,7 +296,7 @@ export default class DbWrapper extends DBGElement {
   };
 
   #removeRelation = (event: RelationClickEvent): void => {
-    const schema = this.#dbViewer.schema!;
+    const schema = this.#dbViewer.schema as DbGrapherSchema;
     const fromTable = schema.tables.find(
       (table) => table.name === event.detail.fromTable
     )!;

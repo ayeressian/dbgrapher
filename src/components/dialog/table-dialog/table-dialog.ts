@@ -27,6 +27,7 @@ import { produce } from "immer";
 import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
 import { DBGElement } from "../../dbg-element";
 import { t } from "../../../localization";
+import DbGrapherSchema from "../../../db-grapher-schema";
 
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {
@@ -34,7 +35,7 @@ export default class extends DBGElement {
   private open = false;
 
   @internalProperty()
-  private schema!: Schema;
+  private schema!: DbGrapherSchema;
 
   #currentTableIndex!: number;
   #isEdit = false;

@@ -4,14 +4,10 @@ import {
   css,
   CSSResult,
   TemplateResult,
-  unsafeCSS,
   internalProperty,
 } from "lit-element";
-import fileSvg from "../../../asset/file.svg";
-import oneDriveSvg from "../../../asset/onedrive.svg";
 import googleDriveSvg from "../../../asset/google-drive.svg";
 import noDriveSvg from "../../../asset/no-drive.svg";
-import commonStyles from "../common-icon-dialog-styling";
 import { subscribe } from "../../subscribe-store";
 import store from "../../store/store";
 import {
@@ -31,29 +27,6 @@ export default class extends DBGElement {
 
   static get styles(): CSSResult {
     return css`
-      ${commonStyles}
-
-      .one-drive {
-        width: 179px;
-        margin-left: 10px;
-        background-image: url(${unsafeCSS(oneDriveSvg)});
-      }
-
-      .google-drive {
-        width: 100px;
-        background-image: url(${unsafeCSS(googleDriveSvg)});
-      }
-
-      .no-drive {
-        width: 100px;
-        margin-left: 52px;
-        background-image: url(${unsafeCSS(noDriveSvg)});
-      }
-
-      .new-file {
-        background-image: url(${unsafeCSS(fileSvg)});
-      }
-
       .operations {
         display: flex;
         flex-direction: horizontal;
@@ -81,36 +54,17 @@ export default class extends DBGElement {
       >
         <div slot="body">
           <div class="operations">
-            <div
-              class="operation-container"
-              @click="${this.#onSelect(CloudProvider.GoogleDrive)}"
-            >
-              <div class="operation-icon-container">
-                <div class="google-drive operation-icon"></div>
-              </div>
-              <h4 class="operation">
-                ${t((l) => l.dialog.cloudProvider.operation.googleDrive)}
-              </h4>
-            </div>
-            <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958
-            <div class="operation-container" @click="${this.#onSelect(
-              CloudProvider.OneDrive
-            )}">
-              <div class="one-drive operation-icon">
-              </div>
-              <h4 class="operation">
-                One Drive
-              </h4>
-            </div>-->
-            <div
-              class="operation-container"
-              @click="${this.#onSelect(CloudProvider.None)}"
-            >
-              <div class="no-drive operation-icon"></div>
-              <h4 class="operation">
-                ${t((l) => l.dialog.cloudProvider.operation.none)}
-              </h4>
-            </div>
+            <dbg-dialog-operation
+              @dbg-click=${this.#onSelect(CloudProvider.GoogleDrive)}
+              text=${t((l) => l.dialog.cloudProvider.operation.googleDrive)}
+              icon=${googleDriveSvg}
+            ></dbg-dialog-operation>
+            <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958-->
+            <dbg-dialog-operation
+              @dbg-click=${this.#onSelect(CloudProvider.None)}
+              text=${t((l) => l.dialog.cloudProvider.operation.none)}
+              icon=${noDriveSvg}
+            ></dbg-dialog-operation>
           </div>
         </div>
       </dbg-dialog>

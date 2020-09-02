@@ -156,10 +156,10 @@ export default class DbWrapper extends DBGElement {
   #isDialogOpen = (): boolean => {
     const stateDialog = store.getState().dialog;
     return (
-      stateDialog.aboutDialog ||
-      stateDialog.cloudProviderChooserDialog ||
+      stateDialog.dialogs.aboutDialog ||
+      stateDialog.dialogs.cloudProviderChooserDialog ||
       stateDialog.fileOpenChooserDialog !== FileOpenDialogState.Close ||
-      stateDialog.newOpenDialog ||
+      stateDialog.dialogs.newOpenDialog ||
       stateDialog.tableDialog.open
     );
   };

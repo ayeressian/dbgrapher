@@ -15,7 +15,10 @@ import { subscribe } from "../../subscribe-store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { actions as schemaActions } from "../../store/slices/schema";
-import { actions as dbTypeDialogActions } from "../../store/slices/dialog/db-type-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import { DbType } from "../../db-grapher-schema";
 import store from "../../store/store";
 import { actions as setSchemaAction } from "../../store/slices/load-schema";
@@ -23,7 +26,7 @@ import { actions as setSchemaAction } from "../../store/slices/load-schema";
 @customElement("dbg-db-type-dialog")
 export default class extends DBGElement {
   @internalProperty()
-  private open = store.getState().dialog.dbTypeDialog;
+  private open = store.getState().dialog.dialogs.dbTypeDialog;
 
   static get styles(): CSSResult {
     return css`
@@ -38,7 +41,7 @@ export default class extends DBGElement {
     super.connectedCallback();
 
     subscribe(
-      (state) => state.dialog.dbTypeDialog,
+      (state) => state.dialog.dialogs.dbTypeDialog,
       (open) => {
         this.open = open;
       }
@@ -85,7 +88,7 @@ export default class extends DBGElement {
   }
 
   #closeAndLoad = (): void => {
-    store.dispatch(dbTypeDialogActions.close());
+    store.dispatch(dialogActions.close(DialogTypes.DbTypeDialog));
     store.dispatch(setSchemaAction.load());
   };
 

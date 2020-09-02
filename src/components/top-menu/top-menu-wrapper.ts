@@ -7,7 +7,10 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import store from "../../store/store";
 import { download } from "../../util";
 import { Schema } from "db-viewer-component";
@@ -285,7 +288,7 @@ export default class extends DBGElement {
         }
         break;
       case "about":
-        store.dispatch(aboutDialogActions.open());
+        store.dispatch(dialogActions.open(DialogTypes.AboutDialog));
         break;
     }
   };

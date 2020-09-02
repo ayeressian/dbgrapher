@@ -1,7 +1,10 @@
 import { CloudProvider, actions as cloudActions } from "../store/slices/cloud";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
-import { actions as cloudProviderChooserDialogActions } from "../store/slices/dialog/cloud-provider-chooser-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../store/slices/dialog/dialogs";
 import { actions as loadActions } from "../store/slices/load-screen";
 import DriveProvider from "./drive-provider";
 import GoogleDriveProvider from "./google-drive/google-drive-provider";
@@ -45,7 +48,7 @@ const initFactory = (): void => {
   const url = new URL(window.location.href);
   const googleDriveCommon = <T extends OpenURIData | CreateURIData>(): T => {
     store.dispatch(cloudActions.setDriveType(CloudProvider.GoogleDrive));
-    store.dispatch(cloudProviderChooserDialogActions.close());
+    store.dispatch(dialogActions.close(DialogTypes.CloudProviderChooserDialog));
 
     const data = JSON.parse(decodeURI(url.search.substr(7)));
     return data;

@@ -3,7 +3,10 @@ import { actions as schemaAction } from "../../store/slices/schema";
 import { actions as setSchemaAction } from "../../store/slices/load-schema";
 import env from "../../../env.json";
 import { actions as loadScreenAction } from "../../store/slices/load-screen";
-import { actions as newOpenDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import {
   actions as cloudActions,
   CloudUpdateState,
@@ -93,7 +96,7 @@ export default class GoogleDriveProvider implements DriveProvider {
         )
       );
       store.dispatch(setSchemaAction.load());
-      store.dispatch(newOpenDialogActions.close());
+      store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
     }
   }
 

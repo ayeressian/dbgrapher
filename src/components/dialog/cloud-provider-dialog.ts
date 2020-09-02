@@ -15,15 +15,17 @@ import {
   CloudProvider,
 } from "../../store/slices/cloud";
 import { driveProvider } from "../../drive/factory";
-import { actions as cloudProviderChooserDialogActions } from "../../store/slices/dialog/cloud-provider-chooser-dialog";
-import { actions as newOpenFileDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends DBGElement {
   @internalProperty()
-  private open = store.getState().dialog.cloudProviderChooserDialog;
+  private open = store.getState().dialog.dialogs.cloudProviderChooserDialog;
 
   static get styles(): CSSResult {
     return css`
@@ -38,7 +40,7 @@ export default class extends DBGElement {
     super.connectedCallback();
 
     subscribe(
-      (state) => state.dialog.cloudProviderChooserDialog,
+      (state) => state.dialog.dialogs.cloudProviderChooserDialog,
       (open) => {
         this.open = open;
       }
@@ -75,8 +77,10 @@ export default class extends DBGElement {
     store.dispatch(cloudActions.setDriveType(cloudProvider));
     const loggedIn = await driveProvider.login();
     if (loggedIn) {
-      store.dispatch(cloudProviderChooserDialogActions.close());
-      store.dispatch(newOpenFileDialogActions.open());
+      store.dispatch(
+        dialogActions.close(DialogTypes.CloudProviderChooserDialog)
+      );
+      store.dispatch(dialogActions.open(DialogTypes.NewOpenDialog));
     }
   };
 }

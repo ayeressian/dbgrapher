@@ -88,8 +88,8 @@ export default class extends DBGElement {
         event.key === "s" &&
         state.cloud.provider !== CloudProvider.None &&
         !state.dialog.tableDialog.open &&
-        !state.dialog.newOpenDialog &&
-        !state.dialog.aboutDialog &&
+        !state.dialog.dialogs.newOpenDialog &&
+        !state.dialog.dialogs.aboutDialog &&
         state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
       ) {
         this.#showTimedMessage(t((l) => l.hint.driveSave));

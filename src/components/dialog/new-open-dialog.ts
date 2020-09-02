@@ -7,7 +7,10 @@ import {
   internalProperty,
 } from "lit-element";
 import store from "../../store/store";
-import { actions as newOpenDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import fileSvg from "../../../asset/file.svg";
 import folderOpenSvg from "../../../asset/folder-open.svg";
 import { subscribe } from "../../subscribe-store";
@@ -18,7 +21,7 @@ import { newFile, openFile } from "../operations";
 @customElement("dbg-new-open-dialog")
 export default class extends DBGElement {
   @internalProperty()
-  private open = false;
+  private open = store.getState().dialog.dialogs.newOpenDialog;
 
   static get styles(): CSSResult {
     return css`
@@ -33,7 +36,7 @@ export default class extends DBGElement {
     super.connectedCallback();
 
     subscribe(
-      (state) => state.dialog.newOpenDialog,
+      (state) => state.dialog.dialogs.newOpenDialog,
       (open) => {
         this.open = open;
       }
@@ -62,7 +65,7 @@ export default class extends DBGElement {
   }
 
   #newFile = (): void => {
-    store.dispatch(newOpenDialogActions.close());
+    store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
     newFile();
   };
 

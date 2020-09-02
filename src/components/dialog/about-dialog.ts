@@ -7,7 +7,10 @@ import {
   internalProperty,
 } from "lit-element";
 import { subscribe } from "../../subscribe-store";
-import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import store from "../../store/store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
@@ -49,7 +52,7 @@ export default class extends DBGElement {
     super.connectedCallback();
 
     subscribe(
-      (state) => state.dialog.aboutDialog,
+      (state) => state.dialog.dialogs.aboutDialog,
       (open) => {
         this.open = open;
       }
@@ -57,6 +60,6 @@ export default class extends DBGElement {
   }
 
   #close = (): void => {
-    store.dispatch(aboutDialogActions.close());
+    store.dispatch(dialogActions.close(DialogTypes.AboutDialog));
   };
 }

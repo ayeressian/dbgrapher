@@ -8,6 +8,8 @@ import {
   actions as dialogActions,
   DialogTypes,
 } from "../store/slices/dialog/dialogs";
+import { subscribeOnce } from "../subscribe-store";
+import { DbType } from "../db-grapher-schema";
 
 export const undo = (): void => {
   store.dispatch(schemaAction.undo());
@@ -21,17 +23,24 @@ export const redo = (): void => {
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };
 
-export const openFile = async (): Promise<void> => {
-  await driveProvider.picker();
-  if (store.getState().schema.present?.dbGrapher?.type == null) {
-    store.dispatch(dialogActions.open(DialogTypes.DbTypeDialog));
-    store.dispatch(setSchemaAction.load());
-  }
+export const getDbType = async (): Promise<DbType> => {
+  store.dispatch(dialogActions.open(DialogTypes.DbTypeDialog));
+  await subscribeOnce((state) => state.dialog.dialogs.dbTypeDialog);
+  return store.getState().schema.present.dbGrapher.type;
 };
 
-export const newFile = (): void => {
+export const openFile = async (): Promise<void> => {
+  subscribeOnce((state) => state.schema.present).then(() => {
+    if (store.getState().schema.present?.dbGrapher?.type == null) {
+      getDbType();
+    }
+  });
+  await driveProvider.picker();
+};
+
+export const newFile = async (): Promise<void> => {
   store.dispatch(cloudActions.setFileName("untitled.dbgr"));
   store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
+  await getDbType();
   store.dispatch(schemaAction.initiate());
-  store.dispatch(dialogActions.open(DialogTypes.DbTypeDialog));
 };

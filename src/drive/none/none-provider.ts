@@ -1,11 +1,12 @@
 import DriveProvider from "../drive-provider";
 import store from "../../store/store";
 import { actions as fileOpenDialog } from "../../store/slices/dialog/file-dialog/file-open-dialog";
+import { subscribeOnce } from "../../subscribe-store";
 
 export default class NoneProvider implements DriveProvider {
-  picker(): Promise<void> {
+  async picker(): Promise<void> {
     store.dispatch(fileOpenDialog.open());
-    return Promise.resolve();
+    await subscribeOnce((state) => state.dialog.fileDialog.fileOpenDialog);
   }
   login(): Promise<boolean> {
     return Promise.resolve(true);

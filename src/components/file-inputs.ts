@@ -52,12 +52,11 @@ export default class extends DBGElement {
     super.connectedCallback();
     subscribe(
       (state) => state.dialog.fileDialog.fileOpenDialog,
-      (open) => {
+      async (open) => {
         if (open) {
-          void this.#loaded.then(() => {
-            store.dispatch(fileOpenDialogActions.close());
-            this.#dbgFileInput.click();
-          });
+          await this.#loaded;
+          store.dispatch(fileOpenDialogActions.close());
+          this.#dbgFileInput.click();
         }
       }
     );

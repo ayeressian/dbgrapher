@@ -48,7 +48,6 @@ export default class extends DBGElement {
   }
 
   render(): TemplateResult {
-    console.log("render");
     return html`
       <dbg-dialog
         ?show=${this.open}

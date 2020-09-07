@@ -41,7 +41,13 @@ const slice = createSlice({
       state.future = [];
     },
     setDbType: (state, action: PayloadAction<DbType>): void => {
-      state.present.dbGrapher.type = action.payload;
+      if (state.present.dbGrapher == null) {
+        state.present.dbGrapher = {
+          type: action.payload,
+        };
+      } else {
+        state.present.dbGrapher.type = action.payload;
+      }
     },
     undo: (state): void => {
       const { past, future } = state;

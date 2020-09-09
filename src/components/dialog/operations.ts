@@ -4,15 +4,11 @@ import {
   TemplateResult,
   css,
   html,
-  property,
 } from "lit-element";
 import { DBGElement } from "../dbg-element";
 
-@customElement("dbg-dialog-operation")
+@customElement("dbg-dialog-operations")
 export default class extends DBGElement {
-  @property({ type: String }) text!: string;
-  @property({ type: String }) icon!: string;
-
   static get styles(): CSSResult {
     return css`
       .operations {
@@ -22,12 +18,7 @@ export default class extends DBGElement {
     `;
   }
 
-  #onClick = (): void => {
-    const newEvent = new CustomEvent("dbg-click");
-    this.dispatchEvent(newEvent);
-  };
-
   render(): TemplateResult {
-    return html` <div class="operations"></div> `;
+    return html` <div class="operations"><slot></slot></div> `;
   }
 }

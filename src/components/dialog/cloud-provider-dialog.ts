@@ -1,8 +1,6 @@
 import {
   html,
   customElement,
-  css,
-  CSSResult,
   TemplateResult,
   internalProperty,
 } from "lit-element";
@@ -27,15 +25,6 @@ export default class extends DBGElement {
   @internalProperty()
   private open = store.getState().dialog.dialogs.cloudProviderChooserDialog;
 
-  static get styles(): CSSResult {
-    return css`
-      .operations {
-        display: flex;
-        flex-direction: horizontal;
-      }
-    `;
-  }
-
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -54,7 +43,7 @@ export default class extends DBGElement {
         centerTitle=${t((l) => l.dialog.cloudProvider.title)}
       >
         <div slot="body">
-          <div class="operations">
+          <dbg-dialog-operations>
             <dbg-dialog-operation
               @dbg-click=${this.#onSelect(CloudProvider.GoogleDrive)}
               text=${t((l) => l.dialog.cloudProvider.operation.googleDrive)}
@@ -66,7 +55,7 @@ export default class extends DBGElement {
               text=${t((l) => l.dialog.cloudProvider.operation.none)}
               icon=${noDriveSvg}
             ></dbg-dialog-operation>
-          </div>
+          </dbg-dialog-operations>
         </div>
       </dbg-dialog>
     `;

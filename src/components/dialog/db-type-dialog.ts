@@ -1,8 +1,6 @@
 import {
   html,
   customElement,
-  css,
-  CSSResult,
   TemplateResult,
   internalProperty,
 } from "lit-element";
@@ -28,23 +26,20 @@ export default class extends DBGElement {
   @internalProperty()
   private open = store.getState().dialog.dialogs.dbTypeDialog;
 
-  static get styles(): CSSResult {
-    return css`
-      .operations {
-        display: flex;
-        flex-direction: horizontal;
-      }
-    `;
-  }
+  @internalProperty()
+  private selectedDbType!: DbType;
 
   connectedCallback(): void {
     super.connectedCallback();
 
     subscribe(
       (state) => state.dialog.dialogs.dbTypeDialog,
-      (open) => {
-        this.open = open;
-      }
+      (open) => (this.open = open)
+    );
+
+    subscribe(
+      (state) => state.schema.present.dbGrapher.type,
+      (dbType) => (this.selectedDbType = dbType)
     );
   }
 
@@ -55,33 +50,38 @@ export default class extends DBGElement {
         centerTitle=${t((l) => l.dialog.dbType.title)}
       >
         <div slot="body">
-          <div class="operations">
+          <dbg-dialog-operations>
             <dbg-dialog-operation
               @dbg-click=${this.#mssql}
               text=${t((l) => l.dialog.dbType.mssql)}
               icon=${mssql}
+              ?selected=${this.selectedDbType === DbType.Mssql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               @dbg-click=${this.#mysql}
               text=${t((l) => l.dialog.dbType.mysql)}
               icon=${mysql}
+              ?selected=${this.selectedDbType === DbType.Mysql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               @dbg-click=${this.#postgresql}
               text=${t((l) => l.dialog.dbType.postgresql)}
               icon=${postgresql}
+              ?selected=${this.selectedDbType === DbType.Postgresql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               @dbg-click=${this.#sqlite}
               text=${t((l) => l.dialog.dbType.sqlite)}
               icon=${sqlite}
+              ?selected=${this.selectedDbType === DbType.Sqlite}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               @dbg-click=${this.#generic}
               text=${t((l) => l.dialog.dbType.generic)}
               icon=${db}
+              ?selected=${this.selectedDbType === DbType.Generic}
             ></dbg-dialog-operation>
-          </div>
+          </dbg-dialog-operations>
         </div>
       </dbg-dialog>
     `;

@@ -9,6 +9,7 @@ import "./select";
 import "./load-screen";
 import "./hint";
 import "./dialog/operation";
+import "./dialog/operations";
 import "./dialog/about-dialog";
 import "./dialog/dialog";
 import "./dialog/new-open-dialog";

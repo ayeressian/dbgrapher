@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DbGrapherSchema from "../../db-grapher-schema";
 import { DbType } from "../../db-grapher-schema";
+import store from "../store";
 
 type Data = {
   past: DbGrapherSchema[];
@@ -21,13 +22,16 @@ const slice = createSlice({
   } as Data,
   name: "schema",
   reducers: {
-    initiate: (_, action: PayloadAction<DbGrapherSchema | undefined>): Data => {
+    initiate: (
+      state,
+      action: PayloadAction<DbGrapherSchema | undefined>
+    ): Data => {
       return {
         past: [],
         future: [],
         present: action.payload ?? {
           dbGrapher: {
-            type: DbType.Generic,
+            type: state.present.dbGrapher.type ?? DbType.Generic,
           },
           tables: [],
         },

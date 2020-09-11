@@ -1,3 +1,5 @@
+import { t } from "../../localization";
+
 export interface Item {
   id: string;
   title: string;
@@ -16,19 +18,19 @@ export default {
       items: [
         {
           id: "new",
-          title: "New Schema",
+          title: t((l) => l.topMenu.items.file.new),
         },
         {
           id: "open",
-          title: "Open Schema",
+          title: t((l) => l.topMenu.items.file.open),
         },
         {
           id: "exportSql",
-          title: "Export SQL",
+          title: t((l) => l.topMenu.items.file.exportSql),
         },
         {
           id: "downloadSchema",
-          title: "Download",
+          title: t((l) => l.topMenu.items.file.download),
         },
       ],
     },
@@ -38,11 +40,15 @@ export default {
       items: [
         {
           id: "undo",
-          title: "Undo",
+          title: t((l) => l.topMenu.items.edit.undo),
         },
         {
           id: "redo",
-          title: "Redo",
+          title: t((l) => l.topMenu.items.edit.redo),
+        },
+        {
+          id: "selectDbType",
+          title: t((l) => l.topMenu.items.edit.selectDbType),
         },
       ],
     },
@@ -52,17 +58,17 @@ export default {
       items: [
         {
           id: "reportIssue",
-          title: "Report an issue",
+          title: t((l) => l.topMenu.items.help.reportIssue),
         },
         {
           id: "about",
-          title: "About",
+          title: t((l) => l.topMenu.items.help.about),
         },
       ],
     },
     {
       id: "gitHub",
-      title: "GitHub",
+      title: t((l) => l.topMenu.items.gitHub),
     },
   ],
 } as TopMenuConfig;

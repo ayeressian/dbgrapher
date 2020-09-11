@@ -85,6 +85,24 @@ export default {
       saving: "$fileName - Saving to $providerName",
       saved: "$fileName - Saved to $providerName",
     },
+    items: {
+      file: {
+        new: "New",
+        open: "Open",
+        exportSql: "Export SQL",
+        download: "Download",
+      },
+      edit: {
+        undo: "Undo",
+        redo: "Redo",
+        selectDbType: "Select DB Type",
+      },
+      help: {
+        reportIssue: "Report an issue",
+        about: "About",
+      },
+      gitHub: "GitHub",
+    },
   },
   cloudProvider: {
     googleDrive: "Google Drive",

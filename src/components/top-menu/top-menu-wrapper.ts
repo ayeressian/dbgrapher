@@ -32,6 +32,7 @@ import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
+import { DbType } from "../../db-grapher-schema";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -268,6 +269,9 @@ export default class extends DBGElement {
         break;
       case "redo":
         redo();
+        break;
+      case "selectDbType":
+        store.dispatch(dialogActions.open(DialogTypes.DbTypeDialog));
         break;
       case "reportIssue":
         {

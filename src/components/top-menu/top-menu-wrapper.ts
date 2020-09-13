@@ -11,6 +11,7 @@ import {
   actions as dialogActions,
   DialogTypes,
 } from "../../store/slices/dialog/dialogs";
+import { actions as dbTypeDialogActions } from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
 import { download } from "../../util";
 import { Schema } from "db-viewer-component";
@@ -32,7 +33,6 @@ import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
-import { DbType } from "../../db-grapher-schema";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -249,7 +249,7 @@ export default class extends DBGElement {
   #itemSelected = (event: CustomEvent): void => {
     switch (event.detail.id) {
       case "new":
-        newFile();
+        newFile(false);
         break;
       case "open":
         openFile();
@@ -271,7 +271,7 @@ export default class extends DBGElement {
         redo();
         break;
       case "selectDbType":
-        store.dispatch(dialogActions.open(DialogTypes.DbTypeDialog));
+        store.dispatch(dbTypeDialogActions.open(false));
         break;
       case "reportIssue":
         {

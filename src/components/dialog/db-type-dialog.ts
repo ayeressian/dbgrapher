@@ -14,6 +14,10 @@ import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { actions as schemaActions } from "../../store/slices/schema";
 import {
+  actions as dbTypeDialogActions,
+  DbTypeDialogState,
+} from "../../store/slices/dialog/db-type-dialog";
+import {
   actions as dialogActions,
   DialogTypes,
 } from "../../store/slices/dialog/dialogs";
@@ -24,7 +28,7 @@ import { actions as setSchemaAction } from "../../store/slices/load-schema";
 @customElement("dbg-db-type-dialog")
 export default class extends DBGElement {
   @internalProperty()
-  private open = store.getState().dialog.dialogs.dbTypeDialog;
+  private open = store.getState().dialog.dbTypeDialog;
 
   @internalProperty()
   private selectedDbType!: DbType;
@@ -33,12 +37,12 @@ export default class extends DBGElement {
     super.connectedCallback();
 
     subscribe(
-      (state) => state.dialog.dialogs.dbTypeDialog,
+      (state) => state.dialog.dbTypeDialog,
       (open) => (this.open = open)
     );
 
     subscribe(
-      (state) => state.schema.present.dbGrapher.type,
+      (state) => state.schema.present.dbGrapher?.type,
       (dbType) => (this.selectedDbType = dbType)
     );
   }
@@ -46,7 +50,12 @@ export default class extends DBGElement {
   render(): TemplateResult {
     return html`
       <dbg-dialog
-        ?show=${this.open}
+        ?show=${this.open !== DbTypeDialogState.Close}
+        ?showBack=${this.open === DbTypeDialogState.OpenFromWizard}
+        ?showClose=${this.open === DbTypeDialogState.OpenFromTopMenu}
+        @dbg-on-close=${this.#close}
+        @dbg-on-back=${this.#back}
+        @dbg-on-escape=${this.#close}
         centerTitle=${t((l) => l.dialog.dbType.title)}
       >
         <div slot="body">
@@ -88,7 +97,7 @@ export default class extends DBGElement {
   }
 
   #closeAndLoad = (): void => {
-    store.dispatch(dialogActions.close(DialogTypes.DbTypeDialog));
+    store.dispatch(dbTypeDialogActions.close());
     store.dispatch(setSchemaAction.load());
   };
 
@@ -115,5 +124,16 @@ export default class extends DBGElement {
   #generic = (): void => {
     store.dispatch(schemaActions.setDbType(DbType.Generic));
     this.#closeAndLoad();
+  };
+
+  #close = (): void => {
+    if (this.open === DbTypeDialogState.OpenFromTopMenu) {
+      store.dispatch(dbTypeDialogActions.close());
+    }
+  };
+
+  #back = (): void => {
+    store.dispatch(dbTypeDialogActions.close());
+    store.dispatch(dialogActions.open(DialogTypes.NewOpenDialog));
   };
 }

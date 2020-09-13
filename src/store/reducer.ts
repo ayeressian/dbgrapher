@@ -11,6 +11,7 @@ import { reducer as loadScreen } from "./slices/load-screen";
 import { reducer as cloud } from "./slices/cloud";
 import { reducer as localization } from "./slices/localization";
 import { reducer as dialogs } from "./slices/dialog/dialogs";
+import { reducer as dbTypeDialog } from "./slices/dialog/db-type-dialog";
 
 const appReducer = combineReducers({
   createCords,
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   cloud,
   dialog: combineReducers({
     dialogs,
+    dbTypeDialog,
     fileDialog: combineReducers({
       fileOpenDialog,
       fileSqlOpenDialog,

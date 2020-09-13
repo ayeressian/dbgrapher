@@ -4,7 +4,6 @@ export enum DialogTypes {
   AboutDialog = "aboutDialog",
   NewOpenDialog = "newOpenDialog",
   CloudProviderChooserDialog = "cloudProviderChooserDialog",
-  DbTypeDialog = "dbTypeDialog",
 }
 
 type DialogsState = { [type in DialogTypes]: boolean };
@@ -14,7 +13,6 @@ const slice = createSlice({
     [DialogTypes.AboutDialog]: false,
     [DialogTypes.NewOpenDialog]: false,
     [DialogTypes.CloudProviderChooserDialog]: true,
-    [DialogTypes.DbTypeDialog]: false,
   } as DialogsState,
   name: "dialogs",
   reducers: {

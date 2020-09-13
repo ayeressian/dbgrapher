@@ -60,6 +60,8 @@ export default class extends DBGElement {
   }
 
   #close = (): void => {
-    store.dispatch(dialogActions.close(DialogTypes.AboutDialog));
+    if (this.open) {
+      store.dispatch(dialogActions.close(DialogTypes.AboutDialog));
+    }
   };
 }

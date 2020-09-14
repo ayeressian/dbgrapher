@@ -21,7 +21,9 @@ describe("Relations", () => {
     await page.waitForLoadState("domcontentloaded");
     passData.page = page;
 
-    await page.click("dbg-app dbg-cloud-provider-dialog dbg-dialog .no-drive");
+    await page.click(
+      'dbg-app dbg-cloud-provider-dialog dbg-dialog [data-testid="none"]'
+    );
 
     // Upload buffer from memory
     await page.setInputFiles("dbg-app dbg-file-inputs #dbgFileInput", {

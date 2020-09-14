@@ -61,30 +61,35 @@ export default class extends DBGElement {
         <div slot="body">
           <dbg-dialog-operations>
             <dbg-dialog-operation
+              data-testid="mssql"
               @dbg-click=${this.#mssql}
               text=${t((l) => l.dialog.dbType.mssql)}
               icon=${mssql}
               ?selected=${this.selectedDbType === DbType.Mssql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
+              data-testid="mysql"
               @dbg-click=${this.#mysql}
               text=${t((l) => l.dialog.dbType.mysql)}
               icon=${mysql}
               ?selected=${this.selectedDbType === DbType.Mysql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
+              data-testid="postgresql"
               @dbg-click=${this.#postgresql}
               text=${t((l) => l.dialog.dbType.postgresql)}
               icon=${postgresql}
               ?selected=${this.selectedDbType === DbType.Postgresql}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
+              data-testid="sqlite"
               @dbg-click=${this.#sqlite}
               text=${t((l) => l.dialog.dbType.sqlite)}
               icon=${sqlite}
               ?selected=${this.selectedDbType === DbType.Sqlite}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
+              data-testid="generic"
               @dbg-click=${this.#generic}
               text=${t((l) => l.dialog.dbType.generic)}
               icon=${db}

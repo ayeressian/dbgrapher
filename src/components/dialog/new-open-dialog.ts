@@ -38,11 +38,13 @@ export default class extends DBGElement {
         <div slot="body">
           <dbg-dialog-operations>
             <dbg-dialog-operation
+              data-testid="new-file"
               @dbg-click=${this.#newFile}
               text=${t((l) => l.dialog.newOpen.operation.newSchema)}
               icon=${fileSvg}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
+              data-testid="open-file"
               @dbg-click=${this.#openFile}
               text=${t((l) => l.dialog.newOpen.operation.openSchema)}
               icon=${folderOpenSvg}

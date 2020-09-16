@@ -16,7 +16,7 @@ describe("new-open-dialog", function () {
 
   it("should have 2 actions", () => {
     expect(
-      welcomeDialog.shadowRoot!.querySelectorAll(".operation-container").length
+      welcomeDialog.shadowRoot!.querySelectorAll("dbg-dialog-operation").length
     ).toEqual(2);
   });
 });

@@ -30,8 +30,7 @@ describe("table-dialog-column", function () {
   });
 
   it("should render properly", function () {
-    expect(shadowRoot!.firstElementChild!.outerHTML.replace(/\s/g, "")).toEqual(
-      snapshot.replace(/\s/g, "")
-    );
+    const html = shadowRoot!.firstElementChild!.outerHTML.replace(/\s/g, "");
+    expect(html).toEqual(snapshot);
   });
 });

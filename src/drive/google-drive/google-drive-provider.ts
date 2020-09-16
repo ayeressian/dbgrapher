@@ -3,7 +3,10 @@ import { actions as schemaAction } from "../../store/slices/schema";
 import { actions as setSchemaAction } from "../../store/slices/load-schema";
 import env from "../../../env.json";
 import { actions as loadScreenAction } from "../../store/slices/load-screen";
-import { actions as newOpenDialogActions } from "../../store/slices/dialog/new-open-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
 import {
   actions as cloudActions,
   CloudUpdateState,
@@ -15,6 +18,7 @@ import ResetStoreException from "../../reset-exception";
 import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";
 import { t } from "../../localization";
+import DbGrapherSchema from "../../db-grapher-schema";
 
 const auth2Load = new Promise((resolve, reject) => {
   gapi.load("auth2", { callback: resolve, onerror: reject });
@@ -87,10 +91,12 @@ export default class GoogleDriveProvider implements DriveProvider {
       store.dispatch(cloudActions.setFileName(fileName));
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(
-        schemaAction.initiate((filesContent.result as unknown) as Schema)
+        schemaAction.initiate(
+          (filesContent.result as unknown) as DbGrapherSchema
+        )
       );
       store.dispatch(setSchemaAction.load());
-      store.dispatch(newOpenDialogActions.close());
+      store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
     }
   }
 

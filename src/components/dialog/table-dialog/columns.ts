@@ -22,6 +22,7 @@ import {
 import columnNameValidation from "./column-name-validation";
 import produce from "immer";
 import { DBGElement } from "../../dbg-element";
+import getDbTypes from "../../../db-types";
 
 @customElement("dbg-table-dialog-columns")
 export default class TableDialogColumns extends DBGElement {
@@ -92,6 +93,7 @@ export default class TableDialogColumns extends DBGElement {
         </td>
         <td>
           <input
+            list="types"
             @input="${onColumnChange("type")}"
             .value="${column.type}"
             required
@@ -175,12 +177,20 @@ export default class TableDialogColumns extends DBGElement {
     return this.#form.reportValidity();
   }
 
+  #getDbTypeDataList = (): TemplateResult => {
+    const dbTypes = getDbTypes();
+    return html`<datalist id="types">
+      ${dbTypes.map((dbType) => html`<option value=${dbType} />`)}
+    </datalist>`;
+  };
+
   render(): TemplateResult {
     return html` <div class="container">
       <form class="pure-form">
         <div class="title">
           Columns
         </div>
+        ${this.#getDbTypeDataList()}
         <div class="table-container">
           <table class="pure-table pure-table-horizontal">
             <thead>

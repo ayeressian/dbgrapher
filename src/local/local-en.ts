@@ -48,6 +48,14 @@ export default {
       saveBtn: "Save",
       cancelBtn: "Cancel",
     },
+    dbType: {
+      mssql: "Microsoft SQL Server",
+      mysql: "MySQL",
+      postgresql: "PostgreSQL",
+      sqlite: "SQLite",
+      generic: "Generic",
+      title: "Please select the database type",
+    },
   },
   hint: {
     tableCreation:
@@ -76,6 +84,24 @@ export default {
         "$fileName - Not saved to $providerName. Please check your internet connection.",
       saving: "$fileName - Saving to $providerName",
       saved: "$fileName - Saved to $providerName",
+    },
+    items: {
+      file: {
+        new: "New",
+        open: "Open",
+        exportSql: "Export SQL",
+        download: "Download",
+      },
+      edit: {
+        undo: "Undo",
+        redo: "Redo",
+        selectDbType: "Select DB Type",
+      },
+      help: {
+        reportIssue: "Report an issue",
+        about: "About",
+      },
+      gitHub: "GitHub",
     },
   },
   cloudProvider: {

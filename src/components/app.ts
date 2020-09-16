@@ -77,6 +77,7 @@ export default class extends DBGElement {
         <dbg-new-open-dialog></dbg-new-open-dialog>
         <dbg-cloud-provider-dialog></dbg-cloud-provider-dialog>
         <dbg-confirmation-dialog></dbg-confirmation-dialog>
+        <dbg-db-type-dialog></dbg-db-type-dialog>
       </div>
     `;
   }

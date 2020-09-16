@@ -7,10 +7,11 @@ import {
   unsafeCSS,
   internalProperty,
 } from "lit-element";
-import { actions as schemaAction } from "../../store/slices/schema";
-import { actions as setSchemaAction } from "../../store/slices/load-schema";
-import { actions as aboutDialogActions } from "../../store/slices/dialog/about-dialog";
-import { actions as cloudActions } from "../../store/slices/cloud";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../../store/slices/dialog/dialogs";
+import { actions as dbTypeDialogActions } from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
 import { download } from "../../util";
 import { Schema } from "db-viewer-component";
@@ -28,7 +29,7 @@ import ColorHash from "color-hash";
 import { styleMap } from "lit-html/directives/style-map";
 import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
-import { undo, redo } from "../operations";
+import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
@@ -248,13 +249,10 @@ export default class extends DBGElement {
   #itemSelected = (event: CustomEvent): void => {
     switch (event.detail.id) {
       case "new":
-        store.dispatch(cloudActions.setFileName("untitled.dbgr"));
-        store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
-        store.dispatch(schemaAction.initiate());
-        store.dispatch(setSchemaAction.load());
+        newFile(false);
         break;
       case "open":
-        driveProvider.picker();
+        openFile();
         break;
       case "downloadSchema":
         download(
@@ -271,6 +269,9 @@ export default class extends DBGElement {
         break;
       case "redo":
         redo();
+        break;
+      case "selectDbType":
+        store.dispatch(dbTypeDialogActions.open(false));
         break;
       case "reportIssue":
         {
@@ -291,7 +292,7 @@ export default class extends DBGElement {
         }
         break;
       case "about":
-        store.dispatch(aboutDialogActions.open());
+        store.dispatch(dialogActions.open(DialogTypes.AboutDialog));
         break;
     }
   };

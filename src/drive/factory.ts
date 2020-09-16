@@ -1,7 +1,10 @@
 import { CloudProvider, actions as cloudActions } from "../store/slices/cloud";
 import { actions as schemaActions } from "../store/slices/schema";
 import { actions as loadSchemaActions } from "../store/slices/load-schema";
-import { actions as cloudProviderChooserDialogActions } from "../store/slices/dialog/cloud-provider-chooser-dialog";
+import {
+  actions as dialogActions,
+  DialogTypes,
+} from "../store/slices/dialog/dialogs";
 import { actions as loadActions } from "../store/slices/load-screen";
 import DriveProvider from "./drive-provider";
 import GoogleDriveProvider from "./google-drive/google-drive-provider";
@@ -24,6 +27,35 @@ type CreateURIData = {
   userId: string;
 };
 
+const googleDriveCommon = <T extends OpenURIData | CreateURIData>(
+  url: URL
+): T => {
+  store.dispatch(cloudActions.setDriveType(CloudProvider.GoogleDrive));
+  store.dispatch(dialogActions.close(DialogTypes.CloudProviderChooserDialog));
+
+  const data = JSON.parse(decodeURI(url.search.substr(7)));
+  return data;
+};
+
+const googleDriveNew = (url: URL) => {
+  store.dispatch(loadActions.start);
+  const { folderId } = googleDriveCommon<CreateURIData>(url);
+  store.dispatch(cloudActions.setFileName("untitled.dbgr"));
+  store.dispatch(schemaActions.initiate());
+  store.dispatch(loadSchemaActions.load());
+  driveProvider.createFile(folderId);
+  driveProvider.updateFile();
+  store.dispatch(loadActions.stop);
+};
+
+const googleDriveOpen = (url: URL) => {
+  store.dispatch(loadActions.start);
+  const { ids } = googleDriveCommon<OpenURIData>(url);
+  const fileId = ids[0];
+  driveProvider.open(fileId);
+  store.dispatch(loadActions.stop);
+};
+
 const initFactory = (): void => {
   subscribe(
     (state) => state.cloud.provider,
@@ -43,34 +75,13 @@ const initFactory = (): void => {
   );
 
   const url = new URL(window.location.href);
-  const googleDriveCommon = <T extends OpenURIData | CreateURIData>(): T => {
-    store.dispatch(cloudActions.setDriveType(CloudProvider.GoogleDrive));
-    store.dispatch(cloudProviderChooserDialogActions.close());
 
-    const data = JSON.parse(decodeURI(url.search.substr(7)));
-    return data;
-  };
   switch (url.hash) {
     case "#google-drive/new":
-      {
-        store.dispatch(loadActions.start);
-        const { folderId } = googleDriveCommon<CreateURIData>();
-        store.dispatch(cloudActions.setFileName("untitled.dbgr"));
-        store.dispatch(schemaActions.initiate());
-        store.dispatch(loadSchemaActions.load());
-        driveProvider.createFile(folderId);
-        driveProvider.updateFile();
-        store.dispatch(loadActions.stop);
-      }
+      googleDriveNew(url);
       break;
     case "#google-drive/open":
-      {
-        store.dispatch(loadActions.start);
-        const { ids } = googleDriveCommon<OpenURIData>();
-        const fileId = ids[0];
-        driveProvider.open(fileId);
-        store.dispatch(loadActions.stop);
-      }
+      googleDriveOpen(url);
       break;
   }
 };

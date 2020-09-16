@@ -100,7 +100,10 @@ export default class extends DBGElement {
     );
     window.addEventListener("beforeunload", (event: BeforeUnloadEvent) => {
       const state = store.getState();
-      if (state.cloud.provider === CloudProvider.None && state.schema.present) {
+      if (
+        state.cloud.provider === CloudProvider.None &&
+        state.showUnsavedWarning
+      ) {
         event.preventDefault();
         event.returnValue = "";
       }

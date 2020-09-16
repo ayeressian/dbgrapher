@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import DbGrapherSchema from "../../db-grapher-schema";
 import { DbType } from "../../db-grapher-schema";
-import store from "../store";
 
 type Data = {
   past: DbGrapherSchema[];

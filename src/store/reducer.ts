@@ -12,6 +12,7 @@ import { reducer as cloud } from "./slices/cloud";
 import { reducer as localization } from "./slices/localization";
 import { reducer as dialogs } from "./slices/dialog/dialogs";
 import { reducer as dbTypeDialog } from "./slices/dialog/db-type-dialog";
+import { reducer as showUnsavedWarning } from "./slices/show-unsaved-warning";
 
 const appReducer = combineReducers({
   createCords,
@@ -31,6 +32,7 @@ const appReducer = combineReducers({
   loadSchema,
   schema,
   localization,
+  showUnsavedWarning,
 });
 
 export type AppState = ReturnType<typeof appReducer>;

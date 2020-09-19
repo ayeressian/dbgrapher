@@ -47,6 +47,8 @@ export default {
       labelName: "Name",
       saveBtn: "Save",
       cancelBtn: "Cancel",
+      duplicateNameError: 'There is already a column with the name "$name".',
+      nameError: "This field is required and should have the following format.",
     },
     dbType: {
       mssql: "Microsoft SQL Server",

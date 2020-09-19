@@ -3,11 +3,18 @@ export default {
     invalidFileFormat:
       "Selected file does not have correct DB grapher file format",
     invalidJSON: "Selected file does not contain valid JSON.",
+    emptySchemaDownload:
+      "Schema is empty. Please create tables and relations first.",
   },
   confirmation: {
     signin: {
       text: "Sign in is required to continue.",
       confirm: "Login",
+    },
+    cyclicError: {
+      text:
+        "There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.",
+      confirm: "Continue",
     },
   },
   dialog: {

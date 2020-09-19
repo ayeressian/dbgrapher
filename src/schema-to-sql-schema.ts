@@ -6,10 +6,12 @@ import {
 } from "db-viewer-component";
 import toposort from "toposort";
 import ConfirmationDialog from "./components/dialog/confirmation-dialog";
+import { t } from "./localization";
+import UserCancelGeneration from "./user-cancel-generation";
 
 const topoLogicalSortTables = async (
   tables: TableSchema[]
-): Promise<TableSchema[] | undefined> => {
+): Promise<TableSchema[]> => {
   const keyVal: [string, TableSchema][] = tables.map((table) => [
     table.name,
     table,
@@ -28,24 +30,27 @@ const topoLogicalSortTables = async (
   try {
     result = toposort(graph);
   } catch (error) {
-    if (
-      await ConfirmationDialog.confirm(
-        "There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.",
-        "Continue"
-      )
-    ) {
-      return tables;
+    if (error.message.includes("Cyclic dependency, node was")) {
+      if (
+        await ConfirmationDialog.confirm(
+          t((l) => l.confirmation.cyclicError.text),
+          t((l) => l.confirmation.cyclicError.confirm)
+        )
+      ) {
+        return tables;
+      } else {
+        throw new UserCancelGeneration();
+      }
     } else {
-      return;
+      throw error;
     }
   }
   return result.map((tableName) => tableMap.get(tableName)!);
 };
 
-export default async (schema: Schema): Promise<string | undefined> => {
+export default async (schema: Schema): Promise<string> => {
   let sqlSchema = "";
   const sortedTables = await topoLogicalSortTables(schema.tables);
-  if (sortedTables == null) return;
   sortedTables.forEach((table, index) => {
     let columnSql = "";
     table.columns.forEach((column, index) => {

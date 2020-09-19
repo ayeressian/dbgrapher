@@ -36,6 +36,7 @@ import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
+import UserCancelGeneration from "../../user-cancel-generation";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -245,8 +246,16 @@ export default class extends DBGElement {
 
   #downloadAsSQLSchema = async (): Promise<void> => {
     const schema = this.#getCurrentSchema();
-    const result = await schemaToSqlSchema(schema);
-    if (result) download(result, "schema.sql", "text/plain");
+    try {
+      const result = await schemaToSqlSchema(schema);
+      if (result === "") {
+        alert(t((l) => l.error.emptySchemaDownload));
+      } else {
+        download(result, "schema.sql", "text/plain");
+      }
+    } catch (ex) {
+      if (ex.constructor !== UserCancelGeneration) throw ex;
+    }
   };
 
   #itemSelected = (event: CustomEvent): void => {

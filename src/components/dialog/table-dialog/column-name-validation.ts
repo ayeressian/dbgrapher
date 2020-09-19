@@ -1,4 +1,5 @@
 import { Schema } from "db-viewer-component";
+import { t } from "../../../localization";
 
 export default (
   schema: Schema,
@@ -13,7 +14,7 @@ export default (
     )
   ) {
     element.setCustomValidity(
-      `There is already a column with the name "${element.value}".`
+      t((l) => l.dialog.table.duplicateNameError, { name: element.value })
     );
   } else {
     element.setCustomValidity("");

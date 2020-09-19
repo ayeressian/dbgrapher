@@ -63,6 +63,15 @@ const postgresql = [
 ];
 
 const mysql = [
+  "TINYINT",
+  "SMALLINT",
+  "MEDIUMINT",
+  "INT",
+  "BIGINT",
+  "DECIMAL",
+  "FLOAT",
+  "DOUBLE",
+  "BIT",
   "CHAR",
   "VARCHAR",
   "BINARY",

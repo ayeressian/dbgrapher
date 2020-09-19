@@ -11,7 +11,10 @@ import {
   actions as dialogActions,
   DialogTypes,
 } from "../../store/slices/dialog/dialogs";
-import { actions as dbTypeDialogActions } from "../../store/slices/dialog/db-type-dialog";
+import {
+  actions as dbTypeDialogActions,
+  DbTypeDialogState,
+} from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
 import { download } from "../../util";
 import { Schema } from "db-viewer-component";
@@ -271,7 +274,9 @@ export default class extends DBGElement {
         redo();
         break;
       case "selectDbType":
-        store.dispatch(dbTypeDialogActions.open(false));
+        store.dispatch(
+          dbTypeDialogActions.open(DbTypeDialogState.OpenFromTopMenu)
+        );
         break;
       case "reportIssue":
         {

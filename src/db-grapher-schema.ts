@@ -6,6 +6,7 @@ export enum DbType {
   Sqlite = "Sqlite",
   Mssql = "Mssql",
   Generic = "Generic",
+  NotSelected = "NotSelected",
 }
 
 interface DbGrapher {

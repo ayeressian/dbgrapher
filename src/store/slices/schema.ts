@@ -14,7 +14,7 @@ const slice = createSlice({
     future: [],
     present: {
       dbGrapher: {
-        type: DbType.Generic,
+        type: DbType.NotSelected,
       },
       tables: [],
     },
@@ -30,7 +30,7 @@ const slice = createSlice({
         future: [],
         present: action.payload ?? {
           dbGrapher: {
-            type: state.present.dbGrapher.type ?? DbType.Generic,
+            type: DbType.NotSelected,
           },
           tables: [],
         },

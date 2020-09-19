@@ -2,9 +2,14 @@ import store from "../store/store";
 import { actions as schemaAction } from "../store/slices/schema";
 import { driveProvider } from "../drive/factory";
 import { actions as setSchemaAction } from "../store/slices/load-schema";
-import { CloudUpdateState } from "../store/slices/cloud";
+import { CloudProvider, CloudUpdateState } from "../store/slices/cloud";
 import { actions as cloudActions } from "../store/slices/cloud";
-import { actions as dbTypeDialogActions } from "../store/slices/dialog/db-type-dialog";
+import { actions as loadSchemaActions } from "../store/slices/load-schema";
+import {
+  actions as dbTypeDialogActions,
+  DbTypeDialogOpenState,
+  DbTypeDialogState,
+} from "../store/slices/dialog/db-type-dialog";
 import { subscribeOnce } from "../subscribe-store";
 import { DbType } from "../db-grapher-schema";
 
@@ -20,8 +25,10 @@ export const redo = (): void => {
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };
 
-export const getDbType = async (fromWizard: boolean): Promise<DbType> => {
-  store.dispatch(dbTypeDialogActions.open(fromWizard));
+export const getDbType = async (
+  dbTypeDialogOpenState: DbTypeDialogOpenState
+): Promise<DbType> => {
+  store.dispatch(dbTypeDialogActions.open(dbTypeDialogOpenState));
   await subscribeOnce((state) => state.dialog.dbTypeDialog);
   return store.getState().schema.present.dbGrapher.type;
 };
@@ -36,8 +43,11 @@ export const openFile = async (): Promise<void> => {
 };
 
 export const newFile = async (fromWizard: boolean): Promise<void> => {
-  store.dispatch(cloudActions.setFileName("untitled.dbgr"));
-  store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
-  await getDbType(fromWizard);
+  if (store.getState().cloud.provider !== CloudProvider.None) {
+    store.dispatch(cloudActions.setFileName("untitled.dbgr"));
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
+  }
   store.dispatch(schemaAction.initiate());
+  store.dispatch(loadSchemaActions.load());
+  await getDbType(DbTypeDialogState.OpenFromTopMenuNew);
 };

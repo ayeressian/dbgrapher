@@ -140,7 +140,18 @@ export default class extends DBGElement {
         this.mode = dbViewerMode;
       }
     );
+
+    window.addEventListener("keydown", this.#onEscape);
   }
+
+  #onEscape = (event: KeyboardEvent): void => {
+    if (
+      event.key === "Escape" &&
+      store.getState().dbViewerMode !== DbViewerMode.None
+    ) {
+      store.dispatch(dbViewerModeAction.none());
+    }
+  };
 
   #changeMode = (mode: DbViewerMode) => (): void => {
     if (store.getState().dbViewerMode === mode) {

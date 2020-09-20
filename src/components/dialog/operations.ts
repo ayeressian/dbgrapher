@@ -13,6 +13,7 @@ export default class extends DBGElement {
     return css`
       .operations {
         display: flex;
+        flex-wrap: wrap;
         flex-direction: horizontal;
       }
     `;

@@ -355,8 +355,10 @@ export default class extends DBGElement {
 
   #cancel = (event: Event): void => {
     event.preventDefault();
-    store.dispatch(tableDialogAction.close());
-    store.dispatch(dbViewerModeAction.none());
+    if (store.getState().dialog.tableDialog.open) {
+      store.dispatch(tableDialogAction.close());
+      store.dispatch(dbViewerModeAction.none());
+    }
   };
 
   #save = (event: Event): void => {

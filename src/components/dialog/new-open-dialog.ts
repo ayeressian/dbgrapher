@@ -57,7 +57,7 @@ export default class extends DBGElement {
 
   #newFile = (): void => {
     store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
-    newFile(true);
+    newFile();
   };
 
   #openFile = (): void => {

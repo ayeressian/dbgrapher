@@ -261,7 +261,7 @@ export default class extends DBGElement {
   #itemSelected = (event: CustomEvent): void => {
     switch (event.detail.id) {
       case "new":
-        newFile(false);
+        newFile();
         break;
       case "open":
         openFile();

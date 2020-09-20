@@ -42,7 +42,7 @@ export const openFile = async (): Promise<void> => {
   await driveProvider.picker();
 };
 
-export const newFile = async (fromWizard: boolean): Promise<void> => {
+export const newFile = async (): Promise<void> => {
   if (store.getState().cloud.provider !== CloudProvider.None) {
     store.dispatch(cloudActions.setFileName("untitled.dbgr"));
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));

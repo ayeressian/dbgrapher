@@ -104,11 +104,12 @@ export default {
       edit: {
         undo: "Undo",
         redo: "Redo",
-        selectDbType: "Select DB Type",
+        selectDbType: "Select DB type",
       },
       help: {
         reportIssue: "Report an issue",
         about: "About",
+        privacyPolicy: "Privacy policy",
       },
       gitHub: "GitHub",
     },

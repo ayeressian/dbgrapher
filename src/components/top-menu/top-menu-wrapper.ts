@@ -305,6 +305,15 @@ export default class extends DBGElement {
           win!.focus();
         }
         break;
+      case "privacyPolicy":
+        {
+          const win = window.open(
+            "https://site.dbgrapher.com/privacy-policy.txt",
+            "_blank"
+          );
+          win!.focus();
+        }
+        break;
       case "about":
         store.dispatch(dialogActions.open(DialogTypes.AboutDialog));
         break;

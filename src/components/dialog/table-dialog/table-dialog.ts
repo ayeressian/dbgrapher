@@ -224,6 +224,11 @@ export default class extends DBGElement {
       this.#getCurrentTable(schema)!.columns[event.detail.index] =
         event.detail.column;
     });
+
+    this.updateComplete.then(() => {
+      this.#tableDialogColumns.validateColumnNames();
+      this.#tableDialogFkColumns.validateColumnNames();
+    });
   };
 
   #getCurrentTable = (schema = this.schema): TableSchema =>
@@ -235,6 +240,11 @@ export default class extends DBGElement {
       const currentTable = this.#getCurrentTable(schema);
       this.#fixFkColumnNames(changeColumn.name, event.detail.prevName, schema);
       currentTable.columns[event.detail.index] = event.detail.column;
+    });
+
+    this.updateComplete.then(() => {
+      this.#tableDialogColumns.validateColumnNames();
+      this.#tableDialogFkColumns.validateColumnNames();
     });
   };
 

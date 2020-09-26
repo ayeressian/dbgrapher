@@ -15,11 +15,10 @@ import {
 import { OnSelectEvent } from "../../select";
 import { ColumnFkSchema, ColumnSchema } from "db-viewer-component";
 import { Schema } from "db-viewer-component";
-import columnNameValidation from "./column-name-validation";
 import produce from "immer";
 import { DBGElement } from "../../dbg-element";
-import { reducer } from "../../../store/slices/schema";
 import Select from "../../select";
+import { validateColumnNamesFromFk } from "./column-name-validation";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -72,7 +71,6 @@ export default class TableDialogFkColumns extends DBGElement {
             columnDraft[type] = element.checked;
             break;
           case "name":
-            columnNameValidation(this.schema, this.tableIndex, element, index);
             columnDraft[type] = element.value;
             break;
         }
@@ -100,6 +98,7 @@ export default class TableDialogFkColumns extends DBGElement {
       <tr>
         <td>
           <input
+            class="column-name"
             @input="${onColumnChange("name")}"
             .value="${column.name}"
             required
@@ -199,6 +198,10 @@ export default class TableDialogFkColumns extends DBGElement {
   firstUpdated(): void {
     this.#form = this.shadowRoot!.querySelector("form")!;
   }
+
+  validateColumnNames = (): void => {
+    validateColumnNamesFromFk(this.shadowRoot!, this.schema, this.tableIndex);
+  };
 
   reportValidity(): boolean {
     const selects = [

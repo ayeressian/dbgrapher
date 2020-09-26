@@ -18,6 +18,8 @@ import { Schema } from "db-viewer-component";
 import columnNameValidation from "./column-name-validation";
 import produce from "immer";
 import { DBGElement } from "../../dbg-element";
+import { reducer } from "../../../store/slices/schema";
+import Select from "../../select";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -126,6 +128,7 @@ export default class TableDialogFkColumns extends DBGElement {
         </td>
         <td>
           <dbg-select
+            required
             id="table-select-${index}"
             value="${column.fk?.table}"
             options="${JSON.stringify(
@@ -136,6 +139,7 @@ export default class TableDialogFkColumns extends DBGElement {
         </td>
         <td>
           <dbg-select
+            required
             value="${column.fk?.column}"
             options="${JSON.stringify(
               this.#getFkColumns(column.fk!.table).map(({ name }) => name)
@@ -196,8 +200,15 @@ export default class TableDialogFkColumns extends DBGElement {
     this.#form = this.shadowRoot!.querySelector("form")!;
   }
 
-  validate(): boolean {
-    return this.#form!.reportValidity();
+  reportValidity(): boolean {
+    const selects = [
+      ...this.shadowRoot!.querySelectorAll("dbg-select"),
+    ] as Select[];
+    const validSelects = selects.reduce((acc, item) => {
+      if (!item.reportValidity()) return false;
+      return acc;
+    }, true);
+    return this.#form!.reportValidity() && validSelects;
   }
 
   render(): TemplateResult {

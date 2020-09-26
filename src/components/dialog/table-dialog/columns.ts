@@ -173,7 +173,7 @@ export default class TableDialogColumns extends DBGElement {
     this.#form = this.shadowRoot!.querySelector("form")!;
   }
 
-  validate(): boolean {
+  reportValidity(): boolean {
     return this.#form.reportValidity();
   }
 

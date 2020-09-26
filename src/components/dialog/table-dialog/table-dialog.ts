@@ -255,8 +255,8 @@ export default class extends DBGElement {
   #validate = (): boolean => {
     return (
       this.#form.reportValidity() &&
-      this.#tableDialogColumns.validate() &&
-      this.#tableDialogFkColumns.validate()
+      this.#tableDialogColumns.reportValidity() &&
+      this.#tableDialogFkColumns.reportValidity()
     );
   };
 

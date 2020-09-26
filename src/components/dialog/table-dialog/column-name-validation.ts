@@ -1,7 +1,7 @@
-import { Schema } from "db-viewer-component";
+import { ColumnFkSchema, Schema } from "db-viewer-component";
 import { t } from "../../../localization";
 
-export default (
+const columnNameValidation = (
   schema: Schema,
   tableIndex: number,
   element: HTMLInputElement,
@@ -19,4 +19,29 @@ export default (
   } else {
     element.setCustomValidity("");
   }
+};
+
+export const validateColumnNames = (
+  shadowRoot: ShadowRoot,
+  schema: Schema,
+  tableIndex: number,
+  fkOffset = 0
+): void => {
+  ([
+    ...shadowRoot!.querySelectorAll(".column-name"),
+  ] as HTMLInputElement[]).forEach((element, index) => {
+    columnNameValidation(schema, tableIndex, element, fkOffset + index);
+  });
+};
+
+export const validateColumnNamesFromFk = (
+  shadowRoot: ShadowRoot,
+  schema: Schema,
+  tableIndex: number
+): void => {
+  const fkOffset = schema.tables[tableIndex].columns.reduce((acc, column) => {
+    if ((column as ColumnFkSchema).fk == null) return acc + 1;
+    return acc;
+  }, 0);
+  validateColumnNames(shadowRoot, schema, tableIndex, fkOffset);
 };

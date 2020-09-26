@@ -19,10 +19,10 @@ import {
   Schema,
   ColumnSchema,
 } from "db-viewer-component";
-import columnNameValidation from "./column-name-validation";
 import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import getDbTypes from "../../../db-types";
+import { validateColumnNames } from "./column-name-validation";
 
 @customElement("dbg-table-dialog-columns")
 export default class TableDialogColumns extends DBGElement {
@@ -54,6 +54,10 @@ export default class TableDialogColumns extends DBGElement {
     this.dispatchEvent(event);
   };
 
+  validateColumnNames = (): void => {
+    validateColumnNames(this.shadowRoot!, this.schema, this.tableIndex);
+  };
+
   #renderColumn = (
     column: ColumnNoneFkSchema,
     index: number
@@ -70,7 +74,6 @@ export default class TableDialogColumns extends DBGElement {
             columnDraft[type] = element.checked;
             break;
           case "name":
-            columnNameValidation(this.schema, this.tableIndex, element, index);
             element.dataset.prev;
             columnDraft[type] = element.value;
             break;
@@ -86,6 +89,7 @@ export default class TableDialogColumns extends DBGElement {
       <tr>
         <td>
           <input
+            class="column-name"
             @input="${onColumnChange("name")}"
             .value="${column.name}"
             required

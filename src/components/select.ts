@@ -17,15 +17,17 @@ type OnSelectEventDetail = { value: string; selectedIndex: number };
 export type OnSelectEvent = CustomEvent<OnSelectEventDetail>;
 
 @customElement("dbg-select")
-export default class extends DBGElement {
+export default class Select extends DBGElement {
   @property({ type: Object }) options!: Option[];
   @property({ type: String }) value!: string;
+  @property({ type: Boolean }) required = false;
 
   #resolveLoaded!: () => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
   #selectElement!: HTMLSelectElement;
+  #form!: HTMLFormElement;
 
   static get styles(): CSSResult {
     return css`
@@ -37,6 +39,7 @@ export default class extends DBGElement {
   }
 
   firstUpdated(): void {
+    this.#form = this.shadowRoot!.querySelector("form")!;
     this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>(
       "select"
     )!;
@@ -83,6 +86,10 @@ export default class extends DBGElement {
     });
   };
 
+  reportValidity = (): boolean => {
+    return this.#form.reportValidity();
+  };
+
   render(): TemplateResult {
     if (
       this.#getOptionIndex(this.value) === -1 &&
@@ -94,7 +101,7 @@ export default class extends DBGElement {
     }
     return html`
       <form class="pure-form">
-        <select @change="${this.#onChange}">
+        <select @change="${this.#onChange}" ?required=${this.required}>
           ${this.options?.map((option: Option) => {
             if ((option as ComplexItem).value) {
               return html`<option value="${(option as ComplexItem).value}"

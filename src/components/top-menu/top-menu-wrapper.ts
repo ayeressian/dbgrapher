@@ -17,7 +17,6 @@ import {
 } from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
 import { download } from "../../util";
-import { Schema } from "db-viewer-component";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
 import { classMap } from "lit-html/directives/class-map";
 import { subscribe } from "../../subscribe-store";
@@ -37,6 +36,7 @@ import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
 import UserCancelGeneration from "../../user-cancel-generation";
+import DbGrapherSchema from "../../db-grapher-schema";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 
@@ -240,7 +240,7 @@ export default class extends DBGElement {
     }
   };
 
-  #getCurrentSchema = (): Schema => {
+  #getCurrentSchema = (): DbGrapherSchema => {
     return store.getState().schema.present;
   };
 

@@ -1,5 +1,4 @@
 import {
-  Schema,
   ColumnFkSchema,
   ColumnNoneFkSchema,
   TableSchema,
@@ -8,6 +7,7 @@ import toposort from "toposort";
 import ConfirmationDialog from "./components/dialog/confirmation-dialog";
 import { t } from "./localization";
 import UserCancelGeneration from "./user-cancel-generation";
+import DbGrapherSchema, { DbType } from "./db-grapher-schema";
 
 const topoLogicalSortTables = async (
   tables: TableSchema[]
@@ -48,13 +48,25 @@ const topoLogicalSortTables = async (
   return result.map((tableName) => tableMap.get(tableName)!);
 };
 
-export default async (schema: Schema): Promise<string> => {
+const getColumnName = (columnName: string, dBType: DbType): string => {
+  switch (dBType) {
+    case DbType.Mysql:
+      return `\`${columnName}\``;
+    case DbType.NotSelected:
+      throw new Error("Can't generate column when DbType is NotSelected.");
+    default:
+      return `"${columnName}"`;
+  }
+};
+
+export default async (schema: DbGrapherSchema): Promise<string> => {
   let sqlSchema = "";
   const sortedTables = await topoLogicalSortTables(schema.tables);
   sortedTables.forEach((table, index) => {
     let columnSql = "";
     table.columns.forEach((column, index) => {
       const fkColumn = column as ColumnFkSchema;
+      const columnName = getColumnName(column.name, schema.dbGrapher.type);
       if (fkColumn.fk != null) {
         const table = schema.tables.find(
           (table) => table.name === fkColumn.fk!.table
@@ -62,10 +74,9 @@ export default async (schema: Schema): Promise<string> => {
         const type = (table.columns.find(
           (tableColumn) => tableColumn.name === fkColumn.fk!.column
         ) as ColumnNoneFkSchema).type;
-        columnSql += "  " + column.name + " " + type;
+        columnSql += `  ${columnName} ${type}`;
       } else {
-        columnSql +=
-          "  " + column.name + " " + (column as ColumnNoneFkSchema).type;
+        columnSql += `  ${columnName} ${(column as ColumnNoneFkSchema).type}`;
       }
       if (column.uq === true) {
         columnSql += " UNIQUE";
@@ -77,8 +88,11 @@ export default async (schema: Schema): Promise<string> => {
         columnSql += " PRIMARY KEY";
       }
       if (fkColumn.fk != null) {
-        columnSql +=
-          " REFERENCES " + fkColumn.fk.table + "(" + fkColumn.fk.column + ")";
+        const columnName = getColumnName(
+          fkColumn.fk.column,
+          schema.dbGrapher.type
+        );
+        columnSql += ` REFERENCES ${fkColumn.fk.table} (${columnName})`;
       }
       if (index < table.columns.length - 1) {
         columnSql += ",";

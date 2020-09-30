@@ -70,11 +70,19 @@ export const styles = css`
     background-size: cover;
   }
 
+  .move-up-icon.disabled {
+    filter: opacity(30%);
+  }
+
   .move-down-icon {
     width: 32px;
     height: 32px;
     background-image: url(${unsafeCSS(moveDownSvg)});
     background-size: cover;
+  }
+
+  .move-down-icon.disabled {
+    filter: opacity(30%);
   }
 }`;
 
@@ -105,22 +113,29 @@ export function removeColumn(
 
 export function moveUpColumn(
   this: TableDialogColumns | TableDialogFkColumns,
-  index: number
+  index: number,
+  indexByType: number
 ): void {
-  const detail: ColumnOpsDetail = {
-    index,
-  };
-  const newEvent = new CustomEvent("dbg-move-up-column", { detail });
-  this.dispatchEvent(newEvent);
+  if (indexByType !== 0) {
+    const detail: ColumnOpsDetail = {
+      index,
+    };
+    const newEvent = new CustomEvent("dbg-move-up-column", { detail });
+    this.dispatchEvent(newEvent);
+  }
 }
 
 export function moveDownColumn(
   this: TableDialogColumns | TableDialogFkColumns,
-  index: number
+  index: number,
+  indexByType: number,
+  lengthByType: number
 ): void {
-  const detail: ColumnOpsDetail = {
-    index,
-  };
-  const newEvent = new CustomEvent("dbg-move-down-column", { detail });
-  this.dispatchEvent(newEvent);
+  if (indexByType < lengthByType) {
+    const detail: ColumnOpsDetail = {
+      index,
+    };
+    const newEvent = new CustomEvent("dbg-move-down-column", { detail });
+    this.dispatchEvent(newEvent);
+  }
 }

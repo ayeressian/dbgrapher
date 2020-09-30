@@ -19,6 +19,7 @@ import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import Select from "../../select";
 import { validateColumnNamesFromFk } from "./column-name-validation";
+import { classMap } from "lit-html/directives/class-map";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -56,7 +57,12 @@ export default class TableDialogFkColumns extends DBGElement {
     this.dispatchEvent(event);
   };
 
-  #renderColumn = (column: ColumnFkSchema, index: number): TemplateResult => {
+  #renderColumn = (
+    column: ColumnFkSchema,
+    index: number,
+    fkIndex: number,
+    fkColumnsSize: number
+  ): TemplateResult => {
     const currentTableName = this.schema.tables[this.tableIndex].columns[index]
       .name;
     const onColumnChange = (type: keyof Omit<ColumnFkSchema, "fk">) => (
@@ -155,15 +161,18 @@ export default class TableDialogFkColumns extends DBGElement {
         </td>
         <td>
           <div
-            class="move-up-icon"
-            @click="${(): void => moveUpColumn.bind(this)(index)}"
+            class="move-up-icon ${classMap({ disabled: fkIndex === 0 })}"
+            @click="${(): void => moveUpColumn.bind(this)(index, fkIndex)}"
             title="Move row up"
           ></div>
         </td>
         <td>
           <div
-            class="move-down-icon"
-            @click="${(): void => moveDownColumn.bind(this)(index)}"
+            class="move-down-icon ${classMap({
+              disabled: fkIndex === fkColumnsSize - 1,
+            })}"
+            @click="${(): void =>
+              moveDownColumn.bind(this)(index, fkIndex, fkColumnsSize)}"
             title="Move row down"
           ></div>
         </td>
@@ -184,8 +193,8 @@ export default class TableDialogFkColumns extends DBGElement {
     const currentTableColumns = this.#getCurrentTableFkColumns();
     let result;
     if (currentTableColumns.length > 0) {
-      result = html`${currentTableColumns.map(({ column, index }) =>
-        this.#renderColumn(column, index)
+      result = html`${currentTableColumns.map(({ column, index }, fkIndex) =>
+        this.#renderColumn(column, index, fkIndex, currentTableColumns.length)
       )}`;
     } else {
       result = html`<tr>

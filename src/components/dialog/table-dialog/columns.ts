@@ -23,6 +23,7 @@ import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import getDbTypes from "../../../db-types";
 import { validateColumnNames } from "./column-name-validation";
+import { classMap } from "lit-html/directives/class-map";
 
 @customElement("dbg-table-dialog-columns")
 export default class TableDialogColumns extends DBGElement {
@@ -60,7 +61,9 @@ export default class TableDialogColumns extends DBGElement {
 
   #renderColumn = (
     column: ColumnNoneFkSchema,
-    index: number
+    index: number,
+    nonFkIndex: number,
+    nonFkColumnsSize: number
   ): TemplateResult => {
     const onColumnChange = (type: keyof ColumnNoneFkSchema) => (
       event: InputEvent
@@ -133,15 +136,18 @@ export default class TableDialogColumns extends DBGElement {
         </td>
         <td>
           <div
-            class="move-up-icon"
-            @click="${(): void => moveUpColumn.bind(this)(index)}"
+            class="move-up-icon ${classMap({ disabled: nonFkIndex === 0 })}"
+            @click="${(): void => moveUpColumn.bind(this)(index, nonFkIndex)}"
             title="Move row up"
           ></div>
         </td>
         <td>
           <div
-            class="move-down-icon"
-            @click="${(): void => moveDownColumn.bind(this)(index)}"
+            class="move-down-icon ${classMap({
+              disabled: nonFkIndex === nonFkColumnsSize - 1,
+            })}"
+            @click="${(): void =>
+              moveDownColumn.bind(this)(index, nonFkIndex, nonFkColumnsSize)}"
             title="Move row down"
           ></div>
         </td>
@@ -162,8 +168,13 @@ export default class TableDialogColumns extends DBGElement {
     const currentTableColumns = this.#getCurrentTableColumns();
     let result;
     if (currentTableColumns.length > 0) {
-      result = html`${currentTableColumns.map(({ column, index }) =>
-        this.#renderColumn(column as ColumnNoneFkSchema, index)
+      result = html`${currentTableColumns.map(({ column, index }, nonFkIndex) =>
+        this.#renderColumn(
+          column as ColumnNoneFkSchema,
+          index,
+          nonFkIndex,
+          currentTableColumns.length
+        )
       )}`;
     } else {
       result = html`<tr>

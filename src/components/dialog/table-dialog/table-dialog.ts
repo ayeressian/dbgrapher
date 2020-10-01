@@ -104,7 +104,14 @@ export default class extends DBGElement {
 
   #addColumn = (): void => {
     this.schema = produce(this.schema, (schema) => {
-      this.#getCurrentTable(schema)?.columns.push({
+      const currentTableColumns = this.#getCurrentTable(schema).columns;
+      let lastNonFkColumnIndex = 0;
+      for (let i = 0; i < currentTableColumns.length; ++i) {
+        if ((currentTableColumns[i] as ColumnFkSchema).fk == null) {
+          ++lastNonFkColumnIndex;
+        }
+      }
+      currentTableColumns.splice(lastNonFkColumnIndex, 0, {
         name: "",
         type: "",
       });

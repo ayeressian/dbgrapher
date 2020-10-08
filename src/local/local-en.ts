@@ -28,8 +28,7 @@ export default {
         to this project.`,
     },
     cloudProvider: {
-      title:
-        "Please select a cloud provider. NOTE THIS IS THE PRE RELEASE VERSION OF THE APPLICATION.",
+      title: "Please select a cloud provider.",
       operation: {
         googleDrive: "Google Drive",
         none: "None",

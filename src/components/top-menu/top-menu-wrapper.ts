@@ -308,7 +308,7 @@ export default class extends DBGElement {
       case "privacyPolicy":
         {
           const win = window.open(
-            "https://site.dbgrapher.com/privacy-policy.txt",
+            "https://site.dbgrapher.com/privacy-policy.html",
             "_blank"
           );
           win!.focus();

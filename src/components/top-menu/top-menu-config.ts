@@ -61,6 +61,10 @@ export default {
           title: t((l) => l.topMenu.items.help.reportIssue),
         },
         {
+          id: "termsOfService",
+          title: t((l) => l.topMenu.items.help.termsOfService),
+        },
+        {
           id: "privacyPolicy",
           title: t((l) => l.topMenu.items.help.privacyPolicy),
         },

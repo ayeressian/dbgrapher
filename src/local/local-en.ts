@@ -109,6 +109,7 @@ export default {
         reportIssue: "Report an issue",
         about: "About",
         privacyPolicy: "Privacy policy",
+        termsOfService: "Terms of service",
       },
       gitHub: "GitHub",
     },

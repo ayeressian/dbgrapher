@@ -6,6 +6,7 @@ import {
 import toposort from "toposort";
 import ConfirmationDialog from "./components/dialog/confirmation-dialog";
 import { t } from "./localization";
+import { union } from "lodash";
 import UserCancelGeneration from "./user-cancel-generation";
 import DbGrapherSchema, { DbType } from "./db-grapher-schema";
 
@@ -45,7 +46,10 @@ const topoLogicalSortTables = async (
       throw error;
     }
   }
-  return result.map((tableName) => tableMap.get(tableName)!);
+  const tSortResult = result.map((tableName) => tableMap.get(tableName)!);
+
+  // union sort result with original tables to also have the tables that aren't represented in any relations
+  return union(tSortResult, tables);
 };
 
 const getColumnName = (columnName: string, dBType: DbType): string => {

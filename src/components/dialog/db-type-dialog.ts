@@ -103,7 +103,7 @@ export default class extends DBGElement {
 
   #closeAndLoad = (): void => {
     store.dispatch(dbTypeDialogActions.close());
-    store.dispatch(setSchemaAction.load());
+    store.dispatch(setSchemaAction.loadViewportUnchange());
   };
 
   #mssql = (): void => {

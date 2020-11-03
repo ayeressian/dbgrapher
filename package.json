@@ -27,7 +27,7 @@
     "@reduxjs/toolkit": "^1.4.0",
     "ajv": "^6.12.4",
     "color-hash": "^1.0.3",
-    "db-viewer-component": "^4.3.6",
+    "db-viewer-component": "^4.3.7",
     "lit-element": "^2.4.0",
     "lodash": "^4.17.20",
     "purecss": "^1.0.1",

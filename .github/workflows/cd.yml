@@ -11,10 +11,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+          registry-url: "https://registry.npmjs.org"
 
-      - run: npm i
-      - run: npm run lint
-      - run: npm run test-headless
+      - run: sudo npm i -g yarn
+      - run: yarn
+      - run: yarn lint
+      - run: yarn run test-headless
       - name: create env.json file
         run: >
           cat <<EOF >./env.json
@@ -29,8 +34,8 @@ jobs:
               }
             }
           EOF
-      - run: npm run start-and-e2e
-      - run: npm run build-prod
+      - run: yarn run start-and-e2e
+      - run: yarn run build-prod
       - name: Deploy to BunnyCDN
         uses: ayeressian/bunnycdn-storage-deploy@master
         with:

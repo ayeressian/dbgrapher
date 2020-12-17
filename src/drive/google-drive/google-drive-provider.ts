@@ -30,7 +30,7 @@ const pickerLoad = new Promise((resolve, reject) => {
 
 let clientDriveLoad: Promise<void>;
 
-const clientLoad = new Promise((resolve, reject) => {
+const clientLoad = new Promise<void>((resolve, reject) => {
   clientDriveLoad = new Promise((driveResolve) => {
     gapi.load("client", {
       callback: () => {

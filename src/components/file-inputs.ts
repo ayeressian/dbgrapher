@@ -23,7 +23,7 @@ import DbGrapherSchema from "../db-grapher-schema";
 
 @customElement("dbg-file-inputs")
 export default class extends DBGElement {
-  #resolveLoaded!: () => void;
+  #resolveLoaded!: (value: PromiseLike<null> | null) => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -37,7 +37,7 @@ export default class extends DBGElement {
     this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>(
       "#sqlFileInput"
     )!;
-    this.#resolveLoaded();
+    this.#resolveLoaded(null);
   }
 
   static get styles(): CSSResult {

@@ -9,7 +9,7 @@ A database schema designing tool that runs in browser. The application URL is [h
 
 ## To run
 1. Clone the repository.
-2. Run "npm i".
+2. Run "yarn".
 3. Create a file with the name env.json in the root directory with the following content.
   ```JSON
   {
@@ -23,4 +23,4 @@ A database schema designing tool that runs in browser. The application URL is [h
     }
   }
   ```
-4. Run "npm start". 
+4. Run "yarn start". 

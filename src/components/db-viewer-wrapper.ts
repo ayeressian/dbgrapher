@@ -30,7 +30,7 @@ import DbGrapherSchema from "../db-grapher-schema";
 
 @customElement("dbg-db-viewer")
 export default class DbWrapper extends DBGElement {
-  #resolveLoaded!: () => void;
+  #resolveLoaded!: (value: PromiseLike<null> | null) => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -130,7 +130,7 @@ export default class DbWrapper extends DBGElement {
     this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>("db-viewer")!;
     this.#dbViewer.addEventListener("tableDblClick", this.#onTableDblClick);
     this.#dbViewer.addEventListener("tableMoveEnd", this.#onTableMoveEnd);
-    this.#resolveLoaded();
+    this.#resolveLoaded(null);
   }
 
   #loadSchema = (state: AppState, viewport: Viewport): void => {

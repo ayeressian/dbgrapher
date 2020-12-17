@@ -22,7 +22,7 @@ export default class Select extends DBGElement {
   @property({ type: String }) value!: string;
   @property({ type: Boolean }) required = false;
 
-  #resolveLoaded!: () => void;
+  #resolveLoaded!: (value: PromiseLike<null> | null) => void;
   #loaded: Promise<null> = new Promise(
     (resolve) => (this.#resolveLoaded = resolve)
   );
@@ -43,7 +43,7 @@ export default class Select extends DBGElement {
     this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>(
       "select"
     )!;
-    this.#resolveLoaded();
+    this.#resolveLoaded(null);
   }
 
   #updateValue = (): void => {
@@ -104,9 +104,9 @@ export default class Select extends DBGElement {
         <select @change="${this.#onChange}" ?required=${this.required}>
           ${this.options?.map((option: Option) => {
             if ((option as ComplexItem).value) {
-              return html`<option value="${(option as ComplexItem).value}"
-                >${(option as ComplexItem).text}</option
-              >`;
+              return html`<option value="${(option as ComplexItem).value}">
+                ${(option as ComplexItem).text}
+              </option>`;
             }
             return html`<option value="${option}">${option}</option>`;
           })}

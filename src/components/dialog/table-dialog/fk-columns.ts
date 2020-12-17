@@ -226,9 +226,7 @@ export default class TableDialogFkColumns extends DBGElement {
   render(): TemplateResult {
     return html` <div class="container">
       <form class="pure-form">
-        <div class="title">
-          Foreign Key Columns
-        </div>
+        <div class="title">Foreign Key Columns</div>
         <div class="table-container">
           <table class="pure-table pure-table-horizontal">
             <thead>

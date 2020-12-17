@@ -71,9 +71,7 @@ export default class extends DBGElement {
             })}
           ></div>
         </div>
-        <h4 class="operation">
-          ${this.text}
-        </h4>
+        <h4 class="operation">${this.text}</h4>
       </div>
     `;
   }

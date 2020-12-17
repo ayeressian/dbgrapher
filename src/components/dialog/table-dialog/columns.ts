@@ -202,9 +202,7 @@ export default class TableDialogColumns extends DBGElement {
   render(): TemplateResult {
     return html` <div class="container">
       <form class="pure-form">
-        <div class="title">
-          Columns
-        </div>
+        <div class="title">Columns</div>
         ${this.#getDbTypeDataList()}
         <div class="table-container">
           <table class="pure-table pure-table-horizontal">

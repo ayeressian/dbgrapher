@@ -46,9 +46,7 @@ export default class extends DBGElement {
             userIdentifier: this.cloudState.userData?.name ?? "",
           })}
         </div>
-        <div class="row">
-          ${this.cloudState.userData?.email}
-        </div>
+        <div class="row">${this.cloudState.userData?.email}</div>
 
         <div>
           <button

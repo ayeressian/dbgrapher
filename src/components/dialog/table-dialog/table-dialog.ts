@@ -89,12 +89,12 @@ export default class extends DBGElement {
     if (changedProperties.has("open") && this.open) {
       await this.updateComplete;
       this.#form = this.shadowRoot!.querySelector("form")!;
-      this.#tableDialogColumns = this.shadowRoot!.querySelector<
-        TableDialogColumns
-      >("dbg-table-dialog-columns")!;
-      this.#tableDialogFkColumns = this.shadowRoot!.querySelector<
-        TableDialogFkColumns
-      >("dbg-table-dialog-fk-columns")!;
+      this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>(
+        "dbg-table-dialog-columns"
+      )!;
+      this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>(
+        "dbg-table-dialog-fk-columns"
+      )!;
       this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>(
         '[name="name"]'
       ) as HTMLInputElement;

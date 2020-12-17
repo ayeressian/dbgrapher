@@ -20,6 +20,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "14.x"
+          registry-url: "https://registry.npmjs.org"
 
       # Runs a single command using the runners shell
       - name: add env.json
@@ -27,7 +31,9 @@ jobs:
         with:
           source: ".github/env.json"
           target: "env.json"
-      - run: npm i
-      - run: npm run lint
-      - run: npm run test-headless
-      - run: npm run start-and-e2e
+      
+      - run: sudo npm i -g yarn
+      - run: yarn
+      - run: yarn lint
+      - run: yarn run test-headless
+      - run: yarn run start-and-e2e

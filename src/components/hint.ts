@@ -39,13 +39,7 @@ export default class extends DBGElement {
   }
 
   render(): TemplateResult {
-    return this.text
-      ? html`
-          <div>
-            ${this.text}
-          </div>
-        `
-      : html``;
+    return this.text ? html` <div>${this.text}</div> ` : html``;
   }
 
   #showTimedMessage = (message: string): void => {

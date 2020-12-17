@@ -42,9 +42,7 @@ export default class ConfirmationDialog extends DBGElement {
     return html`
       <dbg-dialog ?show=${this.open} @dbg-on-escape="${this.#cancel}">
         <div slot="body">
-          <div>
-            ${this.message}
-          </div>
+          <div>${this.message}</div>
           <div class="row">
             <button
               class="pure-button"

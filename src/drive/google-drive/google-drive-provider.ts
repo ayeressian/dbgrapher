@@ -20,27 +20,32 @@ import { validateJson } from "../../validate-schema";
 import { t } from "../../localization";
 import DbGrapherSchema from "../../db-grapher-schema";
 
-const auth2Load = new Promise((resolve, reject) => {
-  gapi.load("auth2", { callback: resolve, onerror: reject });
-});
+let auth2Load: Promise<void>,
+  pickerLoad: Promise<void>,
+  clientDriveLoad: Promise<void>,
+  clientLoad: Promise<void>;
 
-const pickerLoad = new Promise((resolve, reject) => {
-  gapi.load("picker", { callback: resolve, onerror: reject });
-});
+if (window.gapi) {
+  auth2Load = new Promise((resolve, reject) => {
+    gapi.load("auth2", { callback: resolve, onerror: reject });
+  });
 
-let clientDriveLoad: Promise<void>;
+  pickerLoad = new Promise((resolve, reject) => {
+    gapi.load("picker", { callback: resolve, onerror: reject });
+  });
 
-const clientLoad = new Promise<void>((resolve, reject) => {
-  clientDriveLoad = new Promise((driveResolve) => {
-    gapi.load("client", {
-      callback: () => {
-        void gapi.client.load("drive", "v3").then(driveResolve);
-        resolve();
-      },
-      onerror: reject,
+  clientLoad = new Promise<void>((resolve, reject) => {
+    clientDriveLoad = new Promise((driveResolve) => {
+      gapi.load("client", {
+        callback: () => {
+          void gapi.client.load("drive", "v3").then(driveResolve);
+          resolve();
+        },
+        onerror: reject,
+      });
     });
   });
-});
+}
 
 export default class GoogleDriveProvider implements DriveProvider {
   // The Browser API key obtained from the Google API Console.

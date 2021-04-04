@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: "14.x"
           registry-url: "https://registry.npmjs.org"
+      - uses: microsoft/playwright-github-action@v1
 
       - run: sudo npm i -g yarn
       - run: yarn

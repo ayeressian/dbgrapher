@@ -1,29 +1,22 @@
 import DriveProvider from "../drive-provider";
 import store from "../../store/store";
-import { actions as fileOpenDialog } from "../../store/slices/dialog/file-dialog/file-open-dialog";
+import {
+  actions as fileDialog,
+  FileDialogState,
+} from "../../store/slices/dialog/file-dialog";
 import { subscribeOnce } from "../../subscribe-store";
 
-export default class NoneProvider implements DriveProvider {
+export default class NoneProvider extends DriveProvider {
   async picker(): Promise<void> {
-    store.dispatch(fileOpenDialog.open());
-    await subscribeOnce((state) => state.dialog.fileDialog.fileOpenDialog);
+    store.dispatch(fileDialog.open(FileDialogState.OpenDialog));
+    await subscribeOnce((state) => state.dialog.fileDialog);
   }
-  login(): Promise<boolean> {
-    return Promise.resolve(true);
+  async save(): Promise<void> {
+    store.dispatch(fileDialog.open(FileDialogState.SaveDialog));
+    await subscribeOnce((state) => state.dialog.fileDialog);
   }
-  logout(): Promise<void> {
-    return Promise.resolve();
-  }
-  updateFile(): Promise<void> {
-    return Promise.resolve();
-  }
-  createFile(): Promise<void> {
-    return Promise.resolve();
-  }
-  renameFile(): Promise<void> {
-    return Promise.resolve();
-  }
-  open(): Promise<void> {
-    return Promise.resolve();
+  async saveAs(): Promise<void> {
+    store.dispatch(fileDialog.open(FileDialogState.SaveAsDialog));
+    await subscribeOnce((state) => state.dialog.fileDialog);
   }
 }

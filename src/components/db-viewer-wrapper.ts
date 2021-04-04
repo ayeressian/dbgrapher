@@ -164,31 +164,33 @@ export default class DbWrapper extends DBGElement {
     );
   };
 
+  #onKeyDown = (event: KeyboardEvent): void => {
+    if (!this.#isDialogOpen()) {
+      if (
+        event.key === "z" &&
+        !event.shiftKey &&
+        ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
+      ) {
+        undo();
+      }
+
+      if (
+        (event.key === "z" &&
+          event.shiftKey &&
+          ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
+        (!isMac && event.ctrlKey)
+      ) {
+        redo();
+      }
+    }
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
 
     this.#loadSchemaCheck();
 
-    document.onkeydown = (event: KeyboardEvent): void => {
-      if (!this.#isDialogOpen()) {
-        if (
-          event.keyCode === 90 &&
-          !event.shiftKey &&
-          ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
-        ) {
-          undo();
-        }
-
-        if (
-          (event.keyCode === 90 &&
-            event.shiftKey &&
-            ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
-          (!isMac && event.ctrlKey)
-        ) {
-          redo();
-        }
-      }
-    };
+    document.addEventListener("keydown", this.#onKeyDown);
 
     subscribe((state) => state.loadSchema, this.#loadSchemaCheck);
 
@@ -279,6 +281,27 @@ export default class DbWrapper extends DBGElement {
         }
       }
     );
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+
+    this.#dbViewer.removeEventListener(
+      "viewportClick",
+      this.#tableCreateListener
+    );
+    this.#dbViewer.removeEventListener(
+      "tableClick",
+      this.#relationFirstClickListener
+    );
+    this.#dbViewer.removeEventListener(
+      "tableClick",
+      this.#relationSecondClickListener
+    );
+    this.#dbViewer.removeEventListener("tableClick", this.#removeTable);
+    this.#dbViewer.removeEventListener("relationClick", this.#removeRelation);
+
+    document.removeEventListener("keydown", this.#onKeyDown);
   }
 
   #removeTable = (event: TableClickEvent): void => {

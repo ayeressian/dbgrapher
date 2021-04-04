@@ -95,17 +95,22 @@ export default {
     },
     items: {
       file: {
+        file: "File",
         new: "New",
         open: "Open",
         exportSql: "Export SQL",
         download: "Download",
+        save: "Save",
+        saveAs: "Save as",
       },
       edit: {
+        edit: "Edit",
         undo: "Undo",
         redo: "Redo",
         selectDbType: "Select DB type",
       },
       help: {
+        help: "Help",
         reportIssue: "Report an issue",
         about: "About",
         privacyPolicy: "Privacy policy",

@@ -141,7 +141,13 @@ export default class extends DBGElement {
       }
     );
 
-    window.addEventListener("keydown", this.#onEscape);
+    document.addEventListener("keydown", this.#onEscape);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+
+    document.removeEventListener("keydown", this.#onEscape);
   }
 
   #onEscape = (event: KeyboardEvent): void => {

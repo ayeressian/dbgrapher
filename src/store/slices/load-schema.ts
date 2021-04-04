@@ -7,7 +7,7 @@ export enum State {
 }
 
 const slice = createSlice({
-  initialState: State.LOAD,
+  initialState: State.DEFAULT,
   name: "setSchema",
   reducers: {
     load: (): State => State.LOAD,

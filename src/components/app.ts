@@ -1,4 +1,4 @@
-import initProviderFactory from "../drive/factory";
+import initProviderFactory, { driveProvider } from "../drive/factory";
 import "../localization";
 import "./import-components";
 import {
@@ -12,6 +12,7 @@ import store from "../store/store";
 import ResetStoreException from "../reset-exception";
 import { DBGElement } from "./dbg-element";
 import { CloudProvider } from "../store/slices/cloud";
+import { isMac } from "../util";
 
 initProviderFactory();
 
@@ -89,24 +90,72 @@ export default class extends DBGElement {
     }
   };
 
+  #onkeydown = (event: KeyboardEvent): void => {
+    if (
+      event.key === "s" &&
+      ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
+    ) {
+      event.preventDefault();
+      driveProvider.save();
+    }
+
+    if (
+      (event.key === "s" &&
+        event.shiftKey &&
+        ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
+      (!isMac && event.ctrlKey)
+    ) {
+      event.preventDefault();
+      driveProvider.saveAs();
+    }
+
+    if (
+      (event.key === "o" &&
+        ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
+      (!isMac && event.ctrlKey)
+    ) {
+      event.preventDefault();
+      driveProvider.picker();
+    }
+  };
+
+  #onBeforeunload = (event: BeforeUnloadEvent): void => {
+    const state = store.getState();
+    if (
+      state.cloud.provider === CloudProvider.None &&
+      state.showUnsavedWarning
+    ) {
+      event.preventDefault();
+      event.returnValue = "";
+    }
+  };
+
+  #onUnhandledrejection = (errorEvent: PromiseRejectionEvent): void => {
+    this.#handleErrors(errorEvent.reason, errorEvent);
+  };
+
+  #onError = (errorEvent: ErrorEvent): void => {
+    this.#handleErrors(errorEvent.error, errorEvent);
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
 
-    window.addEventListener("error", (errorEvent) =>
-      this.#handleErrors(errorEvent.error, errorEvent)
+    window.addEventListener("error", this.#onError);
+    window.addEventListener("unhandledrejection", this.#onUnhandledrejection);
+    window.addEventListener("beforeunload", this.#onBeforeunload);
+    document.addEventListener("keydown", this.#onkeydown);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+
+    window.removeEventListener("error", this.#onError);
+    window.removeEventListener(
+      "unhandledrejection",
+      this.#onUnhandledrejection
     );
-    window.addEventListener("unhandledrejection", (errorEvent) =>
-      this.#handleErrors(errorEvent.reason, errorEvent)
-    );
-    window.addEventListener("beforeunload", (event: BeforeUnloadEvent) => {
-      const state = store.getState();
-      if (
-        state.cloud.provider === CloudProvider.None &&
-        state.showUnsavedWarning
-      ) {
-        event.preventDefault();
-        event.returnValue = "";
-      }
-    });
+    window.removeEventListener("beforeunload", this.#onBeforeunload);
+    document.removeEventListener("keydown", this.#onkeydown);
   }
 }

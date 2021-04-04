@@ -47,7 +47,7 @@ if (window.gapi) {
   });
 }
 
-export default class GoogleDriveProvider implements DriveProvider {
+export default class GoogleDriveProvider extends DriveProvider {
   // The Browser API key obtained from the Google API Console.
   // Replace with your own Browser API key, or your own key.
   static developerKey: string = env.googleDrive.developerKey;
@@ -67,6 +67,7 @@ export default class GoogleDriveProvider implements DriveProvider {
   #pickerPromiseResolve!: () => void;
 
   constructor() {
+    super();
     this.#initPromise = clientLoad.then(() => {
       return gapi.client.init({
         apiKey: GoogleDriveProvider.developerKey,

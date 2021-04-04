@@ -18,7 +18,7 @@ import CustomLoggingHandler from "./CustomLoggingHandler";
 import { actions as cloudAction } from "../../store/slices/cloud";
 import DriveProvider from "../drive-provider";
 
-export default class OneDriveProvider implements DriveProvider {
+export default class OneDriveProvider extends DriveProvider {
   #authenticationResult!: AuthenticationResult;
   #msalInstance!: PublicClientApplication;
 
@@ -132,24 +132,4 @@ export default class OneDriveProvider implements DriveProvider {
     store.dispatch(loadScreenAction.stop());
     return true;
   };
-
-  updateFile(): Promise<void> {
-    //TODO
-    return Promise.resolve();
-  }
-
-  createFile(): Promise<void> {
-    //TODO
-    return Promise.resolve();
-  }
-
-  renameFile(): Promise<void> {
-    //TODO
-    return Promise.resolve();
-  }
-
-  open(): Promise<void> {
-    //TODO
-    return Promise.resolve();
-  }
 }

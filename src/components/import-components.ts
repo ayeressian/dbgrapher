@@ -1,6 +1,6 @@
 import "./side-panel";
 import "./db-viewer-wrapper";
-import "./file-inputs";
+import "./file-dialog";
 import "./top-menu/top-menu";
 import "./top-menu/top-menu-wrapper";
 import "./top-menu/file-name-popup";

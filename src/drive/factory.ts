@@ -52,7 +52,7 @@ const googleDriveOpen = (url: URL) => {
   store.dispatch(loadActions.start);
   const { ids } = googleDriveCommon<OpenURIData>(url);
   const fileId = ids[0];
-  driveProvider.open(fileId);
+  (driveProvider as GoogleDriveProvider).open(fileId);
   store.dispatch(loadActions.stop);
 };
 

@@ -16,7 +16,7 @@ import {
   DbTypeDialogState,
 } from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
-import { download } from "../../util";
+import { download, isMac } from "../../util";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
 import { classMap } from "lit-html/directives/class-map";
 import { subscribe } from "../../subscribe-store";
@@ -31,7 +31,7 @@ import ColorHash from "color-hash";
 import { styleMap } from "lit-html/directives/style-map";
 import { driveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
-import { undo, redo, newFile, openFile } from "../operations";
+import { undo, redo, newFile, openFile, localDrive } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
@@ -39,7 +39,6 @@ import UserCancelGeneration from "../../user-cancel-generation";
 import DbGrapherSchema from "../../db-grapher-schema";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
-
 @customElement("dbg-top-menu-wrapper")
 export default class extends DBGElement {
   @internalProperty()
@@ -137,7 +136,7 @@ export default class extends DBGElement {
 
     return html`
       <dbg-top-menu
-        .config="${topMenuConfig}"
+        .config="${topMenuConfig()}"
         @item-selected="${this.#itemSelected}"
       >
         <div
@@ -200,7 +199,12 @@ export default class extends DBGElement {
     );
 
     document.addEventListener("click", this.#onDocumentClick, true);
-    window.addEventListener("keydown", this.#onEscape);
+    document.addEventListener("keydown", this.#onEscape);
+  }
+
+  disconnectedCallback(): void {
+    document.removeEventListener("click", this.#onDocumentClick, true);
+    document.removeEventListener("keydown", this.#onEscape);
   }
 
   #logout = (): void => {
@@ -265,6 +269,12 @@ export default class extends DBGElement {
         break;
       case "open":
         openFile();
+        break;
+      case "save":
+        driveProvider.save();
+        break;
+      case "saveAs":
+        driveProvider.saveAs();
         break;
       case "downloadSchema":
         download(

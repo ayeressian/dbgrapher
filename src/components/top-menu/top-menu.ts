@@ -130,9 +130,9 @@ export default class extends DBGElement {
   }
 
   disconnectedCallback(): void {
+    super.disconnectedCallback();
     this.removeEventListener("click", this.#onComponentClick);
     document.removeEventListener("click", this.#onDocumentClick);
-    super.disconnectedCallback();
   }
 
   render(): TemplateResult {

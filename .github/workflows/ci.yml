@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: "14.x"
           registry-url: "https://registry.npmjs.org"
+      - uses: microsoft/playwright-github-action@v1
 
       # Runs a single command using the runners shell
       - name: add env.json
@@ -31,7 +32,7 @@ jobs:
         with:
           source: ".github/env.json"
           target: "env.json"
-      
+
       - run: sudo npm i -g yarn
       - run: yarn
       - run: yarn lint

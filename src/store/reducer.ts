@@ -2,9 +2,8 @@ import { combineReducers, Action } from "redux";
 import { reducer as createCords } from "./slices/create-cords";
 import { reducer as tableDialog } from "./slices/dialog/table-dialog";
 import { reducer as dbViewerMode } from "./slices/db-viewer-mode";
-import { reducer as fileOpenDialog } from "./slices/dialog/file-dialog/file-open-dialog";
+import { reducer as fileDialog } from "./slices/dialog/file-dialog";
 import { reducer as fileOpenChooserDialog } from "./slices/dialog/file-open-chooser-dialog";
-import { reducer as fileSqlOpenDialog } from "./slices/dialog/file-dialog/file-sql-open-dialog";
 import { reducer as schema } from "./slices/schema";
 import { reducer as loadSchema } from "./slices/load-schema";
 import { reducer as loadScreen } from "./slices/load-screen";
@@ -21,10 +20,7 @@ const appReducer = combineReducers({
   dialog: combineReducers({
     dialogs,
     dbTypeDialog,
-    fileDialog: combineReducers({
-      fileOpenDialog,
-      fileSqlOpenDialog,
-    }),
+    fileDialog,
     tableDialog,
     fileOpenChooserDialog,
   }),

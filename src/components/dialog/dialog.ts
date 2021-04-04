@@ -110,7 +110,12 @@ export default class extends DBGElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    window.addEventListener("keydown", this.#onEscape);
+    document.addEventListener("keydown", this.#onEscape);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    document.removeEventListener("keydown", this.#onEscape);
   }
 
   render(): TemplateResult {

@@ -51,6 +51,22 @@ export default class extends DBGElement {
     this.text = message;
   };
 
+  #onKeydown = (event: KeyboardEvent): void => {
+    const state = store.getState();
+    if (
+      ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) &&
+      event.key === "s" &&
+      state.cloud.provider !== CloudProvider.None &&
+      !state.dialog.tableDialog.open &&
+      !state.dialog.dialogs.newOpenDialog &&
+      !state.dialog.dialogs.aboutDialog &&
+      !state.dialog.dialogs.cloudProviderChooserDialog &&
+      state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
+    ) {
+      this.#showTimedMessage(t((l) => l.hint.driveSave));
+    }
+  };
+
   connectedCallback(): void {
     super.connectedCallback();
 
@@ -75,20 +91,12 @@ export default class extends DBGElement {
       }
     });
 
-    window.addEventListener("keydown", (event) => {
-      const state = store.getState();
-      if (
-        ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) &&
-        event.key === "s" &&
-        state.cloud.provider !== CloudProvider.None &&
-        !state.dialog.tableDialog.open &&
-        !state.dialog.dialogs.newOpenDialog &&
-        !state.dialog.dialogs.aboutDialog &&
-        state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
-      ) {
-        this.#showTimedMessage(t((l) => l.hint.driveSave));
-        event.preventDefault();
-      }
-    });
+    document.addEventListener("keydown", this.#onKeydown);
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+
+    document.removeEventListener("keydown", this.#onKeydown);
   }
 }

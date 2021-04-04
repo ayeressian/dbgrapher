@@ -51,3 +51,7 @@ export const newFile = async (): Promise<void> => {
   store.dispatch(loadSchemaActions.load());
   await getDbType(DbTypeDialogState.OpenFromTopMenuNew);
 };
+
+export const localDrive = (): boolean => {
+  return store.getState().cloud.provider === CloudProvider.None;
+};

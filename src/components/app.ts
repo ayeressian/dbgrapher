@@ -1,4 +1,4 @@
-import initProviderFactory, { driveProvider } from "../drive/factory";
+import initProviderFactory, { getDriveProvider } from "../drive/factory";
 import "../localization";
 import "./import-components";
 import {
@@ -91,12 +91,13 @@ export default class extends DBGElement {
   };
 
   #onkeydown = (event: KeyboardEvent): void => {
+    const driveProvider = getDriveProvider();
     if (
       event.key === "s" &&
       ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
     ) {
       event.preventDefault();
-      driveProvider.save();
+      driveProvider && driveProvider.save();
     }
 
     if (
@@ -106,7 +107,7 @@ export default class extends DBGElement {
       (!isMac && event.ctrlKey)
     ) {
       event.preventDefault();
-      driveProvider.saveAs();
+      driveProvider && driveProvider.saveAs();
     }
 
     if (
@@ -115,7 +116,7 @@ export default class extends DBGElement {
       (!isMac && event.ctrlKey)
     ) {
       event.preventDefault();
-      driveProvider.picker();
+      driveProvider && driveProvider.picker();
     }
   };
 

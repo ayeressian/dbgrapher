@@ -12,7 +12,7 @@ import {
   actions as cloudActions,
   CloudProvider,
 } from "../../store/slices/cloud";
-import { driveProvider } from "../../drive/factory";
+import { getDriveProvider } from "../../drive/factory";
 import {
   actions as dialogActions,
   DialogTypes,
@@ -65,7 +65,7 @@ export default class extends DBGElement {
 
   #onSelect = (cloudProvider: CloudProvider) => async (): Promise<void> => {
     store.dispatch(cloudActions.setDriveType(cloudProvider));
-    const loggedIn = await driveProvider.login();
+    const loggedIn = await getDriveProvider().login();
     if (loggedIn) {
       store.dispatch(
         dialogActions.close(DialogTypes.CloudProviderChooserDialog)

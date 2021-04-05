@@ -16,7 +16,7 @@ import {
   DbTypeDialogState,
 } from "../../store/slices/dialog/db-type-dialog";
 import store from "../../store/store";
-import { download, isMac } from "../../util";
+import { download } from "../../util";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
 import { classMap } from "lit-html/directives/class-map";
 import { subscribe } from "../../subscribe-store";
@@ -29,9 +29,9 @@ import {
 import topMenuConfig from "./top-menu-config";
 import ColorHash from "color-hash";
 import { styleMap } from "lit-html/directives/style-map";
-import { driveProvider } from "../../drive/factory";
+import { getDriveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
-import { undo, redo, newFile, openFile, localDrive } from "../operations";
+import { undo, redo, newFile, openFile } from "../operations";
 import { DBGElement } from "../dbg-element";
 import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
@@ -209,7 +209,7 @@ export default class extends DBGElement {
 
   #logout = (): void => {
     this.openAccountPopup = false;
-    void driveProvider.logout();
+    void getDriveProvider().logout();
   };
 
   firstUpdated(): void {
@@ -219,7 +219,7 @@ export default class extends DBGElement {
   }
 
   #onfileRename = (event: FileNameUpdateEvent): void => {
-    void driveProvider.renameFile(event.detail.newFileName);
+    void getDriveProvider().renameFile(event.detail.newFileName);
     this.openFileRenamePopup = false;
   };
 
@@ -263,6 +263,7 @@ export default class extends DBGElement {
   };
 
   #itemSelected = (event: CustomEvent): void => {
+    const driveProvider = getDriveProvider();
     switch (event.detail.id) {
       case "new":
         newFile();

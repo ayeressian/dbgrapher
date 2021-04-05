@@ -21,7 +21,7 @@ import DbViewer, {
   RelationClickEvent,
 } from "db-viewer-component";
 import { ColumnFkSchema } from "db-viewer-component";
-import { driveProvider } from "../drive/factory";
+import { getDriveProvider } from "../drive/factory";
 import { AppState } from "../store/reducer";
 import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
 import { undo, redo } from "./operations";
@@ -123,7 +123,7 @@ export default class DbWrapper extends DBGElement {
 
   #onTableMoveEnd = (): void => {
     store.dispatch(schemaAction.set(this.#dbViewer.schema as DbGrapherSchema));
-    void driveProvider.updateFile();
+    void getDriveProvider().updateFile();
   };
 
   firstUpdated(): void {
@@ -314,7 +314,7 @@ export default class DbWrapper extends DBGElement {
       );
     });
     store.dispatch(schemaAction.set(schema));
-    driveProvider.updateFile();
+    getDriveProvider().updateFile();
     store.dispatch(setSchemaAction.loadViewportUnchange());
   };
 
@@ -327,7 +327,7 @@ export default class DbWrapper extends DBGElement {
       (column) => column.name !== event.detail.fromColumn
     );
     store.dispatch(schemaAction.set(schema));
-    void driveProvider.updateFile();
+    void getDriveProvider().updateFile();
     store.dispatch(setSchemaAction.loadViewportUnchange());
   };
 

@@ -13,7 +13,9 @@ import { subscribe } from "../subscribe-store";
 import NoneProvider from "./none/none-provider";
 import store from "../store/store";
 
-export let driveProvider: DriveProvider;
+let driveProvider: DriveProvider;
+
+export const getDriveProvider = (): DriveProvider => driveProvider;
 
 type OpenURIData = {
   action: "open";

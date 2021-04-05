@@ -1,6 +1,6 @@
 import store from "../store/store";
 import { actions as schemaAction } from "../store/slices/schema";
-import { driveProvider } from "../drive/factory";
+import { getDriveProvider } from "../drive/factory";
 import { actions as setSchemaAction } from "../store/slices/load-schema";
 import { CloudProvider, CloudUpdateState } from "../store/slices/cloud";
 import { actions as cloudActions } from "../store/slices/cloud";
@@ -15,13 +15,13 @@ import { DbType } from "../db-grapher-schema";
 
 export const undo = (): void => {
   store.dispatch(schemaAction.undo());
-  void driveProvider.updateFile();
+  void getDriveProvider().updateFile();
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };
 
 export const redo = (): void => {
   store.dispatch(schemaAction.redo());
-  void driveProvider.updateFile();
+  void getDriveProvider().updateFile();
   store.dispatch(setSchemaAction.loadViewportUnchange());
 };
 
@@ -39,7 +39,7 @@ export const openFile = async (): Promise<void> => {
       store.dispatch(schemaAction.setDbType(DbType.Generic));
     }
   });
-  await driveProvider.picker();
+  await getDriveProvider().picker();
 };
 
 export const newFile = async (): Promise<void> => {

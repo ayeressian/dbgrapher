@@ -22,7 +22,7 @@ import { cloneDeep } from "lodash";
 import { actions as dbViewerModeAction } from "../../../store/slices/db-viewer-mode";
 import { Schema, TableSchema, ColumnFkSchema } from "db-viewer-component";
 import { Point } from "db-viewer-component";
-import { driveProvider } from "../../../drive/factory";
+import { getDriveProvider } from "../../../drive/factory";
 import { produce } from "immer";
 import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
 import { DBGElement } from "../../dbg-element";
@@ -384,7 +384,7 @@ export default class extends DBGElement {
       store.dispatch(dbViewerModeAction.none());
       store.dispatch(schemaActions.set(this.schema));
       store.dispatch(loadSchemaActions.loadViewportUnchange());
-      void driveProvider.updateFile();
+      void getDriveProvider().updateFile();
       store.dispatch(tableDialogAction.close());
     }
   };

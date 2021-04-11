@@ -6,7 +6,6 @@ import {
 } from "lit-element";
 import googleDriveSvg from "../../../asset/google-drive.svg";
 import noDriveSvg from "../../../asset/no-drive.svg";
-import { subscribe } from "../../subscribe-store";
 import store from "../../store/store";
 import {
   actions as cloudActions,
@@ -28,7 +27,7 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.dialogs.cloudProviderChooserDialog,
       (open) => {
         this.open = open;
@@ -53,7 +52,7 @@ export default class extends DBGElement {
             <!-- disabled onedrive because of https://github.com/OneDrive/onedrive-api-docs/issues/958-->
             <dbg-dialog-operation
               data-testid="none"
-              @dbg-click=${this.#onSelect(CloudProvider.None)}
+              @dbg-click=${this.#onSelect(CloudProvider.Local)}
               text=${t((l) => l.dialog.cloudProvider.operation.none)}
               icon=${noDriveSvg}
             ></dbg-dialog-operation>

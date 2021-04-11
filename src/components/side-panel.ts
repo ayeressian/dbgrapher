@@ -16,7 +16,6 @@ import relationZeroToOneIcon from "../../asset/relation-zero-to-one.svg";
 import relationZeroToManyIcon from "../../asset/relation-zero-to-many.svg";
 import clearIcon from "../../asset/clear.svg";
 import { classMap } from "lit-html/directives/class-map";
-import { subscribe } from "../subscribe-store";
 import DbViewerMode from "../store/slices/db-viewer-mode-type";
 import { t } from "../localization";
 import { DBGElement } from "./dbg-element";
@@ -134,7 +133,7 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dbViewerMode,
       (dbViewerMode) => {
         this.mode = dbViewerMode;

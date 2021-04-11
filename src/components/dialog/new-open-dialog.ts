@@ -11,7 +11,6 @@ import {
 } from "../../store/slices/dialog/dialogs";
 import fileSvg from "../../../asset/file.svg";
 import folderOpenSvg from "../../../asset/folder-open.svg";
-import { subscribe } from "../../subscribe-store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { newFile, openFile } from "../operations";
@@ -24,7 +23,7 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.dialogs.newOpenDialog,
       (open) => {
         this.open = open;

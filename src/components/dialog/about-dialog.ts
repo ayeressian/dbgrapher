@@ -6,7 +6,6 @@ import {
   html,
   internalProperty,
 } from "lit-element";
-import { subscribe } from "../../subscribe-store";
 import {
   actions as dialogActions,
   DialogTypes,
@@ -51,7 +50,7 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.dialogs.aboutDialog,
       (open) => {
         this.open = open;

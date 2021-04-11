@@ -9,7 +9,6 @@ import mysql from "../../../asset/mysql.svg";
 import postgresql from "../../../asset/postgresql.svg";
 import sqlite from "../../../asset/sqlite.svg";
 import db from "../../../asset/db.svg";
-import { subscribe } from "../../subscribe-store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { actions as schemaActions } from "../../store/slices/schema";
@@ -36,12 +35,12 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.dbTypeDialog,
       (open) => (this.open = open)
     );
 
-    subscribe(
+    this.subscribe(
       (state) => state.schema.present.dbGrapher?.type,
       (dbType) => (this.selectedDbType = dbType)
     );

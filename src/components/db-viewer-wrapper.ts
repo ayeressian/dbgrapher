@@ -11,7 +11,6 @@ import { actions as tableDialogAction } from "../store/slices/dialog/table-dialo
 import { actions as dbViewerModeAction } from "../store/slices/db-viewer-mode";
 import store from "../store/store";
 import DbViewerMode from "../store/slices/db-viewer-mode-type";
-import { subscribe } from "../subscribe-store";
 import { isMac } from "../util";
 import DbViewer, {
   TableClickEvent,
@@ -23,8 +22,7 @@ import DbViewer, {
 import { ColumnFkSchema } from "db-viewer-component";
 import { getDriveProvider } from "../drive/factory";
 import { AppState } from "../store/reducer";
-import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
-import { undo, redo } from "./operations";
+import { undo, redo, getDialogsAreClosed } from "./operations";
 import { DBGElement } from "./dbg-element";
 import DbGrapherSchema from "../db-grapher-schema";
 
@@ -153,21 +151,9 @@ export default class DbWrapper extends DBGElement {
     }
   };
 
-  #isDialogOpen = (): boolean => {
-    const stateDialog = store.getState().dialog;
-    return (
-      stateDialog.dialogs.aboutDialog ||
-      stateDialog.dialogs.cloudProviderChooserDialog ||
-      stateDialog.fileOpenChooserDialog !== FileOpenDialogState.Close ||
-      stateDialog.dialogs.newOpenDialog ||
-      stateDialog.tableDialog.open
-    );
-  };
-
   #onKeyDown = (event: KeyboardEvent): void => {
-    if (!this.#isDialogOpen()) {
+    if (getDialogsAreClosed() && event.key === "z") {
       if (
-        event.key === "z" &&
         !event.shiftKey &&
         ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
       ) {
@@ -175,8 +161,7 @@ export default class DbWrapper extends DBGElement {
       }
 
       if (
-        (event.key === "z" &&
-          event.shiftKey &&
+        (event.shiftKey &&
           ((event.ctrlKey && !isMac) || (event.metaKey && isMac))) ||
         (!isMac && event.ctrlKey)
       ) {
@@ -192,9 +177,9 @@ export default class DbWrapper extends DBGElement {
 
     document.addEventListener("keydown", this.#onKeyDown);
 
-    subscribe((state) => state.loadSchema, this.#loadSchemaCheck);
+    this.subscribe((state) => state.loadSchema, this.#loadSchemaCheck);
 
-    subscribe(
+    this.subscribe(
       (state) => state.dbViewerMode,
       (dbViewerMode) => {
         this.#mode = dbViewerMode;

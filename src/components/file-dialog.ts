@@ -16,11 +16,11 @@ import store from "../store/store";
 import { validateJson } from "../validate-schema";
 import { actions as fileOpenChooserDialogOpen } from "../store/slices/dialog/file-open-chooser-dialog";
 import { actions as fileDialogActions } from "../store/slices/dialog/file-dialog";
-import { subscribe } from "../subscribe-store";
 import { DBGElement } from "./dbg-element";
 import { t } from "../localization";
 import DbGrapherSchema from "../db-grapher-schema";
 import { FileDialogState } from "../store/slices/dialog/file-dialog";
+import { hintTimed, HintType } from "../store/slices/hint";
 import { localDrive } from "./operations";
 
 const ABORT_BY_USER_ERROR_CODE = 20;
@@ -54,7 +54,6 @@ export default class extends DBGElement {
   }
 
   #open = async (): Promise<void> => {
-    await this.#loaded;
     if (window.showOpenFilePicker) {
       try {
         [this.#handle] = await window.showOpenFilePicker();
@@ -63,6 +62,7 @@ export default class extends DBGElement {
         store.dispatch(fileOpenDialogActions.close());
       } catch (e) {
         if (e.code !== ABORT_BY_USER_ERROR_CODE) throw e;
+        store.dispatch(fileOpenDialogActions.close());
       }
     } else {
       await this.#loaded;
@@ -72,7 +72,7 @@ export default class extends DBGElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.fileDialog,
       async (fileDialogState) => {
         switch (fileDialogState) {
@@ -109,21 +109,26 @@ export default class extends DBGElement {
 
   #save = async (): Promise<void> => {
     if (localDrive() && window.showSaveFilePicker) {
-      if (this.#handle) {
-        this.#write();
-      } else {
+      if (this.#handle == null) {
         try {
           this.#handle = await window.showSaveFilePicker();
         } catch (e) {
-          if (e.code !== ABORT_BY_USER_ERROR_CODE) throw e;
+          if (e.code == ABORT_BY_USER_ERROR_CODE) return;
+          else {
+            throw e;
+          }
         }
       }
+      await this.#write();
+      store.dispatch(hintTimed(HintType.Save));
     }
   };
 
   #saveAs = async (): Promise<void> => {
     if (localDrive() && window.showSaveFilePicker) {
       this.#handle = await window.showSaveFilePicker();
+      await this.#write();
+      store.dispatch(hintTimed(HintType.Save));
     }
   };
 

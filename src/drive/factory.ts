@@ -10,7 +10,7 @@ import DriveProvider from "./drive-provider";
 import GoogleDriveProvider from "./google-drive/google-drive-provider";
 import OneDriveProvider from "./one-drive/one-drive-provider";
 import { subscribe } from "../subscribe-store";
-import NoneProvider from "./none/none-provider";
+import LocalProvider from "./none/local-provider";
 import store from "../store/store";
 
 let driveProvider: DriveProvider;
@@ -70,7 +70,7 @@ const initFactory = (): void => {
           driveProvider = new OneDriveProvider();
           break;
         default:
-          driveProvider = new NoneProvider();
+          driveProvider = new LocalProvider();
           break;
       }
     }

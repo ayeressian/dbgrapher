@@ -12,6 +12,9 @@ import {
 } from "../store/slices/dialog/db-type-dialog";
 import { subscribeOnce } from "../subscribe-store";
 import { DbType } from "../db-grapher-schema";
+import { FileDialogState } from "../store/slices/dialog/file-dialog";
+import { FileOpenDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
+import { DialogTypes } from "../store/slices/dialog/dialogs";
 
 export const undo = (): void => {
   store.dispatch(schemaAction.undo());
@@ -34,16 +37,19 @@ export const getDbType = async (
 };
 
 export const openFile = async (): Promise<void> => {
-  subscribeOnce((state) => state.schema.present).then(() => {
-    if (store.getState().schema.present?.dbGrapher?.type == null) {
-      store.dispatch(schemaAction.setDbType(DbType.Generic));
-    }
-  });
-  await getDriveProvider().picker();
+  const driveProvider = getDriveProvider();
+  if (driveProvider) {
+    subscribeOnce((state) => state.schema.present).then(() => {
+      if (store.getState().schema.present?.dbGrapher?.type == null) {
+        store.dispatch(schemaAction.setDbType(DbType.Generic));
+      }
+    });
+    await driveProvider.picker();
+  }
 };
 
 export const newFile = async (): Promise<void> => {
-  if (store.getState().cloud.provider !== CloudProvider.None) {
+  if (store.getState().cloud.provider !== CloudProvider.Local) {
     store.dispatch(cloudActions.setFileName("untitled.dbgr"));
     store.dispatch(cloudActions.setUpdateState(CloudUpdateState.None));
   }
@@ -53,5 +59,23 @@ export const newFile = async (): Promise<void> => {
 };
 
 export const localDrive = (): boolean => {
-  return store.getState().cloud.provider === CloudProvider.None;
+  return store.getState().cloud.provider === CloudProvider.Local;
+};
+
+export const googleDrive = (): boolean => {
+  return store.getState().cloud.provider === CloudProvider.GoogleDrive;
+};
+
+export const getDialogsAreClosed = (): boolean => {
+  const dialogs = store.getState().dialog;
+
+  return (
+    dialogs.fileDialog === FileDialogState.None &&
+    dialogs.dbTypeDialog === DbTypeDialogState.Close &&
+    dialogs.fileOpenChooserDialog === FileOpenDialogState.Close &&
+    !dialogs.tableDialog.open &&
+    !dialogs.dialogs[DialogTypes.AboutDialog] &&
+    !dialogs.dialogs[DialogTypes.CloudProviderChooserDialog] &&
+    !dialogs.dialogs[DialogTypes.NewOpenDialog]
+  );
 };

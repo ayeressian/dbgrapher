@@ -1,11 +1,11 @@
 enum DbViewerMode {
-  CreateTable,
-  RelationOneToMany,
-  RelationOneToOne,
-  RelationZeroToOne,
-  RelationZeroToMany,
-  Remove,
-  None,
+  CreateTable = "CreateTable",
+  RelationOneToMany = "RelationOneToMany",
+  RelationOneToOne = "RelationOneToOne",
+  RelationZeroToOne = "RelationZeroToOne",
+  RelationZeroToMany = "RelationZeroToMany",
+  Remove = "Remove",
+  None = "None",
 }
 
 export default DbViewerMode;

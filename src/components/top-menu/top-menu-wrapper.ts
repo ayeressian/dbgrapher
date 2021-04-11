@@ -19,7 +19,6 @@ import store from "../../store/store";
 import { download } from "../../util";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
 import { classMap } from "lit-html/directives/class-map";
-import { subscribe } from "../../subscribe-store";
 import buttonCss from "purecss/build/buttons-min.css";
 import {
   CloudState,
@@ -104,7 +103,7 @@ export default class extends DBGElement {
   }
 
   #hideCenterAndRight = (): boolean =>
-    this.cloudState.provider === CloudProvider.None ||
+    this.cloudState.provider === CloudProvider.Local ||
     this.cloudState.userData?.name == null;
 
   render(): TemplateResult {
@@ -190,7 +189,7 @@ export default class extends DBGElement {
 
   connectedCallback(): void {
     super.connectedCallback();
-    subscribe(
+    this.subscribe(
       (state) => state.cloud,
       (cloudState) => {
         this.cloudState = cloudState;

@@ -1,16 +1,31 @@
 import { LitElement } from "lit-element";
+import { Unsubscribe } from "redux";
+import { AppState } from "../store/reducer";
 import { subscribe } from "../subscribe-store";
 
 export abstract class DBGElement extends LitElement {
+  #unsubscribes = [] as Unsubscribe[];
+
   connectedCallback(): void {
     super.connectedCallback();
 
     // Update on local change
-    subscribe(
+    this.subscribe(
       (state) => state.localization,
-      () => {
-        void this.requestUpdate();
-      }
+      () => this.requestUpdate()
     );
+  }
+
+  subscribe<StateType>(
+    selector: (state: AppState) => StateType,
+    onUpdate: (subState: StateType, state: AppState) => void,
+    isEqual?: (oldValue: StateType, newValue: StateType) => boolean
+  ): void {
+    this.#unsubscribes.push(subscribe<StateType>(selector, onUpdate, isEqual));
+  }
+
+  disconnectedCallback(): void {
+    super.disconnectedCallback();
+    this.#unsubscribes.forEach((unsub) => unsub());
   }
 }

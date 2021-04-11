@@ -6,97 +6,72 @@ import {
   html,
   internalProperty,
 } from "lit-element";
-import DbViewerMode from "../store/slices/db-viewer-mode-type";
-import store from "../store/store";
-import { isMac } from "../util";
-import { FileOpenDialogState as FileOpenChooserDialogState } from "../store/slices/dialog/file-open-chooser-dialog";
-import { CloudProvider } from "../store/slices/cloud";
 import { t } from "../localization";
 import { DBGElement } from "./dbg-element";
-
-const DISPLAY_TIMER = 5000;
+import { HintType } from "../store/slices/hint";
 
 @customElement("dbg-hint")
 export default class extends DBGElement {
   @internalProperty()
-  private text = "";
+  private hints = [] as string[];
 
   static get styles(): CSSResult {
     return css`
-      div {
+      .main {
         position: fixed;
         right: 20px;
         bottom: 18px;
+        font-size: 1.2em;
+      }
+
+      .hint {
         background-color: #333;
         color: #ddd;
-        font-size: 1.2em;
-        padding: 5px;
-        padding-left: 8px;
-        padding-right: 8px;
-        border-radius: 2px;
+        margin-top: 10px;
+        padding: 10px;
+        float: right;
+        clear: both;
       }
     `;
   }
 
   render(): TemplateResult {
-    return this.text ? html` <div>${this.text}</div> ` : html``;
+    return this.hints.length
+      ? html`<div class="main">
+          ${this.hints.map((hint) => html`<div class="hint">${hint}</div>`)}
+        </div> `
+      : html``;
   }
-
-  #showTimedMessage = (message: string): void => {
-    setTimeout(() => {
-      if (this.text === message) {
-        this.text = "";
-      }
-    }, DISPLAY_TIMER);
-    this.text = message;
-  };
-
-  #onKeydown = (event: KeyboardEvent): void => {
-    const state = store.getState();
-    if (
-      ((isMac && event.metaKey) || (!isMac && event.ctrlKey)) &&
-      event.key === "s" &&
-      state.cloud.provider !== CloudProvider.None &&
-      !state.dialog.tableDialog.open &&
-      !state.dialog.dialogs.newOpenDialog &&
-      !state.dialog.dialogs.aboutDialog &&
-      !state.dialog.dialogs.cloudProviderChooserDialog &&
-      state.dialog.fileOpenChooserDialog === FileOpenChooserDialogState.Close
-    ) {
-      this.#showTimedMessage(t((l) => l.hint.driveSave));
-    }
-  };
 
   connectedCallback(): void {
     super.connectedCallback();
 
-    store.subscribe(() => {
-      const state = store.getState();
-      this.text = "";
-      switch (state.dbViewerMode) {
-        case DbViewerMode.CreateTable:
-          if (!state.dialog.tableDialog.open) {
-            this.text = t((l) => l.hint.tableCreation);
-          }
-          break;
-        case DbViewerMode.RelationOneToMany:
-        case DbViewerMode.RelationOneToOne:
-        case DbViewerMode.RelationZeroToMany:
-        case DbViewerMode.RelationZeroToOne:
-          this.text = t((l) => l.hint.relationCreation);
-          break;
-        case DbViewerMode.Remove:
-          this.text = t((l) => l.hint.remove);
-          break;
+    this.subscribe(
+      (state) => state.hint,
+      (stateHints, appState) => {
+        this.hints = stateHints
+          .map((hint) => {
+            switch (hint.type) {
+              case HintType.CreateTable:
+                if (!appState.dialog.tableDialog.open) {
+                  return t((l) => l.hint.tableCreation);
+                }
+                break;
+              case HintType.RelationOneToMany:
+              case HintType.RelationOneToOne:
+              case HintType.RelationZeroToMany:
+              case HintType.RelationZeroToOne:
+                return t((l) => l.hint.relationCreation);
+              case HintType.Remove:
+                return t((l) => l.hint.remove);
+              case HintType.Save:
+                return t((l) => l.hint.save);
+              case HintType.DriveSave:
+                return t((l) => l.hint.driveSave);
+            }
+          })
+          .filter((hint) => hint != null) as string[];
       }
-    });
-
-    document.addEventListener("keydown", this.#onKeydown);
-  }
-
-  disconnectedCallback(): void {
-    super.disconnectedCallback();
-
-    document.removeEventListener("keydown", this.#onKeydown);
+    );
   }
 }

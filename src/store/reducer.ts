@@ -12,11 +12,13 @@ import { reducer as localization } from "./slices/localization";
 import { reducer as dialogs } from "./slices/dialog/dialogs";
 import { reducer as dbTypeDialog } from "./slices/dialog/db-type-dialog";
 import { reducer as showUnsavedWarning } from "./slices/show-unsaved-warning";
+import { reducer as hint } from "./slices/hint";
 
 const appReducer = combineReducers({
   createCords,
   dbViewerMode,
   cloud,
+  hint,
   dialog: combineReducers({
     dialogs,
     dbTypeDialog,

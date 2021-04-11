@@ -6,7 +6,7 @@ import {
 } from "../../store/slices/dialog/file-dialog";
 import { subscribeOnce } from "../../subscribe-store";
 
-export default class NoneProvider extends DriveProvider {
+export default class LocalProvider extends DriveProvider {
   async picker(): Promise<void> {
     store.dispatch(fileDialog.open(FileDialogState.OpenDialog));
     await subscribeOnce((state) => state.dialog.fileDialog);

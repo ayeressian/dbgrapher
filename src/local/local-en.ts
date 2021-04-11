@@ -73,6 +73,7 @@ export default {
     remove: "Please select on the table or relation that you want to remove",
     driveSave:
       "Changes to the file will be automatically saved to Google drive",
+    save: "File saved successfully",
   },
   sidePanel: {
     createTable: "Create Table",

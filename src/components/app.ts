@@ -13,6 +13,8 @@ import ResetStoreException from "../reset-exception";
 import { DBGElement } from "./dbg-element";
 import { CloudProvider } from "../store/slices/cloud";
 import { isMac } from "../util";
+import { getDialogsAreClosed, googleDrive, openFile } from "./operations";
+import { hintTimed, HintType } from "../store/slices/hint";
 
 initProviderFactory();
 
@@ -90,14 +92,18 @@ export default class extends DBGElement {
     }
   };
 
-  #onkeydown = (event: KeyboardEvent): void => {
+  #onkeydown = async (event: KeyboardEvent): Promise<void> => {
     const driveProvider = getDriveProvider();
+    const dialogsAreClosed = getDialogsAreClosed();
     if (
       event.key === "s" &&
       ((event.ctrlKey && !isMac) || (event.metaKey && isMac))
     ) {
       event.preventDefault();
-      driveProvider && driveProvider.save();
+      dialogsAreClosed && driveProvider && (await driveProvider.save());
+      if (googleDrive() && dialogsAreClosed) {
+        store.dispatch(hintTimed(HintType.DriveSave));
+      }
     }
 
     if (
@@ -107,7 +113,7 @@ export default class extends DBGElement {
       (!isMac && event.ctrlKey)
     ) {
       event.preventDefault();
-      driveProvider && driveProvider.saveAs();
+      dialogsAreClosed && driveProvider && (await driveProvider.saveAs());
     }
 
     if (
@@ -116,14 +122,14 @@ export default class extends DBGElement {
       (!isMac && event.ctrlKey)
     ) {
       event.preventDefault();
-      driveProvider && driveProvider.picker();
+      dialogsAreClosed && (await openFile());
     }
   };
 
   #onBeforeunload = (event: BeforeUnloadEvent): void => {
     const state = store.getState();
     if (
-      state.cloud.provider === CloudProvider.None &&
+      state.cloud.provider === CloudProvider.Local &&
       state.showUnsavedWarning
     ) {
       event.preventDefault();

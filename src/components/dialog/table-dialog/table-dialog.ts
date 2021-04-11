@@ -10,7 +10,6 @@ import {
 } from "lit-element";
 import { actions as tableDialogAction } from "../../../store/slices/dialog/table-dialog";
 import store from "../../../store/store";
-import { subscribe } from "../../../subscribe-store";
 import { FkColumnChangeEventDetail } from "./fk-columns";
 import TableDialogColumns from "./columns";
 import TableDialogFkColumns from "./fk-columns";
@@ -258,7 +257,7 @@ export default class extends DBGElement {
   connectedCallback(): void {
     super.connectedCallback();
 
-    subscribe(
+    this.subscribe(
       (state) => state.dialog.tableDialog,
       ({ open, tableName }, state) => {
         this.open = open;

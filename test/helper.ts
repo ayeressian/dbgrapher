@@ -36,7 +36,7 @@ export function initComponentTest(
 ): Promise<LitElement> {
   store.dispatch({ type: "RESET" });
   initProviderFactory();
-  store.dispatch(cloudActions.setDriveType(CloudProvider.None));
+  store.dispatch(cloudActions.setDriveType(CloudProvider.Local));
   if (typeof param === "string") {
     return createElement(param);
   }

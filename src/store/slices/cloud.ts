@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export enum CloudProvider {
-  None = "None",
+  Local = "Local",
   GoogleDrive = "GoogleDrive",
   OneDrive = "OneDrive",
   NotSelected = "NotSelected",

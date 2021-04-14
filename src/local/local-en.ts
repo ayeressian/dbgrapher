@@ -109,6 +109,8 @@ export default {
         undo: "Undo",
         redo: "Redo",
         selectDbType: "Select DB type",
+        increaseViewSize: "Increase view size",
+        decreaseViewSize: "Decrease view size",
       },
       help: {
         help: "Help",

@@ -52,6 +52,14 @@ const getConfig = (): TopMenuConfig => {
             id: "selectDbType",
             title: t((l) => l.topMenu.items.edit.selectDbType),
           },
+          {
+            id: "increaseViewSize",
+            title: t((l) => l.topMenu.items.edit.increaseViewSize),
+          },
+          {
+            id: "decreaseViewSize",
+            title: t((l) => l.topMenu.items.edit.decreaseViewSize),
+          },
         ],
       },
       {

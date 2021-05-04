@@ -1,10 +1,5 @@
-import {
-  html,
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-} from "lit-element";
+import { html, css, CSSResultGroup, TemplateResult } from "lit";
+import { customElement } from "lit/decorators";
 import { actions as setSchemaAction, State } from "../store/slices/load-schema";
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as tableDialogAction } from "../store/slices/dialog/table-dialog";
@@ -36,7 +31,7 @@ export default class DbWrapper extends DBGElement {
   #relationFirstTableName!: string;
   #mode: DbViewerMode = DbViewerMode.None;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       :host {
         overflow: auto;

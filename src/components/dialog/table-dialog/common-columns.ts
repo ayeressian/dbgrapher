@@ -1,4 +1,4 @@
-import { css, unsafeCSS } from "lit-element";
+import { css, unsafeCSS } from "lit";
 import formsCss from "purecss/build/forms-min.css";
 import buttonCss from "purecss/build/buttons-min.css";
 import tableCss from "purecss/build/tables-min.css";

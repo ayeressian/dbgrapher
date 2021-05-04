@@ -1,4 +1,4 @@
-import { LitElement } from "lit-element";
+import { LitElement } from "lit";
 import { Unsubscribe } from "redux";
 import { AppState } from "../store/reducer";
 import { subscribe } from "../subscribe-store";

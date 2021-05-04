@@ -1,5 +1,5 @@
 {
-  "name": "db-grapher-lit",
+  "name": "dbgrapher",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -28,7 +28,7 @@
     "ajv": "^7.0.1",
     "color-hash": "^1.0.3",
     "db-viewer-component": "^4.4.6",
-    "lit-element": "^2.4.0",
+    "lit": "^2.0.0-rc.1",
     "lodash": "^4.17.20",
     "purecss": "^2.0.3",
     "redux": "^4.0.5",

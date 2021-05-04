@@ -1,15 +1,10 @@
-import {
-  customElement,
-  CSSResult,
-  TemplateResult,
-  css,
-  html,
-} from "lit-element";
+import { CSSResultGroup, TemplateResult, css, html } from "lit";
+import { customElement } from "lit/decorators";
 import { DBGElement } from "../dbg-element";
 
 @customElement("dbg-dialog-operations")
 export default class extends DBGElement {
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .operations {
         display: flex;

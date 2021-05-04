@@ -1,12 +1,4 @@
-import {
-  html,
-  customElement,
-  TemplateResult,
-  CSSResult,
-  css,
-  unsafeCSS,
-  internalProperty,
-} from "lit-element";
+import { html, TemplateResult, CSSResultGroup, css, unsafeCSS } from "lit";
 import {
   actions as dialogActions,
   DialogTypes,
@@ -18,7 +10,7 @@ import {
 import store from "../../store/store";
 import { download } from "../../util";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
-import { classMap } from "lit-html/directives/class-map";
+import { classMap } from "lit/directives/class-map";
 import buttonCss from "purecss/build/buttons-min.css";
 import {
   CloudState,
@@ -27,7 +19,7 @@ import {
 } from "../../store/slices/cloud";
 import topMenuConfig from "./top-menu-config";
 import ColorHash from "color-hash";
-import { styleMap } from "lit-html/directives/style-map";
+import { styleMap } from "lit/directives/style-map";
 import { getDriveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
 import { undo, redo, newFile, openFile } from "../operations";
@@ -38,26 +30,27 @@ import UserCancelGeneration from "../../user-cancel-generation";
 import DbGrapherSchema from "../../db-grapher-schema";
 import { actions as schemaActions } from "../../store/slices/schema";
 import { actions as loadSchemaActions } from "../../store/slices/load-schema";
+import { customElement, state } from "lit/decorators";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 @customElement("dbg-top-menu-wrapper")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private openAccountPopup = false;
 
-  @internalProperty()
+  @state()
   private openFileRenamePopup = false;
 
-  @internalProperty()
+  @state()
   private fileName!: string;
 
-  @internalProperty()
+  @state()
   private cloudState: CloudState = store.getState().cloud;
 
   #accountPopup!: HTMLElement;
   #error = false;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(buttonCss)}
 

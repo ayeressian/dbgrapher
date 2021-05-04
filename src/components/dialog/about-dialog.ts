@@ -1,11 +1,4 @@
-import {
-  customElement,
-  CSSResult,
-  TemplateResult,
-  css,
-  html,
-  internalProperty,
-} from "lit-element";
+import { CSSResultGroup, TemplateResult, css, html } from "lit";
 import {
   actions as dialogActions,
   DialogTypes,
@@ -13,13 +6,14 @@ import {
 import store from "../../store/store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
+import { customElement, state } from "lit/decorators";
 
 @customElement("dbg-about-dialog")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private open = false;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       p {
         width: 500px;

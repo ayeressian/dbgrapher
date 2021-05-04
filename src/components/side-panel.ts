@@ -1,12 +1,6 @@
-import {
-  html,
-  customElement,
-  css,
-  unsafeCSS,
-  CSSResult,
-  TemplateResult,
-  internalProperty,
-} from "lit-element";
+import { html, css, unsafeCSS, CSSResultGroup, TemplateResult } from "lit";
+import { classMap } from "lit/directives/class-map";
+import { customElement, state } from "lit/decorators";
 import { actions as dbViewerModeAction } from "../store/slices/db-viewer-mode";
 import store from "../store/store";
 import createIconImg from "../../asset/table.svg";
@@ -15,14 +9,13 @@ import relationOneToOneIcon from "../../asset/relation-one-to-one.svg";
 import relationZeroToOneIcon from "../../asset/relation-zero-to-one.svg";
 import relationZeroToManyIcon from "../../asset/relation-zero-to-many.svg";
 import clearIcon from "../../asset/clear.svg";
-import { classMap } from "lit-html/directives/class-map";
 import DbViewerMode from "../store/slices/db-viewer-mode-type";
 import { t } from "../localization";
 import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-side-panel")
 export default class extends DBGElement {
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .left_toolbar {
         padding: 0;
@@ -78,7 +71,7 @@ export default class extends DBGElement {
     `;
   }
 
-  @internalProperty()
+  @state()
   private mode: DbViewerMode = DbViewerMode.None;
 
   render(): TemplateResult {

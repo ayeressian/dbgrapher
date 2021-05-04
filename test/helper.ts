@@ -1,4 +1,4 @@
-import { LitElement } from "lit-element";
+import { LitElement } from "lit";
 import store from "../src/store/store";
 import initProviderFactory from "../src/drive/factory";
 import {

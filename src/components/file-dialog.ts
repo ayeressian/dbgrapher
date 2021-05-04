@@ -1,10 +1,5 @@
-import {
-  html,
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-} from "lit-element";
+import { html, css, CSSResultGroup, TemplateResult } from "lit";
+import { customElement } from "lit/decorators";
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as setSchemaAction } from "../store/slices/load-schema";
 import { actions as fileOpenDialogActions } from "../store/slices/dialog/file-dialog";
@@ -45,7 +40,7 @@ export default class extends DBGElement {
     this.#resolveLoaded(null);
   }
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       input {
         display: none;
@@ -53,10 +48,21 @@ export default class extends DBGElement {
     `;
   }
 
+  #filePickerOptions = {
+    types: [
+      {
+        description: "Schema",
+        accept: { "application/json": [".json", ".dbgr"] },
+      },
+    ],
+  };
+
   #open = async (): Promise<void> => {
     if (window.showOpenFilePicker) {
       try {
-        [this.#handle] = await window.showOpenFilePicker();
+        [this.#handle] = await window.showOpenFilePicker(
+          this.#filePickerOptions
+        );
         const file = await this.#handle.getFile();
         this.#read(await file.text());
         store.dispatch(fileOpenDialogActions.close());
@@ -111,7 +117,9 @@ export default class extends DBGElement {
     if (localDrive() && window.showSaveFilePicker) {
       if (this.#handle == null) {
         try {
-          this.#handle = await window.showSaveFilePicker();
+          this.#handle = await window.showSaveFilePicker(
+            this.#filePickerOptions
+          );
         } catch (e) {
           if (e.code == ABORT_BY_USER_ERROR_CODE) return;
           else {
@@ -126,7 +134,7 @@ export default class extends DBGElement {
 
   #saveAs = async (): Promise<void> => {
     if (localDrive() && window.showSaveFilePicker) {
-      this.#handle = await window.showSaveFilePicker();
+      this.#handle = await window.showSaveFilePicker(this.#filePickerOptions);
       await this.#write();
       store.dispatch(hintTimed(HintType.Save));
     }

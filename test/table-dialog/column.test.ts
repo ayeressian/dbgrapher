@@ -31,6 +31,8 @@ describe("table-dialog-column", function () {
 
   it("should render properly", function () {
     const html = shadowRoot!.firstElementChild!.outerHTML.replace(/\s/g, "");
+    console.log(shadowRoot!.firstElementChild!.outerHTML);
+
     expect(html).toEqual(snapshot);
   });
 });

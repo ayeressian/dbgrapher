@@ -1,12 +1,6 @@
-import {
-  customElement,
-  TemplateResult,
-  html,
-  property,
-  CSSResult,
-  css,
-  unsafeCSS,
-} from "lit-element";
+import { TemplateResult, html, CSSResultGroup, css, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators";
+
 import formsCss from "purecss/build/forms-min.css";
 import { DBGElement } from "./dbg-element";
 
@@ -29,7 +23,7 @@ export default class Select extends DBGElement {
   #selectElement!: HTMLSelectElement;
   #form!: HTMLFormElement;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(formsCss)}
       form {

@@ -1,20 +1,13 @@
-import {
-  html,
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-  internalProperty,
-  property,
-} from "lit-element";
-import { classMap } from "lit-html/directives/class-map";
-import { styleMap } from "lit-html/directives/style-map";
+import { html, css, CSSResultGroup, TemplateResult } from "lit";
+import { classMap } from "lit/directives/class-map";
+import { styleMap } from "lit/directives/style-map";
 import { TopMenuConfig, Item } from "./top-menu-config";
 import { DBGElement } from "../dbg-element";
+import { customElement, property, state } from "lit/decorators";
 
 @customElement("dbg-top-menu")
 export default class extends DBGElement {
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       * {
         cursor: default;
@@ -103,10 +96,10 @@ export default class extends DBGElement {
 
   @property({ type: Object }) config?: TopMenuConfig;
 
-  @internalProperty()
+  @state()
   private dropdownItems?: Item[];
 
-  @internalProperty()
+  @state()
   private dropdownStyle = {};
 
   #onDocumentClick = (event: MouseEvent): void => {

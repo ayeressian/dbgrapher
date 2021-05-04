@@ -1,9 +1,4 @@
-import {
-  html,
-  customElement,
-  TemplateResult,
-  internalProperty,
-} from "lit-element";
+import { html, TemplateResult } from "lit";
 import mssql from "../../../asset/mssql.svg";
 import mysql from "../../../asset/mysql.svg";
 import postgresql from "../../../asset/postgresql.svg";
@@ -23,13 +18,14 @@ import {
 import { DbType } from "../../db-grapher-schema";
 import store from "../../store/store";
 import { actions as setSchemaAction } from "../../store/slices/load-schema";
+import { customElement, state } from "lit/decorators";
 
 @customElement("dbg-db-type-dialog")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private open = store.getState().dialog.dbTypeDialog;
 
-  @internalProperty()
+  @state()
   private selectedDbType!: DbType;
 
   connectedCallback(): void {

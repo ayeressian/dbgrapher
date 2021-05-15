@@ -1,14 +1,8 @@
-import {
-  customElement,
-  CSSResult,
-  TemplateResult,
-  css,
-  html,
-  property,
-} from "lit-element";
+import { CSSResultGroup, TemplateResult, css, html } from "lit";
 import { DBGElement } from "../dbg-element";
-import { styleMap } from "lit-html/directives/style-map";
-import { classMap } from "lit-html/directives/class-map";
+import { styleMap } from "lit/directives/style-map";
+import { classMap } from "lit/directives/class-map";
+import { customElement, property } from "lit/decorators";
 
 @customElement("dbg-dialog-operation")
 export default class extends DBGElement {
@@ -16,7 +10,7 @@ export default class extends DBGElement {
   @property({ type: String }) icon!: string;
   @property({ type: Boolean }) selected = false;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .operation-icon {
         width: 100px;

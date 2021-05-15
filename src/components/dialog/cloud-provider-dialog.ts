@@ -1,9 +1,4 @@
-import {
-  html,
-  customElement,
-  TemplateResult,
-  internalProperty,
-} from "lit-element";
+import { html, TemplateResult } from "lit";
 import googleDriveSvg from "../../../asset/google-drive.svg";
 import noDriveSvg from "../../../asset/no-drive.svg";
 import store from "../../store/store";
@@ -18,10 +13,11 @@ import {
 } from "../../store/slices/dialog/dialogs";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
+import { customElement, state } from "lit/decorators";
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private open = store.getState().dialog.dialogs.cloudProviderChooserDialog;
 
   connectedCallback(): void {

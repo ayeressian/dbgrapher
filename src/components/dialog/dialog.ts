@@ -1,13 +1,6 @@
-import {
-  html,
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-  property,
-  unsafeCSS,
-} from "lit-element";
-import { classMap } from "lit-html/directives/class-map";
+import { html, css, CSSResultGroup, TemplateResult, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators";
+import { classMap } from "lit/directives/class-map";
 import goBackSvg from "../../../asset/arrow-alt-circle-left.svg";
 import closeSvg from "../../../asset/times-circle.svg";
 import { DBGElement } from "../dbg-element";
@@ -36,7 +29,7 @@ export default class extends DBGElement {
   })
   centerTitle = "";
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .dialog {
         position: fixed;

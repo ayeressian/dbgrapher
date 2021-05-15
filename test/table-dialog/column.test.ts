@@ -1,6 +1,7 @@
 import Columns from "../../src/components/dialog/table-dialog/columns";
 import { initComponentTest, removeElement } from "../helper";
 import snapshot from "./column.snap.html";
+import { crush } from "html-crush";
 
 describe("table-dialog-column", function () {
   let tableDialogColumns: Columns;
@@ -30,7 +31,11 @@ describe("table-dialog-column", function () {
   });
 
   it("should render properly", function () {
-    const html = shadowRoot!.firstElementChild!.outerHTML.replace(/\s/g, "");
-    expect(html).toEqual(snapshot);
+    const html = shadowRoot!.firstElementChild!.outerHTML;
+    const options = {
+      removeHTMLComments: true,
+    };
+    const mHtml = crush(html, options).result;
+    expect(mHtml).toEqual(snapshot);
   });
 });

@@ -1,15 +1,8 @@
-import {
-  customElement,
-  CSSResult,
-  css,
-  TemplateResult,
-  html,
-  unsafeCSS,
-  property,
-} from "lit-element";
+import { css, TemplateResult, html, unsafeCSS, CSSResultGroup } from "lit";
 import formsCss from "purecss/build/forms-min.css";
 import buttonCss from "purecss/build/buttons-min.css";
 import { DBGElement } from "../dbg-element";
+import { customElement, property } from "lit/decorators";
 
 type FileNameUpdateEventDetail = { newFileName: string };
 
@@ -24,7 +17,7 @@ export default class extends DBGElement {
 
   #fileNameInput!: HTMLInputElement;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(formsCss)}
       ${unsafeCSS(buttonCss)}

@@ -1,11 +1,4 @@
-import {
-  customElement,
-  TemplateResult,
-  html,
-  property,
-  CSSResult,
-  css,
-} from "lit-element";
+import { TemplateResult, html, CSSResultGroup, css } from "lit";
 import {
   styles as commonStyles,
   removeColumn,
@@ -19,7 +12,8 @@ import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import Select from "../../select";
 import { validateColumnNamesFromFk } from "./column-name-validation";
-import { classMap } from "lit-html/directives/class-map";
+import { classMap } from "lit/directives/class-map";
+import { customElement, property } from "lit/decorators";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -34,7 +28,7 @@ export default class TableDialogFkColumns extends DBGElement {
 
   #form?: HTMLFormElement;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       table {
         width: 870px;

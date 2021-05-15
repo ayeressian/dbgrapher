@@ -1,13 +1,11 @@
 import {
   html,
-  customElement,
   css,
-  CSSResult,
+  CSSResultGroup,
   TemplateResult,
   unsafeCSS,
-  internalProperty,
   PropertyValues,
-} from "lit-element";
+} from "lit";
 import { actions as tableDialogAction } from "../../../store/slices/dialog/table-dialog";
 import store from "../../../store/store";
 import { FkColumnChangeEventDetail } from "./fk-columns";
@@ -27,13 +25,14 @@ import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
 import { DBGElement } from "../../dbg-element";
 import { t } from "../../../localization";
 import DbGrapherSchema from "../../../db-grapher-schema";
+import { customElement, state } from "lit/decorators";
 
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private open = false;
 
-  @internalProperty()
+  @state()
   private schema!: DbGrapherSchema;
 
   #currentTableIndex!: number;
@@ -44,7 +43,7 @@ export default class extends DBGElement {
   #form!: HTMLFormElement;
   #originalTableName = "";
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(buttonCss)}
       ${unsafeCSS(formsCss)}

@@ -1,23 +1,16 @@
-import {
-  customElement,
-  CSSResult,
-  css,
-  TemplateResult,
-  html,
-  property,
-  unsafeCSS,
-} from "lit-element";
+import { css, TemplateResult, html, unsafeCSS, CSSResultGroup } from "lit";
 import { CloudState } from "../../store/slices/cloud";
 import cloudProviderName from "./cloud-provider-name";
 import buttonCss from "purecss/build/buttons-min.css";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
+import { customElement, property } from "lit/decorators";
 
 @customElement("dbg-top-menu-account-popup")
 export default class extends DBGElement {
   @property({ type: Object }) cloudState!: CloudState;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(buttonCss)}
       .right-popup {

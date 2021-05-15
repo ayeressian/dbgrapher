@@ -1,22 +1,15 @@
-import {
-  html,
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-  unsafeCSS,
-  internalProperty,
-} from "lit-element";
-import { classMap } from "lit-html/directives/class-map";
+import { html, css, CSSResultGroup, TemplateResult, unsafeCSS } from "lit";
+import { customElement, state } from "lit/decorators";
+import { classMap } from "lit/directives/class-map";
 import loadIcon from "../../asset/load.svg";
 import { DBGElement } from "./dbg-element";
 
 @customElement("dbg-load-screen")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private view = false;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .overlay.hide {
         display: none;

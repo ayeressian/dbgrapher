@@ -1,12 +1,5 @@
-import {
-  customElement,
-  CSSResult,
-  TemplateResult,
-  css,
-  html,
-  property,
-  unsafeCSS,
-} from "lit-element";
+import { CSSResultGroup, TemplateResult, css, html, unsafeCSS } from "lit";
+import { customElement, property } from "lit/decorators";
 import buttonCss from "purecss/build/buttons-min.css";
 import { DBGElement } from "../dbg-element";
 
@@ -16,7 +9,7 @@ export default class ConfirmationDialog extends DBGElement {
   private static resultResolve: (result: boolean) => void;
   private static result?: Promise<boolean>;
 
-  @property()
+  @property({ type: Boolean })
   open = false;
 
   @property()
@@ -28,7 +21,7 @@ export default class ConfirmationDialog extends DBGElement {
   @property()
   cancelText = "";
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       ${unsafeCSS(buttonCss)}
 

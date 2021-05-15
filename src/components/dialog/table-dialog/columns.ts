@@ -1,11 +1,5 @@
-import {
-  customElement,
-  TemplateResult,
-  html,
-  property,
-  CSSResult,
-  css,
-} from "lit-element";
+import { TemplateResult, html, CSSResultGroup, css } from "lit";
+import { customElement, property } from "lit/decorators";
 import {
   styles as commonStyles,
   ColumnChangeEventDetail,
@@ -23,7 +17,7 @@ import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import getDbTypes from "../../../db-types";
 import { validateColumnNames } from "./column-name-validation";
-import { classMap } from "lit-html/directives/class-map";
+import { classMap } from "lit/directives/class-map";
 
 @customElement("dbg-table-dialog-columns")
 export default class TableDialogColumns extends DBGElement {
@@ -32,7 +26,7 @@ export default class TableDialogColumns extends DBGElement {
 
   #form!: HTMLFormElement;
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       table {
         width: 760px;

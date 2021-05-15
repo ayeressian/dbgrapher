@@ -1,21 +1,15 @@
-import {
-  customElement,
-  css,
-  CSSResult,
-  TemplateResult,
-  html,
-  internalProperty,
-} from "lit-element";
+import { css, CSSResultGroup, TemplateResult, html } from "lit";
+import { customElement, state } from "lit/decorators";
 import { t } from "../localization";
 import { DBGElement } from "./dbg-element";
 import { HintType } from "../store/slices/hint";
 
 @customElement("dbg-hint")
 export default class extends DBGElement {
-  @internalProperty()
+  @state()
   private hints = [] as string[];
 
-  static get styles(): CSSResult {
+  static get styles(): CSSResultGroup {
     return css`
       .main {
         position: fixed;

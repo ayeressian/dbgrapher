@@ -1,3 +1,7 @@
+import chai from "chai";
+import chaiDom from "chai-dom";
+chai.use(chaiDom);
+
 import "../src/components/import-components";
 
 import "./dialog.test";

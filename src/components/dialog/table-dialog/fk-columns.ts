@@ -13,7 +13,7 @@ import { DBGElement } from "../../dbg-element";
 import Select from "../../select";
 import { validateColumnNamesFromFk } from "./column-name-validation";
 import { classMap } from "lit/directives/class-map";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;

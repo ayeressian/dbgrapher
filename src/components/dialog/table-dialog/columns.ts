@@ -1,5 +1,5 @@
 import { TemplateResult, html, CSSResultGroup, css } from "lit";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 import {
   styles as commonStyles,
   ColumnChangeEventDetail,

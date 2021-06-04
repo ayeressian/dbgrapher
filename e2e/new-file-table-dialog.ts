@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { Browser, Page } from "playwright";
 import createTableDialog from "./create-table-dialog";
 import getBrowser from "./get-browser";
@@ -7,11 +8,11 @@ describe("New file", () => {
   let page: Page;
   const passData: { page?: Page } = {};
 
-  beforeAll(async () => {
+  before(async () => {
     browser = await getBrowser();
   });
 
-  afterAll(async () => {
+  after(async () => {
     await browser.close();
   });
 
@@ -27,7 +28,7 @@ describe("New file", () => {
   });
 
   it("should have correct title", async () => {
-    expect(await page.title()).toBe("DB Grapher");
+    expect(await page.title()).to.equal("DB Grapher");
   });
 
   it("should show cloud provider dialog", async () => {
@@ -35,7 +36,7 @@ describe("New file", () => {
       "dbg-app dbg-cloud-provider-dialog dbg-dialog",
       "show"
     );
-    expect(attr).toBe("");
+    expect(attr).to.equal("");
   });
 
   describe("when none has selected from cloud provider dialog", () => {
@@ -49,14 +50,14 @@ describe("New file", () => {
         "dbg-app dbg-cloud-provider-dialog dbg-dialog",
         "show"
       );
-      expect(attr).toBe(null);
+      expect(attr).to.equal(null);
     });
     it("should show new/open file dialog", async () => {
       const attr = await page.getAttribute(
         "dbg-app dbg-new-open-dialog dbg-dialog",
         "show"
       );
-      expect(attr).toBe("");
+      expect(attr).to.equal("");
     });
     describe("when clicked on new file", () => {
       beforeEach(async () => {
@@ -69,14 +70,14 @@ describe("New file", () => {
           "dbg-app dbg-new-open-dialog dbg-dialog",
           "show"
         );
-        expect(attr).toBe(null);
+        expect(attr).to.be.null;
       });
       it("should open db type dialog", async () => {
         const attr = await page.getAttribute(
           "dbg-app dbg-db-type-dialog dbg-dialog",
           "show"
         );
-        expect(attr).toBe("");
+        expect(attr).to.equal("");
       });
       describe("when db type is selected", () => {
         beforeEach(async () => {
@@ -89,7 +90,7 @@ describe("New file", () => {
             "dbg-app dbg-db-type-dialog dbg-dialog",
             "show"
           );
-          expect(attr).toBe(null);
+          expect(attr).to.equal(null);
         });
         describe('when cliking on new "create new table" side panel action', () => {
           beforeEach(async () => {
@@ -99,7 +100,7 @@ describe("New file", () => {
             const elem = await page.$(
               "dbg-app dbg-side-panel .create_table.active"
             );
-            expect(elem).not.toBe(null);
+            expect(elem).not.to.equal(null);
           });
 
           describe("when clicking on viewer", () => {
@@ -111,7 +112,7 @@ describe("New file", () => {
                 "dbg-app dbg-table-dialog dbg-dialog",
                 "show"
               );
-              expect(attr).toBe("");
+              expect(attr).eq("");
             });
             createTableDialog(passData as { page: Page });
           });

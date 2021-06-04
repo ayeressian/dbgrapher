@@ -1,5 +1,5 @@
 import { CSSResultGroup, TemplateResult, css, html, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 import buttonCss from "purecss/build/buttons-min.css";
 import { DBGElement } from "../dbg-element";
 

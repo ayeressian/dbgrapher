@@ -8,12 +8,13 @@
       "type": "node", 
       "request": "launch", 
       "name": "e2e Test",
-      "program": "${workspaceRoot}/node_modules/.bin/jasmine-ts", 
-      "args": [ 
-        "--config=e2e/jasmine.json"
+      "program": "${workspaceRoot}/node_modules/.bin/ts-mocha", 
+      "args": [
+        "./e2e/index.ts",
+        "-t 10000"
       ], 
       "env": { 
-        "NODE_PATH": ".",
+        "NODE_PATH": "/Users/ayeressian/.nvm/versions/node/v14.17.0/bin/node",
         "NO_HEADLESS": "true"
       } 
     }

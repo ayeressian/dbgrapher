@@ -1,17 +1,18 @@
 import { Browser, Page } from "playwright";
 import twoTableSchema from "./two-table-schema.json";
 import getBrowser from "./get-browser";
+import { expect } from "chai";
 
 describe("Relations", () => {
   let browser: Browser;
   let page: Page;
   const passData: { page?: Page } = {};
 
-  beforeAll(async () => {
+  before(async () => {
     browser = await getBrowser();
   });
 
-  afterAll(async () => {
+  after(async () => {
     await browser.close();
   });
 
@@ -47,7 +48,7 @@ describe("Relations", () => {
 
     it("should display relation between tables", async () => {
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
-      expect(paths.length).toBe(2);
+      expect(paths.length).to.equal(2);
     });
   });
 
@@ -61,7 +62,7 @@ describe("Relations", () => {
 
     it("should display relation between tables", async () => {
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
-      expect(paths.length).toBe(2);
+      expect(paths.length).to.equal(2);
     });
   });
 
@@ -75,7 +76,7 @@ describe("Relations", () => {
 
     it("should display relation between tables", async () => {
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
-      expect(paths.length).toBe(2);
+      expect(paths.length).to.equal(2);
     });
   });
 
@@ -89,7 +90,7 @@ describe("Relations", () => {
 
     it("should display relation between tables", async () => {
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
-      expect(paths.length).toBe(2);
+      expect(paths.length).to.equal(2);
     });
   });
 });

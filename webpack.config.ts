@@ -11,12 +11,14 @@ export default {
     port: 9999,
   },
   plugins: [
-    new CopyPlugin([
-      {
-        from: "asset/",
-        to: "asset/",
-      },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        {
+          from: "asset/",
+          to: "asset/",
+        },
+      ],
+    }),
     new HtmlWebpackPlugin({
       hash: true,
       template: "src/index.html",
@@ -50,6 +52,7 @@ export default {
     ],
   },
   resolve: {
+    modules: ["node_modules"],
     extensions: [".ts", ".js"],
   },
   output: {

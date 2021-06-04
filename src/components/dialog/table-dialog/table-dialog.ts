@@ -25,7 +25,7 @@ import { ColumnOpsEvent, ColumnChangeEvent } from "./common-columns";
 import { DBGElement } from "../../dbg-element";
 import { t } from "../../../localization";
 import DbGrapherSchema from "../../../db-grapher-schema";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {
@@ -87,12 +87,14 @@ export default class extends DBGElement {
     if (changedProperties.has("open") && this.open) {
       await this.updateComplete;
       this.#form = this.shadowRoot!.querySelector("form")!;
-      this.#tableDialogColumns = this.shadowRoot!.querySelector<TableDialogColumns>(
-        "dbg-table-dialog-columns"
-      )!;
-      this.#tableDialogFkColumns = this.shadowRoot!.querySelector<TableDialogFkColumns>(
-        "dbg-table-dialog-fk-columns"
-      )!;
+      this.#tableDialogColumns =
+        this.shadowRoot!.querySelector<TableDialogColumns>(
+          "dbg-table-dialog-columns"
+        )!;
+      this.#tableDialogFkColumns =
+        this.shadowRoot!.querySelector<TableDialogFkColumns>(
+          "dbg-table-dialog-fk-columns"
+        )!;
       this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>(
         '[name="name"]'
       ) as HTMLInputElement;

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "./dist/",
     "target": "ES2019",
-    "module": "commonjs",
+    "module": "CommonJS",
     "allowJs": true,
     "sourceMap": true,
     "experimentalDecorators": true,

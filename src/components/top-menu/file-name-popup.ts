@@ -2,7 +2,7 @@ import { css, TemplateResult, html, unsafeCSS, CSSResultGroup } from "lit";
 import formsCss from "purecss/build/forms-min.css";
 import buttonCss from "purecss/build/buttons-min.css";
 import { DBGElement } from "../dbg-element";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 type FileNameUpdateEventDetail = { newFileName: string };
 

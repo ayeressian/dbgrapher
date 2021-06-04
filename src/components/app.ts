@@ -2,7 +2,7 @@ import initProviderFactory, { getDriveProvider } from "../drive/factory";
 import "../localization";
 import "./import-components";
 import { html, css, CSSResultGroup, TemplateResult } from "lit";
-import { customElement } from "lit/decorators";
+import { customElement } from "lit/decorators.js";
 import store from "../store/store";
 import ResetStoreException from "../reset-exception";
 import { DBGElement } from "./dbg-element";

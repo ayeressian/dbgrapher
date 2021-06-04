@@ -16,5 +16,6 @@ export default async function getBrowser(): Promise<Browser> {
   }
   return await browserType.launch({
     headless: process.env.NO_HEADLESS !== "true",
+    slowMo: 100,
   });
 }

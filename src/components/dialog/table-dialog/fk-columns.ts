@@ -13,7 +13,7 @@ import { DBGElement } from "../../dbg-element";
 import Select from "../../select";
 import { validateColumnNamesFromFk } from "./column-name-validation";
 import { classMap } from "lit/directives/class-map";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 export interface FkColumnChangeEventDetail {
   column: ColumnFkSchema;
@@ -57,26 +57,26 @@ export default class TableDialogFkColumns extends DBGElement {
     fkIndex: number,
     fkColumnsSize: number
   ): TemplateResult => {
-    const currentTableName = this.schema.tables[this.tableIndex].columns[index]
-      .name;
-    const onColumnChange = (type: keyof Omit<ColumnFkSchema, "fk">) => (
-      event: InputEvent
-    ): void => {
-      const newColumn = produce(column, (columnDraft) => {
-        const element = event.target as HTMLInputElement;
-        switch (type) {
-          case "nn":
-          case "uq":
-          case "pk":
-            columnDraft[type] = element.checked;
-            break;
-          case "name":
-            columnDraft[type] = element.value;
-            break;
-        }
-      });
-      this.#onColumnChange(index, newColumn, currentTableName);
-    };
+    const currentTableName =
+      this.schema.tables[this.tableIndex].columns[index].name;
+    const onColumnChange =
+      (type: keyof Omit<ColumnFkSchema, "fk">) =>
+      (event: InputEvent): void => {
+        const newColumn = produce(column, (columnDraft) => {
+          const element = event.target as HTMLInputElement;
+          switch (type) {
+            case "nn":
+            case "uq":
+            case "pk":
+              columnDraft[type] = element.checked;
+              break;
+            case "name":
+              columnDraft[type] = element.value;
+              break;
+          }
+        });
+        this.#onColumnChange(index, newColumn, currentTableName);
+      };
     const onFkTableSelect = (event: OnSelectEvent): void => {
       const newColumn = produce(column, (columnDraft) => {
         columnDraft.fk!.table = event.detail.value;
@@ -88,9 +88,11 @@ export default class TableDialogFkColumns extends DBGElement {
     const onFkColumnSelect = (event: OnSelectEvent): void => {
       const newColumn = produce(column, (columnDraft) => {
         columnDraft.fk!.column = event.detail.value;
-        columnDraft.fk!.table = (this.shadowRoot!.querySelector(
-          `#table-select-${index}`
-        ) as HTMLInputElement).value;
+        columnDraft.fk!.table = (
+          this.shadowRoot!.querySelector(
+            `#table-select-${index}`
+          ) as HTMLInputElement
+        ).value;
       });
       this.#onColumnChange(index, newColumn, currentTableName);
     };

@@ -1,5 +1,5 @@
 import { TemplateResult, html, CSSResultGroup, css, unsafeCSS } from "lit";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 import formsCss from "purecss/build/forms-min.css";
 import { DBGElement } from "./dbg-element";
@@ -34,9 +34,8 @@ export default class Select extends DBGElement {
 
   firstUpdated(): void {
     this.#form = this.shadowRoot!.querySelector("form")!;
-    this.#selectElement = this.shadowRoot!.querySelector<HTMLSelectElement>(
-      "select"
-    )!;
+    this.#selectElement =
+      this.shadowRoot!.querySelector<HTMLSelectElement>("select")!;
     this.#resolveLoaded(null);
   }
 

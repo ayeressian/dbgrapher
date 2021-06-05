@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import SidePanel from "../src/components/side-panel";
 import { initComponentTest, removeElement } from "./helper";
 
@@ -15,7 +16,7 @@ describe("side-panel", function () {
   describe("actions", () => {
     it("should have 6 actions", () => {
       const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
-      expect(actions.length).toEqual(6);
+      expect(actions.length).eq(6);
     });
 
     it("should become active when clicked", async () => {
@@ -24,7 +25,7 @@ describe("side-panel", function () {
       ) as HTMLElement;
       action.click();
       await sidePanel.updateComplete;
-      expect(action).toHaveClass("active");
+      expect(action).have.class("active");
     });
 
     it("should deactivate when clicked twice", async () => {
@@ -35,7 +36,7 @@ describe("side-panel", function () {
       await sidePanel.updateComplete;
       action.click();
       await sidePanel.updateComplete;
-      expect(action.classList).not.toContain("active");
+      expect(action).not.have.class("active");
     });
   });
 });

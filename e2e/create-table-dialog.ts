@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import { Page } from "playwright";
 
 export default (data: { page: Page }): void => {
@@ -24,11 +25,11 @@ export default (data: { page: Page }): void => {
           const elemHandle = await page.$(
             'dbg-app dbg-table-dialog dbg-dialog [data-testid="table-dialog"]'
           );
-          expect(elemHandle).toBeNull();
+          expect(elemHandle).null;
         });
         it("should create a new table on the viewer", async () => {
           const elems = await page.$$("dbg-app dbg-db-viewer db-viewer table");
-          expect(elems.length).toBe(1);
+          expect(elems.length).eq(1);
         });
       });
     });
@@ -44,7 +45,7 @@ export default (data: { page: Page }): void => {
           const elemHandle = await page.$(
             'dbg-app dbg-table-dialog dbg-dialog [data-testid="table-dialog"]'
           );
-          expect(elemHandle).toBeDefined();
+          expect(elemHandle).not.undefined;
         });
       });
     });

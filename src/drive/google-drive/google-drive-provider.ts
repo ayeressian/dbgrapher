@@ -97,9 +97,7 @@ export default class GoogleDriveProvider extends DriveProvider {
       store.dispatch(cloudActions.setFileName(fileName));
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
       store.dispatch(
-        schemaAction.initiate(
-          (filesContent.result as unknown) as DbGrapherSchema
-        )
+        schemaAction.initiate(filesContent.result as unknown as DbGrapherSchema)
       );
       store.dispatch(setSchemaAction.load());
       store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));

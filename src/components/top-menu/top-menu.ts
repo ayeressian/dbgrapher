@@ -3,7 +3,7 @@ import { classMap } from "lit/directives/class-map";
 import { styleMap } from "lit/directives/style-map";
 import { TopMenuConfig, Item } from "./top-menu-config";
 import { DBGElement } from "../dbg-element";
-import { customElement, property, state } from "lit/decorators";
+import { customElement, property, state } from "lit/decorators.js";
 
 @customElement("dbg-top-menu")
 export default class extends DBGElement {
@@ -184,7 +184,9 @@ export default class extends DBGElement {
 
   #onMenuItemClick = (event: Event, item: Item): void => {
     this.#itemSelected(item);
-    const viewportOffset = (event.target! as HTMLElement).getBoundingClientRect();
+    const viewportOffset = (
+      event.target! as HTMLElement
+    ).getBoundingClientRect();
 
     if (item.items != null) {
       this.dropdownStyle = {

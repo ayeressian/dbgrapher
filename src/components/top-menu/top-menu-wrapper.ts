@@ -30,7 +30,7 @@ import UserCancelGeneration from "../../user-cancel-generation";
 import DbGrapherSchema from "../../db-grapher-schema";
 import { actions as schemaActions } from "../../store/slices/schema";
 import { actions as loadSchemaActions } from "../../store/slices/load-schema";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
 @customElement("dbg-top-menu-wrapper")

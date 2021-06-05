@@ -4,7 +4,7 @@ import cloudProviderName from "./cloud-provider-name";
 import buttonCss from "purecss/build/buttons-min.css";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 @customElement("dbg-top-menu-account-popup")
 export default class extends DBGElement {

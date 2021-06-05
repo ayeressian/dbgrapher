@@ -2,7 +2,7 @@ import { CSSResultGroup, TemplateResult, css, html } from "lit";
 import { DBGElement } from "../dbg-element";
 import { styleMap } from "lit/directives/style-map";
 import { classMap } from "lit/directives/class-map";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 
 @customElement("dbg-dialog-operation")
 export default class extends DBGElement {

@@ -31,12 +31,10 @@ export default class extends DBGElement {
   #handle?: FileSystemFileHandle;
 
   firstUpdated(): void {
-    this.#dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>(
-      "#dbgFileInput"
-    )!;
-    this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>(
-      "#sqlFileInput"
-    )!;
+    this.#dbgFileInput =
+      this.shadowRoot!.querySelector<HTMLInputElement>("#dbgFileInput")!;
+    this.#sqlFileInput =
+      this.shadowRoot!.querySelector<HTMLInputElement>("#sqlFileInput")!;
     this.#resolveLoaded(null);
   }
 

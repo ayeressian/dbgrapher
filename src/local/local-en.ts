@@ -12,8 +12,7 @@ export default {
       confirm: "Login",
     },
     cyclicError: {
-      text:
-        "There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.",
+      text: "There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.",
       confirm: "Continue",
     },
   },

@@ -2,6 +2,7 @@ import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import WorkboxPlugin from "workbox-webpack-plugin";
 
 export default {
   entry: "./src/index.ts",
@@ -17,12 +18,17 @@ export default {
           from: "asset/",
           to: "asset/",
         },
+        {
+          from: "src/manifest.json",
+          to: "manifest.json",
+        },
       ],
     }),
     new HtmlWebpackPlugin({
       hash: true,
       template: "src/index.html",
     }),
+    new WorkboxPlugin.GenerateSW(),
   ],
   module: {
     rules: [

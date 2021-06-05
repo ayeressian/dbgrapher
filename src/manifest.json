@@ -1,0 +1,18 @@
+{
+  "name": "DB Grapher",
+  "icons": [
+    {
+      "src": "/asset/icon-app-192px.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/asset/icon-app-512px.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "scope": "/"
+}

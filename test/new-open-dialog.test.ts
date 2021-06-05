@@ -1,3 +1,4 @@
+import { expect } from "chai";
 import NewOpenDialog from "../src/components/dialog/new-open-dialog";
 import { initComponentTest, removeElement } from "./helper";
 
@@ -17,6 +18,6 @@ describe("new-open-dialog", function () {
   it("should have 2 actions", () => {
     expect(
       welcomeDialog.shadowRoot!.querySelectorAll("dbg-dialog-operation").length
-    ).toEqual(2);
+    ).eq(2);
   });
 });

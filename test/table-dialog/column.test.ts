@@ -2,6 +2,7 @@ import Columns from "../../src/components/dialog/table-dialog/columns";
 import { initComponentTest, removeElement } from "../helper";
 import snapshot from "./column.snap.html";
 import { crush } from "html-crush";
+import { expect } from "chai";
 
 describe("table-dialog-column", function () {
   let tableDialogColumns: Columns;
@@ -36,6 +37,6 @@ describe("table-dialog-column", function () {
       removeHTMLComments: true,
     };
     const mHtml = crush(html, options).result;
-    expect(mHtml).toEqual(snapshot);
+    expect(mHtml).eq(snapshot);
   });
 });

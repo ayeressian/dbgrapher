@@ -18,7 +18,7 @@ import {
 import { DbType } from "../../db-grapher-schema";
 import store from "../../store/store";
 import { actions as setSchemaAction } from "../../store/slices/load-schema";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("dbg-db-type-dialog")
 export default class extends DBGElement {

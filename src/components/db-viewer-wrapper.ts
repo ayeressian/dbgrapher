@@ -1,5 +1,5 @@
 import { html, css, CSSResultGroup, TemplateResult } from "lit";
-import { customElement } from "lit/decorators";
+import { customElement } from "lit/decorators.js";
 import { actions as setSchemaAction, State } from "../store/slices/load-schema";
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as tableDialogAction } from "../store/slices/dialog/table-dialog";

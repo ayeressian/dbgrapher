@@ -1,5 +1,5 @@
 import { html, css, CSSResultGroup, TemplateResult, unsafeCSS } from "lit";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 import { classMap } from "lit/directives/class-map";
 import loadIcon from "../../asset/load.svg";
 import { DBGElement } from "./dbg-element";

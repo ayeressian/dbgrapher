@@ -1,5 +1,5 @@
 import { TemplateResult, html, CSSResultGroup, css } from "lit";
-import { customElement, property } from "lit/decorators";
+import { customElement, property } from "lit/decorators.js";
 import {
   styles as commonStyles,
   ColumnChangeEventDetail,
@@ -59,29 +59,33 @@ export default class TableDialogColumns extends DBGElement {
     nonFkIndex: number,
     nonFkColumnsSize: number
   ): TemplateResult => {
-    const onColumnChange = (type: keyof ColumnNoneFkSchema) => (
-      event: InputEvent
-    ): void => {
-      const newColumn = produce(column, (columnDraft) => {
-        const element = event.target as HTMLInputElement;
-        switch (type) {
-          case "nn":
-          case "uq":
-          case "pk":
-            columnDraft[type] = element.checked;
-            break;
-          case "name":
-            element.dataset.prev;
-            columnDraft[type] = element.value;
-            break;
-          default:
-            columnDraft[type] = element.value;
-            break;
-        }
-      });
-      const currentTable = this.schema.tables[this.tableIndex];
-      this.#onColumnChange(index, newColumn, currentTable.columns[index].name);
-    };
+    const onColumnChange =
+      (type: keyof ColumnNoneFkSchema) =>
+      (event: InputEvent): void => {
+        const newColumn = produce(column, (columnDraft) => {
+          const element = event.target as HTMLInputElement;
+          switch (type) {
+            case "nn":
+            case "uq":
+            case "pk":
+              columnDraft[type] = element.checked;
+              break;
+            case "name":
+              element.dataset.prev;
+              columnDraft[type] = element.value;
+              break;
+            default:
+              columnDraft[type] = element.value;
+              break;
+          }
+        });
+        const currentTable = this.schema.tables[this.tableIndex];
+        this.#onColumnChange(
+          index,
+          newColumn,
+          currentTable.columns[index].name
+        );
+      };
     return html`
       <tr>
         <td>

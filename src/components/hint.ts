@@ -1,5 +1,5 @@
 import { css, CSSResultGroup, TemplateResult, html } from "lit";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 import { t } from "../localization";
 import { DBGElement } from "./dbg-element";
 import { HintType } from "../store/slices/hint";

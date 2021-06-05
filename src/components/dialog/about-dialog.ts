@@ -6,7 +6,7 @@ import {
 import store from "../../store/store";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("dbg-about-dialog")
 export default class extends DBGElement {

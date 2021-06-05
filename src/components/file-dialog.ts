@@ -1,5 +1,5 @@
 import { html, css, CSSResultGroup, TemplateResult } from "lit";
-import { customElement } from "lit/decorators";
+import { customElement } from "lit/decorators.js";
 import { actions as schemaAction } from "../store/slices/schema";
 import { actions as setSchemaAction } from "../store/slices/load-schema";
 import { actions as fileOpenDialogActions } from "../store/slices/dialog/file-dialog";
@@ -31,12 +31,10 @@ export default class extends DBGElement {
   #handle?: FileSystemFileHandle;
 
   firstUpdated(): void {
-    this.#dbgFileInput = this.shadowRoot!.querySelector<HTMLInputElement>(
-      "#dbgFileInput"
-    )!;
-    this.#sqlFileInput = this.shadowRoot!.querySelector<HTMLInputElement>(
-      "#sqlFileInput"
-    )!;
+    this.#dbgFileInput =
+      this.shadowRoot!.querySelector<HTMLInputElement>("#dbgFileInput")!;
+    this.#sqlFileInput =
+      this.shadowRoot!.querySelector<HTMLInputElement>("#sqlFileInput")!;
     this.#resolveLoaded(null);
   }
 

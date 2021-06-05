@@ -13,7 +13,7 @@ import {
 } from "../../store/slices/dialog/dialogs";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("dbg-cloud-provider-dialog")
 export default class extends DBGElement {

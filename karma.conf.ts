@@ -4,7 +4,7 @@ import webpackConfig from "./webpack.test.config";
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
 export default function (config: any): void {
   config.set({
-    frameworks: ["jasmine"],
+    frameworks: ["mocha"],
 
     reporters: ["progress", "summary"],
     port: 9876,

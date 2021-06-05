@@ -9,7 +9,7 @@ import folderOpenSvg from "../../../asset/folder-open.svg";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { newFile, openFile } from "../operations";
-import { customElement, state } from "lit/decorators";
+import { customElement, state } from "lit/decorators.js";
 
 @customElement("dbg-new-open-dialog")
 export default class extends DBGElement {

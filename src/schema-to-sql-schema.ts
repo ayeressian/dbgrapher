@@ -75,9 +75,11 @@ export default async (schema: DbGrapherSchema): Promise<string> => {
         const table = schema.tables.find(
           (table) => table.name === fkColumn.fk!.table
         )!;
-        const type = (table.columns.find(
-          (tableColumn) => tableColumn.name === fkColumn.fk!.column
-        ) as ColumnNoneFkSchema).type;
+        const type = (
+          table.columns.find(
+            (tableColumn) => tableColumn.name === fkColumn.fk!.column
+          ) as ColumnNoneFkSchema
+        ).type;
         columnSql += `  ${columnName} ${type}`;
       } else {
         columnSql += `  ${columnName} ${(column as ColumnNoneFkSchema).type}`;

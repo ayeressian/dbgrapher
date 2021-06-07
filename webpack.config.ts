@@ -28,7 +28,9 @@ export default {
       hash: true,
       template: "src/index.html",
     }),
-    new WorkboxPlugin.GenerateSW(),
+    new WorkboxPlugin.GenerateSW({
+      maximumFileSizeToCacheInBytes: 10485760,
+    }),
   ],
   module: {
     rules: [

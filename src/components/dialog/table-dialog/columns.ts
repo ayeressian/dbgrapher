@@ -193,7 +193,7 @@ export default class TableDialogColumns extends DBGElement {
   #getDbTypeDataList = (): TemplateResult => {
     const dbTypes = getDbTypes();
     return html`<datalist id="types">
-      ${dbTypes.map((dbType) => html`<option value=${dbType} />`)}
+      ${dbTypes.map((dbType) => html`<option value=${dbType}></option>`)}
     </datalist>`;
   };
 
@@ -211,9 +211,9 @@ export default class TableDialogColumns extends DBGElement {
                 <th title="Primary key">PK</th>
                 <th title="Unique">UQ</th>
                 <th title="Not null">NN</th>
-                <th />
-                <th />
-                <th />
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

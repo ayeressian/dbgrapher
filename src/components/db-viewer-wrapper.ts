@@ -312,6 +312,6 @@ export default class DbWrapper extends DBGElement {
   };
 
   render(): TemplateResult {
-    return html`<db-viewer />`;
+    return html`<db-viewer></db-viewer>`;
   }
 }

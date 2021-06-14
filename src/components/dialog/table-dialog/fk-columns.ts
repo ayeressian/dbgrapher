@@ -233,9 +233,9 @@ export default class TableDialogFkColumns extends DBGElement {
                 <th title="Not null">NN</th>
                 <th>Foreign Table</th>
                 <th>Foreign Column</th>
-                <th />
-                <th />
-                <th />
+                <th></th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>

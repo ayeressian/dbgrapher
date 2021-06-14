@@ -83,42 +83,42 @@ export default class extends DBGElement {
           })}"
           title=${t((l) => l.sidePanel.createTable)}
           @click="${this.#changeMode(DbViewerMode.CreateTable)}"
-        />
+        ></li>
         <li
           class="action create_relation_one_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationOneToMany,
           })}"
           title=${t((l) => l.sidePanel.createOneToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"
-        />
+        ></li>
         <li
           class="action create_relation_zero_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToMany,
           })}"
           title=${t((l) => l.sidePanel.createZeroToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"
-        />
+        ></li>
         <li
           class="action create_relation_one_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationOneToOne,
           })}"
           title=${t((l) => l.sidePanel.createOneToOneRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"
-        />
+        ></li>
         <li
           class="action create_relation_zero_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToOne,
           })}"
           title=${t((l) => l.sidePanel.createZeroToOneRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToOne)}"
-        />
+        ></li>
         <li
           class="action clear ${classMap({
             active: this.mode === DbViewerMode.Remove,
           })}"
           title=${t((l) => l.sidePanel.removeTableOrRelation)}
           @click="${this.#changeMode(DbViewerMode.Remove)}"
-        />
+        ></li>
       </ul>
     `;
   }

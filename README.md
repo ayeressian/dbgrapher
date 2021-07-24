@@ -23,4 +23,4 @@ A database schema designing tool that runs in browser. The application URL is [h
     }
   }
   ```
-4. Run "yarn start". 
+4. Run "yarn start".

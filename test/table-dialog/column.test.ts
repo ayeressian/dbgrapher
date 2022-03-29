@@ -37,7 +37,6 @@ describe("table-dialog-column", function () {
       removeHTMLComments: true,
     };
     const mHtml = crush(html, options).result;
-    console.log(mHtml);
     expect(mHtml).eq(snapshot);
   });
 });

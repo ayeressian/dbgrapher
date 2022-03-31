@@ -4,11 +4,13 @@ import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import WorkboxPlugin from "workbox-webpack-plugin";
 
+const inDevelopment = process.env.NODE_ENV === "development";
+
 export default {
   entry: "./src/index.ts",
   devtool: "inline-source-map",
   devServer: {
-    contentBase: "dist",
+    static: "dist",
     port: 9999,
   },
   plugins: [
@@ -25,7 +27,7 @@ export default {
       ],
     }),
     new HtmlWebpackPlugin({
-      hash: true,
+      hash: false,
       template: "src/index.html",
     }),
     new WorkboxPlugin.GenerateSW({
@@ -36,14 +38,7 @@ export default {
     rules: [
       {
         test: /\.(png|jpg|gif|svg)$/i,
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              limit: 8192,
-            },
-          },
-        ],
+        type: "asset",
       },
       {
         test: /(?<!\.d)\.ts?$/,
@@ -63,8 +58,21 @@ export default {
     modules: ["node_modules"],
     extensions: [".ts", ".js"],
   },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+    },
+  },
   output: {
-    filename: "bundle.js",
+    publicPath: "/",
     path: path.resolve(__dirname, "dist"),
+    filename: inDevelopment
+      ? "static/js/[name].js"
+      : "static/js/[name].[contenthash:8].js",
+    chunkFilename: inDevelopment
+      ? "static/js/[name].chunk.js"
+      : "static/js/[name].[contenthash:8].chunk.js",
+    assetModuleFilename: "static/media/[name][contenthash:8][ext]",
+    clean: true,
   },
 } as webpack.Configuration;

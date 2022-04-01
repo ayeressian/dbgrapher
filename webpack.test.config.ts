@@ -1,11 +1,7 @@
-import { Configuration } from "webpack";
 import config from "./webpack.config";
 import path from "path";
 
-const testConfig: Configuration = {
-  ...config,
-  mode: "development",
-};
+const testConfig = config({}, { mode: "development" });
 
 testConfig.module?.rules?.push({
   test: /\.html$/,

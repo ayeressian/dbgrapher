@@ -61,7 +61,7 @@ export default class Select extends DBGElement {
     value: string | null
   ): void {
     if (name === "options") {
-      void Promise.all([this.requestUpdate(), this.#loaded]).then(
+      void Promise.all([this.updateComplete, this.#loaded]).then(
         this.#updateValue
       );
     } else {

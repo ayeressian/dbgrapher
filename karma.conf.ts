@@ -1,11 +1,28 @@
 import webpackConfig from "./webpack.test.config";
+import { Configuration } from "webpack";
 import path from "path";
+import { Config } from "karma";
+
+declare module "karma" {
+  interface ConfigOptions {
+    webpack?: Configuration;
+    webpackMiddleware: {
+      noInfo: boolean;
+    };
+    coverageIstanbulReporter: {
+      reports: string[];
+      dir: string;
+      fixWebpackSourcePaths: boolean;
+      "report-config": {
+        html: { outdir: string };
+      };
+    };
+  }
+}
 
 delete webpackConfig.entry;
 
-// Because karama typescript doesn't have summaryReporter and webpack props
-// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types
-export default function (config: any): void {
+export default function (config: Config): void {
   config.set({
     browsers: ["Chrome"],
     frameworks: ["mocha", "webpack"],

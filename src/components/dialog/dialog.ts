@@ -1,6 +1,6 @@
 import { html, css, CSSResultGroup, TemplateResult, unsafeCSS } from "lit";
 import { customElement, property } from "lit/decorators.js";
-import { classMap } from "lit/directives/class-map";
+import { classMap } from "lit/directives/class-map.js";
 import goBackSvg from "../../../asset/arrow-alt-circle-left.svg";
 import closeSvg from "../../../asset/times-circle.svg";
 import { DBGElement } from "../dbg-element";

@@ -1,6 +1,6 @@
 import { html, css, CSSResultGroup, TemplateResult } from "lit";
-import { classMap } from "lit/directives/class-map";
-import { styleMap } from "lit/directives/style-map";
+import { classMap } from "lit/directives/class-map.js";
+import { styleMap } from "lit/directives/style-map.js";
 import { TopMenuConfig, Item } from "./top-menu-config";
 import { DBGElement } from "../dbg-element";
 import { customElement, property, state } from "lit/decorators.js";

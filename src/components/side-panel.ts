@@ -1,5 +1,5 @@
 import { html, css, unsafeCSS, CSSResultGroup, TemplateResult } from "lit";
-import { classMap } from "lit/directives/class-map";
+import { classMap } from "lit/directives/class-map.js";
 import { customElement, state } from "lit/decorators.js";
 import { actions as dbViewerModeAction } from "../store/slices/db-viewer-mode";
 import store from "../store/store";

@@ -12,7 +12,7 @@ export abstract class DBGElement extends LitElement {
     // Update on local change
     this.subscribe(
       (state) => state.localization,
-      () => this.requestUpdate()
+      () => this.updateComplete
     );
   }
 

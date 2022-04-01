@@ -12,7 +12,7 @@ import produce from "immer";
 import { DBGElement } from "../../dbg-element";
 import Select from "../../select";
 import { validateColumnNamesFromFk } from "./column-name-validation";
-import { classMap } from "lit/directives/class-map";
+import { classMap } from "lit/directives/class-map.js";
 import { customElement, property } from "lit/decorators.js";
 
 export interface FkColumnChangeEventDetail {

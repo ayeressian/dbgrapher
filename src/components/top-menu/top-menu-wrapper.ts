@@ -10,7 +10,7 @@ import {
 import store from "../../store/store";
 import { download } from "../../util";
 import schemaToSqlSchema from "../../schema-to-sql-schema";
-import { classMap } from "lit/directives/class-map";
+import { classMap } from "lit/directives/class-map.js";
 import buttonCss from "purecss/build/buttons-min.css";
 import {
   CloudState,
@@ -19,7 +19,7 @@ import {
 } from "../../store/slices/cloud";
 import topMenuConfig from "./top-menu-config";
 import ColorHash from "color-hash";
-import { styleMap } from "lit/directives/style-map";
+import { styleMap } from "lit/directives/style-map.js";
 import { getDriveProvider } from "../../drive/factory";
 import { FileNameUpdateEvent } from "./file-name-popup";
 import { undo, redo, newFile, openFile } from "../operations";

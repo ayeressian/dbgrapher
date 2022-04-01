@@ -24,7 +24,7 @@ describe("table-dialog-column", function () {
         },
       ],
     };
-    await tableDialogColumns.requestUpdate();
+    await tableDialogColumns.updateComplete;
     shadowRoot = tableDialogColumns.shadowRoot!;
   });
   afterEach(function (): void {

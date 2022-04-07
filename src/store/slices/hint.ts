@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { WritableDraft } from "immer/dist/internal";
 import { wait } from "../../util";
 import { actions as dbViewerModeActions } from "./db-viewer-mode";
 import DbViewerMode from "./db-viewer-mode-type";
@@ -10,6 +11,7 @@ export enum HintType {
   RelationOneToOne = "RelationOneToOne",
   RelationZeroToMany = "RelationZeroToMany",
   RelationZeroToOne = "RelationZeroToOne",
+  RelationCreationFailedFK = "RelationCreationFailedFK",
   Remove = "Remove",
   DriveSave = "DriveSave",
 }
@@ -19,9 +21,21 @@ export type Hint = {
   timed: boolean;
 };
 
-type TimedTypes = HintType.DriveSave | HintType.Save;
+type TimedTypes =
+  | HintType.DriveSave
+  | HintType.Save
+  | HintType.RelationCreationFailedFK;
 
 const TIMEOUT = 5000;
+
+const filteredState = (state: WritableDraft<Hint>[]) => {
+  return state.filter(
+    (hint) =>
+      hint.type === HintType.DriveSave ||
+      hint.type === HintType.Save ||
+      hint.type === HintType.RelationCreationFailedFK
+  );
+};
 
 const slice = createSlice({
   initialState: [] as Hint[],
@@ -42,10 +56,7 @@ const slice = createSlice({
     builder
       .addCase(dbViewerModeActions.changeMode, (state, { payload }) => {
         let type: HintType;
-        state = state.filter(
-          (hint) =>
-            hint.type === HintType.DriveSave || hint.type === HintType.Save
-        );
+        state = filteredState(state);
         switch (payload) {
           case DbViewerMode.CreateTable:
             type = HintType.CreateTable;
@@ -75,10 +86,7 @@ const slice = createSlice({
         return state;
       })
       .addCase(dbViewerModeActions.none, (state) => {
-        state = state.filter(
-          (hint) =>
-            hint.type === HintType.DriveSave || hint.type === HintType.Save
-        );
+        state = filteredState(state);
         return state;
       }),
 });

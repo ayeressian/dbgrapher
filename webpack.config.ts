@@ -12,7 +12,7 @@ type Argv = Record<string, CLIValues>;
 export default (env?: EnvValues, argv?: Argv): Configuration => {
   const inDevelopment = argv?.mode === "development";
 
-  return {
+  const config: Configuration = {
     entry: "./src/index.ts",
     devtool: "inline-source-map",
     devServer: {
@@ -35,9 +35,6 @@ export default (env?: EnvValues, argv?: Argv): Configuration => {
       new HtmlWebpackPlugin({
         hash: false,
         template: "src/index.html",
-      }),
-      new WorkboxPlugin.GenerateSW({
-        maximumFileSizeToCacheInBytes: 10485760,
       }),
     ],
     module: {
@@ -82,4 +79,13 @@ export default (env?: EnvValues, argv?: Argv): Configuration => {
       clean: true,
     },
   };
+
+  if (!inDevelopment) {
+    config.plugins?.push(
+      new WorkboxPlugin.GenerateSW({
+        maximumFileSizeToCacheInBytes: 10485760,
+      })
+    );
+  }
+  return config;
 };

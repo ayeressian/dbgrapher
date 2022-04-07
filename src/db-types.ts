@@ -170,7 +170,7 @@ const mssql = [
   "geography",
 ];
 
-// This are ANSI SQL types
+// These are ANSI SQL types
 const generic = [
   "CHARACTER",
   "VARCHAR",

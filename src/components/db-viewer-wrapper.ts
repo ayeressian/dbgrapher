@@ -13,6 +13,7 @@ import DbViewer, {
   ViewportClickEvent,
   Viewport,
   RelationClickEvent,
+  ColumnSchema,
 } from "db-viewer-component";
 import { ColumnFkSchema } from "db-viewer-component";
 import { getDriveProvider } from "../drive/factory";
@@ -20,6 +21,7 @@ import { AppState } from "../store/reducer";
 import { undo, redo, getDialogsAreClosed } from "./operations";
 import { DBGElement } from "./dbg-element";
 import DbGrapherSchema from "../db-grapher-schema";
+import { hintTimed, HintType } from "../store/slices/hint";
 
 @customElement("dbg-db-viewer")
 export default class DbWrapper extends DBGElement {
@@ -29,6 +31,7 @@ export default class DbWrapper extends DBGElement {
   );
   #dbViewer!: DbViewer;
   #relationFirstTableName!: string;
+  #relationFirstTableRelations!: ColumnSchema[];
   #mode: DbViewerMode = DbViewerMode.None;
 
   static get styles(): CSSResultGroup {
@@ -62,20 +65,32 @@ export default class DbWrapper extends DBGElement {
       this.#relationSecondClickListener
     );
     this.#relationFirstTableName = event.detail.name;
+    this.#relationFirstTableRelations = this.#getFirstTableRelations();
+    if (this.#relationFirstTableRelations.length === 0) {
+      store.dispatch(dbViewerModeAction.none());
+      store.dispatch(hintTimed(HintType.RelationCreationFailedFK));
+    }
+  };
+
+  #getFirstTableRelations = () => {
+    const schema = this.#dbViewer.schema as DbGrapherSchema;
+    const table = schema!.tables.find(
+      (table) => table.name === this.#relationFirstTableName
+    );
+    const firstTablePks = table!.columns.filter(
+      (column) => column.pk && (column as ColumnFkSchema).fk == null
+    );
+    return firstTablePks;
   };
 
   #createRelation = (secondTableName: string): DbGrapherSchema => {
     const schema = this.#dbViewer.schema as DbGrapherSchema;
     const tables = schema!.tables;
-    const firstTable = tables.find(
-      (table) => table.name === this.#relationFirstTableName
-    );
     const secondTable = tables.find((table) => table.name === secondTableName);
-    const firstTablePks = firstTable!.columns.filter(
-      (column) => column.pk && (column as ColumnFkSchema).fk == null
-    );
-    firstTablePks.forEach((column) => {
-      const originalRelationName = `fk_${firstTable!.name}_${column.name}`;
+    this.#relationFirstTableRelations.forEach((column) => {
+      const originalRelationName = `fk_${this.#relationFirstTableName}_${
+        column.name
+      }`;
       let relationName = originalRelationName;
       let index = 0;
       while (
@@ -94,7 +109,7 @@ export default class DbWrapper extends DBGElement {
           this.#mode === DbViewerMode.RelationOneToOne ||
           this.#mode === DbViewerMode.RelationOneToMany,
         fk: {
-          table: firstTable!.name,
+          table: this.#relationFirstTableName,
           column: column.name,
         },
       });

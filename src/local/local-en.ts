@@ -69,6 +69,8 @@ export default {
       "Choose the position of the new table by clicking on the viewport",
     relationCreation:
       "Click on the first table to create the relation from and then click on the second table to create the relation to",
+    relationCreationFailedFk:
+      "Relation creation failed. The selected table doesn't have PK",
     remove: "Please select on the table or relation that you want to remove",
     driveSave:
       "Changes to the file will be automatically saved to Google drive",

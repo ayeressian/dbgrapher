@@ -56,6 +56,8 @@ export default class extends DBGElement {
               case HintType.RelationZeroToMany:
               case HintType.RelationZeroToOne:
                 return t((l) => l.hint.relationCreation);
+              case HintType.RelationCreationFailedFK:
+                return t((l) => l.hint.relationCreationFailedFk);
               case HintType.Remove:
                 return t((l) => l.hint.remove);
               case HintType.Save:

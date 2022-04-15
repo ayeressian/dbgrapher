@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import SidePanel from "../src/components/side-panel";
-import { initComponentTest, removeElement } from "./helper";
+import SidePanel from "../../src/components/side-panel";
+import { initComponentTest, removeElement } from "../helper";
 
 describe("side-panel", function () {
   let sidePanel: SidePanel;
 
   beforeEach(async () => {
-    sidePanel = (await initComponentTest("dbg-side-panel")) as SidePanel;
+    sidePanel = await initComponentTest("dbg-side-panel");
   });
 
   afterEach(function () {

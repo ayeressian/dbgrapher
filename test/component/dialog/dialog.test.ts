@@ -1,12 +1,12 @@
 import { expect } from "chai";
-import Dialog from "../src/components/dialog/dialog";
-import { initComponentTest, removeElement } from "./helper";
+import Dialog from "../../../src/components/dialog/dialog";
+import { initComponentTest, removeElement } from "../../helper";
 
 describe("dialog", function () {
   let dialog: Dialog;
 
   beforeEach(async () => {
-    dialog = (await initComponentTest("dbg-dialog")) as Dialog;
+    dialog = await initComponentTest("dbg-dialog");
   });
 
   afterEach(function () {

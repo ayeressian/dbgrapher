@@ -1,0 +1,23 @@
+// This are ANSI SQL types
+export default [
+  "CHARACTER",
+  "VARCHAR",
+  "NCHAR",
+  "NCHAR VARYING",
+  "BINARY",
+  "BINARY VARYING",
+  "BINARY LARGE OBJECT",
+  "NUMERIC",
+  "DECIMAL",
+  "SMALLINT",
+  "INTEGER",
+  "BIGINT",
+  "FLOAT",
+  "REAL",
+  "DOUBLE PRECISION",
+  "BOOLEAN",
+  "DATE",
+  "TIME",
+  "TIMESTAMP",
+  "INTERVAL",
+];

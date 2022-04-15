@@ -1,7 +1,7 @@
-import TableDialog from "../../src/components/dialog/table-dialog/table-dialog";
-import { initComponentTest, removeElement, getTagName } from "../helper";
-import store from "../../src/store/store";
-import { actions as tableDialogAction } from "../../src/store/slices/dialog/table-dialog";
+import TableDialog from "../../../../src/components/dialog/table-dialog/table-dialog";
+import { initComponentTest, removeElement, getTagName } from "../../../helper";
+import store from "../../../../src/store/store";
+import { actions as tableDialogAction } from "../../../../src/store/slices/dialog/table-dialog";
 import { expect } from "chai";
 
 describe("table-dialog", function () {
@@ -9,10 +9,10 @@ describe("table-dialog", function () {
   let shadowRoot: ShadowRoot;
 
   beforeEach(async function (): Promise<void> {
-    tableDialog = (await initComponentTest({
+    tableDialog = await initComponentTest({
       elementType: "dbg-table-dialog",
       noUpdate: true,
-    })) as TableDialog;
+    });
     store.dispatch(tableDialogAction.openCreate({ x: 0, y: 0 }));
     await tableDialog.updateComplete;
     shadowRoot = tableDialog.shadowRoot!;

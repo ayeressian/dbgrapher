@@ -15,7 +15,7 @@ import {
 } from "db-viewer-component";
 import produce from "immer";
 import { DBGElement } from "../../dbg-element";
-import getDbTypes from "../../../db-types";
+import getDbTypes from "../../../db-types/db-types";
 import { validateColumnNames } from "./column-name-validation";
 import { classMap } from "lit/directives/class-map.js";
 

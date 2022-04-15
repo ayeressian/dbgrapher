@@ -6,12 +6,12 @@ import {
   CloudProvider,
 } from "../src/store/slices/cloud";
 
-export const createElement = async (
+export const createElement = async <T extends LitElement>(
   elementType: string,
   attrs: { [key in string]: string } = {},
   noUpdate = false
-): Promise<LitElement> => {
-  const element = document.createElement(elementType) as LitElement;
+): Promise<T> => {
+  const element = document.createElement(elementType) as T;
   for (const [key, value] of Object.entries(attrs)) {
     element.setAttribute(key, value);
   }
@@ -31,9 +31,9 @@ type initComponentTestParameters =
     }
   | string;
 
-export function initComponentTest(
+export function initComponentTest<T extends LitElement>(
   param: initComponentTestParameters
-): Promise<LitElement> {
+): Promise<T> {
   store.dispatch({ type: "RESET" });
   initProviderFactory();
   store.dispatch(cloudActions.setDriveType(CloudProvider.Local));

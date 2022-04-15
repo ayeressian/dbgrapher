@@ -31,11 +31,8 @@ export default class extends DBGElement {
         @dbg-on-escape="${this.#close}"
       >
         <div slot="body">
-          <p>
-            ${t((l) => l.dialog.about.text)}
-            <br /><br />
-            ${t((l) => l.dialog.about.footer)}
-          </p>
+          <p data-testid="text">${t((l) => l.dialog.about.text)}</p>
+          <p data-testid="footer">${t((l) => l.dialog.about.footer)}</p>
         </div>
       </dbg-dialog>
     `;

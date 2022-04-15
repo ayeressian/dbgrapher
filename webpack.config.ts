@@ -2,7 +2,7 @@ import CopyPlugin from "copy-webpack-plugin";
 import path from "path";
 import { Configuration } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import WorkboxPlugin from "workbox-webpack-plugin";
+import { GenerateSW } from "workbox-webpack-plugin";
 import "webpack-dev-server";
 
 type CLIValues = boolean | string;
@@ -82,7 +82,7 @@ export default (env?: EnvValues, argv?: Argv): Configuration => {
 
   if (!inDevelopment) {
     config.plugins?.push(
-      new WorkboxPlugin.GenerateSW({
+      new GenerateSW({
         maximumFileSizeToCacheInBytes: 10485760,
       })
     );

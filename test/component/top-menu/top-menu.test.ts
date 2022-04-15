@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import TopMenu from "../src/components/top-menu/top-menu";
-import { initComponentTest, removeElement } from "./helper";
+import TopMenu from "../../../src/components/top-menu/top-menu";
+import { initComponentTest, removeElement } from "../../helper";
 
 describe("top-menu", function () {
   let topMenu: TopMenu;
@@ -39,7 +39,7 @@ describe("top-menu", function () {
   };
 
   beforeEach(async () => {
-    topMenu = (await initComponentTest("dbg-top-menu")) as TopMenu;
+    topMenu = await initComponentTest("dbg-top-menu");
     topMenu.config = config;
     await topMenu.updateComplete;
   });

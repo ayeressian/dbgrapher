@@ -1,5 +1,5 @@
-import Columns from "../../src/components/dialog/table-dialog/columns";
-import { initComponentTest, removeElement } from "../helper";
+import Columns from "../../../../src/components/dialog/table-dialog/columns";
+import { initComponentTest, removeElement } from "../../../helper";
 import snapshot from "./column.snap.html";
 import { crush } from "html-crush";
 import { expect } from "chai";
@@ -9,13 +9,13 @@ describe("table-dialog-column", function () {
   let shadowRoot: ShadowRoot;
 
   beforeEach(async function (): Promise<void> {
-    tableDialogColumns = (await initComponentTest({
+    tableDialogColumns = await initComponentTest({
       elementType: "dbg-table-dialog-columns",
       noUpdate: true,
       attrs: {
         tableIndex: "0",
       },
-    })) as Columns;
+    });
     tableDialogColumns.schema = {
       tables: [
         {

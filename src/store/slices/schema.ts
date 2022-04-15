@@ -8,13 +8,13 @@ type Data = {
   future: DbGrapherSchema[];
 };
 
-const MAX_VIEW_WIDTH = 10000;
-const MAX_VIEW_HEIGHT = 10000;
-const MIN_VIEW_WIDTH = 3000;
-const MIN_VIEW_HEIGHT = 3000;
-const DEFAULT_VIEW_WIDTH = 5000;
-const DEFAULT_VIEW_HEIGHT = 5000;
-const VIEW_INCREASE_AMOUNT = 500;
+export const MAX_VIEW_WIDTH = 10000;
+export const MAX_VIEW_HEIGHT = 10000;
+export const MIN_VIEW_WIDTH = 3000;
+export const MIN_VIEW_HEIGHT = 3000;
+export const DEFAULT_VIEW_WIDTH = 5000;
+export const DEFAULT_VIEW_HEIGHT = 5000;
+export const VIEW_INCREASE_AMOUNT = 500;
 
 const initiate = (
   _: Data,
@@ -61,21 +61,29 @@ const setDefaultViewSizeIfNec = (state: Data) => {
 
 const increaseViewSize = (state: Data) => {
   setDefaultViewSizeIfNec(state);
-  if (state.present.viewHeight! < MAX_VIEW_HEIGHT) {
+  if (state.present.viewHeight! + VIEW_INCREASE_AMOUNT < MAX_VIEW_HEIGHT) {
     state.present.viewHeight! += VIEW_INCREASE_AMOUNT;
+  } else {
+    state.present.viewHeight! = MAX_VIEW_HEIGHT;
   }
-  if (state.present.viewWidth! < MAX_VIEW_WIDTH) {
+  if (state.present.viewWidth! + VIEW_INCREASE_AMOUNT < MAX_VIEW_WIDTH) {
     state.present.viewWidth! += VIEW_INCREASE_AMOUNT;
+  } else {
+    state.present.viewHeight! = MAX_VIEW_WIDTH;
   }
 };
 
 const decreaseViewSize = (state: Data) => {
   setDefaultViewSizeIfNec(state);
-  if (state.present.viewHeight! > MIN_VIEW_HEIGHT) {
+  if (state.present.viewHeight! - VIEW_INCREASE_AMOUNT > MIN_VIEW_HEIGHT) {
     state.present.viewHeight! -= VIEW_INCREASE_AMOUNT;
+  } else {
+    state.present.viewHeight = MIN_VIEW_HEIGHT;
   }
-  if (state.present.viewWidth! > MIN_VIEW_WIDTH) {
+  if (state.present.viewWidth! - VIEW_INCREASE_AMOUNT > MIN_VIEW_WIDTH) {
     state.present.viewWidth! -= VIEW_INCREASE_AMOUNT;
+  } else {
+    state.present.viewWidth = MIN_VIEW_WIDTH;
   }
 };
 
@@ -126,7 +134,7 @@ const slice = createSlice({
   },
 });
 
-export default slice;
-
 export const reducer = slice.reducer;
 export const actions = slice.actions;
+
+export default slice;

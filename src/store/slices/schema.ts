@@ -8,8 +8,8 @@ type Data = {
   future: DbGrapherSchema[];
 };
 
-export const MAX_VIEW_WIDTH = 10000;
-export const MAX_VIEW_HEIGHT = 10000;
+export const MAX_VIEW_WIDTH = 10_000;
+export const MAX_VIEW_HEIGHT = 10_000;
 export const MIN_VIEW_WIDTH = 3000;
 export const MIN_VIEW_HEIGHT = 3000;
 export const DEFAULT_VIEW_WIDTH = 5000;
@@ -134,7 +134,6 @@ const slice = createSlice({
   },
 });
 
-export const reducer = slice.reducer;
-export const actions = slice.actions;
+export const { reducer, actions } = slice;
 
 export default slice;

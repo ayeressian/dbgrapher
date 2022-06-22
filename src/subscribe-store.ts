@@ -15,7 +15,7 @@ export const subscribe = <StateType>(
     const state = store.getState();
     const newValue = selector(state);
     if (!isEqual(oldValue, newValue)) {
-      onUpdate && onUpdate(newValue, state);
+      onUpdate?.(newValue, state);
       oldValue = newValue;
     }
   });

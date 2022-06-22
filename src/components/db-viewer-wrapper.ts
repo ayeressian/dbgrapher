@@ -77,15 +77,14 @@ export default class DbWrapper extends DBGElement {
     const table = schema!.tables.find(
       (table) => table.name === this.#relationFirstTableName
     );
-    const firstTablePks = table!.columns.filter(
+    return table!.columns.filter(
       (column) => column.pk && (column as ColumnFkSchema).fk == null
     );
-    return firstTablePks;
   };
 
   #createRelation = (secondTableName: string): DbGrapherSchema => {
     const schema = this.#dbViewer.schema as DbGrapherSchema;
-    const tables = schema!.tables;
+    const { tables } = schema!;
     const secondTable = tables.find((table) => table.name === secondTableName);
     this.#relationFirstTableRelations.forEach((column) => {
       const originalRelationName = `fk_${this.#relationFirstTableName}_${

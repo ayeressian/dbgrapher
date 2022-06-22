@@ -48,8 +48,7 @@ const slice = createSlice({
       });
     },
     hintTimedEnd: (state, { payload }: PayloadAction<TimedTypes>): Hint[] => {
-      state = state.filter((hint) => hint.type !== payload);
-      return state;
+      return state.filter((hint) => hint.type !== payload);
     },
   },
   extraReducers: (builder) =>
@@ -86,8 +85,7 @@ const slice = createSlice({
         return state;
       })
       .addCase(dbViewerModeActions.none, (state) => {
-        state = filteredState(state);
-        return state;
+        return filteredState(state);
       }),
 });
 
@@ -102,5 +100,4 @@ export const hintTimed = createAsyncThunk(
 
 export default slice;
 
-export const reducer = slice.reducer;
-export const actions = slice.actions;
+export const { reducer, actions } = slice;

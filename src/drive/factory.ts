@@ -35,8 +35,7 @@ const googleDriveCommon = <T extends OpenURIData | CreateURIData>(
   store.dispatch(cloudActions.setDriveType(CloudProvider.GoogleDrive));
   store.dispatch(dialogActions.close(DialogTypes.CloudProviderChooserDialog));
 
-  const data = JSON.parse(decodeURI(url.search.substr(7)));
-  return data;
+  return JSON.parse(decodeURI(url.search.substr(7)));
 };
 
 const googleDriveNew = (url: URL) => {

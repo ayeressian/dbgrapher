@@ -110,40 +110,38 @@ export default class TableDialogFkColumns extends DBGElement {
           <input
             type="checkbox"
             @change="${onColumnChange("pk")}"
-            .checked="${column.pk}"
+            .checked="${!!column.pk}"
           />
         </td>
         <td>
           <input
             type="checkbox"
             @change="${onColumnChange("uq")}"
-            .checked="${column.uq}"
+            .checked="${!!column.uq}"
           />
         </td>
         <td>
           <input
             type="checkbox"
             @change="${onColumnChange("nn")}"
-            .checked="${column.nn}"
+            .checked="${!!column.nn}"
           />
         </td>
         <td>
           <dbg-select
             required
             id="table-select-${index}"
-            value="${column.fk?.table}"
-            options="${JSON.stringify(
-              this.schema?.tables.map(({ name }) => name)
-            )}"
+            value="${column.fk?.table ?? ""}"
+            .options="${this.schema?.tables.map(({ name }) => name)}"
             @dbg-on-select="${onFkTableSelect}"
           ></dbg-select>
         </td>
         <td>
           <dbg-select
             required
-            value="${column.fk?.column}"
-            options="${JSON.stringify(
-              this.#getFkColumns(column.fk!.table).map(({ name }) => name)
+            value="${column.fk?.column ?? ""}"
+            .options="${this.#getFkColumns(column.fk!.table).map(
+              ({ name }) => name
             )}"
             @dbg-on-select="${onFkColumnSelect}"
           ></dbg-select>

@@ -108,21 +108,21 @@ export default class TableDialogColumns extends DBGElement {
           <input
             type="checkbox"
             @change="${onColumnChange("pk")}"
-            .checked="${column.pk}"
+            .checked="${!!column.pk}"
           />
         </td>
         <td>
           <input
             type="checkbox"
             @change="${onColumnChange("uq")}"
-            .checked="${column.uq}"
+            .checked="${!!column.uq}"
           />
         </td>
         <td>
           <input
             type="checkbox"
             @change="${onColumnChange("nn")}"
-            .checked="${column.nn}"
+            .checked="${!!column.nn}"
           />
         </td>
         <td>
@@ -162,6 +162,12 @@ export default class TableDialogColumns extends DBGElement {
     );
   };
 
+  #renderNoColumn = () => {
+    return html`<tr>
+      <td class="no-column" colspan="8">No columns to show</td>
+    </tr>`;
+  };
+
   #renderColumns = (): TemplateResult => {
     const currentTableColumns = this.#getCurrentTableColumns();
     let result;
@@ -175,9 +181,7 @@ export default class TableDialogColumns extends DBGElement {
         )
       )}`;
     } else {
-      result = html`<tr>
-        <td class="no-column" colspan="8">No columns to show</td>
-      </tr>`;
+      result = this.#renderNoColumn();
     }
     return html`${result}`;
   };

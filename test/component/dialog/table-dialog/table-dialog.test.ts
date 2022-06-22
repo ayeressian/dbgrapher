@@ -4,11 +4,11 @@ import store from "../../../../src/store/store";
 import { actions as tableDialogAction } from "../../../../src/store/slices/dialog/table-dialog";
 import { expect } from "chai";
 
-describe("table-dialog", function () {
+describe("table-dialog", () => {
   let tableDialog: TableDialog;
   let shadowRoot: ShadowRoot;
 
-  beforeEach(async function (): Promise<void> {
+  beforeEach(async (): Promise<void> => {
     tableDialog = await initComponentTest({
       elementType: "dbg-table-dialog",
       noUpdate: true,
@@ -17,11 +17,11 @@ describe("table-dialog", function () {
     await tableDialog.updateComplete;
     shadowRoot = tableDialog.shadowRoot!;
   });
-  afterEach(function (): void {
+  afterEach((): void => {
     removeElement(tableDialog);
   });
 
-  it("should render properly", function () {
+  it("should render properly", () => {
     expect(getTagName("dbg-table-dialog-columns", shadowRoot)).to.not.be
       .undefined;
     expect(getTagName("dbg-table-dialog-fk-columns", shadowRoot)).to.not.be
@@ -37,8 +37,8 @@ describe("table-dialog", function () {
     );
   });
 
-  describe("when table name is not set", function () {
-    it("should not close the dialog on save", function () {
+  describe("when table name is not set", () => {
+    it("should not close the dialog on save", () => {
       (
         shadowRoot.querySelector(
           '[data-testid="save-btn"]'
@@ -50,7 +50,7 @@ describe("table-dialog", function () {
   });
 
   describe("when table name is set", () => {
-    beforeEach(function () {
+    beforeEach(() => {
       (
         shadowRoot.querySelector(
           '[data-testid="table-name"]'

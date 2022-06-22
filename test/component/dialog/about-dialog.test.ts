@@ -8,7 +8,7 @@ import {
 } from "../../../src/store/slices/dialog/dialogs";
 import { t } from "../../../src/localization";
 
-describe("dbg-about-dialog", function () {
+describe("dbg-about-dialog", () => {
   let aboutDialog: AboutDialog;
 
   beforeEach(async () => {
@@ -16,7 +16,7 @@ describe("dbg-about-dialog", function () {
     store.dispatch(dialogActions.open(DialogTypes.AboutDialog));
   });
 
-  afterEach(function () {
+  afterEach(() => {
     removeElement(aboutDialog);
   });
 

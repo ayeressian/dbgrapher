@@ -155,9 +155,9 @@ export default class extends DBGElement {
   }
 
   #read = (schemaText: string): void => {
-    let schema;
+    let schema: DbGrapherSchema;
     try {
-      schema = JSON.parse(schemaText) as DbGrapherSchema;
+      schema = JSON.parse(schemaText);
     } catch (e) {
       alert(t((l) => l.error.invalidJSON));
       return;

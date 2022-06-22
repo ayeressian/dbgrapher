@@ -87,21 +87,21 @@ export default class GoogleDriveProvider extends DriveProvider {
       fileName = file.result.name!;
     }
     const filesContent = await gapi.client.drive.files.get({
-      fileId: fileId,
+      fileId,
       alt: "media",
     });
     const jsonValidation = validateJson(filesContent.result as Schema);
     if (!jsonValidation) {
       alert(t((l) => l.error.invalidFileFormat));
-    } else {
-      store.dispatch(cloudActions.setFileName(fileName));
-      store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
-      store.dispatch(
-        schemaAction.initiate(filesContent.result as unknown as DbGrapherSchema)
-      );
-      store.dispatch(setSchemaAction.load());
-      store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
+      return;
     }
+    store.dispatch(cloudActions.setFileName(fileName));
+    store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saved));
+    store.dispatch(
+      schemaAction.initiate(filesContent.result as unknown as DbGrapherSchema)
+    );
+    store.dispatch(setSchemaAction.load());
+    store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/explicit-module-boundary-types

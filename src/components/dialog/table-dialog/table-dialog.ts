@@ -66,20 +66,20 @@ export default class extends DBGElement {
         ({ name }) => name === tableName
       )!;
       this.#originalTableName = tableName;
-    } else {
-      this.#isEdit = false;
-      this.schema = produce(this.schema, (schema) => {
-        const currentTable = {
-          pos,
-          name: "",
-          columns: [],
-        };
-        schema.tables.unshift(currentTable);
-      });
-
-      this.#currentTableIndex = 0;
-      this.#originalTableName = "";
+      return;
     }
+    this.#isEdit = false;
+    this.schema = produce(this.schema, (schema) => {
+      const currentTable = {
+        pos,
+        name: "",
+        columns: [],
+      };
+      schema.tables.unshift(currentTable);
+    });
+
+    this.#currentTableIndex = 0;
+    this.#originalTableName = "";
   };
 
   async update(changedProperties: PropertyValues): Promise<void> {
@@ -106,8 +106,8 @@ export default class extends DBGElement {
     this.schema = produce(this.schema, (schema) => {
       const currentTableColumns = this.#getCurrentTable(schema).columns;
       let lastNonFkColumnIndex = 0;
-      for (let i = 0; i < currentTableColumns.length; ++i) {
-        if ((currentTableColumns[i] as ColumnFkSchema).fk == null) {
+      for (const currentTableColumn of currentTableColumns) {
+        if ((currentTableColumn as ColumnFkSchema).fk == null) {
           ++lastNonFkColumnIndex;
         }
       }
@@ -362,12 +362,12 @@ export default class extends DBGElement {
           name: currentTable.name,
         })
       );
-    } else {
-      element.setCustomValidity("");
-      const tableName = (event.target as HTMLInputElement).value;
-      this.#fixFkTableNames(tableName);
-      this.#originalTableName = tableName;
+      return;
     }
+    element.setCustomValidity("");
+    const tableName = (event.target as HTMLInputElement).value;
+    this.#fixFkTableNames(tableName);
+    this.#originalTableName = tableName;
   };
 
   #cancel = (event: Event): void => {

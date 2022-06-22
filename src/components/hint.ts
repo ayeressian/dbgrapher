@@ -7,7 +7,7 @@ import { HintType } from "../store/slices/hint";
 @customElement("dbg-hint")
 export default class extends DBGElement {
   @state()
-  private hints = [] as string[];
+  private hints: string[] = [];
 
   static get styles(): CSSResultGroup {
     return css`

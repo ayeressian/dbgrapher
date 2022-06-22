@@ -4,11 +4,11 @@ import snapshot from "./column.snap.html";
 import { crush } from "html-crush";
 import { expect } from "chai";
 
-describe("table-dialog-column", function () {
+describe("table-dialog-column", () => {
   let tableDialogColumns: Columns;
   let shadowRoot: ShadowRoot;
 
-  beforeEach(async function (): Promise<void> {
+  beforeEach(async (): Promise<void> => {
     tableDialogColumns = await initComponentTest({
       elementType: "dbg-table-dialog-columns",
       noUpdate: true,
@@ -27,11 +27,11 @@ describe("table-dialog-column", function () {
     await tableDialogColumns.updateComplete;
     shadowRoot = tableDialogColumns.shadowRoot!;
   });
-  afterEach(function (): void {
+  afterEach((): void => {
     removeElement(tableDialogColumns);
   });
 
-  it("should render properly", function () {
+  it("should render properly", () => {
     const html = shadowRoot!.firstElementChild!.outerHTML;
     const options = {
       removeHTMLComments: true,

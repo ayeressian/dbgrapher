@@ -12,7 +12,7 @@ export type OnSelectEvent = CustomEvent<OnSelectEventDetail>;
 
 @customElement("dbg-select")
 export default class Select extends DBGElement {
-  @property({ type: Object }) options!: Option[];
+  @property({ type: Array }) options!: Option[];
   @property({ type: String }) value!: string;
   @property({ type: Boolean }) required = false;
 

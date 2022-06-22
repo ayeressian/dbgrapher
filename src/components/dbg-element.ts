@@ -4,7 +4,7 @@ import { AppState } from "../store/reducer";
 import { subscribe } from "../subscribe-store";
 
 export abstract class DBGElement extends LitElement {
-  #unsubscribes = [] as Unsubscribe[];
+  #unsubscribes: Unsubscribe[] = [];
 
   connectedCallback(): void {
     super.connectedCallback();

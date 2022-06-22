@@ -2,14 +2,14 @@ import { expect } from "chai";
 import Dialog from "../../../src/components/dialog/dialog";
 import { initComponentTest, removeElement } from "../../helper";
 
-describe("dialog", function () {
+describe("dialog", () => {
   let dialog: Dialog;
 
   beforeEach(async () => {
     dialog = await initComponentTest("dbg-dialog");
   });
 
-  afterEach(function () {
+  afterEach(() => {
     removeElement(dialog);
   });
 

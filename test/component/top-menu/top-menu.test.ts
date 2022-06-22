@@ -2,7 +2,7 @@ import { expect } from "chai";
 import TopMenu from "../../../src/components/top-menu/top-menu";
 import { initComponentTest, removeElement } from "../../helper";
 
-describe("top-menu", function () {
+describe("top-menu", () => {
   let topMenu: TopMenu;
 
   const config = {
@@ -44,7 +44,7 @@ describe("top-menu", function () {
     await topMenu.updateComplete;
   });
 
-  afterEach(function () {
+  afterEach(() => {
     removeElement(topMenu);
   });
 

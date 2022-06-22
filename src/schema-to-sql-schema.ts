@@ -31,7 +31,10 @@ const topoLogicalSortTables = async (
   try {
     result = toposort(graph);
   } catch (error) {
-    if (error.message.includes("Cyclic dependency, node was")) {
+    if (
+      error instanceof Error &&
+      error.message.includes("Cyclic dependency, node was")
+    ) {
       if (
         await ConfirmationDialog.confirm(
           t((l) => l.confirmation.cyclicError.text),
@@ -39,9 +42,8 @@ const topoLogicalSortTables = async (
         )
       ) {
         return tables;
-      } else {
-        throw new UserCancelGeneration();
       }
+      throw new UserCancelGeneration();
     } else {
       throw error;
     }
@@ -75,11 +77,9 @@ export default async (schema: DbGrapherSchema): Promise<string> => {
         const table = schema.tables.find(
           (table) => table.name === fkColumn.fk!.table
         )!;
-        const type = (
-          table.columns.find(
-            (tableColumn) => tableColumn.name === fkColumn.fk!.column
-          ) as ColumnNoneFkSchema
-        ).type;
+        const { type } = table.columns.find(
+          (tableColumn) => tableColumn.name === fkColumn.fk!.column
+        ) as ColumnNoneFkSchema;
         columnSql += `  ${columnName} ${type}`;
       } else {
         columnSql += `  ${columnName} ${(column as ColumnNoneFkSchema).type}`;
@@ -105,7 +105,7 @@ export default async (schema: DbGrapherSchema): Promise<string> => {
       }
       columnSql += "\n";
     });
-    sqlSchema += "CREATE TABLE " + table.name + "(\n" + columnSql + ");\n";
+    sqlSchema += `CREATE TABLE ${table.name}(\n${columnSql});\n`;
     if (index < schema.tables.length - 1) {
       sqlSchema += "\n";
     }

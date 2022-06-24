@@ -28,6 +28,10 @@ export default class ConfirmationDialog extends DBGElement {
       .row {
         margin-top: 20px;
       }
+
+      .message {
+        width: 500px;
+      }
     `;
   }
 
@@ -35,7 +39,7 @@ export default class ConfirmationDialog extends DBGElement {
     return html`
       <dbg-dialog ?show=${this.open} @dbg-on-escape="${this.#cancel}">
         <div slot="body">
-          <div>${this.message}</div>
+          <div class="message">${this.message}</div>
           <div class="row">
             <button
               class="pure-button"

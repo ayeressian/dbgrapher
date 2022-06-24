@@ -19,6 +19,7 @@ import { wait } from "../../util";
 import { validateJson } from "../../validate-schema";
 import { t } from "../../localization";
 import DbGrapherSchema from "../../db-grapher-schema";
+import { grantDriveFile } from "./grant-drive-file";
 
 let auth2Load: Promise<void>,
   pickerLoad: Promise<void>,
@@ -57,9 +58,11 @@ export default class GoogleDriveProvider extends DriveProvider {
   // See "Project number" under "IAM & Admin" > "Settings"
   static appId: string = env.googleDrive.appId;
 
+  static scopeDriveFile = "https://www.googleapis.com/auth/drive.file";
+  static scopeDriveInstall = "https://www.googleapis.com/auth/drive.install";
+
   // Scope to use to access user's Drive items.
-  static scope =
-    "https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.install";
+  static scope = [this.scopeDriveFile, this.scopeDriveInstall].join(" ");
 
   #initPromise: Promise<void>;
   #fileId!: string;
@@ -79,6 +82,7 @@ export default class GoogleDriveProvider extends DriveProvider {
 
   async open(fileId: string, fileName?: string): Promise<void> {
     await this.login();
+    await grantDriveFile();
     await clientDriveLoad;
     if (fileName == null) {
       const file = await gapi.client.drive.files.get({
@@ -204,6 +208,7 @@ export default class GoogleDriveProvider extends DriveProvider {
 
   async updateFile(isRetry = false): Promise<void> {
     await this.login();
+    await grantDriveFile();
     if (!isRetry)
       store.dispatch(cloudActions.setUpdateState(CloudUpdateState.Saving));
     if (this.#fileId == null) {
@@ -234,12 +239,13 @@ export default class GoogleDriveProvider extends DriveProvider {
 
   async createFile(folderId?: string): Promise<void> {
     await this.login();
+    await grantDriveFile();
     const fileName = store.getState().cloud.fileName!;
     await clientDriveLoad;
-    const resource = {
+    const resource: gapi.client.drive.File = {
       name: fileName,
       mimeType: "application/json",
-    } as gapi.client.drive.File;
+    };
     if (folderId) resource.parents = [folderId];
     const file = await gapi.client.drive.files.create({
       resource,
@@ -250,6 +256,7 @@ export default class GoogleDriveProvider extends DriveProvider {
   async renameFile(newFileName: string): Promise<void> {
     if (this.#fileId) {
       await this.login();
+      await grantDriveFile();
       await clientDriveLoad;
       try {
         await gapi.client.drive.files.update({

@@ -94,6 +94,7 @@ export default class TableDialogColumns extends DBGElement {
             @input="${onColumnChange("name")}"
             .value="${column.name}"
             required
+            autocomplete="off"
           />
         </td>
         <td>

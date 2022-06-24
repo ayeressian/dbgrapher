@@ -15,12 +15,16 @@ export default {
       text: "There is a cyclic relationship chain in your schema. Using generated SQL file with the RDBMS might cause error.",
       confirm: "Continue",
     },
+    googleGrant: {
+      text: `Access to Google Drive files is requried to continue.
+      Clicking on the cancel will redirect you to drive selection dialog.`,
+      confirm: "Grant",
+    },
   },
   dialog: {
     about: {
       footer: "I hope you enjoy using this application.",
-      text: `Hello my name is Ara. Currenttly I'm the only contributer of this
-        project. I initiated this project for my own needs. If you like
+      text: `Hello my name is Ara. I initiated this project for my own needs. If you like
         relational databases and have knowledge or wish to learn more about
         typescript, webcomponent, litelement, redux, webpack, karma,
         jasmine, playwright and much more you should consider to contribute

@@ -298,6 +298,7 @@ export default class extends DBGElement {
               @input="${this.#onChangeTableName}"
               .value="${this.#getCurrentTable()?.name}"
               required
+              autocomplete="off"
             />
           </label>
           <dbg-table-dialog-columns

@@ -26,14 +26,13 @@
   "dependencies": {
     "@azure/msal-browser": "^2.0.2",
     "@microsoft/microsoft-graph-client": "^2.0.0",
-    "@reduxjs/toolkit": "^1.8.1",
+    "@reduxjs/toolkit": "^1.8.2",
     "ajv": "^8.11.0",
     "color-hash": "^2.0.1",
     "db-viewer-component": "^4.4.9",
-    "lit": "^2.2.1",
+    "lit": "^2.2.6",
     "lodash": "^4.17.21",
     "purecss": "^2.1.0",
-    "redux": "^4.1.2",
     "toposort": "^2.0.2"
   },
   "devDependencies": {
@@ -43,9 +42,9 @@
     "@types/color-hash": "^1.0.2",
     "@types/copy-webpack-plugin": "^10.1.0",
     "@types/expect": "^24.3.0",
-    "@types/gapi.auth2": "0.0.52",
-    "@types/gapi.client.drive": "^3.0.8",
-    "@types/google.picker": "0.0.34",
+    "@types/gapi.auth2": "0.0.56",
+    "@types/gapi.client.drive": "^3.0.13",
+    "@types/google.picker": "0.0.39",
     "@types/karma": "^6.3.3",
     "@types/lodash": "^4.14.159",
     "@types/mocha": "^9.1.0",
@@ -86,10 +85,10 @@
     "ts-mocha": "^9.0.2",
     "ts-node": "^10.8.1",
     "typescript": "~4.7.4",
-    "webpack": "^5.70.0",
+    "webpack": "^5.73.0",
     "webpack-bundle-analyzer": "^4.5.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4",
-    "workbox-webpack-plugin": "^6.5.2"
+    "webpack-cli": "^4.10.0",
+    "webpack-dev-server": "^4.9.2",
+    "workbox-webpack-plugin": "^6.5.3"
   }
 }

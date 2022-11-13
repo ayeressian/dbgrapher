@@ -1,0 +1,339 @@
+// Vitest Snapshot v1
+
+exports[`Table$ > should render properly 1`] = `
+{
+  "component": Table$ {
+    "$$": {
+      "after_update": [],
+      "before_update": [],
+      "bound": {},
+      "callbacks": {},
+      "context": Map {},
+      "ctx": [
+        "school",
+        0,
+        0,
+        <table>
+          <thead>
+            <tr>
+              <th
+                colspan="3"
+              >
+                school
+              </th>
+            </tr>
+          </thead>
+           
+          <tbody>
+            <tr>
+              <td />
+               
+              <td>
+                id
+              </td>
+               
+              <td>
+                int
+              </td>
+            </tr>
+            <tr>
+              <td />
+               
+              <td>
+                cpacity
+              </td>
+               
+              <td>
+                int
+              </td>
+            </tr>
+            <tr>
+              <td />
+               
+              <td>
+                name
+              </td>
+               
+              <td>
+                string
+              </td>
+            </tr>
+            <tr>
+              <td />
+               
+              <td>
+                address
+              </td>
+               
+              <td>
+                string
+              </td>
+            </tr>
+          </tbody>
+        </table>,
+        false,
+        {
+          "x": 722,
+          "y": 560,
+        },
+        {
+          "columns": [
+            {
+              "name": "id",
+              "pk": true,
+              "type": "int",
+            },
+            {
+              "name": "cpacity",
+              "type": "int",
+            },
+            {
+              "name": "name",
+              "type": "string",
+            },
+            {
+              "name": "address",
+              "type": "string",
+            },
+          ],
+          "name": "school",
+          "pos": {
+            "x": 722,
+            "y": 560,
+          },
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        [Function],
+        1,
+        [Function],
+      ],
+      "dirty": [
+        -1,
+      ],
+      "fragment": {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": [
+        [Function],
+        [Function],
+        [Function],
+      ],
+      "on_disconnect": [],
+      "on_mount": [],
+      "props": {
+        "name": 0,
+        "zoom": 9,
+      },
+      "root": <div>
+        <g>
+          <foreignobject
+            data-testid="table-school"
+            height="0"
+            width="0"
+            x="722"
+            y="560"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th
+                    colspan="3"
+                  >
+                    school
+                  </th>
+                </tr>
+              </thead>
+               
+              <tbody>
+                <tr>
+                  <td />
+                   
+                  <td>
+                    id
+                  </td>
+                   
+                  <td>
+                    int
+                  </td>
+                </tr>
+                <tr>
+                  <td />
+                   
+                  <td>
+                    cpacity
+                  </td>
+                   
+                  <td>
+                    int
+                  </td>
+                </tr>
+                <tr>
+                  <td />
+                   
+                  <td>
+                    name
+                  </td>
+                   
+                  <td>
+                    string
+                  </td>
+                </tr>
+                <tr>
+                  <td />
+                   
+                  <td>
+                    address
+                  </td>
+                   
+                  <td>
+                    string
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </foreignobject>
+        </g>
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <g>
+        <foreignobject
+          data-testid="table-school"
+          height="0"
+          width="0"
+          x="722"
+          y="560"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th
+                  colspan="3"
+                >
+                  school
+                </th>
+              </tr>
+            </thead>
+             
+            <tbody>
+              <tr>
+                <td />
+                 
+                <td>
+                  id
+                </td>
+                 
+                <td>
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td />
+                 
+                <td>
+                  cpacity
+                </td>
+                 
+                <td>
+                  int
+                </td>
+              </tr>
+              <tr>
+                <td />
+                 
+                <td>
+                  name
+                </td>
+                 
+                <td>
+                  string
+                </td>
+              </tr>
+              <tr>
+                <td />
+                 
+                <td>
+                  address
+                </td>
+                 
+                <td>
+                  string
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </foreignobject>
+      </g>
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

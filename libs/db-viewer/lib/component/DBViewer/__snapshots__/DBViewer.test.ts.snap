@@ -1,0 +1,1284 @@
+// Vitest Snapshot v1
+
+exports[`DBViewer should render properly 1`] = `
+Object {
+  "component": DBViewer {
+    "$$": Object {
+      "after_update": Array [],
+      "before_update": Array [],
+      "bound": Object {},
+      "callbacks": Object {},
+      "context": Map {},
+      "ctx": Array [
+        Object {
+          "annotations": Array [
+            Object {
+              "height": 600,
+              "pos": Object {
+                "x": 1200,
+                "y": 1200,
+              },
+              "text": "Description 1",
+              "title": "Annotation 1",
+              "width": 800,
+            },
+            Object {
+              "height": 200,
+              "pos": Object {
+                "x": 1400,
+                "y": 1100,
+              },
+              "text": "Description 2",
+              "title": "Annotation 2",
+              "width": 300,
+            },
+          ],
+          "tables": Array [
+            Object {
+              "columns": Array [
+                Object {
+                  "name": "id",
+                  "pk": true,
+                  "type": "int",
+                },
+                Object {
+                  "name": "cpacity",
+                  "type": "int",
+                },
+                Object {
+                  "name": "name",
+                  "type": "string",
+                },
+                Object {
+                  "name": "address",
+                  "type": "string",
+                },
+              ],
+              "name": "school",
+              "pos": Object {
+                "x": 722,
+                "y": 560,
+              },
+            },
+            Object {
+              "columns": Array [
+                Object {
+                  "name": "id",
+                  "pk": true,
+                  "type": "int",
+                },
+                Object {
+                  "name": "grade",
+                  "type": "int",
+                },
+                Object {
+                  "name": "school_id",
+                  "nn": true,
+                  "uq": false,
+                },
+              ],
+              "name": "class",
+              "pos": Object {
+                "x": 620,
+                "y": 306,
+              },
+            },
+            Object {
+              "columns": Array [
+                Object {
+                  "name": "id",
+                  "pk": true,
+                  "type": "int",
+                },
+                Object {
+                  "name": "firstname",
+                  "type": "string",
+                },
+                Object {
+                  "name": "lastname",
+                  "type": "string",
+                },
+                Object {
+                  "name": "age",
+                  "type": "int",
+                },
+                Object {
+                  "fk": Object {
+                    "column": "id",
+                    "table": "class",
+                  },
+                  "name": "class_id",
+                  "nn": true,
+                },
+                Object {
+                  "fk": Object {
+                    "column": "id",
+                    "table": "student",
+                  },
+                  "name": "friend",
+                },
+              ],
+              "name": "student",
+              "pos": Object {
+                "x": 271,
+                "y": 407,
+              },
+            },
+          ],
+        },
+        1,
+        0,
+        0,
+        <div
+          class="svelte-117pbly"
+          id="container"
+        >
+          <svg
+            baseProfile="full"
+            class="bg-gray-200"
+            version="2"
+            viewBox="0 0 800 1000"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="svelte-c9fi85"
+              d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+            />
+             
+            <path
+              class="highlight svelte-c9fi85"
+              d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+            />
+            
+            
+            
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-school"
+                height="0"
+                width="0"
+                x="722"
+                y="560"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        school
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        cpacity
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        name
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        address
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-class"
+                height="0"
+                width="0"
+                x="620"
+                y="306"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        class
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        grade
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        school_id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        undefined
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-student"
+                height="0"
+                width="0"
+                x="271"
+                y="407"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        student
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        firstname
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        lastname
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        age
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        class_id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        friend
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+          </svg>
+        </div>,
+        1000,
+        800,
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+      ],
+      "dirty": Array [
+        -1,
+      ],
+      "fragment": Object {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": Array [
+        [Function],
+      ],
+      "on_disconnect": Array [],
+      "on_mount": Array [],
+      "props": Object {
+        "schema": 0,
+      },
+      "root": <div>
+        <div
+          class="svelte-117pbly"
+          id="container"
+        >
+          <svg
+            baseProfile="full"
+            class="bg-gray-200"
+            version="2"
+            viewBox="0 0 800 1000"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="svelte-c9fi85"
+              d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+            />
+             
+            <path
+              class="highlight svelte-c9fi85"
+              d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+            />
+            
+            
+            
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-school"
+                height="0"
+                width="0"
+                x="722"
+                y="560"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        school
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        cpacity
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        name
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        address
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-class"
+                height="0"
+                width="0"
+                x="620"
+                y="306"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        class
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        grade
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        school_id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        undefined
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+            
+            <g
+              class="svelte-5xbau0"
+            >
+              <foreignobject
+                class="svelte-5xbau0"
+                data-testid="table-student"
+                height="0"
+                width="0"
+                x="271"
+                y="407"
+              >
+                <table
+                  class="svelte-5xbau0"
+                >
+                  <thead
+                    class="svelte-5xbau0"
+                  >
+                    <tr
+                      class="svelte-5xbau0"
+                    >
+                      <th
+                        class="svelte-5xbau0"
+                        colspan="3"
+                      >
+                        student
+                      </th>
+                    </tr>
+                  </thead>
+                   
+                  <tbody
+                    class="svelte-5xbau0"
+                  >
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        firstname
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        lastname
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        string
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        age
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        int
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        class_id
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                    </tr>
+                    <tr>
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      >
+                        friend
+                      </td>
+                       
+                      <td
+                        class="svelte-18ks2ry"
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </foreignobject>
+            </g>
+          </svg>
+        </div>
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <div
+        class="svelte-117pbly"
+        id="container"
+      >
+        <svg
+          baseProfile="full"
+          class="bg-gray-200"
+          version="2"
+          viewBox="0 0 800 1000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            class="svelte-c9fi85"
+            d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+          />
+           
+          <path
+            class="highlight svelte-c9fi85"
+            d="M 290.2116721590354 401.4401751058379 L 620 306 M 270.6058360795177 404.2200875529189 a 1,1 0 1,0 20,0 a 1,1 0 1,0 -20,0"
+          />
+          
+          
+          
+          
+          <g
+            class="svelte-5xbau0"
+          >
+            <foreignobject
+              class="svelte-5xbau0"
+              data-testid="table-school"
+              height="0"
+              width="0"
+              x="722"
+              y="560"
+            >
+              <table
+                class="svelte-5xbau0"
+              >
+                <thead
+                  class="svelte-5xbau0"
+                >
+                  <tr
+                    class="svelte-5xbau0"
+                  >
+                    <th
+                      class="svelte-5xbau0"
+                      colspan="3"
+                    >
+                      school
+                    </th>
+                  </tr>
+                </thead>
+                 
+                <tbody
+                  class="svelte-5xbau0"
+                >
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      id
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      cpacity
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      name
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      string
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      address
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      string
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </foreignobject>
+          </g>
+          
+          <g
+            class="svelte-5xbau0"
+          >
+            <foreignobject
+              class="svelte-5xbau0"
+              data-testid="table-class"
+              height="0"
+              width="0"
+              x="620"
+              y="306"
+            >
+              <table
+                class="svelte-5xbau0"
+              >
+                <thead
+                  class="svelte-5xbau0"
+                >
+                  <tr
+                    class="svelte-5xbau0"
+                  >
+                    <th
+                      class="svelte-5xbau0"
+                      colspan="3"
+                    >
+                      class
+                    </th>
+                  </tr>
+                </thead>
+                 
+                <tbody
+                  class="svelte-5xbau0"
+                >
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      id
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      grade
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      school_id
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      undefined
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </foreignobject>
+          </g>
+          
+          <g
+            class="svelte-5xbau0"
+          >
+            <foreignobject
+              class="svelte-5xbau0"
+              data-testid="table-student"
+              height="0"
+              width="0"
+              x="271"
+              y="407"
+            >
+              <table
+                class="svelte-5xbau0"
+              >
+                <thead
+                  class="svelte-5xbau0"
+                >
+                  <tr
+                    class="svelte-5xbau0"
+                  >
+                    <th
+                      class="svelte-5xbau0"
+                      colspan="3"
+                    >
+                      student
+                    </th>
+                  </tr>
+                </thead>
+                 
+                <tbody
+                  class="svelte-5xbau0"
+                >
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      id
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      firstname
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      string
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      lastname
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      string
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      age
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      int
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      class_id
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                  </tr>
+                  <tr>
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    >
+                      friend
+                    </td>
+                     
+                    <td
+                      class="svelte-18ks2ry"
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </foreignobject>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

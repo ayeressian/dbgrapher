@@ -1,0 +1,174 @@
+// Vitest Snapshot v1
+
+exports[`Relation$ > should render properly 1`] = `
+{
+  "component": Relation$ {
+    "$$": {
+      "after_update": [],
+      "before_update": [],
+      "bound": {},
+      "callbacks": {},
+      "context": Map {},
+      "ctx": [
+        {
+          "x": 622,
+          "y": 526.0753880266075,
+        },
+        {
+          "x": 371,
+          "y": 440.9246119733925,
+        },
+        "M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927",
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        "school",
+        "student",
+        true,
+        false,
+        {
+          "x": 271,
+          "y": 407,
+        },
+        {
+          "x": 722,
+          "y": 560,
+        },
+        {
+          "height": 400,
+          "width": 200,
+        },
+        {
+          "height": 300,
+          "width": 200,
+        },
+      ],
+      "dirty": [
+        -1,
+      ],
+      "fragment": {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": [
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+      ],
+      "on_disconnect": [],
+      "on_mount": [],
+      "props": {
+        "fromTable": 7,
+        "oneTo": 9,
+        "toMany": 10,
+        "toTable": 8,
+      },
+      "root": <div>
+        <path
+          d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+        />
+         
+        <path
+          class="highlight"
+          d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+        />
+        
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <path
+        d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+      />
+       
+      <path
+        class="highlight"
+        d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+      />
+      
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

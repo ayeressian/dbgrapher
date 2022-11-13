@@ -1,0 +1,379 @@
+// Vitest Snapshot v1
+
+exports[`Viewer$ > should render properly 1`] = `
+{
+  "component": Viewer$ {
+    "$$": {
+      "after_update": [],
+      "before_update": [],
+      "bound": {},
+      "callbacks": {},
+      "context": Map {
+        "store" => Store {
+          "relation": RelationStore {
+            "relations": {
+              "subscribe": [Function],
+            },
+            "store": [Circular],
+          },
+          "schema": SchemaStore {
+            "schema": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "store": [Circular],
+          },
+          "table": TableStore {
+            "tableFromHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tablePoses": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableSizes": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableToHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+          },
+          "view": ViewStore {
+            "store": [Circular],
+            "viewBound": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewBoundSize": {
+              "subscribe": [Function],
+            },
+            "viewPos": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSize": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSizeAfterZoom": {
+              "subscribe": [Function],
+            },
+            "viewportApply": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewportStore": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "zoom": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+          },
+        },
+      },
+      "ctx": [
+        {
+          "onZoom": [MockFunction spy],
+        },
+        <svg
+          class="view"
+          version="2"
+          viewBox="0 0 800 1000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          
+        </svg>,
+        false,
+        {
+          "tables": [],
+        },
+        {
+          "x": 0,
+          "y": 0,
+        },
+        {
+          "height": 1000,
+          "width": 800,
+        },
+        [],
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "subscribe": [Function],
+        },
+        {
+          "subscribe": [Function],
+        },
+        [Function],
+        [Function],
+        [Function],
+        Pan {
+          "onMouseMove": [Function],
+          "onMousedown": [Function],
+          "onMouseup": [Function],
+          "onPanEnd": [Function],
+          "onPanStart": [Function],
+          "prevMouseCordX": undefined,
+          "prevMouseCordY": undefined,
+          "viewPosStore": {
+            "set": [Function],
+            "subscribe": [Function],
+            "update": [Function],
+          },
+          "zoomStore": {
+            "set": [Function],
+            "subscribe": [Function],
+            "update": [Function],
+          },
+        },
+        [Function],
+      ],
+      "dirty": [
+        -1,
+      ],
+      "fragment": {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": [
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+      ],
+      "on_disconnect": [],
+      "on_mount": [],
+      "props": {
+        "eventDispatcher": 0,
+      },
+      "root": <div>
+        <svg
+          class="view"
+          version="2"
+          viewBox="0 0 800 1000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          
+        </svg>
+         
+        <svg
+          class="minimap"
+          height="200"
+          version="2"
+          viewBox="0 0 822 1000"
+          width="164.4"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            class="view-minimap"
+            height="1000"
+            width="800"
+            x="0"
+            y="0"
+          />
+        </svg>
+         
+        <button
+          class="zoom-btn in pure-button"
+        >
+          +
+        </button>
+         
+        <button
+          class="zoom-btn out pure-button"
+        >
+          -
+        </button>
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <svg
+        class="view"
+        version="2"
+        viewBox="0 0 800 1000"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        
+      </svg>
+       
+      <svg
+        class="minimap"
+        height="200"
+        version="2"
+        viewBox="0 0 822 1000"
+        width="164.4"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          class="view-minimap"
+          height="1000"
+          width="800"
+          x="0"
+          y="0"
+        />
+      </svg>
+       
+      <button
+        class="zoom-btn in pure-button"
+      >
+        +
+      </button>
+       
+      <button
+        class="zoom-btn out pure-button"
+      >
+        -
+      </button>
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

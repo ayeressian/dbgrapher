@@ -1,0 +1,89 @@
+// Vitest Snapshot v1
+
+exports[`top-menu > renders propery 1`] = `
+"<div class=\\"menu-bar\\">
+<div class=\\"left\\">
+<div class=\\"item menu-item\\">
+oneTitle
+</div><div class=\\"item menu-item\\">
+twoTitle
+</div></div>
+<slot name=\\"right\\"> </slot>
+<slot name=\\"center\\"> </slot>
+</div>
+<div class=\\" dropdown \\" style=\\"\\">
+<ul>
+</ul>
+</div>
+<style>
+* {
+cursor: default;
+}
+.menu-bar {
+margin: 0;
+padding: 0;
+overflow: hidden;
+background-color: #d9d9d9;
+height: 33px;
+width: 100%;
+}
+.left {
+float: left;
+width: min-content;
+}
+[name=\\"center\\"] {
+margin: 0 auto;
+width: max-content;
+display: block;
+}
+[name=\\"right\\"] {
+float: right;
+display: block;
+}
+.menu-bar .right {
+display: flex;
+}
+.menu-bar .left {
+display: flex;
+}
+.menu-bar .item {
+color: #333;
+text-align: center;
+padding: 7px 8px;
+text-decoration: none;
+}
+.menu-item:hover {
+background-color: #bfbfbf;
+}
+.dropdown {
+position: fixed;
+top: 50px;
+left: 0;
+display: none;
+background-color: #d9d9d9;
+z-index: 1;
+min-width: 160px;
+padding: 0;
+margin-top: 5px;
+box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+border-radius: 5px;
+}
+.dropdown ul {
+padding: 0;
+margin: 0;
+}
+.dropdown.show {
+display: inline-block;
+}
+.dropdown li {
+list-style-type: none;
+height: 2em;
+line-height: 2em;
+padding-left: 20px;
+padding-right: 20px;
+}
+.dropdown li:last-child {
+border-bottom: 0;
+}
+</style>"
+`;

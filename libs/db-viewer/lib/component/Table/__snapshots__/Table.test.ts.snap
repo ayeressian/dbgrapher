@@ -1,0 +1,359 @@
+// Vitest Snapshot v1
+
+exports[`Table$ > should render properly 1`] = `
+{
+  "component": Table$ {
+    "$$": {
+      "after_update": [],
+      "before_update": [],
+      "bound": {},
+      "callbacks": {},
+      "context": Map {
+        "store" => Store {
+          "relation": RelationStore {
+            "relations": {
+              "subscribe": [Function],
+            },
+            "store": [Circular],
+          },
+          "schema": SchemaStore {
+            "schema": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "store": [Circular],
+          },
+          "table": TableStore {
+            "tableFromHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tablePoses": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableSizes": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableToHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+          },
+          "view": ViewStore {
+            "store": [Circular],
+            "viewBound": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewBoundSize": {
+              "subscribe": [Function],
+            },
+            "viewPos": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSize": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSizeAfterZoom": {
+              "subscribe": [Function],
+            },
+            "viewportApply": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewportStore": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "zoom": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+          },
+        },
+      },
+      "ctx": [
+        "school",
+        100,
+        100,
+        <table>
+          <thead>
+            <tr>
+              <th
+                colspan="4"
+              >
+                school
+              </th>
+            </tr>
+          </thead>
+           
+          <tbody />
+        </table>,
+        false,
+        {
+          "x": 722,
+          "y": 560,
+        },
+        "",
+        "",
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        undefined,
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        [Function],
+        [Function],
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [MockFunction spy],
+        [MockFunction spy],
+        [MockFunction spy],
+        [MockFunction spy],
+        [MockFunction spy],
+        undefined,
+        [Function],
+        ,
+        ,
+        ,
+        {
+          "height": 100,
+          "width": 100,
+        },
+      ],
+      "dirty": [
+        -1,
+      ],
+      "fragment": {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": [
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+        [Function],
+      ],
+      "on_disconnect": [],
+      "on_mount": [],
+      "props": {
+        "click": 23,
+        "contextMenu": 25,
+        "dblClick": 24,
+        "mouseDown": 22,
+        "mouseEnter": 27,
+        "name": 0,
+        "tableMoveEnd": 26,
+      },
+      "root": <div>
+        <g>
+          <foreignobject
+            data-testid="table-school"
+            height="100"
+            width="100"
+            x="672"
+            y="510"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th
+                    colspan="4"
+                  >
+                    school
+                  </th>
+                </tr>
+              </thead>
+               
+              <tbody />
+            </table>
+          </foreignobject>
+        </g>
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <g>
+        <foreignobject
+          data-testid="table-school"
+          height="100"
+          width="100"
+          x="672"
+          y="510"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th
+                  colspan="4"
+                >
+                  school
+                </th>
+              </tr>
+            </thead>
+             
+            <tbody />
+          </table>
+        </foreignobject>
+      </g>
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

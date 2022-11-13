@@ -1,0 +1,48 @@
+{
+  "name": "dbgrapher",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "e2e": "npx playwright test --browser=all",
+    "e2e-chromium": "npx playwright test --browser=chromium",
+    "e2e-firefox": "npx playwright test --browser=firefox",
+    "e2e-webkit": "npx playwright test --browser=webkit",
+    "start-and-e2e": "start-server-and-test dev http://localhost:9999 e2e",
+    "lint": "npx eslint . --ext .js,.ts",
+    "test": "npx vitest test/*"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.2",
+    "ajv": "^8.11.0",
+    "color-hash": "^2.0.1",
+    "db-viewer": "*",
+    "lit": "^2.2.6",
+    "lodash": "^4.17.21",
+    "purecss": "^3.0.0",
+    "toposort": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/color-hash": "^1.0.2",
+    "@types/lodash": "^4.14.189",
+    "@playwright/test": "^1.28.1",
+    "@types/gapi.auth2": "0.0.56",
+    "@types/gapi.client.drive": "^3.0.13",
+    "@types/google.picker": "0.0.39",
+    "@types/node": "14.17.0",
+    "@types/toposort": "^2.0.3",
+    "@types/wicg-file-system-access": "^2020.9.5",
+    "eslint-plugin-lit": "^1.6.1",
+    "eslint-plugin-wc": "^1.3.2",
+    "html-crush": "^6.0.2",
+    "jsdom": "^20.0.2",
+    "playwright": "^1.28.1",
+    "start-server-and-test": "^1.14.0",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.3",
+    "vitest": "^0.25.2"
+  }
+}

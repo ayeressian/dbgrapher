@@ -1,0 +1,62 @@
+// Vitest Snapshot v1
+
+exports[`side-panel > renders propery 1`] = `
+"<ul class=\\"left_toolbar\\">
+<li class=\\"action create_table \\" title=\\"Create Table\\"></li>
+<li class=\\"action relation create_relation_one_to_many \\" title=\\"Create one to many relation\\"></li>
+<li class=\\"action relation create_relation_zero_to_many \\" title=\\"Create zero to many relation\\"></li>
+<li class=\\"action relation create_relation_one_to_one \\" title=\\"Create one to one relation\\"></li>
+<li class=\\"action relation create_relation_zero_to_one \\" title=\\"Create zero to one relation\\"></li>
+<li class=\\"action clear \\" title=\\"Remove table or relation\\"></li>
+</ul>
+<style>
+.left_toolbar {
+padding: 0;
+margin: 0;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+}
+.left_toolbar .action.create_table {
+height: 80px;
+}
+.left_toolbar .action.relation {
+height: 40px;
+}
+.left_toolbar .action.clear {
+height: 50px;
+}
+.left_toolbar .action {
+width: 60px;
+list-style-type: none;
+background-repeat: no-repeat;
+background-position: center;
+background-size: 35px;
+}
+.left_toolbar .action:hover {
+background-color: #dddddd;
+}
+.left_toolbar .action.active {
+background-color: #d68080;
+}
+.left_toolbar .action.create_table {
+background-image: url(/asset/table.svg);
+}
+.left_toolbar .action.create_relation_one_to_many {
+background-image: url(/asset/relation-one-to-many.svg);
+}
+.left_toolbar .action.create_relation_zero_to_many {
+background-image: url(/asset/relation-zero-to-many.svg);
+}
+.left_toolbar .action.create_relation_one_to_one {
+background-image: url(/asset/relation-one-to-one.svg);
+}
+.left_toolbar .action.create_relation_zero_to_one {
+background-image: url(/asset/relation-zero-to-one.svg);
+}
+.left_toolbar .action.clear {
+background-image: url(/asset/clear.svg);
+}
+</style>"
+`;

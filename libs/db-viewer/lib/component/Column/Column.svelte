@@ -45,6 +45,33 @@
   };
 </script>
 
+<!-- <div 
+  class="column {highlightCssClass}"
+  on:mouseenter={mouseEnter}
+  on:mouseleave={mouseLeave}>
+
+  <div class="status">
+    <img
+      style="display: {column.pk ? 'block' : 'none'}"
+      alt="primary key"
+      src={pkUrl}
+    />
+  </div>
+  <div class="status">
+    <img
+      style="display: {isColumnFk(column) ? 'block' : 'none'}"
+      alt="foreign key"
+      src={fkUrl}
+    />
+  </div>
+  <div>{column.name}</div>
+  <div>
+    {#if !isColumnFk(column)}
+      {column.type}
+    {/if}
+  </div>
+</div> -->
+
 <tr
   class={highlightCssClass}
   on:mouseenter={mouseEnter}

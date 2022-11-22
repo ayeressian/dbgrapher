@@ -16,11 +16,11 @@ class DriveProvider {
     return Promise.resolve();
   }
 
-  createFile(folderId: string): Promise<void> {
+  createFile(_folderId: string): Promise<void> {
     return Promise.resolve();
   }
 
-  renameFile(newFileName: string): Promise<void> {
+  renameFile(_newFileName: string): Promise<void> {
     return Promise.resolve();
   }
 

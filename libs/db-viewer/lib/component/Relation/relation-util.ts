@@ -4,31 +4,30 @@ import type Point from "../../point";
 export const RELATION_PADDING = 10;
 
 export const oneEnd = (angle: number, end: Point): string => {
-  const lineStart = rotateCord(
+  const firstLineEnd = rotateCord(
     {
-      x: -RELATION_PADDING + end.x,
-      y: -RELATION_PADDING / 2 + end.y,
+      x: end.x - RELATION_PADDING,
+      y: end.y - RELATION_PADDING / 2,
     },
     angle,
     end
   );
 
-  const lineEnd = rotateCord(
+  const secondLineEnd = rotateCord(
     {
-      x: -RELATION_PADDING + end.x,
-      y: RELATION_PADDING / 2 + end.y,
+      x: end.x - RELATION_PADDING,
+      y: end.y + RELATION_PADDING / 2,
     },
     angle,
     end
   );
-
-  return `M ${lineStart.x} ${lineStart.y} L ${lineEnd.x} ${lineEnd.y}`;
+  return `M ${end.x} ${end.y} L ${firstLineEnd.x} ${firstLineEnd.y} M ${end.x} ${end.y} L ${secondLineEnd.x} ${secondLineEnd.y}`;
 };
 
 export const manyEnd = (angle: number, end: Point): string => {
   const lineStart = rotateCord(
     {
-      x: -RELATION_PADDING + end.x,
+      x: end.x - RELATION_PADDING,
       y: end.y,
     },
     angle,

@@ -27,6 +27,5 @@ export default defineConfig({
       fileName: (format) => `db-viewer.${format}.js`,
     },
     minify: false,
-    
   },
 });

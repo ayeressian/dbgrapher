@@ -17,7 +17,7 @@ describe(Relation.name, () => {
       width: 200,
       height: 300,
     });
-		getTableSize("student")?.set({
+    getTableSize("student")?.set({
       width: 200,
       height: 400,
     });

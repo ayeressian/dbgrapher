@@ -65,6 +65,7 @@ export default class extends DBGElement {
               case HintType.DriveSave:
                 return t((l) => l.hint.driveSave);
             }
+            return null;
           })
           .filter((hint) => hint != null) as string[];
       }

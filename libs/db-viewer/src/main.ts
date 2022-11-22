@@ -10,7 +10,7 @@ window.onload = () => {
 
   setTimeout(() => {
     dbViewerElem.setSchema(schema, "centerByTables");
-    console.log('new set')
+    console.log("new set");
   }, 2000);
 
   dbViewerElem.addEventListener("tableClick", (event) => {

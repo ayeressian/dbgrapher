@@ -74,7 +74,7 @@ export default class DbWrapper extends DBGElement {
 
   #getFirstTableRelations = () => {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
-    const table = schema!.tables.find(
+    const table = schema.tables.find(
       (table) => table.name === this.#relationFirstTableName
     );
     return table!.columns.filter(
@@ -84,7 +84,7 @@ export default class DbWrapper extends DBGElement {
 
   #createRelation = (secondTableName: string): DbGrapherSchema => {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
-    const { tables } = schema!;
+    const { tables } = schema;
     const secondTable = tables.find((table) => table.name === secondTableName);
     this.#relationFirstTableRelations.forEach((column) => {
       const originalRelationName = `fk_${this.#relationFirstTableName}_${
@@ -153,10 +153,10 @@ export default class DbWrapper extends DBGElement {
     const state = store.getState();
     switch (state.loadSchema) {
       case State.LOAD:
-        this.#loadSchema(state, Viewport.centerByTables);
+        this.#loadSchema(state, "centerByTables");
         break;
       case State.LOAD_VIEWPORT_UNCHANGE:
-        this.#loadSchema(state, Viewport.noChange);
+        this.#loadSchema(state, "noChange");
         break;
     }
   };

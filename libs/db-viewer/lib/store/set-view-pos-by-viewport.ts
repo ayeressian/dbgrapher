@@ -49,7 +49,7 @@ const centerByTables = ({
 
 export const setViewPosByViewport = (args: Args): Point => {
   switch (args.viewport) {
-    case "centerByTablesWeight": 
+    case "centerByTablesWeight":
       return centerByTablesWeight(args);
     case "centerByTables":
       return centerByTables(args);

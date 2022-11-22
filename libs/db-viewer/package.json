@@ -16,7 +16,7 @@
     }
   },
   "scripts": {
-    "start": "vite",
+    "dev": "vite",
     "build": "vite build",
     "build-watch": "vite build --watch",
     "svelte-check": "svelte-check --watch",

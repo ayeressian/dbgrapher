@@ -37,18 +37,9 @@
   const getTableData = () => ({ name, pos: $tablePos, size: $tableSize });
 
   onMount(async () => {
-    const ro = new ResizeObserver((entries) => {
-      const computedStyle = getComputedStyle(tableElem);
-      let borderWidth =
-        parseInt(computedStyle.borderLeftWidth, 10) +
-        parseInt(computedStyle.borderRightWidth, 10);
-      let borderHeight =
-        parseInt(computedStyle.borderTopWidth, 10) +
-        parseInt(computedStyle.borderBottomWidth, 10);
-      borderWidth = isNaN(borderWidth) ? 0 : borderWidth;
-      borderHeight = isNaN(borderHeight) ? 0 : borderHeight;
-      width = tableElem.scrollWidth + borderWidth;
-      height = tableElem.scrollHeight + borderHeight;
+    const ro = new ResizeObserver(() => {
+      width = tableElem.offsetWidth;
+      height = tableElem.offsetHeight;
       tableSize.set({
         width,
         height,
@@ -109,6 +100,29 @@
     {height}
     data-testid="table-{name}"
   >
+    <!-- <div bind:this={tableElem}
+      class="table"
+      class:disable-select={moveInProgress}
+      on:mousedown={mouseDownInternal}
+      on:dblclick={dblClickInternal}
+      on:click={clickInternal}
+      on:contextmenu={contextMenuInternal}>
+      <div class="table-name" colspan="2">
+        {name}
+      </div>
+      {#each table?.columns ?? [] as column}
+        <Column
+          {column}
+          {columnEnter}
+          {columnLeave}
+          highlight={$toHighlight === column.name
+            ? Highlight.To
+            : $fromHighlight === column.name
+            ? Highlight.From
+            : Highlight.None}
+        />
+      {/each}
+    </div> -->
     <table
       bind:this={tableElem}
       class:disable-select={moveInProgress}

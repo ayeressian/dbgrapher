@@ -1,4 +1,4 @@
-import { get, writable, type Readable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import type { Schema } from "../schema";
 import type { Store } from "./store";
 import type { Viewport } from "./view";
@@ -36,12 +36,12 @@ export class SchemaStore {
       tableStore.tableSizes.set(table.name, tableSizeWritable);
       const tablePosWritable = writable(table.pos);
       tableStore.tablePoses.set(table.name, tablePosWritable);
-      tablePosWritable.subscribe(this.store!.view.getUpdateViewBound());
+      tablePosWritable.subscribe(this.store.view.getUpdateViewBound());
       tableStore.tableToHighlight.set(table.name, writable(""));
       tableStore.tableFromHighlight.set(table.name, writable(""));
     });
-    this.schema.set({tables: []});
-    setTimeout(() => this.schema.set(schema));    
+    this.schema.set({ tables: [] });
+    setTimeout(() => this.schema.set(schema));
 
     // allTableSizesSetStore = derived(
     //   [...tableSizes.values()],

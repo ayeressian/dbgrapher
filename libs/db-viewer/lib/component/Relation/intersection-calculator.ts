@@ -10,7 +10,7 @@ export default class IntersectionCalculation {
     private tablePos: Point,
     tableSize: RectSize,
     private point1: Point,
-    private point2: Point,
+    private point2: Point
   ) {
     this.halfWidth = tableSize.width / 2;
     this.halfHight = tableSize.height / 2;

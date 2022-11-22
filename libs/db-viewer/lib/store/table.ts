@@ -31,7 +31,7 @@ export class TableStore {
   }
 
   updateTablePoses(tableSchemas: TableSchema[]) {
-    tableSchemas.forEach(tableSchema => {
+    tableSchemas.forEach((tableSchema) => {
       const pos = this.getTablePos(tableSchema.name)!;
       tableSchema.pos = get(pos);
     });

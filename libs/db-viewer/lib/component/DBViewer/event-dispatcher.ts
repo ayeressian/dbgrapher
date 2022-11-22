@@ -46,5 +46,5 @@ export default class EventDispatcher {
 
   onZoom = (zoomData: ZoomData) => {
     this.dbViewer.dispatchEvent(new ZoomEvent(zoomData));
-  }
+  };
 }

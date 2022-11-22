@@ -1,0 +1,10 @@
+import { DbTypeDialogOpenState } from "../store/slices/dialog/db-type-dialog";
+import { DbType } from "../db-grapher-schema";
+export declare const undo: () => void;
+export declare const redo: () => void;
+export declare const getDbType: (dbTypeDialogOpenState: DbTypeDialogOpenState) => Promise<DbType>;
+export declare const openFile: () => Promise<void>;
+export declare const newFile: () => Promise<void>;
+export declare const localDrive: () => boolean;
+export declare const googleDrive: () => boolean;
+export declare const getDialogsAreClosed: () => boolean;

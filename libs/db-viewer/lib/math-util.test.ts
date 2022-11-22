@@ -3,7 +3,7 @@ import {
   segmentIntersection,
   to3FixedNumber,
 } from "./math-util";
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from "vitest";
 
 describe("mathUtil", () => {
   describe("mathUtil.lineIntersection", () => {

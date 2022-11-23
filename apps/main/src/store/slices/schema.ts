@@ -50,43 +50,6 @@ const setDbType = (state: Data, action: PayloadAction<DbType>): void => {
   }
 };
 
-const setDefaultViewSizeIfNec = (state: Data) => {
-  if (state.present.viewHeight == null) {
-    state.present.viewHeight = DEFAULT_VIEW_HEIGHT;
-  }
-  if (state.present.viewWidth == null) {
-    state.present.viewWidth = DEFAULT_VIEW_WIDTH;
-  }
-};
-
-const increaseViewSize = (state: Data) => {
-  setDefaultViewSizeIfNec(state);
-  if (state.present.viewHeight! + VIEW_INCREASE_AMOUNT < MAX_VIEW_HEIGHT) {
-    state.present.viewHeight! += VIEW_INCREASE_AMOUNT;
-  } else {
-    state.present.viewHeight! = MAX_VIEW_HEIGHT;
-  }
-  if (state.present.viewWidth! + VIEW_INCREASE_AMOUNT < MAX_VIEW_WIDTH) {
-    state.present.viewWidth! += VIEW_INCREASE_AMOUNT;
-  } else {
-    state.present.viewHeight! = MAX_VIEW_WIDTH;
-  }
-};
-
-const decreaseViewSize = (state: Data) => {
-  setDefaultViewSizeIfNec(state);
-  if (state.present.viewHeight! - VIEW_INCREASE_AMOUNT > MIN_VIEW_HEIGHT) {
-    state.present.viewHeight! -= VIEW_INCREASE_AMOUNT;
-  } else {
-    state.present.viewHeight = MIN_VIEW_HEIGHT;
-  }
-  if (state.present.viewWidth! - VIEW_INCREASE_AMOUNT > MIN_VIEW_WIDTH) {
-    state.present.viewWidth! -= VIEW_INCREASE_AMOUNT;
-  } else {
-    state.present.viewWidth = MIN_VIEW_WIDTH;
-  }
-};
-
 const undo = (state: Data): void => {
   const { past, future } = state;
   let { present } = state;
@@ -127,8 +90,6 @@ const slice = createSlice({
     initiate,
     set,
     setDbType,
-    increaseViewSize,
-    decreaseViewSize,
     undo,
     redo,
   },

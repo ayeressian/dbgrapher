@@ -28,8 +28,6 @@ import { t } from "../../localization";
 import providerName from "./cloud-provider-name";
 import UserCancelGeneration from "../../user-cancel-generation";
 import DbGrapherSchema from "../../db-grapher-schema";
-import { actions as schemaActions } from "../../store/slices/schema";
-import { actions as loadSchemaActions } from "../../store/slices/load-schema";
 import { customElement, state } from "lit/decorators.js";
 
 const colorHash = new ColorHash({ saturation: 0.5 });
@@ -256,16 +254,6 @@ export default class extends DBGElement {
     }
   };
 
-  #increaseViewSize = (): void => {
-    store.dispatch(schemaActions.increaseViewSize());
-    store.dispatch(loadSchemaActions.loadViewportUnchange());
-  };
-
-  #decreaseViewSize = (): void => {
-    store.dispatch(schemaActions.decreaseViewSize());
-    store.dispatch(loadSchemaActions.loadViewportUnchange());
-  };
-
   #itemSelected = (event: CustomEvent): void => {
     const driveProvider = getDriveProvider();
     switch (event.detail.id) {
@@ -301,12 +289,6 @@ export default class extends DBGElement {
         store.dispatch(
           dbTypeDialogActions.open(DbTypeDialogState.OpenFromTopMenu)
         );
-        break;
-      case "increaseViewSize":
-        this.#increaseViewSize();
-        break;
-      case "decreaseViewSize":
-        this.#decreaseViewSize();
         break;
       case "reportIssue":
         {

@@ -28,4 +28,7 @@ export default defineConfig({
     },
     minify: false,
   },
+  server: {
+    port: 9998,
+  },
 });

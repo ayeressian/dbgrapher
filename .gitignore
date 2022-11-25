@@ -4,4 +4,4 @@ dist
 stats.json
 coverage
 .DS_Store
-./env.json
+env.json

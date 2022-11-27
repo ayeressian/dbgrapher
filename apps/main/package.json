@@ -22,7 +22,7 @@
     "db-viewer": "*",
     "lit": "^2.2.6",
     "lodash": "^4.17.21",
-    "purecss": "^2.1.0",
+    "purecss": "^3.0.0",
     "toposort": "^2.0.2"
   },
   "devDependencies": {

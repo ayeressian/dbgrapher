@@ -13,8 +13,8 @@ export default class extends DBGElement {
     return css`
       .main {
         position: fixed;
-        right: 20px;
-        bottom: 18px;
+        left: 10px;
+        bottom: 10px;
         font-size: 1.2em;
       }
 

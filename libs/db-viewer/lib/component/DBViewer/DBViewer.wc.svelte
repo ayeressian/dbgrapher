@@ -14,6 +14,7 @@
   import type { TableData } from "./event";
   import EventDispatcher from "./event-dispatcher";
   import type DbViewer from "./DBViewer";
+  import Zoom from "../Zoom/Zoom.svelte";
 
   const store = new Store();
   setContext("store", store);
@@ -169,6 +170,7 @@
         contextMenu={eventDispatcher.onTableContextMenu}
       />
     {/each}     
-  </svg>
+  </svg>  
   <Minimap />
+  <Zoom maxZoom={MAXIMUM_ZOOM} minZoom={MINIMUM_ZOOM}/>
 </div>

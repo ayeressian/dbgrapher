@@ -27,9 +27,20 @@ export default class extends DBGElement {
         justify-content: center;
       }
 
+      .left_toolbar .action.create_table {
+        height: 80px;
+      }
+
+      .left_toolbar .action.relation {
+        height: 40px;
+      }
+
+      .left_toolbar .action.clear {
+        height: 50px;
+      }
+
       .left_toolbar .action {
         width: 60px;
-        height: 80px;
 
         list-style-type: none;
         background-repeat: no-repeat;
@@ -85,28 +96,28 @@ export default class extends DBGElement {
           @click="${this.#changeMode(DbViewerMode.CreateTable)}"
         ></li>
         <li
-          class="action create_relation_one_to_many ${classMap({
+          class="action relation create_relation_one_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationOneToMany,
           })}"
           title=${t((l) => l.sidePanel.createOneToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToMany)}"
         ></li>
         <li
-          class="action create_relation_zero_to_many ${classMap({
+          class="action relation create_relation_zero_to_many ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToMany,
           })}"
           title=${t((l) => l.sidePanel.createZeroToManyRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationZeroToMany)}"
         ></li>
         <li
-          class="action create_relation_one_to_one ${classMap({
+          class="action relation create_relation_one_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationOneToOne,
           })}"
           title=${t((l) => l.sidePanel.createOneToOneRelation)}
           @click="${this.#changeMode(DbViewerMode.RelationOneToOne)}"
         ></li>
         <li
-          class="action create_relation_zero_to_one ${classMap({
+          class="action relation create_relation_zero_to_one ${classMap({
             active: this.mode === DbViewerMode.RelationZeroToOne,
           })}"
           title=${t((l) => l.sidePanel.createZeroToOneRelation)}

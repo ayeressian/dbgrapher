@@ -100,29 +100,7 @@
     {height}
     data-testid="table-{name}"
   >
-    <!-- <div bind:this={tableElem}
-      class="table"
-      class:disable-select={moveInProgress}
-      on:mousedown={mouseDownInternal}
-      on:dblclick={dblClickInternal}
-      on:click={clickInternal}
-      on:contextmenu={contextMenuInternal}>
-      <div class="table-name" colspan="2">
-        {name}
-      </div>
-      {#each table?.columns ?? [] as column}
-        <Column
-          {column}
-          {columnEnter}
-          {columnLeave}
-          highlight={$toHighlight === column.name
-            ? Highlight.To
-            : $fromHighlight === column.name
-            ? Highlight.From
-            : Highlight.None}
-        />
-      {/each}
-    </div> -->
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
     <table
       bind:this={tableElem}
       class:disable-select={moveInProgress}

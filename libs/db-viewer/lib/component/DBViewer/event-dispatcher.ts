@@ -1,5 +1,5 @@
 import type Point from "lib/point";
-import type { RectSize } from "lib/store/schema";
+import type DbViewer from "./DBViewer";
 import {
   RelationClickEvent,
   RelationContextMenuEvent,

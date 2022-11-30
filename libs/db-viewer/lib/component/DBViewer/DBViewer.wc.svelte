@@ -15,6 +15,7 @@
   import EventDispatcher from "./event-dispatcher";
   import type DbViewer from "./DBViewer";
   import Zoom from "../Zoom/Zoom.svelte";
+  import Pan from "./pan";
 
   const store = new Store();
   setContext("store", store);
@@ -24,7 +25,7 @@
   export const getSchema = (): Schema => store.schema.getSchema();
   export const setSchema = (schema: Schema, viewport: Viewport) => {
     store.schema.setSchema(schema, viewport);
-  }
+  };
 
   const SCROLL_TO_ZOOM_MULTIPLIER = 0.01;
   const MAXIMUM_ZOOM = 0.4;
@@ -141,14 +142,28 @@
   function click(event: MouseEvent) {
     eventDispatcher.onViewportClick(getSvgMousePos(event));
   }
+
+  let paning = false;
+
+  function onPanStart() {
+    paning = true;
+  }
+  function onPanEnd() {
+    paning = false;
+  }
+  const drag = new Pan(viewPosStore, zoomStore, onPanStart, onPanEnd);
 </script>
 
 <div id="container" bind:this={container}>
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <svg
     class="view"
     bind:this={svgElem}
     on:wheel={mousewheel}
     on:click={click}
+    on:mousedown={drag.onMousedown}
+    on:mouseup={drag.onMouseup}
+    class:pan={paning}
     version="2"
     xmlns="http://www.w3.org/2000/svg"
     viewBox={`${$viewPosStore.x} ${$viewPosStore.y} ${$viewSizeAfterZoomStore.width} ${$viewSizeAfterZoomStore.height}`}
@@ -160,7 +175,7 @@
         dblClick={eventDispatcher.onRelationDblClick}
         contextMenu={eventDispatcher.onRelationContextMenu}
       />
-    {/each}   
+    {/each}
     {#each $schemaStore?.tables ?? [] as { name } (name)}
       <Table
         {name}
@@ -169,8 +184,8 @@
         dblClick={eventDispatcher.onTableDblClick}
         contextMenu={eventDispatcher.onTableContextMenu}
       />
-    {/each}     
-  </svg>  
+    {/each}
+  </svg>
   <Minimap />
-  <Zoom maxZoom={MAXIMUM_ZOOM} minZoom={MINIMUM_ZOOM}/>
+  <Zoom maxZoom={MAXIMUM_ZOOM} minZoom={MINIMUM_ZOOM} />
 </div>

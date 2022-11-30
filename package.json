@@ -7,7 +7,7 @@
     "lint": "eslint .",
     "build-watch-db-viewer": "cd libs/db-viewer && npm run build-watch",
     "build-db-viewer": "cd libs/db-viewer && npm run build",
-    "dev-main": "cd apps/main && npm run dev",
+    "dev-main": "sleep 10 && cd apps/main && npm run dev",
     "build-main": "cd apps/main && npm run build",
     "dev": "npm-run-all -p -l build-watch-db-viewer dev-main",
     "build": "npm-run-all -s -l build-db-viewer build-main"

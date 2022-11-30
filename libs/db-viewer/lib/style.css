@@ -22,6 +22,10 @@ svg {
   display: block;
 }
 
+.view.pan {
+  cursor: grabbing;
+}
+
 .minimap {
   bottom: 60px;
   right: 10px;

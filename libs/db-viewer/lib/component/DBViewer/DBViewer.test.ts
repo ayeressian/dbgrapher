@@ -7,9 +7,24 @@ import {
 import DBViewer from "./DBViewer.wc.svelte";
 import school from "../../../src/school";
 import { beforeEach, describe, expect, it, vi } from "vitest";
+import { Store } from "lib/store/store";
+
+function getStore() {
+  const store = new Store();
+  store.schema.setSchema(school);
+  store.table.getTableSize("school")?.set({
+    width: 200,
+    height: 300,
+  });
+  store.table.getTableSize("student")?.set({
+    width: 200,
+    height: 400,
+  });
+  return store;
+}
 
 describe(DBViewer.name, () => {
-  let component: RenderResult;
+  let component: RenderResult<DBViewer>;
 
   const viewWidth = 800,
     viewHeight = 1000;
@@ -29,8 +44,13 @@ describe(DBViewer.name, () => {
 
   beforeEach(async () => {
     cleanup();
+
+    const context = new Map();
+    context.set("store", getStore());
+
     component = render(DBViewer, {
-      schema: school,
+      //ignore the error, incorrect lib typing
+      context
     });
   });
   it("should render properly", () => {
@@ -106,7 +126,7 @@ describe(DBViewer.name, () => {
       expect(viewHeightAfterZoom).toBeCloseTo(viewHeightExpect, 5);
     };
 
-    it.only("viewport should change properly", async () => {
+    it("viewport should change properly", async () => {
       viewBoxExpectation(
         cameraXResult,
         cameraYResult,

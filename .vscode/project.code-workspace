@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "ROOT",
+      "path": "./"
+    },
+    {
+      "name": "apps/main",
+      "path": "./apps/main"
+    },
+    {
+      "name": "libs/db-viewer",
+      "path": "./libs/db-viewer"
+    },
+  ],
+  "settings": {}
+}

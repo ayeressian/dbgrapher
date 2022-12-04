@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import schoolSchema from "../../../src/school";
 import { setSchema } from "../../store/schema";
 import {
@@ -11,14 +12,17 @@ import { beforeEach, describe, expect, it } from "vitest";
 import type Point from "../../point";
 
 describe(Table.name, () => {
-  let component: RenderResult;
+  let component: RenderResult<Table>;
 
   beforeEach(async () => {
     setSchema(schoolSchema);
     cleanup();
     component = render(Table, {
       name: "school",
-      zoom: 1,
+      click: () => {},
+      contextMenu: () => {},
+      dblClick: () => {},
+      mouseDown: () => {},
     });
   });
   it("should render properly", () => {

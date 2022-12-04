@@ -8,17 +8,146 @@ exports[`Relation$ > should render properly 1`] = `
       "before_update": [],
       "bound": {},
       "callbacks": {},
-      "context": Map {},
+      "context": Map {
+        "store" => Store {
+          "relation": RelationStore {
+            "relations": {
+              "subscribe": [Function],
+            },
+            "store": [Circular],
+          },
+          "schema": SchemaStore {
+            "schema": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "store": [Circular],
+          },
+          "table": TableStore {
+            "tableFromHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tablePoses": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableSizes": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+            "tableToHighlight": Map {
+              "school" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "class" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+              "student" => {
+                "set": [Function],
+                "subscribe": [Function],
+                "update": [Function],
+              },
+            },
+          },
+          "view": ViewStore {
+            "store": [Circular],
+            "viewBound": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewBoundSize": {
+              "subscribe": [Function],
+            },
+            "viewPos": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSize": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewSizeAfterZoom": {
+              "subscribe": [Function],
+            },
+            "viewportApply": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "viewportStore": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+            "zoom": {
+              "set": [Function],
+              "subscribe": [Function],
+              "update": [Function],
+            },
+          },
+        },
+      },
       "ctx": [
+        "test1",
         {
           "x": 622,
-          "y": 526.0753880266075,
+          "y": 536.6353858093127,
         },
         {
           "x": 371,
-          "y": 440.9246119733925,
+          "y": 451.48460975609754,
         },
-        "M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927",
+        "M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979",
+        "M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184",
+        "",
         {
           "set": [Function],
           "subscribe": [Function],
@@ -39,10 +168,25 @@ exports[`Relation$ > should render properly 1`] = `
           "subscribe": [Function],
           "update": [Function],
         },
+        [Function],
+        [Function],
+        {
+          "set": [Function],
+          "subscribe": [Function],
+          "update": [Function],
+        },
+        [Function],
+        [Function],
+        [Function],
         "school",
         "student",
+        "test1",
         true,
         false,
+        "1234",
+        [Function],
+        [Function],
+        [Function],
         {
           "x": 271,
           "y": 407,
@@ -62,6 +206,7 @@ exports[`Relation$ > should render properly 1`] = `
       ],
       "dirty": [
         -1,
+        -1,
       ],
       "fragment": {
         "c": [Function],
@@ -79,23 +224,30 @@ exports[`Relation$ > should render properly 1`] = `
         [Function],
         [Function],
         [Function],
+        [Function],
       ],
       "on_disconnect": [],
       "on_mount": [],
       "props": {
-        "fromTable": 7,
-        "oneTo": 9,
-        "toMany": 10,
-        "toTable": 8,
+        "click": 22,
+        "contextMenu": 24,
+        "dblClick": 23,
+        "fromColumn": 0,
+        "fromTable": 16,
+        "key": 21,
+        "oneTo": 19,
+        "toColumn": 18,
+        "toMany": 20,
+        "toTable": 17,
       },
       "root": <div>
         <path
-          d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+          d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
         />
          
         <path
           class="highlight"
-          d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+          d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
         />
         
       </div>,
@@ -109,12 +261,12 @@ exports[`Relation$ > should render properly 1`] = `
   "container": <body>
     <div>
       <path
-        d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+        d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
       />
        
       <path
         class="highlight"
-        d="M 622 526.0753880266075 L 371 440.9246119733925 M 610.9237853201372 527.5977113712331 L 614.1364125163818 518.1278102894927"
+        d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
       />
       
     </div>

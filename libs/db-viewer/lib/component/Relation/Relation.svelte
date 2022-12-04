@@ -7,8 +7,7 @@
   import { getContext } from "svelte";
   import type { Store } from "../../store/store";
   import type { RelationData } from "../DBViewer/event";
-  import { get } from "svelte/store";
-  import type { RectSize } from "lib/store/schema";
+  import type { RectSize } from "../../store/schema";
 
   export let fromTable: string;
   export let toTable: string;
@@ -28,7 +27,6 @@
 
   const store = getContext<Store>("store");
 
-  const schemaStore = store.schema.schema;
   const fromTablePos = store.table.getTablePos(fromTable);
   const toTablePos = store.table.getTablePos(toTable);
   const fromTableSize = store.table.getTableSize(fromTable);
@@ -151,7 +149,12 @@
     return { lineStart, lineEnd };
   };
 
-  const setStartAndEnd = (fromTableSize?: RectSize, toTableSize?: RectSize, fromTablePos?: Point, toTablePos?: Point) => {
+  const setStartAndEnd = (
+    fromTableSize?: RectSize,
+    toTableSize?: RectSize,
+    fromTablePos?: Point,
+    toTablePos?: Point
+  ) => {
     if (
       fromTableSize?.height &&
       toTableSize?.height &&
@@ -199,7 +202,7 @@
   };
 
   $: {
-    setStartAndEnd($fromTableSize, $toTableSize, $fromTablePos, $toTablePos);  
+    setStartAndEnd($fromTableSize, $toTableSize, $fromTablePos, $toTablePos);
   }
 
   const onMouseEnter = () => {
@@ -231,6 +234,7 @@
     d="M {start.x} {start.y} L {end.x} {end.y} {startD} {endD}"
     class:highlight-path={$toHighlight === fromColumn}
   />
+  <!-- svelte-ignore a11y-click-events-have-key-events -->
   <path
     on:dblclick={dblClickInternal}
     on:click={clickInternal}

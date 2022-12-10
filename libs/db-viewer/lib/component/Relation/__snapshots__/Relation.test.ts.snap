@@ -184,9 +184,9 @@ exports[`Relation$ > should render properly 1`] = `
         true,
         false,
         "1234",
-        [Function],
-        [Function],
-        [Function],
+        [MockFunction spy],
+        [MockFunction spy],
+        [MockFunction spy],
         {
           "x": 271,
           "y": 407,

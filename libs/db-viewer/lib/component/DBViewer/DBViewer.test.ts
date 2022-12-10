@@ -1,9 +1,4 @@
-import {
-  cleanup,
-  fireEvent,
-  render,
-  type RenderResult,
-} from "@testing-library/svelte";
+import { fireEvent, render, type RenderResult } from "@testing-library/svelte";
 import DBViewer from "./DBViewer.wc.svelte";
 import school from "../../../src/school";
 import { beforeEach, describe, expect, it, vi } from "vitest";
@@ -43,14 +38,12 @@ describe(DBViewer.name, () => {
   });
 
   beforeEach(async () => {
-    cleanup();
-
     const context = new Map();
     context.set("store", getStore());
 
     component = render(DBViewer, {
       //ignore the error, incorrect lib typing
-      context
+      context,
     });
   });
   it("should render properly", () => {

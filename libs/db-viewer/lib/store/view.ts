@@ -15,9 +15,11 @@ export type Viewport =
   | "center"
   | "centerByTables";
 
+const DEFAULT_ZOOM = 1;
+
 export class ViewStore {
   viewSize = writable<ViewSize>({ width: 0, height: 0 });
-  zoom = writable(1);
+  zoom = writable(DEFAULT_ZOOM);
   viewPos = writable<ViewPos>({ x: 0, y: 0 });
   viewBound = writable<ViewBound>();
   viewSizeAfterZoom = derived(
@@ -105,7 +107,7 @@ export class ViewStore {
     const viewSizeAfterZoomVal = get(this.viewSizeAfterZoom);
 
     if (
-      get(this.store!.schema.schema).tables.length === 0 ||
+      schema.tables.length === 0 ||
       viewSizeAfterZoomVal.width === 0 ||
       viewportApplyVal
     )

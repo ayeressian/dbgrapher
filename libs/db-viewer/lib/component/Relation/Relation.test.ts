@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { cleanup, render, type RenderResult } from "@testing-library/svelte";
+import { render, type RenderResult } from "@testing-library/svelte";
 import school from "../../../src/school";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { Store } from "../../store/store";
 import Relation from "./Relation.svelte";
 import type { ComponentProps } from "svelte";
@@ -31,9 +30,9 @@ describe(Relation.name, () => {
     fromColumn: "test1",
     toColumn: "test1",
     key: "1234",
-    click: () => {},
-    contextMenu: () => {},
-    dblClick: () => {},
+    click: vi.fn(),
+    contextMenu: vi.fn(),
+    dblClick: vi.fn(),
   };
 
   const context = new Map();
@@ -45,9 +44,6 @@ describe(Relation.name, () => {
       //ignore the error, incorrect lib typing
       context,
     });
-  });
-  afterEach(() => {
-    cleanup();
   });
   it("should render properly", () => {
     expect(component).toMatchSnapshot();

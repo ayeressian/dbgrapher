@@ -2,8 +2,6 @@ import type Point from "lib/point";
 import { get, type Writable } from "svelte/store";
 
 class Pan {
-  private lastPos?: Point;
-
   private prevMouseCordX!: number;
   private prevMouseCordY!: number;
 

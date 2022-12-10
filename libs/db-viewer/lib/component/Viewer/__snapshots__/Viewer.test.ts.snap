@@ -1,8 +1,8 @@
 // Vitest Snapshot v1
 
-exports[`Table$ > should render properly 1`] = `
+exports[`Viewer$ > should render properly 1`] = `
 {
-  "component": Table$ {
+  "component": Viewer$ {
     "$$": {
       "after_update": [],
       "before_update": [],
@@ -136,29 +136,30 @@ exports[`Table$ > should render properly 1`] = `
         },
       },
       "ctx": [
-        "school",
-        0,
-        0,
-        <table>
-          <thead>
-            <tr>
-              <th
-                colspan="4"
-              >
-                school
-              </th>
-            </tr>
-          </thead>
-           
-          <tbody />
-        </table>,
+        {
+          "onZoom": [MockFunction spy],
+        },
+        <svg
+          class="view"
+          version="2"
+          viewBox="0 0 800 1000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          
+        </svg>,
         false,
         {
-          "x": 722,
-          "y": 560,
+          "tables": [],
         },
-        "",
-        "",
+        {
+          "x": 0,
+          "y": 0,
+        },
+        {
+          "height": 1000,
+          "width": 800,
+        },
+        [],
         {
           "set": [Function],
           "subscribe": [Function],
@@ -169,7 +170,6 @@ exports[`Table$ > should render properly 1`] = `
           "subscribe": [Function],
           "update": [Function],
         },
-        undefined,
         {
           "set": [Function],
           "subscribe": [Function],
@@ -180,26 +180,36 @@ exports[`Table$ > should render properly 1`] = `
           "subscribe": [Function],
           "update": [Function],
         },
-        [Function],
         {
-          "set": [Function],
           "subscribe": [Function],
-          "update": [Function],
         },
         {
-          "set": [Function],
           "subscribe": [Function],
-          "update": [Function],
         },
         [Function],
         [Function],
         [Function],
+        Pan {
+          "onMouseMove": [Function],
+          "onMousedown": [Function],
+          "onMouseup": [Function],
+          "onPanEnd": [Function],
+          "onPanStart": [Function],
+          "prevMouseCordX": undefined,
+          "prevMouseCordY": undefined,
+          "viewPosStore": {
+            "set": [Function],
+            "subscribe": [Function],
+            "update": [Function],
+          },
+          "zoomStore": {
+            "set": [Function],
+            "subscribe": [Function],
+            "update": [Function],
+          },
+        },
         [Function],
         [Function],
-        [MockFunction spy],
-        [MockFunction spy],
-        [MockFunction spy],
-        [MockFunction spy],
         [Function],
       ],
       "dirty": [
@@ -227,36 +237,48 @@ exports[`Table$ > should render properly 1`] = `
       "on_disconnect": [],
       "on_mount": [],
       "props": {
-        "click": 22,
-        "contextMenu": 24,
-        "dblClick": 23,
-        "mouseDown": 21,
-        "name": 0,
+        "eventDispatcher": 0,
+        "getSchema": 17,
+        "setSchema": 18,
       },
       "root": <div>
-        <g>
-          <foreignobject
-            data-testid="table-school"
-            height="0"
-            width="0"
-            x="722"
-            y="560"
-          >
-            <table>
-              <thead>
-                <tr>
-                  <th
-                    colspan="4"
-                  >
-                    school
-                  </th>
-                </tr>
-              </thead>
-               
-              <tbody />
-            </table>
-          </foreignobject>
-        </g>
+        <svg
+          class="view"
+          version="2"
+          viewBox="0 0 800 1000"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          
+        </svg>
+         
+        <svg
+          class="minimap"
+          height="200"
+          version="2"
+          viewBox="0 0 822 1000"
+          width="164.4"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect
+            class="view-minimap"
+            height="1000"
+            width="800"
+            x="0"
+            y="0"
+          />
+        </svg>
+         
+        <button
+          class="zoom-btn in"
+        >
+          +
+        </button>
+         
+        <button
+          class="zoom-btn out"
+        >
+          -
+        </button>
       </div>,
       "skip_bound": false,
       "update": [Function],
@@ -267,29 +289,43 @@ exports[`Table$ > should render properly 1`] = `
   },
   "container": <body>
     <div>
-      <g>
-        <foreignobject
-          data-testid="table-school"
-          height="0"
-          width="0"
-          x="722"
-          y="560"
-        >
-          <table>
-            <thead>
-              <tr>
-                <th
-                  colspan="4"
-                >
-                  school
-                </th>
-              </tr>
-            </thead>
-             
-            <tbody />
-          </table>
-        </foreignobject>
-      </g>
+      <svg
+        class="view"
+        version="2"
+        viewBox="0 0 800 1000"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        
+      </svg>
+       
+      <svg
+        class="minimap"
+        height="200"
+        version="2"
+        viewBox="0 0 822 1000"
+        width="164.4"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          class="view-minimap"
+          height="1000"
+          width="800"
+          x="0"
+          y="0"
+        />
+      </svg>
+       
+      <button
+        class="zoom-btn in"
+      >
+        +
+      </button>
+       
+      <button
+        class="zoom-btn out"
+      >
+        -
+      </button>
     </div>
   </body>,
   "debug": [Function],

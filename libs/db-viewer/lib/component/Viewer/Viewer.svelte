@@ -52,7 +52,7 @@
     };
     const zoomAmount = event.deltaY * SCROLL_TO_ZOOM_MULTIPLIER;
     const oldZoom = $zoomStore;
-
+    console.log("AAAA", event.clientX, mousePos);
     const result = new Zoom(
       zoomAmount,
       mousePos,

@@ -82,11 +82,11 @@ describe(Viewer.name, () => {
 
   describe("zoom view", () => {
     let svgElem: SVGElement;
-    const clientX = 100,
-      clientY = 200,
+    const clientX = 300,
+      clientY = 400,
       deltaY = -2;
 
-    beforeEach(() => {
+    beforeEach(async () => {
       Object.defineProperty(
         global.SVGGraphicsElement.prototype,
         "getScreenCTM",
@@ -113,7 +113,12 @@ describe(Viewer.name, () => {
       vi.spyOn(zoomImport, "default");
 
       svgElem = document.querySelector("svg") as SVGElement;
-      fireEvent.wheel(svgElem, { clientX, clientY, deltaY, ctrlKey: true });
+      await fireEvent.wheel(svgElem, {
+        clientX,
+        clientY,
+        deltaY,
+        ctrlKey: true,
+      });
     });
 
     it("zoom should be called", async () => {
@@ -123,7 +128,7 @@ describe(Viewer.name, () => {
         { x: clientX, y: clientY },
         1,
         { width: 800, height: 1000 },
-        { x: 0, y: 0 }
+        { x: 100, y: 200 }
       );
     });
   });

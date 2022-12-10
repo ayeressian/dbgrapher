@@ -201,6 +201,13 @@ exports[`Table$ > should render properly 1`] = `
         [MockFunction spy],
         [MockFunction spy],
         [Function],
+        ,
+        ,
+        ,
+        {
+          "height": 100,
+          "width": 100,
+        },
       ],
       "dirty": [
         -1,

@@ -14,6 +14,12 @@ exports[`Column$ > should render properly 1`] = `
           "name": "test",
           "type": "int",
         },
+        "test",
+        [Function],
+        [Function],
+        1,
+        [Function],
+        [Function],
       ],
       "dirty": [
         -1,
@@ -35,10 +41,33 @@ exports[`Column$ > should render properly 1`] = `
       "on_mount": [],
       "props": {
         "column": 0,
+        "columnEnter": 5,
+        "columnLeave": 6,
+        "highlight": 4,
       },
       "root": <div>
-        <tr>
-          <td />
+        <tr
+          class="test"
+        >
+          <td
+            class="status"
+          >
+            <img
+              alt="primary key"
+              src="/lib/component/Column/pk.svg"
+              style="display: none;"
+            />
+          </td>
+           
+          <td
+            class="status"
+          >
+            <img
+              alt="foreign key"
+              src="/lib/component/Column/fk.svg"
+              style="display: none;"
+            />
+          </td>
            
           <td>
             test
@@ -58,8 +87,28 @@ exports[`Column$ > should render properly 1`] = `
   },
   "container": <body>
     <div>
-      <tr>
-        <td />
+      <tr
+        class="test"
+      >
+        <td
+          class="status"
+        >
+          <img
+            alt="primary key"
+            src="/lib/component/Column/pk.svg"
+            style="display: none;"
+          />
+        </td>
+         
+        <td
+          class="status"
+        >
+          <img
+            alt="foreign key"
+            src="/lib/component/Column/fk.svg"
+            style="display: none;"
+          />
+        </td>
          
         <td>
           test

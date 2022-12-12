@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import type { ColumnSchema } from "../../schema";
 import { render, type RenderResult } from "@testing-library/svelte";
 import Column, { Highlight } from "./Column.svelte";
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 describe(Column.name, () => {
   let component: RenderResult<Column>;
@@ -14,8 +13,8 @@ describe(Column.name, () => {
     };
     component = render(Column, {
       column: columnSchema,
-      columnEnter: () => {},
-      columnLeave: () => {},
+      columnEnter: vi.fn(),
+      columnLeave: vi.fn(),
       highlight: Highlight.None,
     });
   });

@@ -155,9 +155,9 @@ export default class TableDialogColumns extends DBGElement {
   };
 
   #getCurrentTableColumns = (): { column: ColumnSchema; index: number }[] => {
-    const currentTable = this.schema.tables[this.tableIndex];
+    const currentTable = (this.schema?.tables ?? [])[this.tableIndex];
     return (
-      currentTable.columns
+      currentTable?.columns
         .map((column, index) => ({ column, index }))
         .filter((item) => !(item.column as ColumnFkSchema).fk) ?? []
     );

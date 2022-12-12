@@ -1,4 +1,4 @@
-import { expect } from "chai";
+import "../../../src/components/dialog/about-dialog";
 import AboutDialog from "../../../src/components/dialog/about-dialog";
 import store from "../../../src/store/store";
 import { initComponentTest, removeElement } from "../../helper";
@@ -6,7 +6,8 @@ import {
   actions as dialogActions,
   DialogTypes,
 } from "../../../src/store/slices/dialog/dialogs";
-import { t } from "../../../src/localization";
+import { describe, beforeEach, afterEach, it } from "vitest";
+import toMatchHtmlSnapshot from "../../to-match-html-snapshot";
 
 describe("dbg-about-dialog", () => {
   let aboutDialog: AboutDialog;
@@ -20,18 +21,7 @@ describe("dbg-about-dialog", () => {
     removeElement(aboutDialog);
   });
 
-  it("should have correct text", async () => {
-    expect(
-      aboutDialog.shadowRoot!.querySelector<HTMLElement>('[data-testid="text"]')
-        ?.innerText
-    ).to.equal(t((l) => l.dialog.about.text));
-  });
-
-  it("should have correct footer", async () => {
-    expect(
-      aboutDialog.shadowRoot!.querySelector<HTMLElement>(
-        '[data-testid="footer"]'
-      )?.innerText
-    ).to.equal(t((l) => l.dialog.about.footer));
+  it("renders propery", () => {
+    toMatchHtmlSnapshot(aboutDialog.shadowRoot?.innerHTML);
   });
 });

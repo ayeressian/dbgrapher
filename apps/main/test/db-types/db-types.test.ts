@@ -5,9 +5,9 @@ import sqlite from "../../src/db-types/sqlite-types";
 import generic from "../../src/db-types/generic-types";
 import dbTypes from "../../src/db-types/db-types";
 import { actions as schemaActions } from "../../src/store/slices/schema";
-import { expect } from "chai";
 import { DbType } from "../../src/db-grapher-schema";
 import store from "../../src/store/store";
+import { describe, it, expect } from "vitest";
 
 describe("db-types", () => {
   const setDbType = (dbType: DbType) =>

@@ -18,8 +18,8 @@ exports[`Column$ > should render properly 1`] = `
         [Function],
         [Function],
         1,
-        [Function],
-        [Function],
+        [MockFunction spy],
+        [MockFunction spy],
       ],
       "dirty": [
         -1,

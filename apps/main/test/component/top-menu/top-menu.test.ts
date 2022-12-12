@@ -1,6 +1,8 @@
-import { expect } from "chai";
+import "../../../src/components/top-menu/top-menu";
 import TopMenu from "../../../src/components/top-menu/top-menu";
 import { initComponentTest, removeElement } from "../../helper";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
+import toMatchHtmlSnapshot from "../../to-match-html-snapshot";
 
 describe("top-menu", () => {
   let topMenu: TopMenu;
@@ -48,6 +50,10 @@ describe("top-menu", () => {
     removeElement(topMenu);
   });
 
+  it("renders propery", () => {
+    toMatchHtmlSnapshot(topMenu.shadowRoot?.innerHTML);
+  });
+
   it("should render correct number of top items", () => {
     const topLeftItems =
       topMenu.shadowRoot!.querySelectorAll(".menu-bar .item")!;
@@ -63,7 +69,7 @@ describe("top-menu", () => {
     });
     it("should open dropdown view", () => {
       const dropDown = topMenu.shadowRoot!.querySelector(".dropdown");
-      expect(dropDown).to.have.class("show");
+      expect(dropDown?.classList.contains("show")).eq(true);
     });
 
     it("should have correct number of subItems", () => {

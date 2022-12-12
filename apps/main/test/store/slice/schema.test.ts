@@ -1,15 +1,7 @@
-import { expect } from "chai";
 import { DbType } from "../../../src/db-grapher-schema";
-import {
-  actions as schemaActions,
-  DEFAULT_VIEW_WIDTH,
-  MAX_VIEW_HEIGHT,
-  MAX_VIEW_WIDTH,
-  MIN_VIEW_HEIGHT,
-  MIN_VIEW_WIDTH,
-  VIEW_INCREASE_AMOUNT,
-} from "../../../src/store/slices/schema";
+import { actions as schemaActions } from "../../../src/store/slices/schema";
 import store from "../../../src/store/store";
+import { describe, it, expect, beforeEach } from "vitest";
 
 const getStoreSchema = () => store.getState().schema;
 

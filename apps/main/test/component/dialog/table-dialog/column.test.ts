@@ -1,8 +1,8 @@
+import "../../../../src/components/import-components";
 import Columns from "../../../../src/components/dialog/table-dialog/columns";
 import { initComponentTest, removeElement } from "../../../helper";
-import snapshot from "./column.snap.html";
-import { crush } from "html-crush";
-import { expect } from "chai";
+import { describe, it, beforeEach, afterEach } from "vitest";
+import toMatchHtmlSnapshot from "../../../to-match-html-snapshot";
 
 describe("table-dialog-column", () => {
   let tableDialogColumns: Columns;
@@ -36,11 +36,6 @@ describe("table-dialog-column", () => {
   });
 
   it("should render properly", () => {
-    const html = shadowRoot!.firstElementChild!.outerHTML;
-    const options = {
-      removeHTMLComments: true,
-    };
-    const mHtml = crush(html, options).result;
-    expect(mHtml).eq(snapshot);
+    toMatchHtmlSnapshot(shadowRoot?.innerHTML);
   });
 });

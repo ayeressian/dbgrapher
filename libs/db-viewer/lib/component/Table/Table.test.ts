@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import schoolSchema from "../../../src/school";
 import {
   render,
@@ -11,8 +10,6 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import type Point from "../../point";
 import { Store } from "../../store/store";
 import { get, type Writable } from "svelte/store";
-
-const wait = (time = 0) => new Promise((resolve) => setTimeout(resolve, time));
 
 function getStore() {
   const store = new Store();

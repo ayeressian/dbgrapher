@@ -1,6 +1,6 @@
 module.exports = {
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint", "lit", "prettier"],
+  plugins: ["@typescript-eslint", "prettier"],
   env: {
     browser: true,
     node: true,
@@ -9,8 +9,6 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:wc/recommended",
-    "plugin:lit/recommended",
     "prettier",
   ],
   rules: {

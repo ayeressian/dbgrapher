@@ -1,6 +1,7 @@
-import { expect } from "chai";
+import "../../../src/components/dialog/new-open-dialog";
 import NewOpenDialog from "../../../src/components/dialog/new-open-dialog";
 import { initComponentTest, removeElement } from "../../helper";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
 
 describe("new-open-dialog", () => {
   let welcomeDialog: NewOpenDialog;

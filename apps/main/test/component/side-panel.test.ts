@@ -1,6 +1,9 @@
-import { expect } from "chai";
+import "../../src/components/side-panel";
 import SidePanel from "../../src/components/side-panel";
+
 import { initComponentTest, removeElement } from "../helper";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
+import toMatchHtmlSnapshot from "../to-match-html-snapshot";
 
 describe("side-panel", () => {
   let sidePanel: SidePanel;
@@ -11,6 +14,10 @@ describe("side-panel", () => {
 
   afterEach(() => {
     removeElement(sidePanel);
+  });
+
+  it("renders propery", () => {
+    toMatchHtmlSnapshot(sidePanel.shadowRoot?.innerHTML);
   });
 
   describe("actions", () => {
@@ -25,7 +32,7 @@ describe("side-panel", () => {
       ) as HTMLElement;
       action.click();
       await sidePanel.updateComplete;
-      expect(action).have.class("active");
+      expect(action.classList.contains("active")).eq(true);
     });
 
     it("should deactivate when clicked twice", async () => {
@@ -36,7 +43,7 @@ describe("side-panel", () => {
       await sidePanel.updateComplete;
       action.click();
       await sidePanel.updateComplete;
-      expect(action).not.have.class("active");
+      expect(action.classList.contains("active")).eq(false);
     });
   });
 });

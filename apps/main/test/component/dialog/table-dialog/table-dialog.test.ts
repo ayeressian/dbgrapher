@@ -1,8 +1,9 @@
+import "../../../../src/components/import-components";
 import TableDialog from "../../../../src/components/dialog/table-dialog/table-dialog";
 import { initComponentTest, removeElement, getTagName } from "../../../helper";
 import store from "../../../../src/store/store";
 import { actions as tableDialogAction } from "../../../../src/store/slices/dialog/table-dialog";
-import { expect } from "chai";
+import { describe, beforeEach, afterEach, it, expect } from "vitest";
 
 describe("table-dialog", () => {
   let tableDialog: TableDialog;

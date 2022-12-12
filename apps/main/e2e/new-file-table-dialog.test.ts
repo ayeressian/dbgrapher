@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import createTableDialog from "./create-table-dialog";
+import createTableDialog from "./create-table-dialog.js";
 
 const { describe, beforeEach } = test;
 

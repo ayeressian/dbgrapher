@@ -8,6 +8,7 @@
     "test-db-viewer": "cd libs/db-viewer && npm run test -- --watch=false",
     "test-app": "cd apps/main && npm run test -- --watch=false",
     "test": "npm run test-db-viewer && npm run test-app",
+    "start-and-e2e-main": "cd apps/main && npm run start-and-e2e",
     "build-watch-db-viewer": "cd libs/db-viewer && npm run build-watch",
     "build-db-viewer": "cd libs/db-viewer && npm run build",
     "dev-main": "sleep 10 && cd apps/main && npm run dev",

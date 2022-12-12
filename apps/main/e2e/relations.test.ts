@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import twoTableSchema from "./two-table-schema.json";
+import twoTableSchema from "./two-table-schema.js";
 
 const { describe, beforeEach } = test;
 
@@ -29,6 +29,7 @@ describe("Relations", () => {
     });
 
     test("should display relation between tables", async ({ page }) => {
+      await page.waitForSelector("dbg-app dbg-db-viewer db-viewer path");
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
       expect(paths.length).toBe(2);
     });
@@ -43,6 +44,7 @@ describe("Relations", () => {
     });
 
     test("should display relation between tables", async ({ page }) => {
+      await page.waitForSelector("dbg-app dbg-db-viewer db-viewer path");
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
       expect(paths.length).toBe(2);
     });
@@ -57,6 +59,7 @@ describe("Relations", () => {
     });
 
     test("should display relation between tables", async ({ page }) => {
+      await page.waitForSelector("dbg-app dbg-db-viewer db-viewer path");
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
       expect(paths.length).toBe(2);
     });
@@ -71,6 +74,7 @@ describe("Relations", () => {
     });
 
     test("should display relation between tables", async ({ page }) => {
+      await page.waitForSelector("dbg-app dbg-db-viewer db-viewer path");
       const paths = await page.$$("dbg-app dbg-db-viewer db-viewer path");
       expect(paths.length).toBe(2);
     });

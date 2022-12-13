@@ -24,10 +24,10 @@ export default {
   dialog: {
     about: {
       footer: "I hope you enjoy using this application.",
-      text: `Hello my name is Ara. I initiated this project for my own needs. If you like
-        relational databases and have knowledge or wish to learn more about
-        typescript, webcomponent, litelement, redux, webpack, karma,
-        jasmine, playwright and much more you should consider to contribute
+      text: `Hello my name is Ara. I initiated this project for my own needs.
+        If you like relational databases and have knowledge or wish to learn 
+        more about typescript, webcomponent, litelement, svelte, redux, vite,
+        vitest, playwright and much more you should consider to contribute
         to this project.`,
     },
     cloudProvider: {

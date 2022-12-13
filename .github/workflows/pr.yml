@@ -1,0 +1,27 @@
+name: PR
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-test-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: add env.json
+        uses: canastro/copy-file-action@master
+        with:
+          source: ".github/env.json"
+          target: "apps/main/env.json"
+
+      - run: npm ci
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run start-and-e2e-main

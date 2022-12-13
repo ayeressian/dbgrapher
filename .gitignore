@@ -4,6 +4,6 @@ npm-debug.log
 dist
 coverage
 .DS_Store
-env.json
+apps/main/env.json
 dist
 *.log

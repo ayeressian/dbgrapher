@@ -13,21 +13,8 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: "18"
-      - name: create env.json file
-        run: >
-          cat <<EOF >./apps/main/env.json
-            {
-              "googleDrive": {
-                "developerKey": "${{ secrets.GDRIVE_DEV_KEY }}",
-                "clientId": "${{ secrets.GDRIVE_CLIENT_ID }}",
-                "appId": "${{ secrets.GDRIVE_APP_ID }}"
-              },
-              "oneDrive": {
-                "clientId": "${{ secrets.ONEDRIVE_CLIENT_ID }}"
-              }
-            }
-          EOF
-      - run: cd apps/main && npm run build
+      - run: npm ci
+      - run: npm run build
       - name: Deploy to BunnyCDN
         uses: ayeressian/bunnycdn-storage-deploy@v1.1.1
         with:

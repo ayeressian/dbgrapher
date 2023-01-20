@@ -9,6 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
       - name: "CLA Assistant"
         if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
         uses: contributor-assistant/github-action@v2.2.1
@@ -19,11 +23,7 @@ jobs:
         with:
           path-to-document: 'cla.md' # e.g. a CLA or a DCO document
           # branch should not be protected
-          allowlist: dependabot[bot]
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "18"
+          allowlist: dependabot[bot]      
       - run: npm ci
       - name: Install playwright browsers
         run: npx playwright install --with-deps

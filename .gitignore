@@ -1,7 +1,9 @@
 node_modules
+npm-debug.log
 .cache
 dist
-stats.json
 coverage
 .DS_Store
-env.json
+apps/main/env.json
+dist
+*.log

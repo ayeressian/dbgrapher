@@ -1,0 +1,101 @@
+// Vitest Snapshot v1
+
+exports[`table-dialog-column > should render properly 1`] = `
+" <div class=\\"container\\">
+<form class=\\"pure-form\\">
+<div class=\\"title\\">Columns</div>
+<datalist id=\\"types\\">
+<option value=\\"CHARACTER\\"></option><option value=\\"VARCHAR\\"></option><option value=\\"NCHAR\\"></option><option value=\\"NCHAR VARYING\\"></option><option value=\\"BINARY\\"></option><option value=\\"BINARY VARYING\\"></option><option value=\\"BINARY LARGE OBJECT\\"></option><option value=\\"NUMERIC\\"></option><option value=\\"DECIMAL\\"></option><option value=\\"SMALLINT\\"></option><option value=\\"INTEGER\\"></option>
+<option value=\\"BIGINT\\"></option><option value=\\"FLOAT\\"></option><option value=\\"REAL\\"></option><option value=\\"DOUBLE PRECISION\\"></option><option value=\\"BOOLEAN\\"></option><option value=\\"DATE\\"></option><option value=\\"TIME\\"></option><option value=\\"TIMESTAMP\\"></option><option value=\\"INTERVAL\\"></option></datalist>
+<div class=\\"table-container\\">
+<table class=\\"pure-table pure-table-horizontal\\">
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th title=\\"Primary key\\">PK</th>
+<th title=\\"Unique\\">UQ</th>
+<th title=\\"Not null\\">NN</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+
+<tr>
+<td class=\\"no-column\\" colspan=\\"8\\">No columns to show</td>
+</tr></tbody>
+</table>
+</div>
+<button class=\\"pure-button add-column\\">
+Add column
+</button>
+</form>
+</div><style>
+table {
+width: 760px;
+}
+undefined
+undefined
+undefined
+.add-column {
+margin-top: 10px;
+}
+td.no-column {
+text-align: center;
+color: #AAA;
+}
+.container {
+margin-top: 30px;
+}
+.title {
+margin-bottom: 10px;
+}
+.table-container {
+max-height: 200px;
+overflow-x: hidden;
+overflow-y: auto;
+display: inline-block;
+}
+.table-container table th {
+background-color: #E0E0E0;
+position: sticky;
+top: 0;
+}
+.table-container table {
+border-collapse: collapse;
+}
+.add-column {
+display: block;
+}
+table tbody td:last-child {
+width: 32px;
+}
+.remove-icon {
+width: 32px;
+height: 32px;
+background-image: url(/asset/remove.svg);
+background-size: cover;
+}
+.move-up-icon {
+width: 32px;
+height: 32px;
+background-image: url(/asset/move-up.svg);
+background-size: cover;
+}
+.move-up-icon.disabled {
+filter: opacity(30%);
+}
+.move-down-icon {
+width: 32px;
+height: 32px;
+background-image: url(/asset/move-down.svg);
+background-size: cover;
+}
+.move-down-icon.disabled {
+filter: opacity(30%);
+}
+}
+</style>"
+`;

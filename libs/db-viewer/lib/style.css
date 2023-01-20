@@ -1,0 +1,137 @@
+@import "purecss/build/buttons-min.css";
+
+* {
+  font-family: var(--font-family, Arial, sans-serif);
+  color: var(--color, #333);
+  --table-boarder-color: #a4a2a3;
+  --table-color: #a4a2a3;
+  --annotation-color: #ffffff;
+}
+
+#container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+svg {
+  background-color: #E3E3E3;
+}
+
+.view {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.view.pan {
+  cursor: grabbing;
+}
+
+.minimap {
+  bottom: 60px;
+  right: 10px;
+  position: absolute;
+  background: #EEE;
+}
+
+.minimap .view-minimap {
+  fill: #FFF;
+}
+
+.minimap-table {
+  fill: #BBB;
+}
+
+:host {
+  display: block;
+}
+
+table {
+  background-color: white;
+  min-width: 100px;
+  border-collapse: collapse;
+  border-bottom: 2px solid var(--table-boarder-color);
+  border-left: 2px solid var(--table-boarder-color);
+  border-right: 2px solid var(--table-boarder-color);
+}
+table.move {
+  cursor: move;
+}
+
+table tr {
+  border-bottom: 1px solid #bbb;
+}
+
+table tr th {
+  font-size: 1.2em;
+  padding: 5px;
+  background-color: var(--table-boarder-color);
+  color: white;
+}
+
+.disable-select {
+  user-select: none;
+}
+
+td {
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+td.status {
+  height: 20px;
+  padding: 0;
+  flex-direction: row;
+}
+
+td.status img {
+  width: 14px;
+  height: 14px;
+  margin-left: 7px;
+}
+
+path {
+  stroke-width: 1;
+  stroke: var(--relation-color, #666);
+  fill: none;
+}
+
+.highlight {
+  stroke-width: 12;
+  stroke: transparent;
+}
+
+.highlight-path {
+  stroke-width: 2;
+  stroke: var(--relation-color-highlight, black);
+}
+
+.highlight-from {
+  background-color: lightgreen;
+}
+
+.highlight-to {
+  background-color: lightcoral;
+}
+
+.zoom-btn {
+  width: 50px;
+  height: 40px;
+  color: white;
+  border-radius: 0;
+  background: rgb(197, 197, 197);
+}
+
+.zoom-btn.in {
+  bottom: 10px;
+  right:65px;
+  position: absolute;
+}
+
+.zoom-btn.out {
+  bottom: 10px;
+  right: 10px;
+  position: absolute;
+}

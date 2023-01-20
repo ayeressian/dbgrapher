@@ -1,0 +1,32 @@
+name: PR
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  lint-test-e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "CLA Assistant"
+        if: (github.event.comment.body == 'recheck' || github.event.comment.body == 'I have read the CLA Document and I hereby sign the CLA') || github.event_name == 'pull_request_target'
+        uses: contributor-assistant/github-action@v2.2.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # the below token should have repo scope and must be manually added by you in the repository's secret
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        with:
+          path-to-document: 'cla.md' # e.g. a CLA or a DCO document
+          # branch should not be protected
+          allowlist: dependabot[bot]
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - run: npm ci
+      - name: Install playwright browsers
+        run: npx playwright install --with-deps
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run start-and-e2e-main

@@ -1,0 +1,175 @@
+// Vitest Snapshot v1
+
+exports[`Column$ > should render properly 1`] = `
+{
+  "component": Column$ {
+    "$$": {
+      "after_update": [],
+      "before_update": [],
+      "bound": {},
+      "callbacks": {},
+      "context": Map {},
+      "ctx": [
+        {
+          "name": "test",
+          "type": "int",
+        },
+        "test",
+        [Function],
+        [Function],
+        1,
+        [MockFunction spy],
+        [MockFunction spy],
+      ],
+      "dirty": [
+        -1,
+      ],
+      "fragment": {
+        "c": [Function],
+        "d": [Function],
+        "i": [Function],
+        "l": [Function],
+        "m": [Function],
+        "o": [Function],
+        "p": [Function],
+      },
+      "not_equal": [Function],
+      "on_destroy": [
+        [Function],
+      ],
+      "on_disconnect": [],
+      "on_mount": [],
+      "props": {
+        "column": 0,
+        "columnEnter": 5,
+        "columnLeave": 6,
+        "highlight": 4,
+      },
+      "root": <div>
+        <tr
+          class="test"
+        >
+          <td
+            class="status"
+          >
+            <img
+              alt="primary key"
+              src="/lib/component/Column/pk.svg"
+              style="display: none;"
+            />
+          </td>
+           
+          <td
+            class="status"
+          >
+            <img
+              alt="foreign key"
+              src="/lib/component/Column/fk.svg"
+              style="display: none;"
+            />
+          </td>
+           
+          <td>
+            test
+          </td>
+           
+          <td>
+            int
+          </td>
+        </tr>
+      </div>,
+      "skip_bound": false,
+      "update": [Function],
+    },
+    "$$set": [Function],
+    "$capture_state": [Function],
+    "$inject_state": [Function],
+  },
+  "container": <body>
+    <div>
+      <tr
+        class="test"
+      >
+        <td
+          class="status"
+        >
+          <img
+            alt="primary key"
+            src="/lib/component/Column/pk.svg"
+            style="display: none;"
+          />
+        </td>
+         
+        <td
+          class="status"
+        >
+          <img
+            alt="foreign key"
+            src="/lib/component/Column/fk.svg"
+            style="display: none;"
+          />
+        </td>
+         
+        <td>
+          test
+        </td>
+         
+        <td>
+          int
+        </td>
+      </tr>
+    </div>
+  </body>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

@@ -54,6 +54,7 @@ table {
   border-bottom: 2px solid var(--table-boarder-color);
   border-left: 2px solid var(--table-boarder-color);
   border-right: 2px solid var(--table-boarder-color);
+  user-select: none;
 }
 table.move {
   cursor: move;
@@ -68,10 +69,6 @@ table tr th {
   padding: 5px;
   background-color: var(--table-boarder-color);
   color: white;
-}
-
-.disable-select {
-  user-select: none;
 }
 
 td {

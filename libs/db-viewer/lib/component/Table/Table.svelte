@@ -111,7 +111,6 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <table
       bind:this={tableElem}
-      class:disable-select={moveInProgress}
       on:mousedown={mouseDownInternal}
       on:dblclick={dblClickInternal}
       on:click={clickInternal}

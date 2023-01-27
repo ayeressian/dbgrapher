@@ -14,9 +14,9 @@ describe("new-open-dialog", () => {
     removeElement(welcomeDialog);
   });
 
-  it("should have 2 actions", () => {
+  it("should have 3 actions", () => {
     expect(
       welcomeDialog.shadowRoot!.querySelectorAll("dbg-dialog-operation").length
-    ).eq(2);
+    ).eq(3);
   });
 });

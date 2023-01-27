@@ -41,7 +41,7 @@ export const openFile = async (): Promise<void> => {
   if (driveProvider) {
     subscribeOnce((state) => state.schema.present).then(() => {
       if (store.getState().schema.present?.dbGrapher?.type == null) {
-        store.dispatch(schemaAction.setDbType(DbType.Generic));
+        store.dispatch(schemaAction.setDbType("Generic"));
       }
     });
     await driveProvider.picker();

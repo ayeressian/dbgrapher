@@ -52,9 +52,9 @@ const topoLogicalSortTables = async (
 
 const getColumnName = (columnName: string, dBType: DbType): string => {
   switch (dBType) {
-    case DbType.Mysql:
+    case "Mysql":
       return `\`${columnName}\``;
-    case DbType.NotSelected:
+    case "NotSelected":
       throw new Error("Can't generate column when DbType is NotSelected.");
     default:
       return `"${columnName}"`;

@@ -8,14 +8,6 @@ type Data = {
   future: DbGrapherSchema[];
 };
 
-export const MAX_VIEW_WIDTH = 10_000;
-export const MAX_VIEW_HEIGHT = 10_000;
-export const MIN_VIEW_WIDTH = 3000;
-export const MIN_VIEW_HEIGHT = 3000;
-export const DEFAULT_VIEW_WIDTH = 5000;
-export const DEFAULT_VIEW_HEIGHT = 5000;
-export const VIEW_INCREASE_AMOUNT = 500;
-
 const initiate = (
   _: Data,
   action: PayloadAction<DbGrapherSchema | undefined>
@@ -25,7 +17,7 @@ const initiate = (
     future: [],
     present: action.payload ?? {
       dbGrapher: {
-        type: DbType.NotSelected,
+        type: "NotSelected",
       },
       tables: [],
     },
@@ -80,7 +72,7 @@ const slice = createSlice({
     future: [],
     present: {
       dbGrapher: {
-        type: DbType.NotSelected,
+        type: "NotSelected",
       },
       tables: [],
     },

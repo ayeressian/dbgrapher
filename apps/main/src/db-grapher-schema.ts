@@ -1,13 +1,12 @@
 import { Schema } from "db-viewer";
 
-export enum DbType {
-  Postgresql = "Postgresql",
-  Mysql = "Mysql",
-  Sqlite = "Sqlite",
-  Mssql = "Mssql",
-  Generic = "Generic",
-  NotSelected = "NotSelected",
-}
+export type DbType =
+  | "Postgresql"
+  | "Mysql"
+  | "Sqlite"
+  | "Mssql"
+  | "Generic"
+  | "NotSelected";
 
 interface DbGrapher {
   type: DbType;

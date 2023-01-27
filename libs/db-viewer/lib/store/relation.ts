@@ -24,10 +24,10 @@ export class RelationStore {
           if (isColumnFk(column)) {
             relations.push({
               key: `${table.name}_${column.name}_${column.fk.table}_${column.fk.column}`,
-              fromTable: table.name,
-              toTable: column.fk.table,
-              fromColumn: column.name,
-              toColumn: column.fk.column,
+              toTable: table.name,
+              fromTable: column.fk.table,
+              toColumn: column.name,
+              fromColumn: column.fk.column,
               oneTo: !!column.nn,
               toMany: !column.uq,
             });

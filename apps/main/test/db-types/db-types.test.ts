@@ -15,35 +15,35 @@ describe("db-types", () => {
 
   describe("when db type is set to mssql", () => {
     it("should return mssql types", () => {
-      setDbType(DbType.Mssql);
+      setDbType("Mssql");
       expect(dbTypes()).eq(mssql);
     });
   });
 
   describe("when db type is set to mysql", () => {
     it("should return mysql types", () => {
-      setDbType(DbType.Mysql);
+      setDbType("Mysql");
       expect(dbTypes()).eq(mysql);
     });
   });
 
   describe("when db type is set to postgresql", () => {
     it("should return postgresql types", () => {
-      setDbType(DbType.Postgresql);
+      setDbType("Postgresql");
       expect(dbTypes()).eq(postgresql);
     });
   });
 
   describe("when db type is set to sqlite", () => {
     it("should return sqlite types", () => {
-      setDbType(DbType.Sqlite);
+      setDbType("Sqlite");
       expect(dbTypes()).eq(sqlite);
     });
   });
 
   describe("when db type is set to generic", () => {
     it("should return generic types", () => {
-      setDbType(DbType.Generic);
+      setDbType("Generic");
       expect(dbTypes()).eq(generic);
     });
   });

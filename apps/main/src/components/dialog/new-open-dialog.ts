@@ -6,10 +6,14 @@ import {
 } from "../../store/slices/dialog/dialogs";
 import fileSvg from "../../../asset/file.svg";
 import folderOpenSvg from "../../../asset/folder-open.svg";
+import demoSvg from "../../../asset/demo.svg";
 import { t } from "../../localization";
 import { DBGElement } from "../dbg-element";
 import { newFile, openFile } from "../operations";
 import { customElement, state } from "lit/decorators.js";
+import { actions as schemaAction } from "../../store/slices/schema";
+import { actions as laodSchemaAction } from "../../store/slices/load-schema";
+import demoSchema from "./demo_schema";
 
 @customElement("dbg-new-open-dialog")
 export default class extends DBGElement {
@@ -47,6 +51,12 @@ export default class extends DBGElement {
               text=${t((l) => l.dialog.newOpen.operation.openSchema)}
               icon=${folderOpenSvg}
             ></dbg-dialog-operation>
+            <dbg-dialog-operation
+              data-testid="new-file"
+              @dbg-click=${this.#demo}
+              text=${t((l) => l.dialog.newOpen.operation.demoSchema)}
+              icon=${demoSvg}
+            ></dbg-dialog-operation>
           </dbg-dialog-operations>
         </div>
       </dbg-dialog>
@@ -60,5 +70,11 @@ export default class extends DBGElement {
 
   #openFile = (): void => {
     openFile();
+  };
+
+  #demo = (): void => {
+    store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
+    store.dispatch(schemaAction.set(demoSchema));
+    store.dispatch(laodSchemaAction.load());
   };
 }

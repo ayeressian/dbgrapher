@@ -60,35 +60,35 @@ export default class extends DBGElement {
               @dbg-click=${this.#mssql}
               text=${t((l) => l.dialog.dbType.mssql)}
               icon=${mssql}
-              ?selected=${this.selectedDbType === DbType.Mssql}
+              ?selected=${this.selectedDbType === "Mssql"}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               data-testid="mysql"
               @dbg-click=${this.#mysql}
               text=${t((l) => l.dialog.dbType.mysql)}
               icon=${mysql}
-              ?selected=${this.selectedDbType === DbType.Mysql}
+              ?selected=${this.selectedDbType === "Mysql"}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               data-testid="postgresql"
               @dbg-click=${this.#postgresql}
               text=${t((l) => l.dialog.dbType.postgresql)}
               icon=${postgresql}
-              ?selected=${this.selectedDbType === DbType.Postgresql}
+              ?selected=${this.selectedDbType === "Postgresql"}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               data-testid="sqlite"
               @dbg-click=${this.#sqlite}
               text=${t((l) => l.dialog.dbType.sqlite)}
               icon=${sqlite}
-              ?selected=${this.selectedDbType === DbType.Sqlite}
+              ?selected=${this.selectedDbType === "Sqlite"}
             ></dbg-dialog-operation>
             <dbg-dialog-operation
               data-testid="generic"
               @dbg-click=${this.#generic}
               text=${t((l) => l.dialog.dbType.generic)}
               icon=${db}
-              ?selected=${this.selectedDbType === DbType.Generic}
+              ?selected=${this.selectedDbType === "Generic"}
             ></dbg-dialog-operation>
           </dbg-dialog-operations>
         </div>
@@ -102,27 +102,27 @@ export default class extends DBGElement {
   };
 
   #mssql = (): void => {
-    store.dispatch(schemaActions.setDbType(DbType.Mssql));
+    store.dispatch(schemaActions.setDbType("Mssql"));
     this.#closeAndLoad();
   };
 
   #mysql = (): void => {
-    store.dispatch(schemaActions.setDbType(DbType.Mysql));
+    store.dispatch(schemaActions.setDbType("Mysql"));
     this.#closeAndLoad();
   };
 
   #postgresql = (): void => {
-    store.dispatch(schemaActions.setDbType(DbType.Postgresql));
+    store.dispatch(schemaActions.setDbType("Postgresql"));
     this.#closeAndLoad();
   };
 
   #sqlite = (): void => {
-    store.dispatch(schemaActions.setDbType(DbType.Sqlite));
+    store.dispatch(schemaActions.setDbType("Sqlite"));
     this.#closeAndLoad();
   };
 
   #generic = (): void => {
-    store.dispatch(schemaActions.setDbType(DbType.Generic));
+    store.dispatch(schemaActions.setDbType("Generic"));
     this.#closeAndLoad();
   };
 

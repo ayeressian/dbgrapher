@@ -48,6 +48,7 @@ export default {
       operation: {
         newSchema: "New Schema",
         openSchema: "Open Schema",
+        demoSchema: "Load a Demo Schema",
       },
     },
     table: {

@@ -1,5 +1,4 @@
 import store from "../store/store";
-import { DbType } from "../db-grapher-schema";
 import mssql from "./mssql-types";
 import mysql from "./mysql-types";
 import postgresql from "./postgresql-types";
@@ -9,13 +8,13 @@ import generic from "./generic-types";
 const getDbTypes = (): string[] => {
   const type = store.getState().schema.present.dbGrapher.type;
   switch (type) {
-    case DbType.Mssql:
+    case "Mssql":
       return mssql;
-    case DbType.Mysql:
+    case "Mysql":
       return mysql;
-    case DbType.Postgresql:
+    case "Postgresql":
       return postgresql;
-    case DbType.Sqlite:
+    case "Sqlite":
       return sqlite;
     default:
       return generic;

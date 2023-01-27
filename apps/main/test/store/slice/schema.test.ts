@@ -1,4 +1,3 @@
-import { DbType } from "../../../src/db-grapher-schema";
 import { actions as schemaActions } from "../../../src/store/slices/schema";
 import store from "../../../src/store/store";
 import { describe, it, expect, beforeEach } from "vitest";
@@ -15,14 +14,14 @@ describe("schema actions", () => {
       store.dispatch(
         schemaActions.set({
           dbGrapher: {
-            type: DbType.Mysql,
+            type: "Mysql",
           },
           tables: [],
         })
       );
     });
     it("should set the present schema", () => {
-      expect(getStoreSchema().present.dbGrapher.type).equal(DbType.Mysql);
+      expect(getStoreSchema().present.dbGrapher.type).equal("Mysql");
     });
     it("should clean feature schemas", () => {
       expect(getStoreSchema().future).to.be.empty;
@@ -32,22 +31,22 @@ describe("schema actions", () => {
         store.dispatch(
           schemaActions.set({
             dbGrapher: {
-              type: DbType.Mssql,
+              type: "Mssql",
             },
             tables: [],
           })
         );
       });
       it("should set the present schema", () => {
-        expect(getStoreSchema().present.dbGrapher.type).equal(DbType.Mssql);
+        expect(getStoreSchema().present.dbGrapher.type).equal("Mssql");
       });
     });
   });
 
   describe("setDbType", () => {
     it("should set the db type", () => {
-      store.dispatch(schemaActions.setDbType(DbType.Mssql));
-      expect(getStoreSchema().present.dbGrapher.type).equal(DbType.Mssql);
+      store.dispatch(schemaActions.setDbType("Mssql"));
+      expect(getStoreSchema().present.dbGrapher.type).equal("Mssql");
     });
   });
 
@@ -56,7 +55,7 @@ describe("schema actions", () => {
       store.dispatch(
         schemaActions.set({
           dbGrapher: {
-            type: DbType.Mysql,
+            type: "Mysql",
           },
           tables: [],
         })
@@ -65,7 +64,7 @@ describe("schema actions", () => {
       store.dispatch(
         schemaActions.set({
           dbGrapher: {
-            type: DbType.Mssql,
+            type: "Mssql",
           },
           tables: [],
         })
@@ -73,7 +72,7 @@ describe("schema actions", () => {
     });
     it("should undo to previous shcema", () => {
       store.dispatch(schemaActions.undo());
-      expect(getStoreSchema().present.dbGrapher.type).equal(DbType.Mysql);
+      expect(getStoreSchema().present.dbGrapher.type).equal("Mysql");
     });
   });
 
@@ -82,7 +81,7 @@ describe("schema actions", () => {
       store.dispatch(
         schemaActions.set({
           dbGrapher: {
-            type: DbType.Mysql,
+            type: "Mysql",
           },
           tables: [],
         })
@@ -91,7 +90,7 @@ describe("schema actions", () => {
       store.dispatch(
         schemaActions.set({
           dbGrapher: {
-            type: DbType.Mssql,
+            type: "Mssql",
           },
           tables: [],
         })
@@ -100,7 +99,7 @@ describe("schema actions", () => {
     it("should undo to previous shcema", () => {
       store.dispatch(schemaActions.undo());
       store.dispatch(schemaActions.redo());
-      expect(getStoreSchema().present.dbGrapher.type).equal(DbType.Mssql);
+      expect(getStoreSchema().present.dbGrapher.type).equal("Mssql");
     });
   });
 });

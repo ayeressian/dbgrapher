@@ -93,21 +93,25 @@ export default class DbWrapper extends DBGElement {
   #createRelation = (secondTableName: string): DbGrapherSchema => {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
     const { tables } = schema!;
-    const secondTable = tables.find((table) => table.name === secondTableName);
-    this.#relationFirstTableRelations.forEach((column) => {
-      const originalRelationName = `fk_${this.#relationFirstTableName}_${
-        column.name
-      }`;
+    // const secondTable = tables.find((table) => table.name === secondTableName);
+    const firstTable = tables.find(
+      (table) => table.name === this.#relationFirstTableName
+    );
+
+    const secondTableRelations = this.#getTableRelations(secondTableName);
+
+    secondTableRelations.forEach((column) => {
+      const originalRelationName = `fk_${secondTableName}_${column.name}`;
       let relationName = originalRelationName;
       let index = 0;
       while (
-        secondTable?.columns.find((column) => column.name === relationName) !=
+        firstTable?.columns.find((column) => column.name === relationName) !=
         null
       ) {
         ++index;
         relationName = `${originalRelationName}_${index}`;
       }
-      secondTable!.columns.push({
+      firstTable?.columns.push({
         name: relationName,
         uq:
           this.#mode === DbViewerMode.RelationOneToOne ||
@@ -116,7 +120,7 @@ export default class DbWrapper extends DBGElement {
           this.#mode === DbViewerMode.RelationOneToOne ||
           this.#mode === DbViewerMode.RelationOneToMany,
         fk: {
-          table: this.#relationFirstTableName,
+          table: secondTableName,
           column: column.name,
         },
       });

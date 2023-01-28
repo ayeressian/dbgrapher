@@ -50,7 +50,7 @@ export default class TableDialogColumns extends DBGElement {
   };
 
   validateColumnNames = (): void => {
-    validateColumnNames(this.shadowRoot!, this.schema, this.tableIndex);
+    validateColumnNames(this.getShadowRoot(), this.schema, this.tableIndex);
   };
 
   #renderColumn = (
@@ -188,7 +188,7 @@ export default class TableDialogColumns extends DBGElement {
   };
 
   firstUpdated(): void {
-    this.#form = this.shadowRoot!.querySelector("form")!;
+    this.#form = this.getShadowRoot().querySelector("form") as HTMLFormElement;
   }
 
   reportValidity(): boolean {
@@ -241,7 +241,7 @@ export default class TableDialogColumns extends DBGElement {
     //Focus on newly added column name
     await this.updateComplete;
     await this.updateComplete.then(() => {
-      const lastNameInput = this.shadowRoot!.querySelector(
+      const lastNameInput = this.getShadowRoot().querySelector(
         "tbody tr:last-child td:first-child input"
       ) as HTMLInputElement;
       lastNameInput.focus();

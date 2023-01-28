@@ -44,7 +44,9 @@ const topoLogicalSortTables = async (
       throw error;
     }
   }
-  const tSortResult = result.map((tableName) => tableMap.get(tableName)!);
+  const tSortResult = result.map(
+    (tableName) => tableMap.get(tableName) as TableSchema
+  );
 
   // union sort result with original tables to also have the tables that aren't represented in any relations
   return union(tSortResult, tables);
@@ -71,10 +73,10 @@ export default async (schema: DbGrapherSchema): Promise<string> => {
       const columnName = getColumnName(column.name, schema.dbGrapher.type);
       if (fkColumn.fk != null) {
         const table = schema.tables.find(
-          (table) => table.name === fkColumn.fk!.table
-        )!;
+          (table) => table.name === fkColumn.fk.table
+        ) as TableSchema;
         const { type } = table.columns.find(
-          (tableColumn) => tableColumn.name === fkColumn.fk!.column
+          (tableColumn) => tableColumn.name === fkColumn.fk.column
         ) as ColumnNoneFkSchema;
         columnSql += `  ${columnName} ${type}`;
       } else {

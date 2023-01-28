@@ -74,7 +74,7 @@ export default class extends DBGElement {
 
   #demo = (): void => {
     store.dispatch(dialogActions.close(DialogTypes.NewOpenDialog));
-    store.dispatch(schemaAction.set(demoSchema));
+    store.dispatch(schemaAction.initiate(demoSchema));
     store.dispatch(laodSchemaAction.load());
   };
 }

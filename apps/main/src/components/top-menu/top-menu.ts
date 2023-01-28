@@ -185,7 +185,7 @@ export default class extends DBGElement {
   #onMenuItemClick = (event: Event, item: Item): void => {
     this.#itemSelected(item);
     const viewportOffset = (
-      event.target! as HTMLElement
+      event.target as HTMLElement
     ).getBoundingClientRect();
 
     if (item.items != null) {

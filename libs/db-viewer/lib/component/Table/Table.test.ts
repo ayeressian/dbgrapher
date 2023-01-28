@@ -73,7 +73,8 @@ describe(Table.name, () => {
       schoolSchemaPos = get(
         store.table.getTablePos("school") as Writable<Point>
       );
-      const schoolGElem = component.getByTestId("table-school").parentElement!;
+      const schoolGElem = component.getByTestId("table-school")
+        .parentElement as HTMLElement;
       const mouseDown = new MouseEvent("mousedown", {
         clientX: initCord.x,
         clientY: initCord.y,

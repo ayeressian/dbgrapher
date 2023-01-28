@@ -16,7 +16,7 @@ describe("table-dialog", () => {
     });
     store.dispatch(tableDialogAction.openCreate({ x: 0, y: 0 }));
     await tableDialog.updateComplete;
-    shadowRoot = tableDialog.shadowRoot!;
+    shadowRoot = tableDialog.getShadowRoot();
   });
   afterEach((): void => {
     removeElement(tableDialog);

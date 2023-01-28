@@ -22,23 +22,25 @@ describe("side-panel", () => {
 
   describe("actions", () => {
     it("should have 6 actions", () => {
-      const actions = sidePanel.shadowRoot!.querySelectorAll("ul > li.action");
+      const actions = sidePanel
+        .getShadowRoot()
+        .querySelectorAll("ul > li.action");
       expect(actions.length).eq(6);
     });
 
     it("should become active when clicked", async () => {
-      const action = sidePanel.shadowRoot!.querySelector(
-        "ul > li.action"
-      ) as HTMLElement;
+      const action = sidePanel
+        .getShadowRoot()
+        .querySelector("ul > li.action") as HTMLElement;
       action.click();
       await sidePanel.updateComplete;
       expect(action.classList.contains("active")).eq(true);
     });
 
     it("should deactivate when clicked twice", async () => {
-      const action = sidePanel.shadowRoot!.querySelector(
-        "ul > li.action"
-      ) as HTMLElement;
+      const action = sidePanel
+        .getShadowRoot()
+        .querySelector("ul > li.action") as HTMLElement;
       action.click();
       await sidePanel.updateComplete;
       action.click();

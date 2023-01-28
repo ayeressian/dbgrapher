@@ -33,9 +33,10 @@ export default class Select extends DBGElement {
   }
 
   firstUpdated(): void {
-    this.#form = this.shadowRoot!.querySelector("form")!;
-    this.#selectElement =
-      this.shadowRoot!.querySelector<HTMLSelectElement>("select")!;
+    this.#form = this.getShadowRoot().querySelector("form") as HTMLFormElement;
+    this.#selectElement = this.getShadowRoot().querySelector<HTMLSelectElement>(
+      "select"
+    ) as HTMLSelectElement;
     this.#resolveLoaded(null);
   }
 

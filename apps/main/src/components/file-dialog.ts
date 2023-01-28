@@ -31,10 +31,12 @@ export default class extends DBGElement {
   #handle?: FileSystemFileHandle;
 
   firstUpdated(): void {
-    this.#dbgFileInput =
-      this.shadowRoot!.querySelector<HTMLInputElement>("#dbgFileInput")!;
-    this.#sqlFileInput =
-      this.shadowRoot!.querySelector<HTMLInputElement>("#sqlFileInput")!;
+    this.#dbgFileInput = this.getShadowRoot().querySelector<HTMLInputElement>(
+      "#dbgFileInput"
+    ) as HTMLInputElement;
+    this.#sqlFileInput = this.getShadowRoot().querySelector<HTMLInputElement>(
+      "#sqlFileInput"
+    ) as HTMLInputElement;
     this.#resolveLoaded(null);
   }
 
@@ -104,11 +106,11 @@ export default class extends DBGElement {
 
   #write = async (): Promise<void> => {
     // Create a FileSystemWritableFileStream to write to.
-    const writable = await this.#handle!.createWritable();
+    const writable = await this.#handle?.createWritable();
     // Write the contents of the file to the stream.
-    await writable.write(JSON.stringify(store.getState().schema.present));
+    await writable?.write(JSON.stringify(store.getState().schema.present));
     // Close the file and write the contents to disk.
-    await writable.close();
+    await writable?.close();
   };
 
   #save = async (): Promise<void> => {
@@ -175,10 +177,11 @@ export default class extends DBGElement {
 
   #fileOpenChange = (event: Event): void => {
     const reader = new FileReader();
-    reader.readAsText((event.target as HTMLInputElement).files![0]);
+    reader.readAsText((event.target as HTMLInputElement).files?.[0] as File);
     reader.onload = (readerEvent): void => {
-      if (typeof readerEvent.target!.result === "string") {
-        this.#read(readerEvent.target!.result);
+      const fileReaderResult = (readerEvent.target as FileReader).result;
+      if (typeof fileReaderResult === "string") {
+        this.#read(fileReaderResult);
       } else {
         alert(t((l) => l.error.invalidJSON));
       }

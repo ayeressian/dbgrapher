@@ -28,7 +28,7 @@ export const validateColumnNames = (
   fkOffset = 0
 ): void => {
   (
-    [...shadowRoot!.querySelectorAll(".column-name")] as HTMLInputElement[]
+    [...shadowRoot.querySelectorAll(".column-name")] as HTMLInputElement[]
   ).forEach((element, index) => {
     columnNameValidation(schema, tableIndex, element, fkOffset + index);
   });

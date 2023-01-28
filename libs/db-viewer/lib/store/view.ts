@@ -1,4 +1,4 @@
-import { derived, get, writable } from "svelte/store";
+import { derived, get, writable, type Writable } from "svelte/store";
 import type Point from "../point";
 import type { RectSize } from "./schema";
 import { setViewPosByViewport } from "./set-view-pos-by-viewport";
@@ -49,7 +49,7 @@ export class ViewStore {
   }
 
   private getTableStore() {
-    return this.store!.table;
+    return this.store.table;
   }
 
   getUpdateViewBound() {
@@ -66,7 +66,9 @@ export class ViewStore {
       bottom: viewPosVal.y + viewSizeAfterZoomVal.height,
     };
     for (const [tableName, pos] of this.getTableStore().tablePoses.entries()) {
-      const tableSize = get(this.getTableStore().getTableSize(tableName)!);
+      const tableSize = get(
+        this.getTableStore().getTableSize(tableName) as Writable<RectSize>
+      );
       const tablePosValue = get(pos);
 
       const tableWidth = tableSize?.width ?? 0;
@@ -103,7 +105,7 @@ export class ViewStore {
 
   applyViewport() {
     const viewportApplyVal = get(this.viewportApply);
-    const schema = get(this.store!.schema.schema);
+    const schema = get(this.store.schema.schema);
     const viewSizeAfterZoomVal = get(this.viewSizeAfterZoom);
 
     if (
@@ -113,7 +115,7 @@ export class ViewStore {
     )
       return;
 
-    const tablePoseValues = [...this.store!.table.tablePoses.values()].map(
+    const tablePoseValues = [...this.store.table.tablePoses.values()].map(
       (tablePos) => get(tablePos)
     );
     this.viewPos.set(

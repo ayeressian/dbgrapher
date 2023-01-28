@@ -6,6 +6,14 @@ import { subscribe } from "../subscribe-store";
 export abstract class DBGElement extends LitElement {
   #unsubscribes: Unsubscribe[] = [];
 
+  getShadowRoot(): ShadowRoot {
+    if (!this.shadowRoot)
+      throw new Error(
+        "Shadowroot is not available. Most probably Component is not connected yet."
+      );
+    return this.shadowRoot;
+  }
+
   connectedCallback(): void {
     super.connectedCallback();
 

@@ -1,6 +1,6 @@
 import type DbViewer from "lib/component/DBViewer/DBViewer";
 import "../lib/main";
-import bigSchema from "./big-schema";
+// import bigSchema from "./big-schema";
 import schema from "./school";
 
 window.onload = () => {

@@ -18,7 +18,6 @@ export class RelationStore {
   constructor(private store: Store) {
     this.relations = derived(store.schema.schema, ($schema) => {
       const relations: Relation[] = [];
-      let index = 0;
       $schema.tables.forEach((table) => {
         table.columns.forEach((column) => {
           if (isColumnFk(column)) {
@@ -31,7 +30,6 @@ export class RelationStore {
               oneTo: !!column.nn,
               toMany: !column.uq,
             });
-            ++index;
           }
         });
       });
@@ -40,7 +38,7 @@ export class RelationStore {
   }
 
   getRelations(fromTable: string, toTable: string) {
-    const realtionsVal = get(this.relations!);
+    const realtionsVal = get(this.relations as Readable<Relation[]>);
     const r = realtionsVal.filter(
       (relation) =>
         relation.fromTable === fromTable && relation.toTable === toTable

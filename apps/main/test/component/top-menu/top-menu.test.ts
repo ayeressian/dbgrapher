@@ -55,25 +55,26 @@ describe("top-menu", () => {
   });
 
   it("should render correct number of top items", () => {
-    const topLeftItems =
-      topMenu.shadowRoot!.querySelectorAll(".menu-bar .item")!;
+    const topLeftItems = topMenu
+      .getShadowRoot()
+      .querySelectorAll(".menu-bar .item");
     expect(topLeftItems.length).eq(config.items.length);
   });
 
   describe("when clicked on top item", () => {
     beforeEach(async () => {
       (
-        topMenu.shadowRoot!.querySelector(".menu-bar .item") as HTMLElement
+        topMenu.getShadowRoot().querySelector(".menu-bar .item") as HTMLElement
       ).click();
       await topMenu.updateComplete;
     });
     it("should open dropdown view", () => {
-      const dropDown = topMenu.shadowRoot!.querySelector(".dropdown");
+      const dropDown = topMenu.getShadowRoot().querySelector(".dropdown");
       expect(dropDown?.classList.contains("show")).eq(true);
     });
 
     it("should have correct number of subItems", () => {
-      const subItems = topMenu.shadowRoot!.querySelectorAll(".dropdown li");
+      const subItems = topMenu.getShadowRoot().querySelectorAll(".dropdown li");
       expect(subItems.length).eq(config.items[0].items.length);
     });
   });

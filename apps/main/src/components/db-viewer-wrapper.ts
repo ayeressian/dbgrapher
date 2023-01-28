@@ -14,6 +14,7 @@ import DbViewer, {
   RelationClickEvent,
   Viewport,
   ColumnSchema,
+  TableSchema,
 } from "db-viewer";
 import { ColumnFkSchema } from "db-viewer";
 import { getDriveProvider } from "../drive/factory";
@@ -74,25 +75,27 @@ export default class DbWrapper extends DBGElement {
 
   #getFirstTableRelations = () => {
     const schema = this.#dbViewer.getSchema();
-    const table = schema!.tables.find(
+    const table = schema.tables.find(
       (table) => table.name === this.#relationFirstTableName
-    );
-    return table!.columns.filter(
+    ) as TableSchema;
+    return table.columns.filter(
       (column) => column.pk && (column as ColumnFkSchema).fk == null
     );
   };
 
   #getTableRelations = (tableName: string) => {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
-    const table = schema.tables.find((table) => table.name === tableName);
-    return table!.columns.filter(
+    const table = schema.tables.find(
+      (table) => table.name === tableName
+    ) as TableSchema;
+    return table.columns.filter(
       (column) => column.pk && (column as ColumnFkSchema).fk == null
     );
   };
 
   #createRelation = (secondTableName: string): DbGrapherSchema => {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
-    const { tables } = schema!;
+    const { tables } = schema;
     // const secondTable = tables.find((table) => table.name === secondTableName);
     const firstTable = tables.find(
       (table) => table.name === this.#relationFirstTableName
@@ -125,7 +128,7 @@ export default class DbWrapper extends DBGElement {
         },
       });
     });
-    return schema!;
+    return schema;
   };
 
   #relationSecondClickListener = (event: TableClickEvent): void => {
@@ -154,7 +157,9 @@ export default class DbWrapper extends DBGElement {
   };
 
   firstUpdated(): void {
-    this.#dbViewer = this.shadowRoot!.querySelector<DbViewer>("db-viewer")!;
+    this.#dbViewer = this.getShadowRoot().querySelector<DbViewer>(
+      "db-viewer"
+    ) as DbViewer;
     this.#dbViewer.addEventListener("tableDblClick", this.#onTableDblClick);
     this.#dbViewer.addEventListener("tableMoveEnd", this.#onTableMoveEnd);
     this.#resolveLoaded(null);
@@ -335,7 +340,7 @@ export default class DbWrapper extends DBGElement {
     const schema = this.#dbViewer.getSchema() as DbGrapherSchema;
     const fromTable = schema.tables.find(
       (table) => table.name === event.detail.fromTable
-    )!;
+    ) as TableSchema;
     fromTable.columns = fromTable.columns.filter(
       (column) => column.name !== event.detail.fromColumn
     );

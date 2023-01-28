@@ -29,7 +29,7 @@ export default class TableDialogFkColumns extends DBGElement {
   @property({ type: Object }) schema!: Schema;
   @property({ type: Number }) tableIndex!: number;
 
-  #form?: HTMLFormElement;
+  #form!: HTMLFormElement;
 
   static get styles(): CSSResultGroup {
     return css`
@@ -82,17 +82,17 @@ export default class TableDialogFkColumns extends DBGElement {
       };
     const onFkTableSelect = (event: OnSelectEvent): void => {
       const newColumn = produce(column, (columnDraft) => {
-        columnDraft.fk!.table = event.detail.value;
-        columnDraft.fk!.column =
-          this.#getFkColumns(columnDraft.fk!.table)[0]?.name ?? "";
+        columnDraft.fk.table = event.detail.value;
+        columnDraft.fk.column =
+          this.#getFkColumns(columnDraft.fk.table)[0]?.name ?? "";
       });
       this.#onColumnChange(index, newColumn, currentTableName);
     };
     const onFkColumnSelect = (event: OnSelectEvent): void => {
       const newColumn = produce(column, (columnDraft) => {
-        columnDraft.fk!.column = event.detail.value;
-        columnDraft.fk!.table = (
-          this.shadowRoot!.querySelector(
+        columnDraft.fk.column = event.detail.value;
+        columnDraft.fk.table = (
+          this.getShadowRoot().querySelector(
             `#table-select-${index}`
           ) as HTMLInputElement
         ).value;
@@ -143,7 +143,7 @@ export default class TableDialogFkColumns extends DBGElement {
           <dbg-select
             required
             value="${column.fk?.column ?? ""}"
-            .options="${this.#getFkColumns(column.fk!.table).map(
+            .options="${this.#getFkColumns(column.fk.table).map(
               ({ name }) => name
             )}"
             @dbg-on-select="${onFkColumnSelect}"
@@ -208,22 +208,26 @@ export default class TableDialogFkColumns extends DBGElement {
   };
 
   firstUpdated(): void {
-    this.#form = this.shadowRoot!.querySelector("form")!;
+    this.#form = this.getShadowRoot().querySelector("form") as HTMLFormElement;
   }
 
   validateColumnNames = (): void => {
-    validateColumnNamesFromFk(this.shadowRoot!, this.schema, this.tableIndex);
+    validateColumnNamesFromFk(
+      this.getShadowRoot(),
+      this.schema,
+      this.tableIndex
+    );
   };
 
   reportValidity(): boolean {
     const selects = [
-      ...this.shadowRoot!.querySelectorAll("dbg-select"),
+      ...this.getShadowRoot().querySelectorAll("dbg-select"),
     ] as Select[];
     const validSelects = selects.reduce((acc, item) => {
       if (!item.reportValidity()) return false;
       return acc;
     }, true);
-    return this.#form!.reportValidity() && validSelects;
+    return this.#form.reportValidity() && validSelects;
   }
 
   render(): TemplateResult {
@@ -260,7 +264,7 @@ export default class TableDialogFkColumns extends DBGElement {
   #focusOnNewlyAddedColumn = async () => {
     await this.updateComplete;
     await this.updateComplete;
-    const lastNameInput = this.shadowRoot!.querySelector(
+    const lastNameInput = this.getShadowRoot().querySelector(
       "tbody tr:last-child td:first-child input"
     ) as HTMLInputElement;
     lastNameInput.focus();

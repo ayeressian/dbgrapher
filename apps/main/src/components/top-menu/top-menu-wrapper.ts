@@ -168,7 +168,7 @@ export default class extends DBGElement {
 
       ${this.openFileRenamePopup
         ? html`<dbg-file-rename-popup
-            fileName="${cloudState.fileName!}"
+            fileName="${cloudState.fileName as string}"
             @dbg-file-rename=${this.#onfileRename}
           ></dbg-file-rename-popup>`
         : html``}
@@ -187,7 +187,7 @@ export default class extends DBGElement {
       (state) => state.cloud,
       (cloudState) => {
         this.cloudState = cloudState;
-        this.fileName = cloudState.fileName!;
+        this.fileName = cloudState.fileName as string;
       }
     );
 
@@ -206,7 +206,7 @@ export default class extends DBGElement {
   };
 
   firstUpdated(): void {
-    this.#accountPopup = this.shadowRoot!.querySelector(
+    this.#accountPopup = this.getShadowRoot().querySelector(
       "dbg-top-menu-account-popup"
     ) as HTMLElement;
   }
@@ -218,7 +218,7 @@ export default class extends DBGElement {
 
   #onDocumentClick = (event: MouseEvent): void => {
     if (event.composed) {
-      const fileNamePopup = this.shadowRoot!.querySelector(
+      const fileNamePopup = this.getShadowRoot().querySelector(
         "dbg-file-rename-popup"
       ) as HTMLElement;
       if (
@@ -303,7 +303,7 @@ export default class extends DBGElement {
             "https://github.com/ayeressian/dbgrapher/issues",
             "_blank"
           );
-          win!.focus();
+          win?.focus();
         }
         break;
       case "gitHub":
@@ -312,7 +312,7 @@ export default class extends DBGElement {
             "https://github.com/ayeressian/dbgrapher",
             "_blank"
           );
-          win!.focus();
+          win?.focus();
         }
         break;
       case "privacyPolicy":
@@ -321,7 +321,7 @@ export default class extends DBGElement {
             "https://site.dbgrapher.com/privacy-policy.html",
             "_blank"
           );
-          win!.focus();
+          win?.focus();
         }
         break;
       case "termsOfService":
@@ -330,7 +330,7 @@ export default class extends DBGElement {
             "https://site.dbgrapher.com/terms-of-service.html",
             "_blank"
           );
-          win!.focus();
+          win?.focus();
         }
         break;
       case "about":

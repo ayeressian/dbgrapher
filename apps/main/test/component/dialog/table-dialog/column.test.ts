@@ -29,7 +29,7 @@ describe("table-dialog-column", () => {
       ],
     };
     await tableDialogColumns.updateComplete;
-    shadowRoot = tableDialogColumns.shadowRoot!;
+    shadowRoot = tableDialogColumns.getShadowRoot();
   });
   afterEach((): void => {
     removeElement(tableDialogColumns);

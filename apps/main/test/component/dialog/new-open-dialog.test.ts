@@ -16,7 +16,8 @@ describe("new-open-dialog", () => {
 
   it("should have 3 actions", () => {
     expect(
-      welcomeDialog.shadowRoot!.querySelectorAll("dbg-dialog-operation").length
+      welcomeDialog.getShadowRoot().querySelectorAll("dbg-dialog-operation")
+        .length
     ).eq(3);
   });
 });

@@ -27,6 +27,8 @@ import { t } from "../../../localization";
 import DbGrapherSchema from "../../../db-grapher-schema";
 import { customElement, state } from "lit/decorators.js";
 
+type TableColumnIndex = { table: TableSchema; columnIndex: number };
+
 @customElement("dbg-table-dialog")
 export default class extends DBGElement {
   @state()
@@ -64,7 +66,7 @@ export default class extends DBGElement {
       this.#isEdit = true;
       this.#currentTableIndex = this.schema.tables.findIndex(
         ({ name }) => name === tableName
-      )!;
+      );
       this.#originalTableName = tableName;
       return;
     }
@@ -86,16 +88,18 @@ export default class extends DBGElement {
     super.update(changedProperties);
     if (changedProperties.has("open") && this.open) {
       await this.updateComplete;
-      this.#form = this.shadowRoot!.querySelector("form")!;
+      this.#form = this.getShadowRoot().querySelector(
+        "form"
+      ) as HTMLFormElement;
       this.#tableDialogColumns =
-        this.shadowRoot!.querySelector<TableDialogColumns>(
+        this.getShadowRoot().querySelector<TableDialogColumns>(
           "dbg-table-dialog-columns"
-        )!;
+        ) as TableDialogColumns;
       this.#tableDialogFkColumns =
-        this.shadowRoot!.querySelector<TableDialogFkColumns>(
+        this.getShadowRoot().querySelector<TableDialogFkColumns>(
           "dbg-table-dialog-fk-columns"
-        )!;
-      this.#nameInput = this.shadowRoot!.querySelector<HTMLInputElement>(
+        ) as TableDialogFkColumns;
+      this.#nameInput = this.getShadowRoot().querySelector<HTMLInputElement>(
         '[name="name"]'
       ) as HTMLInputElement;
       this.#nameInput.focus();
@@ -122,7 +126,7 @@ export default class extends DBGElement {
     index: number,
     targetTable: TableSchema,
     schema: Schema
-  ): { table: TableSchema; columnIndex: number }[] => {
+  ): TableColumnIndex[] => {
     const targetTableColumns = targetTable.columns;
 
     const fkTables: { table: TableSchema; columnIndex: number }[] = [];
@@ -131,7 +135,7 @@ export default class extends DBGElement {
         if (
           (column as ColumnFkSchema)?.fk?.table === targetTable.name &&
           targetTableColumns[index].name ===
-            (column as ColumnFkSchema)?.fk!.column
+            (column as ColumnFkSchema)?.fk.column
         ) {
           fkTables.push({ table, columnIndex });
         }
@@ -145,7 +149,7 @@ export default class extends DBGElement {
     this.schema = produce(this.schema, (schema) => {
       const fkTables = this.#getFkTables(
         index,
-        this.#getCurrentTable()!,
+        this.#getCurrentTable(),
         schema
       );
       let deleteConfirmation = true;
@@ -165,7 +169,7 @@ export default class extends DBGElement {
       }
       if (deleteConfirmation) {
         while (fkTables.length > 0) {
-          const item = fkTables.shift()!;
+          const item = fkTables.shift() as TableColumnIndex;
           fkTables.push(
             ...this.#getFkTables(item.columnIndex, item.table, schema)
           );
@@ -228,7 +232,7 @@ export default class extends DBGElement {
 
   #fkColumnChange = (event: CustomEvent<FkColumnChangeEventDetail>): void => {
     this.schema = produce(this.schema, (schema) => {
-      this.#getCurrentTable(schema)!.columns[event.detail.index] =
+      this.#getCurrentTable(schema).columns[event.detail.index] =
         event.detail.column;
     });
 
@@ -239,7 +243,7 @@ export default class extends DBGElement {
   };
 
   #getCurrentTable = (schema = this.schema): TableSchema =>
-    schema.tables[this.#currentTableIndex]!;
+    schema.tables[this.#currentTableIndex];
 
   #columnChange = (event: ColumnChangeEvent): void => {
     const changeColumn = event.detail.column;
@@ -347,9 +351,9 @@ export default class extends DBGElement {
   }
 
   #onChangeTableName = (event: InputEvent): void => {
-    const element = event.target! as HTMLInputElement;
+    const element = event.target as HTMLInputElement;
     this.schema = produce(this.schema, (schema) => {
-      this.#getCurrentTable(schema)!.name = element.value;
+      this.#getCurrentTable(schema).name = element.value;
     });
     const currentTable = this.#getCurrentTable();
     if (

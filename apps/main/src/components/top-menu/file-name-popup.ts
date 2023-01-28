@@ -53,7 +53,7 @@ export default class extends DBGElement {
   }
 
   firstUpdated(): void {
-    this.#fileNameInput = this.shadowRoot!.querySelector(
+    this.#fileNameInput = this.getShadowRoot().querySelector(
       "#file-name"
     ) as HTMLInputElement;
   }

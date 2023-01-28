@@ -16,7 +16,7 @@ describe("dialog", () => {
 
   it("should not be visible", () => {
     expect(
-      dialog.shadowRoot!.querySelector("div")?.classList.contains("hide")
+      dialog.getShadowRoot().querySelector("div")?.classList.contains("hide")
     ).eq(true);
   });
 
@@ -24,7 +24,7 @@ describe("dialog", () => {
     dialog.setAttribute("show", "");
     await dialog.updateComplete;
     expect(
-      dialog.shadowRoot!.querySelector("div")?.classList.contains("hide")
+      dialog.getShadowRoot().querySelector("div")?.classList.contains("hide")
     ).eq(false);
   });
 });

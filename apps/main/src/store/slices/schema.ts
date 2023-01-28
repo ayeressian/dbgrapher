@@ -47,7 +47,7 @@ const undo = (state: Data): void => {
   let { present } = state;
   if (past.length > 0) {
     future.push(present);
-    present = past.pop()!;
+    present = past.pop() as DbGrapherSchema;
   }
   state.past = past;
   state.present = present;
@@ -59,7 +59,7 @@ const redo = (state: Data): void => {
   let { present } = state;
   if (future.length > 0) {
     past.push(present);
-    present = future.pop()!;
+    present = future.pop() as DbGrapherSchema;
   }
   state.past = past;
   state.present = present;

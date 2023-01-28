@@ -55,6 +55,7 @@ table {
   border-left: 2px solid var(--table-boarder-color);
   border-right: 2px solid var(--table-boarder-color);
   user-select: none;
+  -webkit-user-select: none;
 }
 table.move {
   cursor: move;

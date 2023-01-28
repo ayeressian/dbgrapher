@@ -148,9 +148,9 @@ export default class extends DBGElement {
         this.#getCurrentTable()!,
         schema
       );
-      if (
-        fkTables.length > 0 &&
-        window.confirm(
+      let deleteConfirmation = true;
+      if (fkTables.length > 0) {
+        deleteConfirmation = window.confirm(
           t((l) => l.dialog.table.warningRecursive, {
             tableColumn: fkTables
               .map(
@@ -161,8 +161,9 @@ export default class extends DBGElement {
               )
               .join(", "),
           })
-        )
-      ) {
+        );
+      }
+      if (deleteConfirmation) {
         while (fkTables.length > 0) {
           const item = fkTables.shift()!;
           fkTables.push(
@@ -170,9 +171,8 @@ export default class extends DBGElement {
           );
           item.table.columns.splice(item.columnIndex, 1);
         }
+        this.#getCurrentTable(schema)?.columns.splice(index, 1);
       }
-
-      this.#getCurrentTable(schema)?.columns.splice(index, 1);
     });
   };
 

@@ -1,9 +1,7 @@
 <script lang="ts">
-  import type { Schema } from "../../schema";
   import { getContext } from "svelte";
   import Table from "../Table/Table.svelte";
   import Relation from "../Relation/Relation.svelte";
-  import type { Viewport } from "../../store/view";
   import type Point from "../../point";
   import Minimap from "../Minimap/Minimap.svelte";
   import type { Store } from "../../store/store";
@@ -116,6 +114,7 @@
   on:click={click}
   on:mousedown={drag.onMousedown}
   on:mouseup={drag.onMouseup}
+  on:mouseleave={drag.onMouseup}
   class:pan={paning}
   version="2"
   xmlns="http://www.w3.org/2000/svg"

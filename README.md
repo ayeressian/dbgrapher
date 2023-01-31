@@ -26,3 +26,11 @@ The main application is written in [lit](https://lit.dev/) and for state managem
 
 ## The DB viewer web component
 The DB viewer web component displays the schema information. It uses svg to render the view. It is written in [svelte](https://svelte.dev/). For the build process [vite](https://vitejs.dev/) has been used. For the test [vitest](https://vitest.dev/) has been used.
+
+
+## TODO
+1. Add import from SQL dump file.
+2. Add schema formatting.
+3. Add zoom to fit.
+3. Improve test coverage.
+

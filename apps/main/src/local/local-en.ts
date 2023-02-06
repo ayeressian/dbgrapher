@@ -38,7 +38,7 @@ export default {
       },
     },
     fileOpenChooser: {
-      welcome: "Wellcome to DB Grapher",
+      welcome: "Welcome to DB Grapher",
       operation: {
         myComputer: "My Computer",
         googleDrive: "Google Drive",

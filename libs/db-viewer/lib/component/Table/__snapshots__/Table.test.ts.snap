@@ -1,8 +1,8 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Table$ > should render properly 1`] = `
+exports[`Table > should render properly 1`] = `
 {
-  "component": Table$ {
+  "component": Table {
     "$$": {
       "after_update": [],
       "before_update": [],
@@ -137,12 +137,17 @@ exports[`Table$ > should render properly 1`] = `
       },
       "ctx": [
         "school",
-        100,
-        100,
-        <table>
+        0,
+        0,
+        <table
+          class="svelte-f6hnra"
+        >
           <thead>
-            <tr>
+            <tr
+              class="svelte-f6hnra"
+            >
               <th
+                class="svelte-f6hnra"
                 colspan="4"
               >
                 school
@@ -204,13 +209,6 @@ exports[`Table$ > should render properly 1`] = `
         [MockFunction spy],
         undefined,
         [Function],
-        ,
-        ,
-        ,
-        {
-          "height": 100,
-          "width": 100,
-        },
       ],
       "dirty": [
         -1,
@@ -249,15 +247,20 @@ exports[`Table$ > should render properly 1`] = `
         <g>
           <foreignobject
             data-testid="table-school"
-            height="100"
-            width="100"
-            x="672"
-            y="510"
+            height="0"
+            width="0"
+            x="722"
+            y="560"
           >
-            <table>
+            <table
+              class="svelte-f6hnra"
+            >
               <thead>
-                <tr>
+                <tr
+                  class="svelte-f6hnra"
+                >
                   <th
+                    class="svelte-f6hnra"
                     colspan="4"
                   >
                     school
@@ -273,7 +276,10 @@ exports[`Table$ > should render properly 1`] = `
       "skip_bound": false,
       "update": [Function],
     },
+    "$$events_def": undefined,
+    "$$prop_def": undefined,
     "$$set": [Function],
+    "$$slot_def": undefined,
     "$capture_state": [Function],
     "$inject_state": [Function],
   },
@@ -282,15 +288,20 @@ exports[`Table$ > should render properly 1`] = `
       <g>
         <foreignobject
           data-testid="table-school"
-          height="100"
-          width="100"
-          x="672"
-          y="510"
+          height="0"
+          width="0"
+          x="722"
+          y="560"
         >
-          <table>
+          <table
+            class="svelte-f6hnra"
+          >
             <thead>
-              <tr>
+              <tr
+                class="svelte-f6hnra"
+              >
                 <th
+                  class="svelte-f6hnra"
                   colspan="4"
                 >
                   school

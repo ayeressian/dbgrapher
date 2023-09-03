@@ -100,6 +100,33 @@
   const contextMenuInternal = () => contextMenu(getTableData());
 </script>
 
+<style>
+  table {
+    background-color: white;
+    min-width: 100px;
+    border-collapse: collapse;
+    border-bottom: 2px solid var(--table-boarder-color);
+    border-left: 2px solid var(--table-boarder-color);
+    border-right: 2px solid var(--table-boarder-color);
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  table.move {
+    cursor: move;
+  }
+
+  table tr {
+    border-bottom: 1px solid #bbb;
+  }
+
+  table tr th {
+    font-size: 1.2em;
+    padding: 5px;
+    background-color: var(--table-boarder-color);
+    color: white;
+  }
+</style>
+
 <g>
   <foreignObject
     x={$tablePos ? $tablePos.x - width / 2 : 0}

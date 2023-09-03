@@ -1,8 +1,8 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Column$ > should render properly 1`] = `
+exports[`Column > should render properly 1`] = `
 {
-  "component": Column$ {
+  "component": Column {
     "$$": {
       "after_update": [],
       "before_update": [],
@@ -47,33 +47,39 @@ exports[`Column$ > should render properly 1`] = `
       },
       "root": <div>
         <tr
-          class="test"
+          class="test svelte-1ve4ck6"
         >
           <td
-            class="status"
+            class="status svelte-1ve4ck6"
           >
             <img
               alt="primary key"
+              class="svelte-1ve4ck6"
               src="/lib/component/Column/pk.svg"
               style="display: none;"
             />
           </td>
            
           <td
-            class="status"
+            class="status svelte-1ve4ck6"
           >
             <img
               alt="foreign key"
+              class="svelte-1ve4ck6"
               src="/lib/component/Column/fk.svg"
               style="display: none;"
             />
           </td>
            
-          <td>
+          <td
+            class="svelte-1ve4ck6"
+          >
             test
           </td>
            
-          <td>
+          <td
+            class="svelte-1ve4ck6"
+          >
             int
           </td>
         </tr>
@@ -81,40 +87,49 @@ exports[`Column$ > should render properly 1`] = `
       "skip_bound": false,
       "update": [Function],
     },
+    "$$events_def": undefined,
+    "$$prop_def": undefined,
     "$$set": [Function],
+    "$$slot_def": undefined,
     "$capture_state": [Function],
     "$inject_state": [Function],
   },
   "container": <body>
     <div>
       <tr
-        class="test"
+        class="test svelte-1ve4ck6"
       >
         <td
-          class="status"
+          class="status svelte-1ve4ck6"
         >
           <img
             alt="primary key"
+            class="svelte-1ve4ck6"
             src="/lib/component/Column/pk.svg"
             style="display: none;"
           />
         </td>
          
         <td
-          class="status"
+          class="status svelte-1ve4ck6"
         >
           <img
             alt="foreign key"
+            class="svelte-1ve4ck6"
             src="/lib/component/Column/fk.svg"
             style="display: none;"
           />
         </td>
          
-        <td>
+        <td
+          class="svelte-1ve4ck6"
+        >
           test
         </td>
          
-        <td>
+        <td
+          class="svelte-1ve4ck6"
+        >
           int
         </td>
       </tr>

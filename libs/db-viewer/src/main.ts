@@ -3,9 +3,10 @@ import "../lib/main";
 // import bigSchema from "./big-schema";
 import schema from "./school";
 
-window.onload = () => {
+window.onload = async () => {
   const dbViewerElem = document.createElement("db-viewer") as DbViewer;
   document.body.appendChild(dbViewerElem);
+  await Promise.resolve();
   dbViewerElem.setSchema(schema, "centerByTables");
 
   setTimeout(() => {

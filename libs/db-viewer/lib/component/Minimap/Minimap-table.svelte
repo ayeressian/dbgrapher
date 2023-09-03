@@ -22,4 +22,10 @@
   }
 </script>
 
+<style>
+  .minimap-table {
+    fill: #BBB;
+  }
+</style>
+
 <rect class="minimap-table" {...normlizedTablePos} {...$tableSize} />

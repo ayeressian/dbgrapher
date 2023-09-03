@@ -1,11 +1,9 @@
-<svelte:options tag="db-viewer" />
+<svelte:options customElement='db-viewer'/>
 
 <script lang="ts">
   import type { Schema } from "../../schema";
   import { onMount, setContext } from "svelte";
-  import style from "../../style.css";
   import type { Viewport } from "../../store/view";
-  import applyStyle from "../../wc-style-applier";
   import { Store } from "../../store/store";
   import EventDispatcher from "./event-dispatcher";
   import type DbViewer from "./DBViewer";
@@ -27,7 +25,6 @@
 
   onMount(() => {
     const shadowRoot = container.parentNode as ShadowRoot;
-    applyStyle(shadowRoot, style);
 
     const host = shadowRoot.host as DbViewer;
 
@@ -46,6 +43,29 @@
     svgResizeObserver.observe(host);
   });
 </script>
+
+<style>
+  :host {
+    display: block;
+  }
+  #container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+
+  :global(*) {
+    font-family: var(--font-family, Arial, sans-serif);
+    color: var(--color, #333);
+    --table-boarder-color: #a4a2a3;
+    --table-color: #a4a2a3;
+    --annotation-color: #ffffff;
+  }
+
+  :global(svg) {
+    background-color: #E3E3E3;
+  }
+</style>
 
 <div id="container" bind:this={container}>
   <Viewer {eventDispatcher} />

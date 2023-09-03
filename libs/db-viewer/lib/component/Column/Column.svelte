@@ -45,6 +45,38 @@
   };
 </script>
 
+<style>
+  tr {
+    border-bottom: 1px solid #bbb;
+  }
+
+  td {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  td.status {
+    height: 20px;
+    padding: 0;
+    flex-direction: row;
+  }
+
+  td.status img {
+    width: 14px;
+    height: 14px;
+    margin-left: 7px;
+  }
+
+  .highlight-from {
+    background-color: lightgreen;
+  }
+
+  .highlight-to {
+    background-color: lightcoral;
+  }
+</style>
+
 <tr
   class={highlightCssClass}
   on:mouseenter={mouseEnter}

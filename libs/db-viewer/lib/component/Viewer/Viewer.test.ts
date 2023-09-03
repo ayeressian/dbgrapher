@@ -1,9 +1,11 @@
 import { fireEvent, render, type RenderResult } from "@testing-library/svelte";
 import Viewer from "./Viewer.svelte";
 import school from "../../../src/school";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, SpyInstance, vi } from "vitest";
 import { Store } from "../../store/store";
 import * as zoomImport from "../../zoom";
+import { Point } from "../DBViewer/DBViewer";
+import { RectSize } from "lib/store/schema";
 
 function getStore() {
   const store = new Store();
@@ -90,6 +92,17 @@ describe(Viewer.name, () => {
       clientY = 400,
       deltaY = -2;
 
+    let ZoomClass: SpyInstance<
+      [
+        amount: number,
+        target: Point,
+        oldZoom: number,
+        viewSize: RectSize,
+        viewPos: Point
+      ],
+      zoomImport.default
+    >;
+
     beforeEach(async () => {
       Object.defineProperty(
         global.SVGGraphicsElement.prototype,
@@ -113,8 +126,20 @@ describe(Viewer.name, () => {
           })),
         })),
       });
+      const OriginalZoom = zoomImport.default;
 
-      vi.spyOn(zoomImport, "default");
+      ZoomClass = vi.spyOn(zoomImport, "default");
+      ZoomClass.mockImplementation(
+        (
+          amount: number,
+          target: Point,
+          oldZoom: number,
+          viewSize: RectSize,
+          viewPos: Point
+        ) => {
+          return new OriginalZoom(amount, target, oldZoom, viewSize, viewPos);
+        }
+      );
 
       svgElem = document.querySelector("svg") as SVGElement;
       await fireEvent.wheel(svgElem, {
@@ -126,8 +151,7 @@ describe(Viewer.name, () => {
     });
 
     it("zoom should be called", async () => {
-      const Zoom = zoomImport.default;
-      expect(Zoom).toHaveBeenCalledWith(
+      expect(ZoomClass).toHaveBeenCalledWith(
         -0.02,
         { x: clientX, y: clientY },
         1,

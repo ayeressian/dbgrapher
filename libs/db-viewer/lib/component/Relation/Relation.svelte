@@ -229,6 +229,24 @@
   const contextMenuInternal = () => contextMenu(getRelationData());
 </script>
 
+<style>
+  path {
+    stroke-width: 1;
+    stroke: var(--relation-color, #666);
+    fill: none;
+  }
+
+  .highlight {
+    stroke-width: 12;
+    stroke: transparent;
+  }
+
+  .highlight-path {
+    stroke-width: 2;
+    stroke: var(--relation-color-highlight, black);
+  }
+</style>
+
 {#if start != null && end != null}
   <path
     d="M {start.x} {start.y} L {end.x} {end.y} {startD} {endD}"

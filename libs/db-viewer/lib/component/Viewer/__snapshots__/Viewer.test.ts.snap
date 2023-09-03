@@ -1,8 +1,8 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Viewer$ > should render properly 1`] = `
+exports[`Viewer > should render properly 1`] = `
 {
-  "component": Viewer$ {
+  "component": Viewer {
     "$$": {
       "after_update": [],
       "before_update": [],
@@ -140,7 +140,7 @@ exports[`Viewer$ > should render properly 1`] = `
           "onZoom": [MockFunction spy],
         },
         <svg
-          class="view"
+          class="view svelte-1s0sr4k"
           version="2"
           viewBox="0 0 800 1000"
           xmlns="http://www.w3.org/2000/svg"
@@ -239,7 +239,7 @@ exports[`Viewer$ > should render properly 1`] = `
       },
       "root": <div>
         <svg
-          class="view"
+          class="view svelte-1s0sr4k"
           version="2"
           viewBox="0 0 800 1000"
           xmlns="http://www.w3.org/2000/svg"
@@ -248,7 +248,7 @@ exports[`Viewer$ > should render properly 1`] = `
         </svg>
          
         <svg
-          class="minimap"
+          class="minimap svelte-1xf01od"
           height="200"
           version="2"
           viewBox="0 0 822 1000"
@@ -256,7 +256,7 @@ exports[`Viewer$ > should render properly 1`] = `
           xmlns="http://www.w3.org/2000/svg"
         >
           <rect
-            class="view-minimap"
+            class="view-minimap svelte-1xf01od"
             height="1000"
             width="800"
             x="0"
@@ -265,13 +265,13 @@ exports[`Viewer$ > should render properly 1`] = `
         </svg>
          
         <button
-          class="zoom-btn in pure-button"
+          class="zoom-btn in pure-button svelte-fpylet"
         >
           +
         </button>
          
         <button
-          class="zoom-btn out pure-button"
+          class="zoom-btn out pure-button svelte-fpylet"
         >
           -
         </button>
@@ -279,14 +279,17 @@ exports[`Viewer$ > should render properly 1`] = `
       "skip_bound": false,
       "update": [Function],
     },
+    "$$events_def": undefined,
+    "$$prop_def": undefined,
     "$$set": [Function],
+    "$$slot_def": undefined,
     "$capture_state": [Function],
     "$inject_state": [Function],
   },
   "container": <body>
     <div>
       <svg
-        class="view"
+        class="view svelte-1s0sr4k"
         version="2"
         viewBox="0 0 800 1000"
         xmlns="http://www.w3.org/2000/svg"
@@ -295,7 +298,7 @@ exports[`Viewer$ > should render properly 1`] = `
       </svg>
        
       <svg
-        class="minimap"
+        class="minimap svelte-1xf01od"
         height="200"
         version="2"
         viewBox="0 0 822 1000"
@@ -303,7 +306,7 @@ exports[`Viewer$ > should render properly 1`] = `
         xmlns="http://www.w3.org/2000/svg"
       >
         <rect
-          class="view-minimap"
+          class="view-minimap svelte-1xf01od"
           height="1000"
           width="800"
           x="0"
@@ -312,13 +315,13 @@ exports[`Viewer$ > should render properly 1`] = `
       </svg>
        
       <button
-        class="zoom-btn in pure-button"
+        class="zoom-btn in pure-button svelte-fpylet"
       >
         +
       </button>
        
       <button
-        class="zoom-btn out pure-button"
+        class="zoom-btn out pure-button svelte-fpylet"
       >
         -
       </button>

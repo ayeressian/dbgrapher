@@ -1,8 +1,8 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Relation$ > should render properly 1`] = `
+exports[`Relation > should render properly 1`] = `
 {
-  "component": Relation$ {
+  "component": Relation {
     "$$": {
       "after_update": [],
       "before_update": [],
@@ -242,11 +242,12 @@ exports[`Relation$ > should render properly 1`] = `
       },
       "root": <div>
         <path
+          class="svelte-13mnfpo"
           d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
         />
          
         <path
-          class="highlight"
+          class="highlight svelte-13mnfpo"
           d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
         />
         
@@ -254,18 +255,22 @@ exports[`Relation$ > should render properly 1`] = `
       "skip_bound": false,
       "update": [Function],
     },
+    "$$events_def": undefined,
+    "$$prop_def": undefined,
     "$$set": [Function],
+    "$$slot_def": undefined,
     "$capture_state": [Function],
     "$inject_state": [Function],
   },
   "container": <body>
     <div>
       <path
+        class="svelte-13mnfpo"
         d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
       />
        
       <path
-        class="highlight"
+        class="highlight svelte-13mnfpo"
         d="M 622 536.6353858093127 L 371 451.48460975609754 M 610.9237853201372 538.1577091539383 L 614.1364125163818 528.6878080721979 M 371 451.48460975609754 L 378.86358748361823 459.4321874932123 M 371 451.48460975609754 L 382.0762146798628 449.96228641147184"
       />
       

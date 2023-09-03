@@ -1,3 +1,16 @@
+<style>
+  .minimap {
+    bottom: 60px;
+    right: 10px;
+    position: absolute;
+    background: #EEE;
+  }
+
+  .minimap .view-minimap {
+    fill: #FFF;
+  }
+</style>
+
 <script lang="ts">
   import type { Store } from "../../store/store";
   import type { RectSize } from "../../store/schema";

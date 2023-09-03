@@ -106,6 +106,18 @@
   const drag = new Pan(viewPosStore, zoomStore, onPanStart, onPanEnd);
 </script>
 
+<style>
+  .view {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .view.pan {
+    cursor: grabbing;
+  }
+</style>
+
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <svg
   class="view"
